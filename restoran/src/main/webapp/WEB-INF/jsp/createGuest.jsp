@@ -13,7 +13,6 @@
 <body>
 	<div id="createGuest">
 		<c:url var="action" value="/guests/create" />
-		
 		<form:form id="formGuest" action="${action}" method="post"
 			modelAttribute="guest">
 			<fieldset>
