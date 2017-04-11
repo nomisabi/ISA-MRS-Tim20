@@ -3,6 +3,7 @@ package com.example.domain;
 public class Restaurant {
 	private String name;
 	private String location;
+	private Manager manager;
 
 	public Restaurant() {
 	}
@@ -27,6 +28,14 @@ public class Restaurant {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
 	}
 
 }
