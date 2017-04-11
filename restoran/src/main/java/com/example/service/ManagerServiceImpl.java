@@ -5,10 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.domain.Manager;
-import com.example.domain.System_manager;
-import com.example.respository.SystemManRepository;
+import com.example.respository.ManRepository;
 
-public class ManagerServiceImpl {
+public class ManagerServiceImpl implements ManagerService {
 	
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     

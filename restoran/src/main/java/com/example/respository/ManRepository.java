@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.example.domain.Manager;
+import com.example.domain.Restaurant;
 
 public class ManRepository implements ManagerRepository {
 
@@ -13,7 +14,7 @@ public class ManRepository implements ManagerRepository {
 	@Override
 	public void createManager(Manager m) {
 		managers.put(m.getEmail(), m);
-		restaurants.get(r.name).getManager().Add(m);
+		//restaurants.get(r.name).getManager().Add(m);
 		
 	}
 

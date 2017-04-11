@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.domain.Manager;
-import com.example.domain.System_manager;
-import com.example.service.SystemManagerService;
+import com.example.service.ManagerService;
+
 
 public class ManagerController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
