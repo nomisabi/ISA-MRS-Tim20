@@ -6,9 +6,9 @@ import java.util.concurrent.ConcurrentMap;
 import org.springframework.stereotype.Repository;
 
 import com.example.domain.Manager;
+import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
 
-import rs.ac.uns.ftn.informatika.jsp.domain.Greeting;
 
 @Repository
 public class SystemManRepository implements SystemManagerRepository {
@@ -26,7 +26,7 @@ public class SystemManRepository implements SystemManagerRepository {
 	@Override
 	public void createManager(Manager m, Restaurant r) {
 		managers.put(m.getEmail(), m);
-		restaurants.get(r.name).setManager(m);
+		restaurants.get(r.getName()).getManager().add(m);
 		
 	}
 }

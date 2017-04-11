@@ -3,8 +3,12 @@ package com.example.respository;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.example.domain.Manager;
+import org.springframework.stereotype.Repository;
 
+import com.example.domain.Manager;
+import com.example.domain.Restaurant;
+
+@Repository
 public class ManRepository implements ManagerRepository {
 
 	private final ConcurrentMap<String, Restaurant> restaurants = new ConcurrentHashMap<String, Restaurant>();
@@ -13,7 +17,7 @@ public class ManRepository implements ManagerRepository {
 	@Override
 	public void createManager(Manager m) {
 		managers.put(m.getEmail(), m);
-		restaurants.get(r.name).getManager().Add(m);
+		restaurants.get(m.getRestaurant().getName()).getManager().add(m);
 		
 	}
 

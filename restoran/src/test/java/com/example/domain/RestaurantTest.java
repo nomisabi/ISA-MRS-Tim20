@@ -3,6 +3,8 @@ package com.example.domain;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,10 +14,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class RestaurantTest {
 	
 	Restaurant resturant;
+	ArrayList<Manager> m= new ArrayList<Manager>();
 	
 	@Before
 	public void setUp(){
-		resturant = new Restaurant("Resturant1","NN");
+		resturant = new Restaurant("Resturant1","NN", m);
 	}
 	
 	@Test
@@ -26,6 +29,11 @@ public class RestaurantTest {
 	@Test
 	public void testLocation(){
 		assertEquals("NN", resturant.getLocation());
+	}
+	
+	@Test
+	public void testManagers(){
+		assertEquals(m, resturant.getManager());
 	}
 	
 	@Test

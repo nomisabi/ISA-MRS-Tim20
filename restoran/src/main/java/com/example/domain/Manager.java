@@ -63,6 +63,13 @@ public class Manager {
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
 	}
+
+	@Override
+	public String toString() {
+		return "Manager [email=" + email + ", password=" + password + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", restaurant=" + restaurant + "]";
+	}
+	
 	
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.domain.Manager;
+import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
 import com.example.respository.SystemManRepository;
 import com.example.respository.SystemManagerRepository;
