@@ -24,7 +24,8 @@ public class SystemManRepository implements SystemManagerRepository {
 	@Override
 	public void createManager(Manager m, Restaurant r) {
 		managers.put(m.getEmail(), m);
-		restaurants.get(r.getName()).setManager(m);
+
+		restaurants.get(r.getName()).getManager().add(m);
 
 	}
 }

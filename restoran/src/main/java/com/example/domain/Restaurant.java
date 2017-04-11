@@ -1,17 +1,20 @@
 package com.example.domain;
 
+import java.util.ArrayList;
+
 public class Restaurant {
 	private String name;
 	private String location;
-	private Manager manager;
+	private ArrayList<Manager> manager = new ArrayList<Manager>();
 
 	public Restaurant() {
 	}
 
-	public Restaurant(String name, String location) {
+	public Restaurant(String name, String location, ArrayList<Manager> manager) {
 		super();
 		this.name = name;
 		this.location = location;
+		this.manager = manager;
 	}
 
 	public String getName() {
@@ -30,12 +33,17 @@ public class Restaurant {
 		this.location = location;
 	}
 
-	public Manager getManager() {
+	public ArrayList<Manager> getManager() {
 		return manager;
 	}
 
-	public void setManager(Manager manager) {
+	public void setManager(ArrayList<Manager> manager) {
 		this.manager = manager;
+	}
+
+	@Override
+	public String toString() {
+		return "Restaurant [name=" + name + ", location=" + location + ", manager=" + manager + "]";
 	}
 
 }
