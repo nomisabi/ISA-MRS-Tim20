@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.Collection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,34 +18,32 @@ public class GuestServiceImp implements GuestService {
 	private GuestRepositoryImp guestRepository;
 
 	@Override
-	public void createGuest(Guest guest) throws Exception {
+	public Guest createGuest(Guest guest) throws Exception {
 		logger.info("> create");
-		guestRepository.createGuest(guest);
+		if (guest.getId() != null) {
+			logger.error("Pokusaj kreiranja novog entiteta, ali Id nije null.");
+			throw new Exception("Id mora biti null prilikom perzistencije novog entiteta.");
+		}
+		Guest savedGuest = guestRepository.createGuest(guest);
 		logger.info("< create");
+		return savedGuest;
 
 	}
 
 	@Override
-	public boolean signUp(Guest guest) throws Exception {
-		if (!guest.getPassword().equals(guest.getPassword2())) {
-			logger.info("password not equals");
-			return false;
-		}
+	public Collection<Guest> findAll() {
+		logger.info("> findAll");
+		Collection<Guest> greetings = guestRepository.findAll();
+		logger.info("< findAll");
+		return greetings;
+	}
 
-		String mail = guest.getEmail();
-		if (!mail.contains("@")) {
-			logger.info("invalid email");
-			return false;
-		}
-		if (!mail.contains(".")) {
-			logger.info("invalid email");
-			return false;
-		}
-
-		createGuest(guest);
-
-		return true;
-
+	@Override
+	public Guest findOne(Long id) {
+		logger.info("> findOne id:{}", id);
+		Guest greeting = guestRepository.findOne(id);
+		logger.info("< findOne id:{}", id);
+		return greeting;
 	}
 
 }

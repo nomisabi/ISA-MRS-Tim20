@@ -3,15 +3,23 @@ package com.example.domain;
 import java.util.HashMap;
 
 public class Guest {
+	private Long id;
 	private String email;
 	private String password;
-	private String password2;
 	private String firstName;
 	private String lastName;
 	private HashMap<String, Guest> friends;
 	private HashMap<String, Restaurant> visited;
 
 	public Guest() {
+	}
+	
+	public Guest(String email, String password) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.friends = new HashMap<>();
+		this.visited = new HashMap<>();
 	}
 
 	public Guest(String email, String password, String firstName, String lastName) {
@@ -22,6 +30,14 @@ public class Guest {
 		this.lastName = lastName;
 		this.friends = new HashMap<>();
 		this.visited = new HashMap<>();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getEmail() {
@@ -38,14 +54,6 @@ public class Guest {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getPassword2() {
-		return password2;
-	}
-
-	public void setPassword2(String password2) {
-		this.password2 = password2;
 	}
 
 	public String getFirstName() {
@@ -85,5 +93,4 @@ public class Guest {
 		return "Guest [email=" + email + ", password=" + password + ", firstName=" + firstName + ", lastName="
 				+ lastName + "]";
 	}
-
 }

@@ -1,9 +1,15 @@
 package com.example.service;
 
+import java.util.Collection;
+
 import com.example.domain.Guest;
 
 public interface GuestService {
-	void createGuest(Guest guest) throws Exception;
-	boolean signUp(Guest guest) throws Exception;
+
+	Guest createGuest(Guest guest) throws Exception;
+
+	Collection<Guest> findAll();
+
+	Guest findOne(Long id);
 
 }
