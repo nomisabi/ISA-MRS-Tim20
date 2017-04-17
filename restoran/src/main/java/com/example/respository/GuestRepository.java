@@ -11,5 +11,9 @@ public interface GuestRepository {
 	Collection<Guest> findAll();
 
 	Guest findOne(Long id);
+	
+	Guest findByEmail(String email);
+	
+	boolean isGuestExist(Guest guest);
 
 }

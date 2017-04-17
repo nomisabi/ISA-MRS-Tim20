@@ -1,6 +1,9 @@
 package com.example.domain.DTOs;
 
+import com.example.validator.EmailAnnotation;
+
 public class GuestRegister {
+	@EmailAnnotation
 	private String email;
 	private String password;
 	private String password2;
@@ -10,6 +13,7 @@ public class GuestRegister {
 
 	public GuestRegister(String email, String password, String password2) {
 		super();
+		
 		this.email = email;
 		this.password = password;
 		this.password2 = password2;

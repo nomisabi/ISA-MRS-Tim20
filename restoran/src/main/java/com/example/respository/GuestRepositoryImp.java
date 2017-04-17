@@ -34,5 +34,20 @@ public class GuestRepositoryImp implements GuestRepository {
 	public Guest findOne(Long id) {
 		return this.guests.get(id);
 	}
+	
+	@Override
+	public Guest findByEmail(String email){
+		for (Guest guest : guests.values()) {
+			if (guest.getEmail().equalsIgnoreCase(email)){
+				return guest;
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public boolean isGuestExist(Guest guest){
+		return findByEmail(guest.getEmail()) != null;
+	}
 
 }

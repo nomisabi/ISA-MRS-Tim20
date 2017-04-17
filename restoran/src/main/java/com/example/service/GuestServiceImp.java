@@ -33,17 +33,32 @@ public class GuestServiceImp implements GuestService {
 	@Override
 	public Collection<Guest> findAll() {
 		logger.info("> findAll");
-		Collection<Guest> greetings = guestRepository.findAll();
+		Collection<Guest> guests = guestRepository.findAll();
 		logger.info("< findAll");
-		return greetings;
+		return guests;
 	}
 
 	@Override
 	public Guest findOne(Long id) {
 		logger.info("> findOne id:{}", id);
-		Guest greeting = guestRepository.findOne(id);
+		Guest guest = guestRepository.findOne(id);
 		logger.info("< findOne id:{}", id);
-		return greeting;
+		return guest;
+	}
+	
+	@Override
+	public Guest findByEmail(String email){
+		logger.info("> findByEmail email:{}", email);
+		Guest guest = guestRepository.findByEmail(email);
+		logger.info("< findByEmail email:{}", email);
+		return guest;
+		
+	}
+
+	@Override
+	public boolean isGuestExist(Guest guest){
+		return guestRepository.isGuestExist(guest);
+		
 	}
 
 }

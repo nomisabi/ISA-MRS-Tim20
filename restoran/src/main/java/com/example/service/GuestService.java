@@ -12,4 +12,8 @@ public interface GuestService {
 
 	Guest findOne(Long id);
 
+	Guest findByEmail(String email);
+
+	boolean isGuestExist(Guest guest);
+
 }
