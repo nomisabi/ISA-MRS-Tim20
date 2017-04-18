@@ -7,6 +7,10 @@ app.config(function($routeProvider) {
     .when("/registration", {
         templateUrl : "registration.html",
         controller : "UserController"
+    })
+    .when("/home", {
+        templateUrl : "home.html",
+        controller : "UserController"
     
     });
 });

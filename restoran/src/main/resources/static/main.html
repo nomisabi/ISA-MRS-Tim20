@@ -1,6 +1,6 @@
 <div class="generic-container" ng-controller="UserController as ctrl">
           <div class="panel panel-default">
-              <div class="panel-heading"><span class="lead">Log In Form </span></div>
+              <div class="panel-heading"><span class="lead">Log In </span></div>
               <div class="formcontainer">
                   <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
                       <input type="hidden" ng-model="ctrl.user.id" />
@@ -45,6 +45,12 @@
                   </form>
               </div>
           </div>
-         
-         <a class="lead" href="#registration">Sign Up</a>
+          
+          <div>
+              <button class="btn btn-primary btn-sm" ng-click="ctrl.reg()">Sign Up</button>
+              <form action="/connect/facebook" method="POST">
+			  <button class="btn btn-primary btn-sm" type="submit">Log In using Facebook</button>
+			  </form>
+              
+         </div>
 </div>
