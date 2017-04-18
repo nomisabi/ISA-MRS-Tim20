@@ -9,4 +9,6 @@ public interface SystemManagerRepository {
 	void signUP(System_manager sm);
 	
 	void createManager(Manager sm, Restaurant r);
+	
+	Boolean login(System_manager m);
 }

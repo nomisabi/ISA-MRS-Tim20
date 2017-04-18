@@ -54,4 +54,19 @@ public class SystemManagerContoller {
 		
 		return new ModelAndView("createManager", "manager", new Manager());
 	}
+	
+	@PostMapping(value = "/login")
+	public ModelAndView login(@Valid System_manager m, BindingResult result) throws Exception {
+		logger.info("> login");
+		if (result.hasErrors()) {
+			return new ModelAndView("createManager", "formErrors", result.getAllErrors());
+		}
+		if (smService.login(m)){
+			logger.info("< login");			
+			return new ModelAndView("createManager", "manager", new Manager());
+		}
+		logger.info("< login");
+		return new ModelAndView("createManager", "manager", new Manager());
+		
+	}
 }

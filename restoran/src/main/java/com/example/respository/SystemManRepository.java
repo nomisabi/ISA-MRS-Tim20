@@ -28,4 +28,16 @@ public class SystemManRepository implements SystemManagerRepository {
 		restaurants.get(r.getName()).getManager().add(m);
 
 	}
+
+	@Override
+	public Boolean login(System_manager m) {
+		if (managers.containsKey(m.getEmail()))
+				if (managers.get(m.getEmail()).getPassword().equals(m.getPassword())){
+					this.sm=m;
+					return true;
+				}
+		return false;
+	}
+	
+	
 }

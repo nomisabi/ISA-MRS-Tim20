@@ -35,6 +35,15 @@ public class SystemManagerServiceImp implements SystemManagerService{
         logger.info("< create manager");
 	}
 
+	@Override
+	public Boolean login(System_manager m) {
+		
+		logger.info("> login");
+		Boolean value= smRepository.login(m);
+        logger.info("< login");
+		return value;
+	}
+
     
     
 }
