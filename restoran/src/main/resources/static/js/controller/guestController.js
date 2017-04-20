@@ -7,6 +7,9 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService', f
 
     self.submit = submit;
     self.reset = reset;
+    self.reg = reg;
+    self.log = log;
+    self.facebookLogIn = facebookLogIn;
  
 
     
@@ -26,7 +29,7 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService', f
         UserService.logIn(user)
             .then(
             	function() {
-                		window.location.href = 'home.html';
+                		window.location.href = '#home';
                 },
             function(errResponse){
                 console.error('Error while creating User');
@@ -50,6 +53,28 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService', f
         self.user={id:null,email:'',password:'',password2:''};
         $scope.myForm.$setPristine(); //reset Form
     }
+    
+    function reg() {
+    	window.location.href = '#registration';
+	}
+    
+    function log() {
+    	window.location.href = '#';
+	}
+    
+    function facebookLogIn() {
+    	alert("da");
+    	 UserService.facebookLogIn()
+         .then(
+         	function() {
+             		window.location.href = '#home';
+             },
+         function(errResponse){
+             console.error('Error while creating User');
+         }
+     );
+    
+	}
 
 
     
