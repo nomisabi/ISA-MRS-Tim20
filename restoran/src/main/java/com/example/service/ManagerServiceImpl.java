@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.Collection;
+
 import org.jvnet.hk2.annotations.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +43,37 @@ public class ManagerServiceImpl implements ManagerService{
 		Supplier ret= mRepository.createSupplier(s);
         logger.info("< create supplier");
 		return ret;
+	}
+	
+	@Override
+	public Collection<Manager> findAll() {
+		logger.info("> findAll");
+		Collection<Manager> manager = mRepository.findAll();
+		logger.info("< findAll");
+		return manager;
+	}
+
+	@Override
+	public Manager findOne(Long id) {
+		logger.info("> findOne id:{}", id);
+		Manager manager = mRepository.findOne(id);
+		logger.info("< findOne id:{}", id);
+		return manager;
+	}
+	
+	@Override
+	public Manager findByEmail(String email){
+		logger.info("> findByEmail email:{}", email);
+		Manager manager = mRepository.findByEmail(email);
+		logger.info("< findByEmail email:{}", email);
+		return manager;
+		
+	}
+
+	@Override
+	public boolean isManagerExist(Manager m){
+		return mRepository.isManagerExist(m);
+		
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.domain.Manager;
@@ -17,8 +18,7 @@ import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
 import com.example.service.SystemManagerService;
 
-@Controller
-@RequestMapping("/sysman")
+@RestController
 public class SystemManagerContoller {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

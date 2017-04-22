@@ -1,9 +1,11 @@
 package com.example.respository;
 
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.example.domain.Employee;
+import com.example.domain.Guest;
 import com.example.domain.Manager;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
@@ -43,5 +45,31 @@ public class ManRepository implements ManagerRepository {
 		}
 		return null;
 	}
+
+	@Override
+	public Collection<Manager> findAll() {
+		return this.managers.values();
+	}
+
+	@Override
+	public Manager findOne(Long id) {
+		return this.managers.get(id);
+	}
+	
+	@Override
+	public Manager findByEmail(String email){
+		for (Manager guest : managers.values()) {
+			if (guest.getEmail().equalsIgnoreCase(email)){
+				return guest;
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public boolean isManagerExist(Manager man){
+		return findByEmail(man.getEmail()) != null;
+	}
+
 
 }

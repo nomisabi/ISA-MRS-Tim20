@@ -44,6 +44,37 @@ public class SystemManagerServiceImp implements SystemManagerService{
 		return value;
 	}
 
-    
+	
+	@Override
+	public Collection<System_manager> findAll() {
+		logger.info("> findAll");
+		Collection<System_manager> manager = smRepository.findAll();
+		logger.info("< findAll");
+		return manager;
+	}
+
+	@Override
+	public System_manager findOne(Long id) {
+		logger.info("> findOne id:{}", id);
+		System_manager manager = smRepository.findOne(id);
+		logger.info("< findOne id:{}", id);
+		return manager;
+	}
+	
+	@Override
+	public System_manager findByEmail(String email){
+		logger.info("> findByEmail email:{}", email);
+		System_manager manager = smRepository.findByEmail(email);
+		logger.info("< findByEmail email:{}", email);
+		return manager;
+		
+	}
+
+	@Override
+	public boolean isSysManagerExist(System_manager m){
+		return smRepository.isSysManagerExist(m);
+		
+	}
+
     
 }
