@@ -93,4 +93,20 @@ public class GuestController {
 		return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);	
 	}
 
+    
+    @RequestMapping(value = "/api/guests/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Guest> updateUser(@PathVariable("id") long id, @RequestBody Guest guest) throws Exception {
+        System.out.println("Updating User " + id);
+         
+        Guest currentGuest = guestService.findOne(id);
+         
+        if (currentGuest==null) {
+            System.out.println("Guest with id " + id + " not found");
+            return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
+        }
+         
+        Guest updatedGuest = guestService.update(currentGuest);
+        return new ResponseEntity<Guest>(updatedGuest, HttpStatus.OK);
+    }
+
 }

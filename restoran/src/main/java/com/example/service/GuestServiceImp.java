@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.domain.Guest;
 import com.example.respository.GuestRepositoryImp;
 
+
 @Service
 public class GuestServiceImp implements GuestService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -59,6 +60,22 @@ public class GuestServiceImp implements GuestService {
 	public boolean isGuestExist(Guest guest){
 		return guestRepository.isGuestExist(guest);
 		
+	}
+	
+	@Override
+	public Guest update(Guest guest) throws Exception{
+		logger.info("> update id:{}", guest.getId());
+        Guest guestToUpdate = findOne(guest.getId());
+        if (guestToUpdate == null) {
+            logger.error(
+                    "Pokusaj azuriranja gosta, ali je on nepostojeci.");
+            throw new Exception("Trazeni gost nije pronadjen.");
+        }
+        guestToUpdate.setFirstName(guest.getFirstName());
+        guestToUpdate.setLastName(guest.getLastName());
+        Guest updatedGuest = guestRepository.createGuest(guestToUpdate);
+        logger.info("< update id:{}", guest.getId());
+        return updatedGuest;
 	}
 
 }

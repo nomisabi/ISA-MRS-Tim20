@@ -2,7 +2,7 @@
 
 angular.module('myApp').controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
     var self = this;
-    self.user={id:null,email:'',password:'',password2:'',lastName:'',lastName:''};
+    self.user={id:null,email:'',password:'',password2:''};
     self.users=[];
 
     self.submit = submit;
@@ -29,7 +29,6 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService', f
         UserService.logIn(user)
             .then(
             	function() {
-            		    self.user = user;
                 		window.location.href = '#home';
                 },
             function(errResponse){
