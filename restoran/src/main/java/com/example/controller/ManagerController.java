@@ -62,28 +62,27 @@ public class ManagerController {
 		return new ResponseEntity<Manager>(m, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/createSupplier")
-	public ModelAndView createSupplier(@Valid Supplier s, BindingResult result) throws Exception {
+	@RequestMapping(value = "/api/manager/createSupplier", 
+	method = RequestMethod.POST, 
+	produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Supplier>  createSupplier(@Valid @RequestBody Supplier s) throws Exception {
 		logger.info("> createSupplier: ");
-		if (result.hasErrors()) {
-			return new ModelAndView("createManager", "formErrors", result.getAllErrors());
-		}
+
 		mService.createSupplier(s);
 		logger.info("< createSupplier");
 		
-		return new ModelAndView("createManager", "manager", new Manager());
+		return new ResponseEntity<Supplier>(s, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/createEmployee")
-	public ModelAndView createEmployee(@Valid Employee e, BindingResult result) throws Exception {
+	@RequestMapping(value = "/api/manager/createEmployee", 
+	method = RequestMethod.POST, 
+	produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employee>  createEmployee(@Valid  @RequestBody Employee e) throws Exception {
 		logger.info("> createEmployee: ");
-		if (result.hasErrors()) {
-			return new ModelAndView("createManager", "formErrors", result.getAllErrors());
-		}
-		mService.createEmployee(e);
+			mService.createEmployee(e);
 		logger.info("< createEmployee");
 		
-		return new ModelAndView("createManager", "manager", new Manager());
+		return new ResponseEntity<Employee>(e, HttpStatus.OK);
 	}
 	
 	@RequestMapping(
