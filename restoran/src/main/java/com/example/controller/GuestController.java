@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -15,21 +16,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.domain.Guest;
 import com.example.domain.DTOs.GuestRegister;
 import com.example.service.GuestService;
 
 @RestController
-@SessionAttributes({"guest"})
 public class GuestController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private GuestService guestService;
+	@Autowired
+	private HttpSession session;
 	
-	private Guest guestLog = null;
 
 	@RequestMapping(
 			value = "/api/guests", 
@@ -52,12 +52,13 @@ public class GuestController {
 			method = RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Guest> getGuestLog() {
-		logger.info("> getGuestLog");		
-		if (guestLog == null) {
+		logger.info("> getGuestLog");	
+		Guest guest = (Guest) session.getAttribute("guest");
+		if (guest== null) {
 			return new ResponseEntity<Guest>(HttpStatus.NO_CONTENT);
 		}
 		logger.info("< getGuestLog");
-		return new ResponseEntity<Guest>(guestLog, HttpStatus.OK);
+		return new ResponseEntity<Guest>(guest, HttpStatus.OK);
 	}
 
 	@RequestMapping(
@@ -103,7 +104,7 @@ public class GuestController {
 		if (g != null){
 			if (guest.getPassword().equals(g.getPassword())){
 				logger.info("success");
-				guestLog = g;
+				session.setAttribute("guest", g);
 				return new ResponseEntity<Guest>(g,HttpStatus.OK);
 			}
 		}
@@ -122,6 +123,7 @@ public class GuestController {
             System.out.println("Guest with id " + id + " not found");
             return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
         }
+        session.setAttribute("guest", guest);
          
         Guest updatedGuest = guestService.update(currentGuest);
         System.out.println(updatedGuest);
