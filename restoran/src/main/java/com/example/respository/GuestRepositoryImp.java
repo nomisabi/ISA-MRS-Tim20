@@ -12,7 +12,7 @@ import com.example.domain.Guest;
 public class GuestRepositoryImp implements GuestRepository {
 	private static AtomicLong counter = new AtomicLong();
 
-	private final ConcurrentMap<Long, Guest> guests = new ConcurrentHashMap<Long, Guest>();
+	private ConcurrentMap<Long, Guest> guests = new ConcurrentHashMap<Long, Guest>();
 
 	@Override
 	public Guest createGuest(Guest guest) {
@@ -34,19 +34,19 @@ public class GuestRepositoryImp implements GuestRepository {
 	public Guest findOne(Long id) {
 		return this.guests.get(id);
 	}
-	
+
 	@Override
-	public Guest findByEmail(String email){
+	public Guest findByEmail(String email) {
 		for (Guest guest : guests.values()) {
-			if (guest.getEmail().equalsIgnoreCase(email)){
+			if (guest.getEmail().equalsIgnoreCase(email)) {
 				return guest;
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
-	public boolean isGuestExist(Guest guest){
+	public boolean isGuestExist(Guest guest) {
 		return findByEmail(guest.getEmail()) != null;
 	}
 

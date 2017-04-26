@@ -40,13 +40,3 @@ body, .form-control{
 .custom-width {
     width: 80px !important;
 }
-
-.control{
-	display: inline;
-	background-color: red;
-}
-
-.form-update{
-	margin-left: 30%;
-	margin-top: 5%;
-}

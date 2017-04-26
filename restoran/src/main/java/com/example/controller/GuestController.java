@@ -15,17 +15,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.domain.Guest;
 import com.example.domain.DTOs.GuestRegister;
 import com.example.service.GuestService;
 
 @RestController
+@SessionAttributes({"guest"})
 public class GuestController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private GuestService guestService;
+	
+	private Guest guestLog = null;
 
 	@RequestMapping(
 			value = "/api/guests", 
@@ -41,6 +45,19 @@ public class GuestController {
 
 		logger.info("< getGuests");
 		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/guestLog", 
+			method = RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Guest> getGuestLog() {
+		logger.info("> getGuestLog");		
+		if (guestLog == null) {
+			return new ResponseEntity<Guest>(HttpStatus.NO_CONTENT);
+		}
+		logger.info("< getGuestLog");
+		return new ResponseEntity<Guest>(guestLog, HttpStatus.OK);
 	}
 
 	@RequestMapping(
@@ -86,7 +103,8 @@ public class GuestController {
 		if (g != null){
 			if (guest.getPassword().equals(g.getPassword())){
 				logger.info("success");
-				return new ResponseEntity<Guest>(HttpStatus.OK);
+				guestLog = g;
+				return new ResponseEntity<Guest>(g,HttpStatus.OK);
 			}
 		}
 		
@@ -106,7 +124,10 @@ public class GuestController {
         }
          
         Guest updatedGuest = guestService.update(currentGuest);
+        System.out.println(updatedGuest);
         return new ResponseEntity<Guest>(updatedGuest, HttpStatus.OK);
     }
+    
+    
 
 }
