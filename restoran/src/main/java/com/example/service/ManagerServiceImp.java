@@ -2,25 +2,28 @@ package com.example.service;
 
 import java.util.Collection;
 
-import org.jvnet.hk2.annotations.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.domain.Employee;
 import com.example.domain.Manager;
+import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
+import com.example.domain.System_manager;
 import com.example.respository.ManRepository;
-
+import com.example.respository.SystemManRepository;
+import com.example.respository.SystemManagerRepository;
 
 @Service
-public class ManagerServiceImpl implements ManagerService{
+public class ManagerServiceImp implements ManagerService{
 	
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Autowired
     private ManRepository mRepository;
-    
+ 
     @Override
 	public void createManager(Manager m) {
 		logger.info("> create manager");

@@ -5,10 +5,12 @@ import java.util.Collection;
 import com.example.domain.Employee;
 import com.example.domain.Guest;
 import com.example.domain.Manager;
+import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.System_manager;
 
 public interface ManagerService {
+	
 	void createManager(Manager m);
 	
 	Employee createEmployee(Employee e);
@@ -27,4 +29,5 @@ public interface ManagerService {
 
 	Manager getLogedIn();
 	void setLogedIn(Manager m);
+
 }

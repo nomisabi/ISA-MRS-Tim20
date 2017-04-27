@@ -1,11 +1,6 @@
 package com.example.controller;
 
-import javax.validation.Valid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,20 +9,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.domain.Employee;
 
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.example.domain.Employee;
 import com.example.domain.Manager;
 import com.example.domain.Supplier;
-
 import com.example.service.ManagerService;
-import com.example.service.ManagerServiceImpl;
 
 @RestController
 public class ManagerController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	//@Autowired
+	@Autowired
 	private ManagerService mService;
 	
 	@RequestMapping(
@@ -90,9 +88,8 @@ public class ManagerController {
 	public ResponseEntity<Manager> logIn(@Valid @RequestBody Manager man) throws Exception {
 		logger.info("> logIn");
 		System.out.println(man);
-		
-		if (mService.findByEmail("email") != null){
-			Manager m = mService.findByEmail(man.getEmail());
+		Manager m = mService.findByEmail(man.getEmail());
+		if (m != null){		
 			if (man.getPassword().equals(m.getPassword())){
 				logger.info("success");
 				return new ResponseEntity<Manager>(m,HttpStatus.OK);
@@ -132,4 +129,8 @@ public class ManagerController {
 		
 		return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);
 	}
+
+
+	
+	
 }
