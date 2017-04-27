@@ -57,6 +57,7 @@ public class EmployeeContoller {
 		return new ResponseEntity<Collection<Employee>>(employees, HttpStatus.OK);
 	}
 	
+	
 	@RequestMapping(
 			value = "/api/employeeLog", 
 			method = RequestMethod.GET, 
@@ -70,6 +71,7 @@ public class EmployeeContoller {
 		logger.info("< getEmployeeLog");
 		return new ResponseEntity<Employee>(employee, HttpStatus.OK);
 	}
+	
 	
 	@RequestMapping(
 			value = "/api/employees/{id}", 

@@ -22,6 +22,7 @@
 				<form:input path="password" />
 				<form:errors path="password" />
 			</fieldset>
+			
 			<p>
 				<button type="submit">Submit</button>
 			</p>

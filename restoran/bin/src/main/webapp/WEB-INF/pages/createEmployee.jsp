@@ -16,13 +16,14 @@
 		<form:form id="formEmployee" action="${action}" method="post"
 			modelAttribute="employee">
 			<fieldset>
+			
 				<form:label path="email">Email </form:label>
 				<form:input path="email" /><br />
 				<form:errors path="email" />
 				<form:hidden path="firstName" value="name"  />
 				<form:hidden path="lastName" value="lName"  />
 				<form:label path="password">Password</form:label>
-				<form:input path="password" /> <br /><br />
+				<form:input path="password" /> <br />
 				<form:label path="password2">Password again</form:label>
 				<form:input path="password2" />
 				
