@@ -4,6 +4,10 @@ public class Supplier {
 	private String name;
 	private String email;
 	private String password;
+	
+	public Supplier(){
+		
+	}
 
 	public Supplier(String name, String email, String password) {
 		super();
@@ -35,5 +39,12 @@ public class Supplier {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	@Override
+	public String toString() {
+		return "Supplier [name=" + name + ", email=" + email + ", password=" + password + "]";
+	}
+	
+	
 	
 }

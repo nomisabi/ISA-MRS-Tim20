@@ -21,4 +21,10 @@ public interface ManagerRepository {
 	Manager findByEmail(String email);
 
 	boolean isManagerExist(Manager man);
+	
+	boolean changePassword(String newP, String oldP, Manager m);
+	
+	void setLogedIn(Manager m);
+	
+	Manager getLogedIn();
 }

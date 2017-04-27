@@ -42,7 +42,9 @@ public class SystemManagerContoller {
 		logger.info("> getSysMan");
 
 		Collection<System_manager> sm = smService.findAll();
+
 		if (sm.isEmpty()) {
+			logger.info("< empyt");
 			return new ResponseEntity<Collection<System_manager>>(HttpStatus.NO_CONTENT);
 		}
 
@@ -63,6 +65,8 @@ public class SystemManagerContoller {
 		logger.info("< getSystem_manager id:{}", id);
 		return new ResponseEntity<System_manager>(s, HttpStatus.OK);
 	}
+	
+
 	@RequestMapping(
 			value = "/api/sysman/signUp", 
 			method = RequestMethod.POST, 
@@ -71,7 +75,8 @@ public class SystemManagerContoller {
 	public ResponseEntity<System_manager>  signUp(@Valid @RequestBody System_manager sm) throws Exception {
 		logger.info("> signUp: "+sm.getEmail()+", "+ sm.getPassword());
 
-		smService.signUP(sm);
+		if (smService.signUP(sm)==null)
+			return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
 		logger.info("< signUp");
 		
 		 return new ResponseEntity<System_manager>(HttpStatus.OK);
@@ -82,13 +87,15 @@ public class SystemManagerContoller {
 			method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Manager> createManager(@Valid @RequestBody Manager m, @RequestBody Restaurant r) throws Exception {
-		logger.info("> createManager");
+	public ResponseEntity<Manager> createManager(@Valid @RequestBody Manager m) throws Exception {
+		logger.info("> createManager :"+m.toString());
 
-		smService.createManager(m, r);
+		Manager retVal= smService.createManager(m);
+		if (retVal==null)
+			return new ResponseEntity<Manager>(HttpStatus.NO_CONTENT);
 		logger.info("< createManager");
 		
-		return new ResponseEntity<Manager>(HttpStatus.OK);
+		return new ResponseEntity<Manager>(m,HttpStatus.OK);
 	}
 	
 	@RequestMapping(
@@ -103,9 +110,24 @@ public class SystemManagerContoller {
 		if (s != null){
 			if (sm.getPassword().equals(s.getPassword())){
 				logger.info("success");
-				return new ResponseEntity<System_manager>(HttpStatus.OK);
+				smService.setLogedIn(sm);
+				return new ResponseEntity<System_manager>(s, HttpStatus.OK);
 			}
 		}
+		
+		return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
+	}
+	
+	@RequestMapping(
+			value = "/api/sysman/getlogedin", 
+			method = RequestMethod.GET,  
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<System_manager> logIn() throws Exception {
+		logger.info("> GetlogIn");
+		System_manager s = smService.getLogedIn();
+		if (s != null){
+				return new ResponseEntity<System_manager>(s, HttpStatus.OK);
+			}
 		
 		return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
 	}

@@ -1,0 +1,15 @@
+<div ng-class="generic-container" ng-controller="SystemManagerController">
+Sign up {{1+1}}
+<br>
+<form name="myForm">
+<input name="email" type="email" placeholder="email" ng-model="newemail" required>
+<span  style="color:red" ng-show="myForm.email.$invalid">Email is required.</span>
+<br>
+<input name="pass" type="text" placeholder="password" ng-model="newpass" required>
+<span  style="color:red" ng-show="myForm.pass.$invalid">Password is required.</span>
+<br>
+<input type="text" placeholder="password (again)" ng-model="newpass2">
+<br>
+<button ng-click="reg()" ng-disabled="myForm.email.$invalid || myForm.pass.$invalid">Sign up</button>
+</form>
+</div>

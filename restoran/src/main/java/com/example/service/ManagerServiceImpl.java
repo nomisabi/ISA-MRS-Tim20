@@ -76,4 +76,23 @@ public class ManagerServiceImpl implements ManagerService{
 		
 	}
 
+	@Override
+	public boolean changePassword(String newP, String oldP, Manager m) {
+		logger.info("> changePass ", m);
+		boolean val = mRepository.changePassword(newP, oldP, m);
+		logger.info("< changePass :{}", m);
+		return val;
+	}
+
+	@Override
+	public Manager getLogedIn() {
+		return mRepository.getLogedIn();
+	}
+
+	@Override
+	public void setLogedIn(Manager m) {
+		mRepository.setLogedIn( m);
+		
+	}
+
 }
