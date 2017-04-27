@@ -22,17 +22,17 @@ public class SystemManagerServiceImp implements SystemManagerService{
     private SystemManRepository smRepository;
     
     @Override
-	public void signUP(System_manager sm){
+	public System_manager signUP(System_manager sm){
         logger.info("> sing up");
-        smRepository.signUP(sm);
-        logger.info("< sing up");
+        return smRepository.signUP(sm);
 	}
 
 	@Override
-	public void createManager(Manager m, Restaurant r) {
+	public Manager createManager(Manager m) {
 		logger.info("> create manager");
-        smRepository.createManager(m, r);
+        Manager retVal = smRepository.createManager(m);
         logger.info("< create manager");
+        return retVal;
 	}
 
 	@Override
@@ -75,6 +75,15 @@ public class SystemManagerServiceImp implements SystemManagerService{
 		return smRepository.isSysManagerExist(m);
 		
 	}
+	
+	@Override
+	public void setLogedIn(System_manager sm){
+		smRepository.setLogedIn(sm);
+	}
 
-    
+	@Override
+	public System_manager getLogedIn(){
+		return smRepository.getLogedIn();
+	}
+	
 }

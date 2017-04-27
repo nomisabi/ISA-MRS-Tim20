@@ -8,9 +8,9 @@ import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
 
 public interface SystemManagerService {
-	void signUP(System_manager sm);
+	System_manager signUP(System_manager sm);
 
-	void createManager(Manager sm, Restaurant r);
+	Manager createManager(Manager sm);
 	
 	Boolean login(System_manager m);
 	
@@ -21,5 +21,7 @@ public interface SystemManagerService {
 	System_manager findByEmail(String email);
 
 	boolean isSysManagerExist(System_manager m);
+	void setLogedIn(System_manager sm);
+	System_manager getLogedIn();
 
 }

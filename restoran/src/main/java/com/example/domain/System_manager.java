@@ -10,6 +10,7 @@ public class System_manager {
 	@NotEmpty(message = "Password je obavezna.")
     private String password;
 	
+	
 	public System_manager() {
 
     }

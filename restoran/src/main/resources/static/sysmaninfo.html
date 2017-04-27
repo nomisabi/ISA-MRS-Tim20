@@ -1,0 +1,50 @@
+<div class="generic-container" ng-controller="SystemManagerController">
+Managers:
+{{managers}}
+
+<br>
+My address:
+
+<table>
+	<tr>
+		<td> Email: </td>
+		<td> <input type="text" ng-model="sm.email"> </td>
+	</tr>
+	<tr>
+		<td> Passsword: </td>
+		<td><input type="text" ng-model="sm.password"> </td>
+	</tr>
+	
+</table>
+
+	
+	Create manager
+	<br>
+	<table>
+	<tr>
+		<td> Email: </td>
+		<td> <input type="text" ng-model="manager.email"> </td>
+	</tr>
+	<tr>
+		<td> Passsword: </td>
+		<td><input type="text" ng-model="manager.password"> </td>
+	</tr>
+	<tr>
+		<td> First name: </td>
+		<td><input type="text" ng-model="manager.firstName"> </td>
+	</tr>
+	<tr>
+		<td> Last name: </td>
+		<td><input type="text" ng-model="manager.lastName"> </td>
+	</tr>
+	<tr>
+		<td> Restuarant: </td>
+		<td> </td>
+	</tr>
+	<tr>
+		<td> <button ng-click="createManager()">createManager</button> </td>
+	</tr>
+</table>
+
+</div>
+

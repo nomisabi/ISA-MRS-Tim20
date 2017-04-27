@@ -8,9 +8,9 @@ import com.example.domain.System_manager;
 
 public interface SystemManagerRepository {
 
-	void signUP(System_manager sm);
+	System_manager signUP(System_manager sm);
 	
-	void createManager(Manager sm, Restaurant r);
+	Manager createManager(Manager m);
 	
 	Boolean login(System_manager m);
 	
@@ -23,4 +23,8 @@ public interface SystemManagerRepository {
 	boolean isSysManagerExist(System_manager m);
 
 	void createManager(System_manager m);
+	
+	void setLogedIn(System_manager sm);
+	
+	System_manager getLogedIn();
 }
