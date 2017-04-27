@@ -45,3 +45,8 @@ body, .form-control{
 	display: inline;
 	background-color: red;
 }
+
+.form-update{
+	margin-left: 30%;
+	margin-top: 5%;
+}

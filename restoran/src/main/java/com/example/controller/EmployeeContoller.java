@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -36,6 +37,8 @@ public class EmployeeContoller {
 
 	//@Autowired
 	private EmployeeService emService;
+	@Autowired
+	private HttpSession session;
 
 
 	@RequestMapping(
@@ -52,6 +55,20 @@ public class EmployeeContoller {
 
 		logger.info("< getEmployees");
 		return new ResponseEntity<Collection<Employee>>(employees, HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/employeeLog", 
+			method = RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employee> getEmployeeLog() {
+		logger.info("> getEmployeeLog");	
+		Employee employee = (Employee) session.getAttribute("employee");
+		if (employee== null) {
+			return new ResponseEntity<Employee>(HttpStatus.NO_CONTENT);
+		}
+		logger.info("< getEmployeeLog");
+		return new ResponseEntity<Employee>(employee, HttpStatus.OK);
 	}
 	
 	@RequestMapping(
