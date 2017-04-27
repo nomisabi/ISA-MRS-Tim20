@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -26,6 +27,9 @@ public class GuestController {
 
 	@Autowired
 	private GuestService guestService;
+	@Autowired
+	private HttpSession session;
+	
 
 	@RequestMapping(
 			value = "/api/guests", 
@@ -41,6 +45,20 @@ public class GuestController {
 
 		logger.info("< getGuests");
 		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/guestLog", 
+			method = RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Guest> getGuestLog() {
+		logger.info("> getGuestLog");	
+		Guest guest = (Guest) session.getAttribute("guest");
+		if (guest== null) {
+			return new ResponseEntity<Guest>(HttpStatus.NO_CONTENT);
+		}
+		logger.info("< getGuestLog");
+		return new ResponseEntity<Guest>(guest, HttpStatus.OK);
 	}
 
 	@RequestMapping(
@@ -86,7 +104,8 @@ public class GuestController {
 		if (g != null){
 			if (guest.getPassword().equals(g.getPassword())){
 				logger.info("success");
-				return new ResponseEntity<Guest>(HttpStatus.OK);
+				session.setAttribute("guest", g);
+				return new ResponseEntity<Guest>(g,HttpStatus.OK);
 			}
 		}
 		
@@ -104,9 +123,13 @@ public class GuestController {
             System.out.println("Guest with id " + id + " not found");
             return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
         }
+        session.setAttribute("guest", guest);
          
         Guest updatedGuest = guestService.update(currentGuest);
+        System.out.println(updatedGuest);
         return new ResponseEntity<Guest>(updatedGuest, HttpStatus.OK);
     }
+    
+    
 
 }

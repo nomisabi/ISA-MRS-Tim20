@@ -66,6 +66,7 @@ public class GuestServiceImp implements GuestService {
 	public Guest update(Guest guest) throws Exception{
 		logger.info("> update id:{}", guest.getId());
         Guest guestToUpdate = findOne(guest.getId());
+        System.out.println(guestToUpdate);
         if (guestToUpdate == null) {
             logger.error(
                     "Pokusaj azuriranja gosta, ali je on nepostojeci.");

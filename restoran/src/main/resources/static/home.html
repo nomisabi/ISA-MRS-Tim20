@@ -1,16 +1,17 @@
 <div class="generic-container" ng-controller="UserController as ctrl">
-    <h1>Welcome</h1>    
+     
      <div class="panel panel-default">
-              
               <div class="formcontainer">
-                  <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
+                 
+                  <form ng-submit="ctrl.updateUser()" name="myForm" class="form-update">
                       <input type="hidden" ng-model="ctrl.user.id" />
                      
                       <div class="row"> 
                           <div class="form-group col-md-12">
                               <label class="col-md-2 control-lable" for="file">Email</label>
                               <div class="col-md-7">
-                                  <p type="email" ng-model="ctrl.user.email" name="email"/>
+                                  <input type="email" ng-model="ctrl.user.email" name="email" />
+                                  
                               </div>
                           </div>
                       </div>
@@ -19,7 +20,7 @@
                           <div class="form-group col-md-12">
                               <label class="col-md-2 control-lable" for="file">First Name</label>
                               <div class="col-md-7">
-                                  <input type="email" ng-model="ctrl.user.firstName" name="firstName" />
+                                  <input type="text" ng-model="ctrl.user.firstName" name="firstName" />
                               </div>
                           </div>
                       </div>
@@ -28,20 +29,18 @@
                           <div class="form-group col-md-12">
                               <label class="col-md-2 control-lable" for="file">Last Name</label>
                               <div class="col-md-7">
-                                  <input type="email" ng-model="ctrl.user.lastName" name="lastName" />
+                                  <input type="text" ng-model="ctrl.user.lastName" name="lastName" />
                               </div>
                           </div>
                       </div>
                       
-                      
-                      
-                      
-                      
-                                   
+                      <div class="row">
+                          <div class="form-actions floatRight">
+                              <input type="submit" value="Save"  class="btn btn-primary btn-sm">
+                          </div>
+                      </div>  
 
-           
                   </form>
-              
                   
               </div>
      </div>     

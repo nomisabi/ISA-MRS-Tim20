@@ -3,14 +3,28 @@
 angular.module('myApp').controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
     var self = this;
     self.user={id:null,email:'',password:'',password2:'',lastName:'',lastName:''};
-    self.users=[];
 
     self.submit = submit;
     self.reset = reset;
     self.reg = reg;
     self.log = log;
     self.facebookLogIn = facebookLogIn;
+    self.updateUser = updateUser;
+    self.logIn = logIn;
+    
+    fetchUser();
  
+    function fetchUser(){
+        UserService.fetchUser()
+            .then(
+            function(d) {
+                self.user = d;
+            },
+            function(errResponse){
+                console.error('Error while fetching Users');
+            }
+        );
+    }
 
     
     function createUser(user){
@@ -25,11 +39,10 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService', f
         );
     }
     
-    function logIn(user){
-        UserService.logIn(user)
+    function logIn(){
+        UserService.logIn(self.user)
             .then(
             	function() {
-            		    self.user = user;
                 		window.location.href = '#home';
                 },
             function(errResponse){
@@ -76,6 +89,17 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService', f
      );
     
 	}
+    
+    function updateUser(){
+        UserService.updateUser(self.user, self.user.id)
+            .then(
+            fetchAllUsers,
+            function(errResponse){
+                console.error('Error while updating User');
+            }
+        );
+        
+    }
 
 
     
