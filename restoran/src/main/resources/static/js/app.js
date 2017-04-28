@@ -4,6 +4,9 @@ app.config(function($routeProvider) {
     .when("/", {
         templateUrl : "main.html",
     })
+    .when("/404", {
+    	templateUrl :"404.html",
+    })
     .when("/registration", {
         templateUrl : "registration.html",
         controller : "UserController"
@@ -39,5 +42,6 @@ app.config(function($routeProvider) {
     })
     .when("/supplier/info", {
     	templateUrl : "showSupplier.html"
-    });
+    })
+    .otherwise({ redirectTo: '/404' });
 });
