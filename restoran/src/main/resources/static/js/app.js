@@ -2,10 +2,14 @@ var app = angular.module("myApp", ["ngRoute"]);
 app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
-        templateUrl : "main.html",
+        templateUrl : "login.html"
+        
+    })
+    .when("/guest/login", {
+        templateUrl : "main.html"
     })
     .when("/404", {
-    	templateUrl :"404.html",
+    	templateUrl :"404.html"
     })
     .when("/registration", {
         templateUrl : "registration.html",
@@ -14,6 +18,10 @@ app.config(function($routeProvider) {
     .when("/home", {
         templateUrl : "home.html",
         controller : "UserController"
+    })
+    .when("/sysman/index", {
+   	 	templateUrl : "sys_man_index.html",
+   	 	controller: "SystemManagerController"
     })
     .when("/sysman/info", {
    	 	templateUrl : "sysmaninfo.html",
@@ -45,3 +53,4 @@ app.config(function($routeProvider) {
     })
     .otherwise({ redirectTo: '/404' });
 });
+
