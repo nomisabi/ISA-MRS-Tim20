@@ -7,16 +7,17 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	$scope.page="profile";
 	function init() {
 
-		$http.get("http://localhost:8080/api/sysman/getlogedin").success(
+		$http.get("http://localhost:8080/api/users/getlogedin").success(
+		//$http.get("http://localhost:8080/api/sysman/getlogedin").success(
 				function(data){
 					$scope.sm=data;
 				});
-		
 	    $scope.managers.push($http.get("http://localhost:8080/api/managers"));
 	    
 	}
+	
 	//$ocLazyLoad.load('common-scripts.js');
-	function myNavFunction(id) {
+	/*function myNavFunction(id) {
 	    $("#date-popover").hide();
 	    var nav = $("#" + id).data("navigation");
 	    var to = $("#" + id).data("to");
@@ -37,7 +38,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	    // (string | optional) the class name you want to apply to that specific message
 	    class_name: 'my-sticky-class'
 	});
-
+*/
 
     $scope.manager;
     

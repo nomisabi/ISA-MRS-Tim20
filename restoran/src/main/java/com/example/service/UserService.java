@@ -1,0 +1,19 @@
+package com.example.service;
+
+import java.util.Collection;
+
+import com.example.domain.Employee;
+import com.example.domain.System_manager;
+import com.example.domain.User;
+
+public interface UserService {
+	
+	Collection<User> findAll();
+	
+	User findByEmail(String email);
+	
+	void setLogedIn(User u);
+	
+	User getLogedIn();
+
+}

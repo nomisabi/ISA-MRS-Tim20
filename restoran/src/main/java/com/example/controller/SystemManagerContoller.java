@@ -42,7 +42,6 @@ public class SystemManagerContoller {
 		logger.info("> getSysMan");
 
 		Collection<System_manager> sm = smService.findAll();
-
 		if (sm.isEmpty()) {
 			logger.info("< empyt");
 			return new ResponseEntity<Collection<System_manager>>(HttpStatus.NO_CONTENT);
@@ -131,4 +130,6 @@ public class SystemManagerContoller {
 		
 		return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
 	}
+	
+	
 }
