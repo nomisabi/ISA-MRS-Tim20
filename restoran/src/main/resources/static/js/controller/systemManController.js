@@ -4,6 +4,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	
     //$scope.sm={email:'myaddress',password:'mypassword'};
 	$scope.managers=[];
+	$scope.page="profile";
 	function init() {
 
 		$http.get("http://localhost:8080/api/sysman/getlogedin").success(
@@ -79,6 +80,29 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 		}
     	
 	}
+    
+    $scope.changeToManager= function(){
+    	$scope.page="manager";
+    	
+    }
+    
+    $scope.changeToProfile= function(){
+    	$scope.page="profile";
+    	
+    }
+    $scope.changeToRestaurants= function(){
+    	$scope.page="restaurant";
+    	
+    }
+    $scope.changeToCreateManager= function(){
+    	$scope.page="new_manager";    	
+    }
+    $scope.changeToCreateRestaurant= function(){
+    	$scope.page="new_restaurant";    	
+    }
+    $scope.changeToUsers= function(){
+    	$scope.page="users";    	
+    }
     
     	
 
