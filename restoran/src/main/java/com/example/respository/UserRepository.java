@@ -2,14 +2,15 @@ package com.example.respository;
 
 import java.util.Collection;
 
+import org.springframework.data.repository.CrudRepository;
+
 import com.example.domain.User;
 
-public interface UserRepository {
-	Collection<User> findAll();
+public interface UserRepository extends CrudRepository<User, Long>{
+	//Collection<User> findAll();
 	
-	User findByEmail(String email);
+	//User findByEmail(String email);
 	
-	void setLogedIn(User u);
 	
-	User getLogedIn();
+
 }

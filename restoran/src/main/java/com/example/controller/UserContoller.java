@@ -61,7 +61,6 @@ public class UserContoller {
 		if (user != null){			
 			if (u.getPassword().equals(user.getPassword())){
 				logger.info("success");	
-				userService.setLogedIn(user);
 				return new ResponseEntity<User>(user, HttpStatus.OK);
 			}
 		}	
@@ -69,16 +68,5 @@ public class UserContoller {
 	}
 	
 	
-	@RequestMapping(
-			value = "/api/users/getlogedin", 
-			method = RequestMethod.GET,  
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> logIn() throws Exception {
-		logger.info("> GetlogIn");
-		User s = userService.getLogedIn();
-		if (s != null){
-				return new ResponseEntity<User>(s, HttpStatus.OK);
-			}
-		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-	}
+
 }

@@ -20,7 +20,7 @@ public class UserRepositoryImpl implements UserRepository {
 	
 	private User logIn=null;
 	private final ConcurrentMap<String, User> users = new ConcurrentHashMap<String, User>();
-
+/*
 	@Override
 	public Collection<User> findAll() {
 		User sm = new User("1","2", TypeOfUser.SYS_MAN);
@@ -30,10 +30,10 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public User findByEmail(String email){
-		User sm = new User("1","2", TypeOfUser.SYS_MAN);
-		User sm2 = new User("2","2", TypeOfUser.GUEST);
-		users.put("1", sm);
-		users.put("2", sm2);
+		//User sm = new User("1","2", TypeOfUser.SYS_MAN);
+		//User sm2 = new User("2","2", TypeOfUser.GUEST);
+		//users.put("1", sm);
+		//users.put("2", sm2);
 		for (User u : users.values()) {
 			if (u.getEmail().equalsIgnoreCase(email)){
 				return u;
@@ -42,13 +42,62 @@ public class UserRepositoryImpl implements UserRepository {
 		return null;
 	}
 
+*/
 	@Override
-	public void setLogedIn(User u){
-		logIn=u;
+	public long count() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
-	
 	@Override
-	public User getLogedIn(){
-		return logIn;
+	public void delete(Long arg0) {
+		// TODO Auto-generated method stub
+		
 	}
+	@Override
+	public void delete(User arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void delete(Iterable<? extends User> arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void deleteAll() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public boolean exists(Long arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public Iterable<User> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Iterable<User> findAll(Iterable<Long> arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public User findOne(Long arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public <S extends User> S save(S arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public <S extends User> Iterable<S> save(Iterable<S> arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

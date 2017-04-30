@@ -12,8 +12,6 @@ public interface UserService {
 	
 	User findByEmail(String email);
 	
-	void setLogedIn(User u);
-	
-	User getLogedIn();
+
 
 }
