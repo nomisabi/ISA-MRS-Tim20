@@ -27,29 +27,22 @@ public class UserServiceImp implements UserService{
 	@Override
 	public Collection<User> findAll() {
 		logger.info("> findAll");
-		Collection<User> users = userRepository.findAll();
+		//Collection<User> users = userRepository.findAll();
 		logger.info("< findAll");
-		return users;
+		//return users;
+		return null;
 	}
 	
 	@Override
 	public User findByEmail(String email) {
 		logger.info("> findByEmail");
-		User user= userRepository.findByEmail(email);
+		//User user= userRepository.findByEmail(email);
 		logger.info("< findByEmail");
-		return user;
+		//return user;
+		return null;
 	}
 
-	@Override
-	public void setLogedIn(User u) {
-		userRepository.setLogedIn(u);
-		
-	}
 
-	@Override
-	public User getLogedIn() {
-		return getLogedIn();
-	}
 
 	
 }
