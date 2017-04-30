@@ -24,6 +24,10 @@ app.config(function($routeProvider) {
    	 	templateUrl : "sys_man_index.html",
    	 	controller: "SystemManagerController"
     })
+    .when("/guest/index", {
+   	 	templateUrl : "guestHome.html",
+   	 	controller: "GuestHomeController"
+    })
     .when("/sysman/info", {
    	 	templateUrl : "sysmaninfo.html",
    	 	controller: "SystemManagerController"
