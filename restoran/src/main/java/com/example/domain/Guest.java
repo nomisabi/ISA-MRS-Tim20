@@ -1,25 +1,48 @@
 package com.example.domain;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Guest {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+@Entity
+public class Guest implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@Column(nullable=false)
 	private String email;
+	@Column(nullable=false)
 	private String password;
+	@Column
 	private String firstName;
+	@Column
 	private String lastName;
-	private HashMap<String, Guest> friends;
-	private HashMap<String, Restaurant> visited;
+	@Transient
+	private HashMap<Long, Guest> friends;
+	@Transient
+	private HashMap<Long, Guest> requests;
+	@Transient
+	private HashMap<Long, Restaurant> visited;
 
 	public Guest() {
 	}
-	
+
 	public Guest(String email, String password) {
 		super();
 		this.email = email;
 		this.password = password;
 		this.friends = new HashMap<>();
 		this.visited = new HashMap<>();
+		this.requests = new HashMap<>();
 	}
 
 	public Guest(String email, String password, String firstName, String lastName) {
@@ -30,6 +53,7 @@ public class Guest {
 		this.lastName = lastName;
 		this.friends = new HashMap<>();
 		this.visited = new HashMap<>();
+		this.requests = new HashMap<>();
 	}
 
 	public Long getId() {
@@ -72,20 +96,28 @@ public class Guest {
 		this.lastName = lastName;
 	}
 
-	public HashMap<String, Guest> getFriends() {
+	public HashMap<Long, Guest> getFriends() {
 		return friends;
 	}
 
-	public void setFriends(HashMap<String, Guest> friends) {
+	public void setFriends(HashMap<Long, Guest> friends) {
 		this.friends = friends;
 	}
 
-	public HashMap<String, Restaurant> getVisited() {
+	public HashMap<Long, Restaurant> getVisited() {
 		return visited;
 	}
 
-	public void setVisited(HashMap<String, Restaurant> visited) {
+	public void setVisited(HashMap<Long, Restaurant> visited) {
 		this.visited = visited;
+	}
+
+	public HashMap<Long, Guest> getRequests() {
+		return requests;
+	}
+
+	public void setRequests(HashMap<Long, Guest> requests) {
+		this.requests = requests;
 	}
 
 	@Override

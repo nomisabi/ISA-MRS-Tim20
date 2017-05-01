@@ -2,81 +2,48 @@ package com.example.service;
 
 import java.util.Collection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.example.domain.Guest;
-import com.example.respository.GuestRepositoryImp;
+import com.example.respository.GuestRepository;
+
 
 
 @Service
 public class GuestServiceImp implements GuestService {
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	//private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private GuestRepositoryImp guestRepository;
-
+	private GuestRepository guestRepository;
+	
 	@Override
-	public Guest createGuest(Guest guest) throws Exception {
-		logger.info("> create");
-		if (guest.getId() != null) {
-			logger.error("Pokusaj kreiranja novog entiteta, ali Id nije null.");
-			throw new Exception("Id mora biti null prilikom perzistencije novog entiteta.");
-		}
-		Guest savedGuest = guestRepository.createGuest(guest);
-		logger.info("< create");
-		return savedGuest;
-
-	}
-
-	@Override
-	public Collection<Guest> findAll() {
-		logger.info("> findAll");
-		Collection<Guest> guests = guestRepository.findAll();
-		logger.info("< findAll");
-		return guests;
-	}
-
-	@Override
-	public Guest findOne(Long id) {
-		logger.info("> findOne id:{}", id);
-		Guest guest = guestRepository.findOne(id);
-		logger.info("< findOne id:{}", id);
-		return guest;
+	public Guest getGuest(Long id){
+		return this.guestRepository.findOne(id);
 	}
 	
 	@Override
-	public Guest findByEmail(String email){
-		logger.info("> findByEmail email:{}", email);
-		Guest guest = guestRepository.findByEmail(email);
-		logger.info("< findByEmail email:{}", email);
-		return guest;
-		
-	}
-
-	@Override
-	public boolean isGuestExist(Guest guest){
-		return guestRepository.isGuestExist(guest);
-		
+	public Guest addGuest(Guest guest){
+		Assert.notNull(guest, "Guest could not be null.");
+		return guestRepository.save(guest);
 	}
 	
 	@Override
-	public Guest update(Guest guest) throws Exception{
-		logger.info("> update id:{}", guest.getId());
-        Guest guestToUpdate = findOne(guest.getId());
-        System.out.println(guestToUpdate);
-        if (guestToUpdate == null) {
-            logger.error(
-                    "Pokusaj azuriranja gosta, ali je on nepostojeci.");
-            throw new Exception("Trazeni gost nije pronadjen.");
-        }
-        guestToUpdate.setFirstName(guest.getFirstName());
-        guestToUpdate.setLastName(guest.getLastName());
-        Guest updatedGuest = guestRepository.createGuest(guestToUpdate);
-        logger.info("< update id:{}", guest.getId());
-        return updatedGuest;
+	public Collection<Guest> getAllGuests(){
+		return (Collection<Guest>) guestRepository.findAll();
 	}
-
+	
+	@Override
+	public boolean isExists(Long id){
+		return guestRepository.exists(id);
+	}
+	
+	@Override
+	public Guest updateGuest(Long id,Guest guest){     //zavrsiti
+		Assert.notNull(guest.getEmail(), "Email could not be null.");
+		Assert.notNull(guest.getPassword(),"Password could not be null." );
+		guestRepository.delete(id);
+		return guestRepository.save(guest);
+	}
 }

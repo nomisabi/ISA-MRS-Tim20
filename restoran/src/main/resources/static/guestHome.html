@@ -184,13 +184,14 @@
                               </thead>
                               <tbody>
                               <tr ng-repeat="user in users | filter:search">
+                              	  
                                   <td>{{user.firstName}}</td>
                                   <td>{{user.lastName}} </td>
                                   <td> {{user.email}}</td>
                                   <td>
-                                     <button  class="btn btn-danger btn-xs" ng-click="deleteRequest()"><i class="fa fa-trash-o "></i></button>
+                                     <button  class="btn btn-danger btn-xs" ng-click="deleteRequest(user.id)"><i class="fa fa-trash-o "></i></button>
                                      &nbsp; &nbsp; &nbsp;
-                                      <button class="btn btn-success btn-xs" ng-click="addRequest()"><i class="fa fa-check"></i></button>
+                                      <button class="btn btn-success btn-xs" ng-click="addRequest(user.id)"><i class="fa fa-check"></i></button>
                                       &nbsp; &nbsp;
                                   </td>
                               </tr>

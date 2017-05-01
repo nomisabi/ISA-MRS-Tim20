@@ -37,19 +37,33 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.save= function(){
-    	
-    	alert("Profile changes successfully saved.");
-    	
+    	alert($scope.guest.id);
+    	$http.put('http://localhost:8080/api/guests/'+$scope.guest.id,$scope.guest)
+    	.success(function(data) {
+    		alert("Profile changes successfully saved.");
+		}).error(function(data){
+			alert("Error profile change.");
+			}
+		);
+		   	
     }
     
-    $scope.addRequest= function(){
+    $scope.addRequest= function(email){   	
+    	$http.post('http://localhost:8080/api/sendRequest',{"idGuest":$scope.guest.id,"emailFriend":email})
+    	.success(function(data) {
+    		alert("Profile changes successfully saved.");
+		}).error(function(data){
+			alert("error");
+			}
+		);    
     	
-    	alert("Add request.");
+    	
+    	alert("Add request. <"+email+">");
     	
     }
-    $scope.deleteRequest= function(){
+    $scope.deleteRequest= function(email){
     	
-    	alert("Delete request.");
+    	alert("Delete request.<"+email+">");
     	
     }
 
