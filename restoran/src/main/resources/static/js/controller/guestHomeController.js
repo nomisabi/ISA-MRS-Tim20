@@ -17,6 +17,15 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 			{id:3,email:'email2',password:'pass2',firstName:'nena2',lastName:'djeric2',address:'address2'}
 		];
 		
+		$http.get('http://localhost:8080/api/guestLog')
+    	.success(function(data) {
+    		$scope.guest = data;
+    		$scope.guest.id = 1;
+    		
+		}).error(function(data){
+			alert("Error profile change.");
+			}
+		);	
 	}
 	
 	
@@ -48,12 +57,21 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		   	
     }
     
-    $scope.addRequest= function(email){   	
-    	$http.post('http://localhost:8080/api/sendRequest',{"idGuest":$scope.guest.id,"emailFriend":email})
+    $scope.addRequest= function(id){   	   	
+    	for(var i = 0; i < $scope.users.length; i++){
+            if($scope.users[i].id === id) {
+                $scope.friends[$scope.friends.length] = $scope.users[i];
+                $scope.users.splice(i, 1);
+                alert($scope.users[i].email);
+                break;
+            }
+        }
+    	
+    	$http.post('http://localhost:8080/api/sendRequest',{"idGuest":$scope.guest.id,"idFriend":id})
     	.success(function(data) {
-    		alert("Profile changes successfully saved.");
+    		//
 		}).error(function(data){
-			alert("error");
+			//alert("error");
 			}
 		);    
     	
@@ -65,6 +83,16 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	
     	alert("Delete request.<"+email+">");
     	
+    }
+    $scope.deleteFriend= function(id){
+    	alert("Delete friend.<"+id+">");
+    	for(var i = 0; i < $scope.friends.length; i++){
+            if($scope.friends[i].id === id) {
+                $scope.users[$scope.friends.length] = $scope.friends[i];
+                $scope.friends.splice(i, 1);
+                break;
+            }
+        }	
     }
 
 }]);

@@ -2,34 +2,37 @@ package com.example.domain;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity
-public class Guest implements Serializable{
-	
+public class Guest implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String email;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String password;
 	@Column
 	private String firstName;
 	@Column
 	private String lastName;
-	@Transient
-	private HashMap<Long, Guest> friends;
-	@Transient
-	private HashMap<Long, Guest> requests;
+	@ManyToMany
+	private Set<Guest> friends;
+	@OneToMany
+	private Set<Guest> requests;
 	@Transient
 	private HashMap<Long, Restaurant> visited;
 
@@ -40,9 +43,6 @@ public class Guest implements Serializable{
 		super();
 		this.email = email;
 		this.password = password;
-		this.friends = new HashMap<>();
-		this.visited = new HashMap<>();
-		this.requests = new HashMap<>();
 	}
 
 	public Guest(String email, String password, String firstName, String lastName) {
@@ -51,9 +51,6 @@ public class Guest implements Serializable{
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.friends = new HashMap<>();
-		this.visited = new HashMap<>();
-		this.requests = new HashMap<>();
 	}
 
 	public Long getId() {
@@ -96,28 +93,12 @@ public class Guest implements Serializable{
 		this.lastName = lastName;
 	}
 
-	public HashMap<Long, Guest> getFriends() {
-		return friends;
-	}
-
-	public void setFriends(HashMap<Long, Guest> friends) {
-		this.friends = friends;
-	}
-
 	public HashMap<Long, Restaurant> getVisited() {
 		return visited;
 	}
 
 	public void setVisited(HashMap<Long, Restaurant> visited) {
 		this.visited = visited;
-	}
-
-	public HashMap<Long, Guest> getRequests() {
-		return requests;
-	}
-
-	public void setRequests(HashMap<Long, Guest> requests) {
-		this.requests = requests;
 	}
 
 	@Override

@@ -54,6 +54,8 @@ public class GuestController {
 			method = RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Guest> getGuestLog() {
+		Guest g = new Guest("nena@gmail.com", "123");
+		session.setAttribute("guest", g);
 		logger.info("> getGuestLog");	
 		Guest guest = (Guest) session.getAttribute("guest");
 		if (guest== null) {
@@ -139,7 +141,7 @@ public class GuestController {
     @RequestMapping(value = "/api/sendRequest", method = RequestMethod.POST)
     public ResponseEntity<Guest> sendRequest(@RequestBody FriendRequest friendRequest) throws Exception {
         System.out.println(friendRequest);
-    	Guest currentGuest = null;//guestService.findOne(friendRequest.getIdGuest());
+    	Guest currentGuest = guestService.getGuest(friendRequest.getIdGuest());
     	
     	if (currentGuest == null){
     		System.out.println("Guest with id " + friendRequest.getIdGuest() + " not found");  
@@ -150,6 +152,13 @@ public class GuestController {
     	
     	if (currentGuest.getId() != sessionGuest.getId()){
     		System.out.println("Guest with id " + friendRequest.getIdGuest() + " not log in");  
+    		return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
+    	}
+    	
+    	Guest friendGuest = guestService.getGuest(friendRequest.getIdFriend());
+    	
+    	if (friendGuest == null){
+    		System.out.println("Guest with id " + friendRequest.getIdGuest() + " not found");  
     		return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
     	}
     	

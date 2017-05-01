@@ -2,7 +2,7 @@ package com.example.domain.DTOs;
 
 public class FriendRequest {
 	private Long idGuest;
-	private String emailFriend;
+	private Long idFriend;
 
 	public FriendRequest() {
 	}
@@ -15,17 +15,17 @@ public class FriendRequest {
 		this.idGuest = idGuest;
 	}
 
-	public String getEmailFriend() {
-		return emailFriend;
+	public Long getIdFriend() {
+		return idFriend;
 	}
 
-	public void setEmailFriend(String emailFriend) {
-		this.emailFriend = emailFriend;
+	public void setIdFriend(Long idFriend) {
+		this.idFriend = idFriend;
 	}
 
 	@Override
 	public String toString() {
-		return "FriendRequest [idGuest=" + idGuest + ", emailFriend=" + emailFriend + "]";
+		return "FriendRequest [idGuest=" + idGuest + ", idFriend=" + idFriend + "]";
 	}
 
 }
