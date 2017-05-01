@@ -13,7 +13,7 @@ app.config(function($routeProvider) {
     	templateUrl :"404.html"
     })
     .when("/registration", {
-        templateUrl : "registration.html",
+        templateUrl : "registration2.html",
         controller : "UserController"
     })
     .when("/home", {
