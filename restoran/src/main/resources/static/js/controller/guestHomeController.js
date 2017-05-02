@@ -46,7 +46,6 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.save= function(){
-    	alert($scope.guest.id);
     	$http.put('http://localhost:8080/api/guests/'+$scope.guest.id,$scope.guest)
     	.success(function(data) {
     		alert("Profile changes successfully saved.");
@@ -93,6 +92,25 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
                 break;
             }
         }	
+    	
+    	$http.post('http://localhost:8080/api/deleteFriend',{"idGuest":$scope.guest.id,"idFriend":id})
+    	.success(function(data) {
+    		//
+		}).error(function(data){
+			//alert("error");
+			}
+		);   
+    }
+    
+    
+    $scope.addFriend= function(id){   	   	
+    	$http.post('http://localhost:8080/api/addFriend',{"idGuest":$scope.guest.id,"idFriend":id})
+    	.success(function(data) {
+    		//
+		}).error(function(data){
+			//alert("error");
+			}
+		);        	
     }
 
 }]);

@@ -17,5 +17,11 @@ public interface GuestService {
 	boolean isExists(Long id);
 	
 	Guest updateGuest(Long id,Guest newGuest);
+	
+	Guest sendFriendRequest(Guest guest, Guest friend);
+	
+	Guest addFriend(Guest guest, Guest friend);
+	
+	Guest deleteFriend(Guest guest, Guest friend);
 
 }
