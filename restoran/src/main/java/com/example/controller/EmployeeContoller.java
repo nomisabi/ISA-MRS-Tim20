@@ -35,7 +35,7 @@ public class EmployeeContoller {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	//@Autowired
+	@Autowired
 	private EmployeeService emService;
 	@Autowired
 	private HttpSession session;
@@ -105,4 +105,36 @@ public class EmployeeContoller {
 		
 		return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);	
 	}
+	
+	
+	@RequestMapping(
+			value = "/api/employees/changePass", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employee> changeP(@Valid @RequestBody Employee employee, @Valid String newP, @Valid String oldP) throws Exception {
+		logger.info("> logIn");
+		System.out.println(employee);
+
+			if (emService.changePassword(newP, oldP, employee)){
+				logger.info("success");
+				return new ResponseEntity<Employee>(HttpStatus.OK);
+			}
+		return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);	
+	}
+	
+	@RequestMapping(
+			value = "/api/employees/getlogedin", 
+			method = RequestMethod.GET,  
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employee> logIn() throws Exception {
+		logger.info("> GetlogIn");
+		Employee em =emService.getLogedIn();
+		if (em != null){
+				return new ResponseEntity<Employee>(em, HttpStatus.OK);
+			}
+		
+		return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
+	}
+
 }

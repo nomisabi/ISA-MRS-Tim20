@@ -63,5 +63,24 @@ public class EmployeeServiceImp implements EmployeeService{
 		
 	}
     
+	@Override
+	public boolean changePassword(String newP, String oldP, Employee em) {
+		logger.info("> changePass ", em);
+		boolean val = emRepository.changePassword(newP, oldP, em);
+		logger.info("< changePass :{}", em);
+		return val;
+	}
+	
+	@Override
+	public Employee getLogedIn() {
+		return emRepository.getLogedIn();
+	}
+
+	@Override
+	public void setLogedIn(Employee em) {
+		emRepository.setLogedIn( em);
+		
+	}
+
     
 }
