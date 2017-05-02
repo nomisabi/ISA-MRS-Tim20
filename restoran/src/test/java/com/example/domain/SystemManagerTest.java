@@ -14,7 +14,7 @@ public class SystemManagerTest {
 	
 	@Before
 	public void setUp(){
-		sm = new System_manager("proba@proba.com","proba");
+		sm = new System_manager("proba@proba.com","proba", "firstname", "lastname");
 	}
 	
 	@Test

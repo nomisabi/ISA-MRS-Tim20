@@ -1,9 +1,14 @@
 
 angular.module('myApp').controller('AllUserController',['$scope','$http','$window',function($scope,$http, $window) {
+	function init(){
+		$http.get("http://localhost:8080/api/users/sysman");
+		//$.backstretch("assets/img/login-bg.jpg", {speed: 500});
+	}
 	
-	//$.backstretch("assets/img/login-bg.jpg", {speed: 500});
+	init();
+
 	
-	$scope.login= function(){
+	$scope.login= function(){		
 		$http.post("http://localhost:8080/api/users/login", {"email":$scope.mail,"password":$scope.pass }).then(
 						function(data){
 							$scope.type= data.data.type;

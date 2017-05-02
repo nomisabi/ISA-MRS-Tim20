@@ -10,21 +10,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name="userT")
 public class User implements Serializable{
 	
-    private static final long serialVersionUID = -3009157732242241606L;
+    private static final long serialVersionUID =  1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(name = "email")
+    @Column(nullable = false)
 	private String email;
     
-    @Column(name = "password")
+    @Column(nullable = false)
 	private String password;
     
-    @Column(name = "type")
+    @Column
 	private TypeOfUser type;
 	
 	public User(String email, String password, TypeOfUser type) {

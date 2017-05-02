@@ -2,15 +2,16 @@
 
 angular.module('myApp').controller('SystemManagerController',['$scope','$http','$window','SystemManagerFactory',function($scope, $http,$window,$ocLazyLoad, SystemManagerFactory) {
 	
-    //$scope.sm={email:'myaddress',password:'mypassword'};
 	$scope.managers=[];
 	$scope.page="profile";
 	function init() {
 
-		$http.get("http://localhost:8080/api/users/getlogedin").success(
-		//$http.get("http://localhost:8080/api/sysman/getlogedin").success(
+		$http.get("http://localhost:8080/api/users/login").success(
 				function(data){
-					$scope.sm=data;
+					$http.post("http://localhost:8080/api/sysman/login",data).success(
+							function(data){
+								$scope.sm=data;
+							});
 				});
 	    $scope.managers.push($http.get("http://localhost:8080/api/managers"));
 	    
