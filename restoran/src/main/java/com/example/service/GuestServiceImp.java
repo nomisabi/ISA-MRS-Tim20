@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.example.domain.Guest;
+import com.example.domain.TypeOfUser;
+import com.example.domain.User;
 import com.example.respository.GuestRepository;
+import com.example.respository.UserRepository;
 
 
 
@@ -17,6 +20,8 @@ public class GuestServiceImp implements GuestService {
 
 	@Autowired
 	private GuestRepository guestRepository;
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Override
 	public Guest getGuest(Long id){
@@ -26,6 +31,8 @@ public class GuestServiceImp implements GuestService {
 	@Override
 	public Guest addGuest(Guest guest){
 		Assert.notNull(guest, "Guest could not be null.");
+		User u= new User(guest.getEmail(), guest.getPassword(), TypeOfUser.GUEST);
+		userRepository.save(u);
 		return guestRepository.save(guest);
 	}
 	

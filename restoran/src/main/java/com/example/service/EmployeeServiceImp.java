@@ -13,7 +13,6 @@ import com.example.domain.Manager;
 import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
 import com.example.respository.EmployeeRepository;
-import com.example.respository.SystemManRepository;
 import com.example.respository.SystemManagerRepository;
 
 @Service

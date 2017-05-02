@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.example.domain.Manager;
 import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
-import com.example.respository.SystemManRepository;
 import com.example.respository.SystemManagerRepository;
 
 @Service
@@ -19,9 +18,9 @@ public class SystemManagerServiceImp implements SystemManagerService{
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Autowired
-    private SystemManRepository smRepository;
+    private SystemManagerRepository smRepository;
     
-    @Override
+   /* @Override
 	public System_manager signUP(System_manager sm){
         logger.info("> sing up");
         return smRepository.signUP(sm);
@@ -43,12 +42,12 @@ public class SystemManagerServiceImp implements SystemManagerService{
         logger.info("< login");
 		return value;
 	}
-
+*/
 	
 	@Override
 	public Collection<System_manager> findAll() {
 		logger.info("> findAll");
-		Collection<System_manager> manager = smRepository.findAll();
+		Collection<System_manager> manager = (Collection<System_manager>) smRepository.findAll();
 		logger.info("< findAll");
 		return manager;
 	}
@@ -60,7 +59,7 @@ public class SystemManagerServiceImp implements SystemManagerService{
 		logger.info("< findOne id:{}", id);
 		return manager;
 	}
-	
+	/*
 	@Override
 	public System_manager findByEmail(String email){
 		logger.info("> findByEmail email:{}", email);
@@ -69,13 +68,17 @@ public class SystemManagerServiceImp implements SystemManagerService{
 		return manager;
 		
 	}
-
+*/
 	@Override
-	public boolean isSysManagerExist(System_manager m){
-		return smRepository.isSysManagerExist(m);
+	public boolean isSysManagerExist(Long id){
+		return smRepository.exists(id);
 		
 	}
-	
+	@Override
+	public System_manager addSysMan(System_manager sm){
+		return smRepository.save(sm);		
+	}
+	/*
 	@Override
 	public void setLogedIn(System_manager sm){
 		smRepository.setLogedIn(sm);
@@ -85,5 +88,5 @@ public class SystemManagerServiceImp implements SystemManagerService{
 	public System_manager getLogedIn(){
 		return smRepository.getLogedIn();
 	}
-	
+	*/
 }
