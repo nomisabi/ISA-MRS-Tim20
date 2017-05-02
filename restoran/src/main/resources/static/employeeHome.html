@@ -1,0 +1,155 @@
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+      <header class="header black-bg">
+              <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+              </div>
+            <!--logo start-->
+            <a href="/#/guest/index/" class="logo"><b>CUPCAKE</b></a>
+            <!--logo end-->
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+                <ul class="nav top-menu">
+                    <!-- settings start -->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-tasks"></i>
+                            <span class="badge bg-theme">{{notifications.length}}</span>
+                        </a>
+                        <ul class="dropdown-menu extended tasks-bar">
+                            <div class="notify-arrow notify-arrow-green"></div>
+                            <li>
+                                <p class="green">You have {{notifications.length}} notifications</p>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    <!-- settings end -->
+                    
+                </ul>
+                <!--  notification end -->
+            </div>
+            <div class="top-menu">
+            	<ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="/#/">Logout</a></li>
+            	</ul>
+            </div>
+        </header>
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+              
+              	  <p class="centered"><a href="/#/guest/index/"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+              	  	
+                  	
+                  <li class="sub-menu" ng-click="changeToProfile()">
+                          <a href="javascript:;" >
+                          <i class="fa fa-pencil"></i>
+                          <span>Profile</span>
+                          </a>
+                          	
+                     
+                  </li>
+
+               
+               
+
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper site-min-height">
+          	<div class="col">
+                  <div class="col-lg-9 bc" ng-switch="page">
+					<div ng-switch-when="profile">
+					<table  class="prof">
+						<tr>
+		        			<td>Email:</td>
+		           			<td><input type="text" class="form-control" ng-model="employee.email"></td>
+		           		</tr> 
+		           		<tr>
+		           			<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>First Name:</td>
+		           			<td><input type="text" class="form-control" ng-model="employee.firstName"></td>
+		                	<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>Last Name:</td>
+		           			<td><input type="text" class="form-control" ng-model="employee.lastName"></td>
+		                	<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>Shoe size:</td>
+		           			<td><input type="text" class="form-control" ng-model="employee.numbS"></td>
+		                	<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>Clothes size:</td>
+		           			<td><input type="text" class="form-control" ng-model="employee.numbC"></td>
+		                	<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>Role:</td>
+		           			<td><input type="text" class="form-control" ng-model="employee.type"></td>
+		                	<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>&nbsp;
+		           			</td>
+		           			<td><button class="btn btn-theme" type="button" ng-click="save()">Save</button>
+		           			</td>
+		           		</tr>
+		            </table>	
+		            
+		            
+		            
+		           	</div>
+						
+					
+					
+                     
+				
+					</div>
+					
+                  </div><!-- /col-lg-9 END SECTION MIDDLE -->
+			
+		</section>
+      </section><!-- /MAIN CONTENT -->
+
+    
+  </section>
+
+

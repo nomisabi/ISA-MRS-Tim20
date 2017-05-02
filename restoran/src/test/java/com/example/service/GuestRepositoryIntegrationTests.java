@@ -8,15 +8,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-/*
+
 import com.example.domain.Guest;
 import com.example.respository.GuestRepository;
 
-*/
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class GuestRepositoryIntegrationTests {
-	/*
+	
 	@Autowired
 	GuestRepository repository;
 	
@@ -41,5 +41,5 @@ public class GuestRepositoryIntegrationTests {
 		assertEquals("Nena", updateGuest.getFirstName());
 		assertEquals("Djeric", updateGuest.getLastName());
 		assertEquals("address", updateGuest.getAddress());
-	}*/
+	}
 }
