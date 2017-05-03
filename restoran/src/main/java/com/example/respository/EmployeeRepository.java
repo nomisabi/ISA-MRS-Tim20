@@ -18,4 +18,10 @@ public interface EmployeeRepository {
 	Employee findByEmail(String email);
 
 	boolean isEmployeeExist(Employee em);
+	
+	boolean changePassword(String newP, String oldP, Employee em);
+	
+	void setLogedIn(Employee em);
+	
+	Employee getLogedIn();
 }

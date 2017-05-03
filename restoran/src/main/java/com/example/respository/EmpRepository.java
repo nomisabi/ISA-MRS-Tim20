@@ -55,6 +55,27 @@ public class EmpRepository implements EmployeeRepository {
 		return findByEmail(em.getEmail()) != null;
 	}
 
-	
+	@Override
+	public boolean changePassword(String newP, String oldP, Employee em) {
+		if (employees.containsKey(em.getEmail())){
+			if (employees.get(em.getEmail()).getPassword().equals(oldP)){
+				employees.get(em.getEmail()).setPassword(newP);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void setLogedIn(Employee em) {
+		this.emp=em;
+		
+	}
+
+	@Override
+	public Employee getLogedIn() {
+		return this.emp;
+	}
+
 	
 }

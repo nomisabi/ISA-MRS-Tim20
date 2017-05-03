@@ -50,7 +50,31 @@ public class GuestServiceImp implements GuestService {
 	public Guest updateGuest(Long id,Guest guest){     //zavrsiti
 		Assert.notNull(guest.getEmail(), "Email could not be null.");
 		Assert.notNull(guest.getPassword(),"Password could not be null." );
-		guestRepository.delete(id);
-		return guestRepository.save(guest);
+		int id1 = guestRepository.updateGuest(id, guest.getEmail(), guest.getFirstName(), guest.getLastName(),guest.getAddress());
+		System.out.println(id1);
+		return guestRepository.findOne(id);
+		
+		
+	}
+	
+	@Override
+	public Guest sendFriendRequest(Guest guest, Guest friend){
+		//add guest to friend list requests
+		return guest;
+	}
+	
+	@Override
+	public Guest addFriend(Guest guest, Guest friend){
+		//add friend to guest list of friends
+		//add guest to friend list of friends
+		//delete friend from guest list requests
+		return guest;
+	}
+	
+	@Override
+	public Guest deleteFriend(Guest guest, Guest friend){
+		//delete friend from guest list friends
+		//delete guest from friend list friends
+		return guest;
 	}
 }

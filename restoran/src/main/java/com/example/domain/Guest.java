@@ -30,6 +30,8 @@ public class Guest implements Serializable {
 	private String firstName;
 	@Column
 	private String lastName;
+	@Column
+	private String address;
 	@ManyToMany
 	private Set<Guest> friends;
 	@OneToMany
@@ -92,6 +94,14 @@ public class Guest implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public HashMap<Long, Restaurant> getVisited() {

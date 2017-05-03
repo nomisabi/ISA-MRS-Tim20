@@ -21,7 +21,7 @@ angular.module('myApp').controller('AllUserController',['$scope','$http','$windo
 							}else if ($scope.type=="SUPPLIER"){
 								$window.location.href = '#/supp/index';
 							}else if ($scope.type=="EMPLOYEE"){
-								$window.location.href = '#/emplyee/index';
+								$window.location.href = '#/employee/index';
 							}else{
 								alert("Error in login");
 							}
