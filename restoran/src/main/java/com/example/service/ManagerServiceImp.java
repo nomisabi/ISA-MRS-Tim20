@@ -12,7 +12,7 @@ import com.example.domain.Manager;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.System_manager;
-import com.example.respository.ManRepository;
+import com.example.respository.ManagerRepository;
 import com.example.respository.SystemManagerRepository;
 
 @Service
@@ -21,16 +21,16 @@ public class ManagerServiceImp implements ManagerService{
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Autowired
-    private ManRepository mRepository;
+    private ManagerRepository mRepository;
  
     @Override
-	public void createManager(Manager m) {
+	public Manager createManager(Manager m) {
 		logger.info("> create manager");
-        mRepository.createManager(m);
-        logger.info("< create manager");
+        return mRepository.save(m);
+       // logger.info("< create manager");
 	}
 
-	@Override
+	/*@Override
 	public Employee createEmployee(Employee e) {
 		
 		logger.info("> create employee");
@@ -46,11 +46,11 @@ public class ManagerServiceImp implements ManagerService{
         logger.info("< create supplier");
 		return ret;
 	}
-	
+	*/
 	@Override
 	public Collection<Manager> findAll() {
 		logger.info("> findAll");
-		Collection<Manager> manager = mRepository.findAll();
+		Collection<Manager> manager = (Collection<Manager>) mRepository.findAll();
 		logger.info("< findAll");
 		return manager;
 	}
@@ -62,7 +62,7 @@ public class ManagerServiceImp implements ManagerService{
 		logger.info("< findOne id:{}", id);
 		return manager;
 	}
-	
+	/*
 	@Override
 	public Manager findByEmail(String email){
 		logger.info("> findByEmail email:{}", email);
@@ -71,13 +71,13 @@ public class ManagerServiceImp implements ManagerService{
 		return manager;
 		
 	}
-
+*/
 	@Override
-	public boolean isManagerExist(Manager m){
-		return mRepository.isManagerExist(m);
+	public boolean isManagerExist(Long id){
+		return mRepository.exists(id);
 		
 	}
-
+/*
 	@Override
 	public boolean changePassword(String newP, String oldP, Manager m) {
 		logger.info("> changePass ", m);
@@ -95,6 +95,12 @@ public class ManagerServiceImp implements ManagerService{
 	public void setLogedIn(Manager m) {
 		mRepository.setLogedIn( m);
 		
+	}*/
+
+	@Override
+	public Manager update(Manager old, Manager man) {
+		mRepository.delete(old);
+		return mRepository.save(man);
 	}
 
 }

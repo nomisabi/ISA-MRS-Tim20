@@ -13,16 +13,23 @@ public interface SystemManagerService {
 	//Manager createManager(Manager sm);
 	
 	//Boolean login(System_manager m);
+	//System_manager findByEmail(String email);
 	
 	Collection<System_manager> findAll();
 
 	System_manager findOne(Long id);
 
-	//System_manager findByEmail(String email);
-
 	boolean isSysManagerExist(Long id);
 	
 	System_manager addSysMan(System_manager sm);
+	
+	Collection<Restaurant> findAllRest();
+
+	Restaurant findOneRest(Long id);
+
+	boolean isRestaurantExist(Long id);
+	
+	Restaurant addRestaurant(Restaurant r, Manager old, Manager new_m);
 	
 	//System_manager updateSysMan(Long id);
 	

@@ -2,13 +2,16 @@ package com.example.respository;
 
 import java.util.Collection;
 
+import org.springframework.data.repository.CrudRepository;
+
 import com.example.domain.Employee;
 import com.example.domain.Manager;
 import com.example.domain.Supplier;
+import com.example.domain.User;
 
-public interface ManagerRepository {
+public interface ManagerRepository extends CrudRepository<Manager, Long>{
 
-	void createManager(Manager m);
+	/*void createManager(Manager m);
 	
 	Employee createEmployee(Employee e);
 	
@@ -26,5 +29,5 @@ public interface ManagerRepository {
 	
 	void setLogedIn(Manager m);
 	
-	Manager getLogedIn();
+	Manager getLogedIn();*/
 }

@@ -1,8 +1,7 @@
 'use strict';
 
-angular.module('myApp').controller('SystemManagerController',['$scope','$http','$window','SystemManagerFactory',function($scope, $http,$window,$ocLazyLoad, SystemManagerFactory) {
-	
-	$scope.managers=[];
+angular.module('myApp').controller('SystemManagerController',['$scope','$http','$window','$route','SystemManagerFactory',function($scope, $http,$window,$ocLazyLoad,$route, SystemManagerFactory) {
+
 	$scope.page="profile";
 	function init() {
 
@@ -13,7 +12,18 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 								$scope.sm=data;
 							});
 				});
-	    $scope.managers.push($http.get("http://localhost:8080/api/managers"));
+	    $http.get("http://localhost:8080/api/manager").then(
+	    		function(data){
+	    			$scope.managers=data.data;
+	    		});
+	    $http.get("http://localhost:8080/api/users").then(
+	    		function(data){
+	    			$scope.users=data.data;
+	    		});
+	    $http.get("http://localhost:8080/api/sysman/restaurants").then(
+	    		function(data){
+	    			$scope.restaurants=data.data;
+	    		});
 	    
 	}
 	
@@ -41,7 +51,6 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	});
 */
 
-    $scope.manager;
     
     $scope.restaurants=[];
     $scope.proba="proba"
@@ -50,6 +59,43 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	$scope.manager.restaurant=null;
     	$http.post("http://localhost:8080/api/sysman/createManager",JSON.stringify($scope.manager))
         .then(function (response) { if (response.data!="") $scope.managers.push(response.data); else alert("this email address in in our system"); });    	
+    }
+    
+    
+    $scope.new_manager= function(){
+    	$scope.new_man.password="pass";
+    	//$scope.new_man.restaurant=null;
+    	$scope.new_man.active=false;
+    	//alert("new man "+JSON.stringify($scope.new_man));
+    	$http.post("http://localhost:8080/api/manager/addManager",JSON.stringify($scope.new_man))
+    		.error(function(data){
+					alert('This email address is exist.');
+					return;
+				}).then(function(data){
+					alert('edef');
+			    	$window.location.reload();
+					$scope.page="manager";   
+				});
+    		
+    }	
+    
+    $scope.new_restaurant= function(){
+    	
+    	//alert("new man "+JSON.stringify($scope.new_man));
+    	
+    	//$scope.new_rest.manager= [$scope.new_rest_manager];
+    	alert(JSON.stringify($scope.new_rest));
+    	$http.post("http://localhost:8080/api/sysman/addRest",{"r":$scope.new_rest, "m":$scope.new_rest_manager})
+    		.error(function(data){
+					alert('This restaurant name is exist.');
+					return;
+			}).success(function(data){
+					//alert("proba");
+					$window.location.reload();
+					$scope.page="restaurant";  
+				});
+    	
+    	 	
     }
     
     $scope.login= function(){
@@ -106,6 +152,6 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	$scope.page="users";    	
     }
     
-    	
+   
 
 }]);

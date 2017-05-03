@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.example.domain.Manager;
 import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
+import com.example.respository.ManagerRepository;
+import com.example.respository.RestaurantRepository;
 import com.example.respository.SystemManagerRepository;
 
 @Service
@@ -18,7 +20,13 @@ public class SystemManagerServiceImp implements SystemManagerService{
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Autowired
+    private ManagerRepository mRepository;
+    
+    @Autowired
     private SystemManagerRepository smRepository;
+    
+    @Autowired
+    private RestaurantRepository rRepository;
     
    /* @Override
 	public System_manager signUP(System_manager sm){
@@ -77,6 +85,30 @@ public class SystemManagerServiceImp implements SystemManagerService{
 	@Override
 	public System_manager addSysMan(System_manager sm){
 		return smRepository.save(sm);		
+	}
+	
+	@Override
+	public Collection<Restaurant> findAllRest(){
+		return (Collection<Restaurant>) rRepository.findAll();
+	}
+
+	@Override
+	public Restaurant findOneRest(Long id){
+		return rRepository.findOne(id);	
+	}
+
+	@Override
+	public boolean isRestaurantExist(Long id){
+		return rRepository.exists(id);	
+	}
+	
+	@Override
+	public Restaurant addRestaurant(Restaurant r, Manager old, Manager new_m){
+		//mRepository.delete(old);
+		Restaurant res= rRepository.save(r);
+		
+		//mRepository.save(new_m);
+		return res;	
 	}
 	/*
 	@Override

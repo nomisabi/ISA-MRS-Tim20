@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -26,6 +28,8 @@ import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
 import com.example.domain.TypeOfUser;
 import com.example.domain.User;
+import com.example.domain.DTOs.ManagerRestaurant;
+import com.example.service.ManagerService;
 import com.example.service.SystemManagerService;
 import com.example.service.UserService;
 
@@ -36,6 +40,8 @@ public class SystemManagerContoller {
 
 	@Autowired
 	private SystemManagerService smService;
+	@Autowired
+	private ManagerService mService;
 	
 
 	@RequestMapping(
@@ -129,5 +135,66 @@ public class SystemManagerContoller {
 		return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
 	}*/
 	
+	@RequestMapping(
+			value = "/api/sysman/restaurants", 
+			method = RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Restaurant>> getRestaurants() {
+		logger.info("> getRestaurants");
+
+		/**/
+		
+		Collection<Restaurant> r = smService.findAllRest();
+		if (r.isEmpty()) {
+			logger.info("< empyt");
+			return new ResponseEntity<Collection<Restaurant>>(HttpStatus.NO_CONTENT);
+		}
+		
+		logger.info("< getRestaurants");
+		return new ResponseEntity<Collection<Restaurant>>(r, HttpStatus.OK);
+	}
+
+	@RequestMapping(
+			value = "/api/sysman/restaurant/{id}", 
+			method = RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Restaurant> getRest(@PathVariable("id") Long id) {
+		logger.info("> getSystem_manager id:{}", id);
+		Restaurant s = smService.findOneRest(id);
+		if (s == null) {
+			return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
+		}
+		logger.info("< getSystem_manager id:{}", id);
+		return new ResponseEntity<Restaurant>(s, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(
+			value = "/api/sysman/addRest", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Restaurant> addRest(@Valid @RequestBody ManagerRestaurant rm) throws Exception {
+		logger.info("\n> $$$$ createRest :"+rm.toString());
+		Collection<Restaurant> rests = smService.findAllRest();
+		for (Restaurant res: rests){
+			if (rm.getR().getName().equals(res.getName())){
+				return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
+			}
+		}
+		Manager old= rm.getM();
+		Set<Manager> m =  new HashSet<Manager>();
+		
+		m.add(rm.getM());
+		
+		rm.getR().setManager(m);
+		Restaurant rest= smService.addRestaurant(rm.getR(), old, rm.getM());
+		
+		if (rest==null)
+			return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Restaurant>(rm.getR(),HttpStatus.OK);
+	}
+	
+
 	
 }

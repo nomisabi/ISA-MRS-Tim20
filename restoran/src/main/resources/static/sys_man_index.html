@@ -1,3 +1,4 @@
+  <div ng-controller="SystemManagerController">
   <section id="container" >
       <!-- **********************************************************************************************************************************************************
       TOP BAR CONTENT & NOTIFICATIONS
@@ -8,7 +9,7 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>CUPCAKE</b></a>
+            <a href="/sysman/index" class="logo"><b>CUPCAKE</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
@@ -17,142 +18,22 @@
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                             <i class="fa fa-tasks"></i>
-                            <span class="badge bg-theme">4</span>
+                            <span class="badge bg-theme">0</span>
                         </a>
                         <ul class="dropdown-menu extended tasks-bar">
-                            <div class="notify-arrow notify-arrow-green"></div>
-                            <li>
-                                <p class="green">You have 4 pending tasks</p>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <div class="task-info">
-                                        <div class="desc">DashGum Admin Panel</div>
-                                        <div class="percent">40%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <div class="task-info">
-                                        <div class="desc">Database Update</div>
-                                        <div class="percent">60%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <span class="sr-only">60% Complete (warning)</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <div class="task-info">
-                                        <div class="desc">Product Development</div>
-                                        <div class="percent">80%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                            <span class="sr-only">80% Complete</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <div class="task-info">
-                                        <div class="desc">Payments Sent</div>
-                                        <div class="percent">70%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%">
-                                            <span class="sr-only">70% Complete (Important)</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="external">
-                                <a href="#">See All Tasks</a>
-                            </li>
+                          <!--    <div class="notify-arrow notify-arrow-green"></div> -->
+                           
+                            
                         </ul>
                     </li>
-                    <!-- settings end -->
-                    <!-- inbox dropdown start-->
-                    <li id="header_inbox_bar" class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="badge bg-theme">5</span>
-                        </a>
-                        <ul class="dropdown-menu extended inbox">
-                            <div class="notify-arrow notify-arrow-green"></div>
-                            <li>
-                                <p class="green">You have 5 new messages</p>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <span class="photo"><img alt="avatar" src="assets/img/ui-zac.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Zac Snider</span>
-                                    <span class="time">Just now</span>
-                                    </span>
-                                    <span class="message">
-                                        Hi mate, how is everything?
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <span class="photo"><img alt="avatar" src="assets/img/ui-divya.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Divya Manian</span>
-                                    <span class="time">40 mins.</span>
-                                    </span>
-                                    <span class="message">
-                                     Hi, I need your help with this.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <span class="photo"><img alt="avatar" src="assets/img/ui-danro.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Dan Rogers</span>
-                                    <span class="time">2 hrs.</span>
-                                    </span>
-                                    <span class="message">
-                                        Love your new Dashboard.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <span class="photo"><img alt="avatar" src="assets/img/ui-sherman.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Dj Sherman</span>
-                                    <span class="time">4 hrs.</span>
-                                    </span>
-                                    <span class="message">
-                                        Please, answer asap.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="index.html#">See all messages</a>
-                            </li>
-                        </ul>
-                    </li>
+                   
                     <!-- inbox dropdown end -->
                 </ul>
                 <!--  notification end -->
             </div>
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="login.html">Logout</a></li>
+                    <li><a class="logout" href="/#/">Logout</a></li>
             	</ul>
             </div>
         </header>
@@ -289,16 +170,176 @@
 						
 					
 					<div ng-switch-when="manager">
-						Managers:
-						
-		           	</div>	
-					<div ng-switch-when="restaurant">
-						Restaurants:
+						<h3>Managers</h3>
+						<br>
+						<table  class="prof">
+							<tr>
+	                     		<th>Email</th>
+	                     		<th>Password</th>
+	                     		<th>First name</th>
+	                     		<th>Last name</th>
+	                     		<th>Active</th>
+                     		</tr>
+								<tr ng-repeat="m in managers">
+									
+									<td >{{m.email}}</td>
+									<td >{{m.password}}</td>
+									<td >{{m.firstName}}</td>
+									<td >{{m.lastName}}</td>
+									<td >{{m.active}}</td>
+								</tr>
+						</table>
+						<br>
+						<br>
+						<a class="" ng-click="changeToCreateManager()">
+		                    	Create a new manager
+		                </a>
 						
 		           	</div>
+		           	<div ng-switch-when="new_manager">
+                     	
+						<h3>Creating new manager</h3>
+						<table  class="prof" ng-controller="SystemManagerController">
+                     		
+								<tr >
+									<td>Email:</td>
+									<td><input type="email" ng-model="new_man.email" class="form-control"  autofocus></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								<tr >
+									<td>First name:</td>
+									<td><input type="text" class="form-control" ng-model="new_man.firstName"></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								<tr >
+									<td>Last name:</td>
+									<td><input type="text" class="form-control"  ng-model="new_man.lastName"></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								
+								<tr >
+									<td>&nbsp;</td>
+									<td><button class="btn btn-theme" type="button" ng-click="new_manager()">Create new manager</button></td>
+								</tr>
+						</table>
+		           	</div>	
+					<div ng-switch-when="restaurant">
+						<h3>Restaurants</h3>
+						<br>
+						<table class="prof">
+							<tr>
+	                     		<th>Name</th>
+	                     		<th>Location</th>
+	                     		<th>Managers</th>
+	                     		<th>&nbsp;</th>
+                     		</tr>
+								<tr ng-repeat="r in restaurants" ng-switch="r.manager[0]">
+									
+									<td >{{r.name}}</td>
+									<td >{{r.location}}</td>
+									<td ng-switch-when="" >null</td>
+									
+									<td ng-switch-default>{{r.manager[0].firstName}} {{r.manager[0].lastName}}</td>
+									<td><button> Add manager</button> </td>
+									
+								</tr>
+						</table>
+						<br>
+						<br>
+						<a class="" ng-click="changeToCreateRestaurant()">
+		                    	Create a new restaurant
+		                </a>
+		           	</div>
+		           		<div ng-switch-when="new_restaurant">
+                     	
+						<h3>Creating a new restaurant</h3>
+						<table  class="prof" ng-controller="SystemManagerController">
+                     		
+								<tr >
+									<td>Name:</td>
+									<td><input type="text" ng-model="new_rest.name" class="form-control"  autofocus></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								<tr >
+									<td>Location:</td>
+									<td><input type="text" class="form-control" ng-model="new_rest.location"></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								<tr >
+									<td>Last name:</td>
+									<td> 
+										
+										<select ng-model="new_rest_manager" ng-options=" (m.firstName+ ' '+ m.lastName)  for m in managers">
+										
+      										<option value="">-- choose manager --</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								
+								<tr >
+									<td>&nbsp;</td>
+									<td><button class="btn btn-theme" type="button" ng-click="new_restaurant()">Create new restaurant</button></td>
+								</tr>
+						</table>
+		           	</div>
                      <div ng-switch-when="users">
-						Users:
-						
+                     	
+						<h3>Users</h3>
+						<table>
+							<tr>
+	                     		<th>Email</th>
+	                     		<th>Password</th>
+	                     		<th>Type</th>
+                     		</tr>
+								<tr ng-repeat="u in users">
+									<td>{{u.email}}</td>
+									<td>{{u.password}}</td>
+									<td>{{u.type}}</td>
+								</tr>
+						</table>
 		           	</div>
 				
 					</div>
@@ -309,35 +350,13 @@
       <!-- **********************************************************************************************************************************************************
       RIGHT SIDEBAR CONTENT
       *********************************************************************************************************************************************************** -->                  
-               <!--  -->  
-                  <div class="col-lg-3 ds">
-                    <!--COMPLETED ACTIONS DONUTS CHART-->
-						<h3>NOTIFICATIONS</h3>
-                                        
-                      <!-- First Action -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                      	</div>
-                      	<div class="details">
-                      		<p><muted>2 Minutes Ago</muted><br/>
-                      		   <a href="#">James Brown</a> subscribed to your newsletter.<br/>
-                      		</p>
-                      	</div>
-                      </div>
-                      
-
-                      
-
-                      
-                  </div><!-- /col-lg-3 -->
                   
                     
-              </div><! --/row -->
+  
           </section>
       </section>
 
     
   </section>
 
-
+</div>

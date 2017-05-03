@@ -51,6 +51,12 @@ public class UserServiceImp implements UserService{
 		//return null;
 	}
 
+	@Override
+	public User changePass(User old, User pass) {
+		userRepository.delete(old);
+		return userRepository.save(pass);
+	}
+
 
 	
 }

@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -18,7 +22,11 @@ import org.slf4j.LoggerFactory;
 import com.example.domain.Employee;
 import com.example.domain.Manager;
 import com.example.domain.Supplier;
+import com.example.domain.System_manager;
+import com.example.domain.TypeOfUser;
+import com.example.domain.User;
 import com.example.service.ManagerService;
+import com.example.service.UserService;
 
 @RestController
 public class ManagerController {
@@ -27,6 +35,8 @@ public class ManagerController {
 
 	@Autowired
 	private ManagerService mService;
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(
 			value = "/api/manager/{id}", 
@@ -42,22 +52,65 @@ public class ManagerController {
 		return new ResponseEntity<Manager>(manager, HttpStatus.OK);
 	}
 
+
+	@RequestMapping(
+			value = "/api/manager", 
+			method = RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Manager>> getMan() {
+		logger.info("> getSysMan");
+
+		/**/
+		
+		Collection<Manager> sm = mService.findAll();
+		if (sm.isEmpty()) {
+			logger.info("< empyt");
+			return new ResponseEntity<Collection<Manager>>(HttpStatus.NO_CONTENT);
+		}
+		
+		logger.info("< getSysMan");
+		return new ResponseEntity<Collection<Manager>>(sm, HttpStatus.OK);
+	}
 	
 	@RequestMapping(value = "/api/manager/addManager", 
 			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Manager> createManager(@Valid @RequestBody Manager man) throws Exception {
-		logger.info("> addManager: "+man.getEmail()+","+ man.getFirstName()+","+ man.getRestaurant().toString());
-		Manager m = mService.findByEmail(man.getEmail());
-		if (m == null) {
-			return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);
+		logger.info("> addManager");
+		Collection<User> users = userService.findAll();
+		if (!users.isEmpty()) {
+			for (User u:users){
+				if (u.getEmail().equals(man.getEmail()))
+					return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);
+			}	
 		}
-		mService.createManager(m);
+		Manager manager = mService.createManager(man);
+		User u= new User(manager.getEmail(), manager.getPassword(), TypeOfUser.MANAGER);
+		userService.addUser(u);
 		logger.info("< addManager");		
-		return new ResponseEntity<Manager>(m, HttpStatus.OK);
+		return new ResponseEntity<Manager>(manager, HttpStatus.OK);
+	}
+
+	
+	@RequestMapping(
+			value = "/api/manager/login", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Manager> logIn(@Valid @RequestBody User u) throws Exception {
+		logger.info("> logIn");
+		
+		Collection<Manager> sm= mService.findAll();
+		for (Manager man:sm)
+			if(u.getEmail().equals(man.getEmail())){
+				logger.info("< logIn");
+				return new ResponseEntity<Manager>(man, HttpStatus.OK);
+			}
+		return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);
 	}
 	
-	@RequestMapping(value = "/api/manager/createSupplier", 
+/*	@RequestMapping(value = "/api/manager/createSupplier", 
 	method = RequestMethod.POST, 
 	produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Supplier>  createSupplier(@Valid @RequestBody Supplier s) throws Exception {
@@ -97,25 +150,31 @@ public class ManagerController {
 		}
 		
 		return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);	
-	}
+	}*/
 	
 	@RequestMapping(
 			value = "/api/manager/changePass", 
 			method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Manager> changeP(@Valid @RequestBody Manager man, @Valid String newP, @Valid String oldP) throws Exception {
+	public ResponseEntity<Manager> changeP(@Valid @RequestBody Manager man) throws Exception {
 		logger.info("> logIn");
 		System.out.println(man);
-
-			if (mService.changePassword(newP, oldP, man)){
-				logger.info("success");
-				return new ResponseEntity<Manager>(HttpStatus.OK);
-			}
-		return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);	
+		man.setActive(true);
+		Manager old= mService.findOne(man.getId());
+		mService.update(old, man);
+		Collection<User> users= userService.findAll();
+		for (User u:users){
+			if (u.getEmail().equals(man.getEmail())){
+				User new_user= u;
+				new_user.setPassword(man.getPassword());
+				userService.changePass(u, new_user);
+			}		
+		}
+		return new ResponseEntity<Manager>(HttpStatus.OK);
 	}
 	
-	
+	/*
 	@RequestMapping(
 			value = "/api/manager/getlogedin", 
 			method = RequestMethod.GET,  
@@ -130,7 +189,7 @@ public class ManagerController {
 		return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);
 	}
 
-
+*/
 	
 	
 }

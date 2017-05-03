@@ -11,23 +11,25 @@ import com.example.domain.System_manager;
 
 public interface ManagerService {
 	
-	void createManager(Manager m);
+	Manager createManager(Manager m);
 	
-	Employee createEmployee(Employee e);
+	//Employee createEmployee(Employee e);
 
-	Supplier createSupplier(Supplier s);
+	//Supplier createSupplier(Supplier s);
 	
 	Collection<Manager> findAll();
 
 	Manager findOne(Long id);
-
-	Manager findByEmail(String email);
-
-	boolean isManagerExist(Manager man);
 	
-	boolean changePassword(String newP, String oldP, Manager m);
+	Manager update(Manager old, Manager man);
 
-	Manager getLogedIn();
-	void setLogedIn(Manager m);
+	//Manager findByEmail(String email);
+
+	boolean isManagerExist(Long id);
+	
+	//boolean changePassword(String newP, String oldP, Manager m);
+
+	//Manager getLogedIn();
+	//void setLogedIn(Manager m);
 
 }

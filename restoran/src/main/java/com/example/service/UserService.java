@@ -13,5 +13,7 @@ public interface UserService {
 	User findByEmail(String email);
 	
 	User addUser(User u);
+	
+	User changePass(User old, User pass);
 
 }
