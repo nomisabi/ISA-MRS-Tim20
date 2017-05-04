@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.example.domain.Friendship;
 import com.example.domain.Guest;
 import com.example.domain.TypeOfUser;
 import com.example.domain.User;
+import com.example.respository.FriendshipRepository;
 import com.example.respository.GuestRepository;
 import com.example.respository.UserRepository;
 
@@ -22,6 +24,8 @@ public class GuestServiceImp implements GuestService {
 	private GuestRepository guestRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private FriendshipRepository friendshipRepository;
 	
 	@Override
 	public Guest getGuest(Long id){
@@ -47,7 +51,7 @@ public class GuestServiceImp implements GuestService {
 	}
 	
 	@Override
-	public Guest updateGuest(Long id,Guest guest){     //zavrsiti
+	public Guest updateGuest(Long id,Guest guest){     
 		Assert.notNull(guest.getEmail(), "Email could not be null.");
 		Assert.notNull(guest.getPassword(),"Password could not be null." );
 		int id1 = guestRepository.updateGuest(id, guest.getEmail(), guest.getFirstName(), guest.getLastName(),guest.getAddress());
@@ -58,17 +62,16 @@ public class GuestServiceImp implements GuestService {
 	}
 	
 	@Override
-	public Guest sendFriendRequest(Guest guest, Guest friend){
-		//add guest to friend list requests
-		return guest;
+	public void sendFriendRequest(Guest guest, Guest friend){
+		Friendship friendship = new Friendship(guest, friend.getId(), false);
+		friendshipRepository.save(friendship);
 	}
 	
 	@Override
-	public Guest addFriend(Guest guest, Guest friend){
-		//add friend to guest list of friends
-		//add guest to friend list of friends
-		//delete friend from guest list requests
-		return guest;
+	public void addFriend(Long id, Guest guest, Guest friend){
+		sendFriendRequest(guest, friend);
+		friendshipRepository.updateFriendship(id, true);
+		
 	}
 	
 	@Override
@@ -76,5 +79,14 @@ public class GuestServiceImp implements GuestService {
 		//delete friend from guest list friends
 		//delete guest from friend list friends
 		return guest;
+	}
+	@Override
+	public Guest findByEmailAndPass(String email,String password){
+		return guestRepository.findByEmailAndPass(email, password);
+	}
+
+	@Override
+	public Collection<Guest> searchGuest(String search){
+		return guestRepository.findByName(search);
 	}
 }
