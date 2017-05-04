@@ -8,7 +8,7 @@
 		      <form ng-submit="ctrl.submit()" name="myForm" class="form-login">
 		        <h2 class="form-login-heading"> Create an account</h2>
 		        <div class="login-wrap">
-		            <input type="email" ng-model="ctrl.user.email" name="email" class="email form-control input-sm" placeholder="Enter your Email" required/>
+		            <input type="email" ng-model="ctrl.user.email" name="email" class="email form-control input-sm" placeholder="Enter your Email" required autofocus/>
 		            <div class="has-error" ng-show="myForm.email.$dirty">
                     	<span ng-show="myForm.email.$error.required">This is a required field</span>
                         <span ng-show="myForm.email.$invalid">This field is invalid </span>

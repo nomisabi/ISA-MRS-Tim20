@@ -6,15 +6,17 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
-
+import org.hibernate.annotations.LazyToOne;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
@@ -22,6 +24,7 @@ public class Restaurant {
 	private static final long serialVersionUID =  1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private long id;
     @Column(nullable = false)
 	private String name;
@@ -30,6 +33,10 @@ public class Restaurant {
     
 	@OneToMany(cascade={CascadeType.MERGE})
 	private Set<Manager> manager;
+	@OneToMany(cascade={CascadeType.MERGE})
+	private Set<Employee> employee;
+	@ManyToMany(cascade={CascadeType.MERGE})
+	private Set<Supplier> suppliers;
 
 	public Restaurant() {
 	}

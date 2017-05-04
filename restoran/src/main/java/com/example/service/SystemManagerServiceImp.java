@@ -103,11 +103,8 @@ public class SystemManagerServiceImp implements SystemManagerService{
 	}
 	
 	@Override
-	public Restaurant addRestaurant(Restaurant r, Manager old, Manager new_m){
-		//mRepository.delete(old);
+	public Restaurant addRestaurant(Restaurant r){
 		Restaurant res= rRepository.save(r);
-		
-		//mRepository.save(new_m);
 		return res;	
 	}
 	/*

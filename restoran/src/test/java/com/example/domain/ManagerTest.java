@@ -15,7 +15,7 @@ public class ManagerTest {
 	
 	@Before
 	public void setUp(){		
-		manager = new Manager("proba@proba.com","proba","ime", "prezime", r);
+		manager = new Manager("proba@proba.com","proba","ime", "prezime");
 	}
 	
 	@Test
@@ -38,12 +38,12 @@ public class ManagerTest {
 	public void testManagerLastName(){
 		assertEquals("prezime", manager.getLastName());
 	}
-	
+/*	
 	@Test
 	public void testManagerRestaurant() {
 		assertEquals(r, manager.getRestaurant());
 
-	}
+	}*/
 	
 	
 	@Test

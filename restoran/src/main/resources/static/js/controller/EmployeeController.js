@@ -1,5 +1,5 @@
 
-angular.module('myApp').controller('EmployeeController',['$scope','$http','$window',function($scope, $http,window) {
+angular.module('myApp').controller('EmployeeController',['$scope','$http','$window',function($scope, $http,$window) {
 	
 
 	function init() {
@@ -25,8 +25,6 @@ angular.module('myApp').controller('EmployeeController',['$scope','$http','$wind
 			
 		}
 				);
-    }
-    
-    	
+    }   	
 
 }]);

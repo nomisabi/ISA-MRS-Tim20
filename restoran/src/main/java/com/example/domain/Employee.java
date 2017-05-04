@@ -35,6 +35,8 @@ public class Employee implements Serializable{
 	private int numbS;
 	@Column
 	private TypeEmployee type;
+	@Column
+	private boolean active;
 	
 	public Employee(){
 		
@@ -103,6 +105,22 @@ public class Employee implements Serializable{
 
 	public void setType(TypeEmployee type) {
 		this.type = type;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	
 	

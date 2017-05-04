@@ -29,7 +29,7 @@ public interface SystemManagerService {
 
 	boolean isRestaurantExist(Long id);
 	
-	Restaurant addRestaurant(Restaurant r, Manager old, Manager new_m);
+	Restaurant addRestaurant(Restaurant r);
 	
 	//System_manager updateSysMan(Long id);
 	

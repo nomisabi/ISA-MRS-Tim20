@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.Manager;
+import com.example.domain.Restaurant;
+import com.example.domain.TypeOfUser;
+import com.example.domain.User;
+import com.example.service.ManagerService;
+import com.example.service.UserService;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
 import java.util.Collection;
@@ -19,14 +26,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.example.domain.Employee;
-import com.example.domain.Manager;
-import com.example.domain.Supplier;
-import com.example.domain.System_manager;
-import com.example.domain.TypeOfUser;
-import com.example.domain.User;
-import com.example.service.ManagerService;
-import com.example.service.UserService;
 
 @RestController
 public class ManagerController {
@@ -67,7 +66,7 @@ public class ManagerController {
 			logger.info("< empyt");
 			return new ResponseEntity<Collection<Manager>>(HttpStatus.NO_CONTENT);
 		}
-		
+	
 		logger.info("< getSysMan");
 		return new ResponseEntity<Collection<Manager>>(sm, HttpStatus.OK);
 	}
@@ -108,6 +107,23 @@ public class ManagerController {
 				return new ResponseEntity<Manager>(man, HttpStatus.OK);
 			}
 		return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);
+	}
+	
+	
+	@RequestMapping(
+			value = "/api/manager/getRest", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Restaurant> getRst(@Valid @RequestBody Manager m) throws Exception {
+		logger.info("> getRest");
+		
+		Restaurant r= mService.findRest(m.getId());
+		if (r!=null){
+			m.setRestaurant(r);
+			return new ResponseEntity<Restaurant>(r, HttpStatus.OK);
+		}
+		return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
 	}
 	
 /*	@RequestMapping(value = "/api/manager/createSupplier", 
@@ -161,8 +177,7 @@ public class ManagerController {
 		logger.info("> logIn");
 		System.out.println(man);
 		man.setActive(true);
-		Manager old= mService.findOne(man.getId());
-		mService.update(old, man);
+		mService.update(man);
 		Collection<User> users= userService.findAll();
 		for (User u:users){
 			if (u.getEmail().equals(man.getEmail())){

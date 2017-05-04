@@ -2,20 +2,33 @@
 angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route', function($scope, $http,window, $route) {
 	
 	$scope.page="non-active";
+	//$scope.rest={"name":"xy","location":"yt"};
 	function init() {
 		$http.get("http://localhost:8080/api/users/login").success(
 				function(data){	
 					$http.post("http://localhost:8080/api/manager/login",data).success(
 							function(data){
 								$scope.manager=data;
+								$http.post("http://localhost:8080/api/manager/getRest",$scope.manager).error(
+										function(data){
+											alert("error");
+									}).success(
+										function(data){
+											//$scope.rest=data;
+											//alert(JSON.stringify(data));
+											$scope.manager.restaurant=data;
+									});
 								if ($scope.manager.active)
-									$scope.page="profile";							
+									$scope.page="profile";
 							});
 				});
+		
+		
 
 	}
 	
     init();
+ 
 
     $scope.changePass=function(){
     	if ($scope.pw1==$scope.pw2){
@@ -52,11 +65,18 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	$scope.changeToSupplier= function(){  
   		if ($scope.manager.active)
     		$scope.page="supplier";   	
-    
+  	}
+  	$scope.changeToCreateSupplier= function(){  
+  		if ($scope.manager.active)
+    		$scope.page="create_supplier";   	
   	}
   	$scope.changeToEmployee= function(){
   		if ($scope.manager.active)
     		$scope.page="employee"; 
+  	}
+  	$scope.changeToCreateEmployee= function(){
+  		if ($scope.manager.active)
+    		$scope.page="create_employee"; 
   	}
   	$scope.changeToSchedule= function(){
   		if ($scope.manager.active)
@@ -69,6 +89,10 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	$scope.changeToScores= function(){
   		if ($scope.manager.active)
     		$scope.page="scores"; 
+  	}
+  	$scope.changeToChangePass= function(){
+  		if ($scope.manager.active)
+    		$scope.page="non-active"; 
   	}
 
 }]);

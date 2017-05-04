@@ -27,7 +27,7 @@ public class UserContoller {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private User login=null;
+	//private User login=null;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -87,7 +87,7 @@ public class UserContoller {
 			for (User user : users) {
 		        if (user.getEmail().equals(u.getEmail()) && user.getPassword().equals(u.getPassword())){
 		        	logger.info("< logIn");
-		        	login=user;
+		        	session.setAttribute("login", user);
 		        	return new ResponseEntity<User>(user, HttpStatus.OK);
 		    	}
 			}	
@@ -103,13 +103,13 @@ public class UserContoller {
 	public ResponseEntity<User> getLogin() {
 		logger.info("> login");
 
-		if (login==null) {
+		if (session.getAttribute("login")==null) {
 			logger.info("< empyt");
 			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 		}
 
 		logger.info("< login");
-		return new ResponseEntity<User>(login, HttpStatus.OK);
+		return new ResponseEntity<User>((User)session.getAttribute("login"), HttpStatus.OK);
 	}
 	
 
