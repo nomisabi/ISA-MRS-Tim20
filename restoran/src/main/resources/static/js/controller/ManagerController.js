@@ -29,7 +29,13 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	
     init();
  
-
+    $scope.logout=function(){
+    	$http.get("http://localhost:8080/api/users/logout").success(function(data) {
+    		//$window.href.location="/#/";
+    	});
+    	
+    }
+    
     $scope.changePass=function(){
     	if ($scope.pw1==$scope.pw2){
     		$scope.login= $scope.manager;

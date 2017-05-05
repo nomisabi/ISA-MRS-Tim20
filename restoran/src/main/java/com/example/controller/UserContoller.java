@@ -113,4 +113,21 @@ public class UserContoller {
 	}
 	
 
+	@RequestMapping(
+			value = "/api/users/logout", 
+			method = RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> getLogout() {
+		logger.info("> logout");
+		session.setAttribute("login", null);
+		
+		if (session.getAttribute("login")==null) {
+			logger.info("< empyt");
+			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+		}
+
+		logger.info("< login");
+		return new ResponseEntity<User>((User)session.getAttribute("login"), HttpStatus.OK);
+	}
+
 }
