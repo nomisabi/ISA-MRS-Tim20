@@ -15,5 +15,8 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 	@Transactional
     @Query("UPDATE Friendship f SET f.requestAccepted = ?2 WHERE f.id = ?1")
     int updateFriendship(Long id, boolean requestAccepted);
+	
+	@Query("SELECT Object(f) FROM Friendship f WHERE f.guest.id = ?1 AND f.idFriend = ?2")
+	public Friendship findByGuestAndFriendId(Long idGuest, Long  idFriend);
 
 }

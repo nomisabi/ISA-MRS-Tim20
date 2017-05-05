@@ -86,7 +86,7 @@ public class GuestServiceImp implements GuestService {
 	}
 
 	@Override
-	public Collection<Guest> searchGuest(String search){
-		return guestRepository.findByName(search);
+	public Collection<Guest> searchGuest(Long id,String search){
+		return guestRepository.findByName(id,search);
 	}
 }

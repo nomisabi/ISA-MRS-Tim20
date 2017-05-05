@@ -26,6 +26,6 @@ public interface GuestService {
 	
 	Guest findByEmailAndPass(String email,String password);
 	
-	Collection<Guest> searchGuest(String search);
+	Collection<Guest> searchGuest(Long id,String search);
 
 }

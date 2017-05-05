@@ -32,17 +32,18 @@ public class GuestController {
 	@Autowired
 	private HttpSession session;
 
-	@RequestMapping(value = "/api/guests", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	/*** Get all guests ***/
+	@RequestMapping(value = "/api/guests", 
+			method = RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Guest>> getGuests() {
 		logger.info("> getGuests");
 		Collection<Guest> guests = guestService.getAllGuests();
-		for (Guest guest : guests) {
-			System.out.println(guest);
-		}
 		logger.info("< getGuests");
-		return new ResponseEntity<Collection<Guest>>(guests,HttpStatus.OK);
+		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
 	}
 
+	/*** Guest log in ***/
 	@RequestMapping(value = "/api/guest/login", 
 			method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
@@ -50,18 +51,19 @@ public class GuestController {
 	public ResponseEntity<Guest> getGuestLog(@Valid @RequestBody User user) {
 		logger.info("> Guest log in");
 		System.out.println(user);
-		if (user == null){
+		if (user == null) {
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		Guest guest = guestService.findByEmailAndPass(user.getEmail(), user.getPassword());
 		System.out.println("Guest from base: " + guest);
 		session.setAttribute("guest", guest);
-		
+
 		logger.info("< Guest log in");
 		return new ResponseEntity<Guest>(guest, HttpStatus.OK);
 	}
 
+	/*** Get guest with {id} ***/
 	@RequestMapping(value = "/api/guests/{id}", 
 			method = RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
@@ -75,6 +77,7 @@ public class GuestController {
 		return new ResponseEntity<Guest>(guest, HttpStatus.OK);
 	}
 
+	/*** Guest registration ***/
 	@RequestMapping(value = "/api/guests", 
 			method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
@@ -91,8 +94,11 @@ public class GuestController {
 		return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 	}
 
-
-	@RequestMapping(value = "/api/guests/{id}", method = RequestMethod.PUT)
+	/*** Guest update ***/
+	@RequestMapping(value = "/api/guests/{id}", 
+			method = RequestMethod.PUT,
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Guest> updateUser(@PathVariable("id") long id, @RequestBody Guest guest) throws Exception {
 		System.out.println("Updating User " + id);
 		System.out.println("Guest" + guest);
@@ -111,7 +117,9 @@ public class GuestController {
 		return new ResponseEntity<Guest>(updatedGuest, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/api/friendship/sendRequest", method = RequestMethod.POST,
+	/*** Send friendship request ***/
+	@RequestMapping(value = "/api/friendship/sendRequest",
+			method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Guest> sendRequest(@RequestBody FriendRequest friendRequest) throws Exception {
@@ -136,15 +144,28 @@ public class GuestController {
 			System.out.println("Guest with id " + friendRequest.getIdGuest() + " not found");
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
-		
-		guestService.sendFriendRequest(currentGuest, friendGuest);
-		
 
-		return new ResponseEntity<Guest>(currentGuest,HttpStatus.OK);
+		guestService.sendFriendRequest(currentGuest, friendGuest);
+
+		return new ResponseEntity<Guest>(currentGuest, HttpStatus.OK);
 	}
 	
+	/*** Return all guest with firstName or lastName that match the search criteria***/
+	@RequestMapping(value = "/api/friendship/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Guest>> searchGuests(@RequestBody Guest guest) {
+		logger.info("> getGuests");
+		System.out.println(guest);
+		Guest cuurrentGuest = (Guest) session.getAttribute("guest");
+		System.out.println(cuurrentGuest);
+		Collection<Guest> guests = guestService.searchGuest(cuurrentGuest.getId(), guest.getFirstName());
+
+		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
+	}
+
+	/*
 	@RequestMapping(value = "/api/friendship{id}", method = RequestMethod.POST)
-	public ResponseEntity<Guest> addFriend(@PathVariable("id") long id,@RequestBody FriendRequest friendRequest) throws Exception {
+	public ResponseEntity<Guest> addFriend(@PathVariable("id") long id, @RequestBody FriendRequest friendRequest)
+			throws Exception {
 		System.out.println(friendRequest);
 		Guest currentGuest = guestService.getGuest(friendRequest.getIdGuest());
 
@@ -166,14 +187,12 @@ public class GuestController {
 			System.out.println("Guest with id " + friendRequest.getIdGuest() + " not found");
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
-		
-		guestService.addFriend(id,currentGuest, friendGuest);
-		
 
-		return new ResponseEntity<Guest>(currentGuest,HttpStatus.OK);
+		guestService.addFriend(id, currentGuest, friendGuest);
+
+		return new ResponseEntity<Guest>(currentGuest, HttpStatus.OK);
 	}
-	
-	
+
 	@RequestMapping(value = "/api/deleteFriend", method = RequestMethod.POST)
 	public ResponseEntity<Guest> deleteFriend(@RequestBody FriendRequest friendRequest) throws Exception {
 		System.out.println(friendRequest);
@@ -197,22 +216,13 @@ public class GuestController {
 			System.out.println("Guest with id " + friendRequest.getIdGuest() + " not found");
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
-		
-		Guest savedGuest = guestService.deleteFriend(currentGuest, friendGuest);
-		
 
-		return new ResponseEntity<Guest>(savedGuest,HttpStatus.OK);
+		Guest savedGuest = guestService.deleteFriend(currentGuest, friendGuest);
+
+		return new ResponseEntity<Guest>(savedGuest, HttpStatus.OK);
 	}
+	*/
+
 	
-	@RequestMapping(value = "/api/friendship/search", method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE, 
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Guest>> searchGuests(@RequestBody Guest guest) {
-		logger.info("> getGuests");
-		System.out.println(guest);
-		Collection<Guest> guests = guestService.searchGuest(guest.getFirstName());
-		
-		return new ResponseEntity<Collection<Guest>>(guests,HttpStatus.OK);
-	}
 
 }

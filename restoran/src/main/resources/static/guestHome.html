@@ -100,8 +100,9 @@
           	<div class="col">
                   <div class="col-lg-9 bc" ng-switch="page">
 					<div ng-switch-when="profile">
-					<table  class="prof">
+					<table  class="prof" style="width: 70%">
 						<tr>
+						    <td rowspan="8" > <img width="150px" height="150px" src="user.png"> </td>
 		        			<td>Email:</td>
 		           			<td><input type="text" class="form-control" ng-model="guest.email"></td>
 		           		</tr> 
@@ -110,6 +111,7 @@
 		           			</td>
 		           		</tr>
 		           		<tr>
+		           		   
 		           			<td>First Name:</td>
 		           			<td><input type="text" class="form-control" ng-model="guest.firstName"></td>
 		                	<td>&nbsp;
@@ -148,25 +150,23 @@
 		           			</td>
 		           		</tr>
 		           		<tr>
+		           		    <td>&nbsp;</td>
 		           			<td>&nbsp;
 		           			</td>
 		           			<td><button class="btn btn-theme" type="button" ng-click="save()">Save</button>
 		           			</td>
 		           		</tr>
 		            </table>	
+		            <br>
+		            <br>
+		            <br>
 		            
-		            
-		            
-		           	</div>
-						
-					
-					<div ng-switch-when="friend">
-					<form ng-submit="searchUsers(search)" name="myForm">
+		            <form ng-submit="searchUsers(search)" name="myForm">
 						<table>
 		            	<tr>
 		            		<td>Add friend: &nbsp; &nbsp;</td>
 		    
-		            		<td> <input type="text" ng-model="search" name="search" class="form-control round-form" required="required"> </td>
+		            		<td> <input type="text" ng-model="search" name="search" class="form-control round-form" placeholder="Enter first name or last name" required="required"> </td>
 		            		<td>&nbsp;</td>
 		            		<td> <input type="submit" class="btn btn-round btn-info" ng-disabled="myForm.$invalid" value="Search"> </td>
 		            	</tr>
@@ -204,6 +204,14 @@
                       </div><!-- /content-panel -->
                   </div><!-- /col-md-12 -->
               </div><!-- /row -->
+		            
+		            
+		            
+		           	</div>
+						
+					
+					<div ng-switch-when="friend">
+					
 		           
 						
 		           	</div>	
