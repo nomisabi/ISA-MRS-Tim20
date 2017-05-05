@@ -2,9 +2,13 @@ package com.example.service;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.domain.Manager;
@@ -21,7 +25,8 @@ public class UserServiceImp implements UserService{
     
     @Autowired
     private UserRepository userRepository;
-
+	@Autowired
+	private HttpSession session;
 	
 	@Override
 	public Collection<User> findAll() {
@@ -55,6 +60,23 @@ public class UserServiceImp implements UserService{
 	public User changePass(User old, User pass) {
 		userRepository.delete(old);
 		return userRepository.save(pass);
+	}
+
+	@Override
+	public User login(User user) {
+		session.setAttribute("login", user);
+		return user;
+	}
+
+	@Override
+	public void logout() {
+		session.setAttribute("login", null);
+		
+	}
+
+	@Override
+	public User getLogin() {
+		return (User)session.getAttribute("login");
 	}
 
 

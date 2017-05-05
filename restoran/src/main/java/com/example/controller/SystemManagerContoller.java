@@ -182,13 +182,13 @@ public class SystemManagerContoller {
 				return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
 			}
 		}
-		Manager old= rm.getM();
+		
 		Set<Manager> m =  new HashSet<Manager>();
-		
 		m.add(rm.getM());
-		
-		rm.getR().setManager(m);
-		Restaurant rest= smService.addRestaurant(rm.getR(), old, rm.getM());
+		if (rm.getM()!=null)
+			rm.getR().setManager(m);
+		Restaurant rest= smService.addRestaurant(rm.getR());
+		//mService.update(rm.getM(), rm.getR());
 		
 		if (rest==null)
 			return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);

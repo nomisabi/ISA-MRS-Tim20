@@ -21,15 +21,14 @@ public interface ManagerService {
 
 	Manager findOne(Long id);
 	
-	Manager update(Manager old, Manager man);
+	//int update(Manager man, Restaurant r);
+	void update(Manager man);
 
 	//Manager findByEmail(String email);
 
 	boolean isManagerExist(Long id);
 	
-	//boolean changePassword(String newP, String oldP, Manager m);
-
-	//Manager getLogedIn();
-	//void setLogedIn(Manager m);
+	
+	Restaurant findRest(Long id) ;
 
 }

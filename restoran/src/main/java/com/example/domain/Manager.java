@@ -3,14 +3,19 @@ package com.example.domain;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
 
 @Entity
 public class Manager {
@@ -29,8 +34,10 @@ public class Manager {
 	private String lastName;
     @Column
 	private boolean active;
-   // @OneToOne
-//	private Restaurant restaurant;
+   // @ManyToOne
+   // @JoinColumn(name = "rest_id")
+    @Transient
+	private Restaurant restaurant;
 	
 	public Manager(){
 		
@@ -42,7 +49,7 @@ public class Manager {
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		//this.restaurant = restaurant;
+		this.restaurant = null;
 		this.active=false;
 	}
 
@@ -77,7 +84,7 @@ public class Manager {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-/*
+
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
@@ -85,7 +92,6 @@ public class Manager {
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
 	}
-*/
 	
 	public boolean isActive() {
 		return active;

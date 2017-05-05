@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import com.example.domain.Manager;
+import com.example.domain.Restaurant;
+import com.example.domain.TypeOfUser;
+import com.example.domain.User;
+import com.example.service.ManagerService;
+import com.example.service.UserService;
 
 import java.util.Collection;
 
@@ -19,14 +24,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.example.domain.Employee;
-import com.example.domain.Manager;
-import com.example.domain.Supplier;
-import com.example.domain.System_manager;
-import com.example.domain.TypeOfUser;
-import com.example.domain.User;
-import com.example.service.ManagerService;
-import com.example.service.UserService;
 
 @RestController
 public class ManagerController {
@@ -37,6 +34,7 @@ public class ManagerController {
 	private ManagerService mService;
 	@Autowired
 	private UserService userService;
+
 	
 	@RequestMapping(
 			value = "/api/manager/{id}", 
@@ -67,7 +65,7 @@ public class ManagerController {
 			logger.info("< empyt");
 			return new ResponseEntity<Collection<Manager>>(HttpStatus.NO_CONTENT);
 		}
-		
+	
 		logger.info("< getSysMan");
 		return new ResponseEntity<Collection<Manager>>(sm, HttpStatus.OK);
 	}
@@ -110,6 +108,23 @@ public class ManagerController {
 		return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);
 	}
 	
+	
+	@RequestMapping(
+			value = "/api/manager/getRest", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Restaurant> getRst(@Valid @RequestBody Manager m) throws Exception {
+		logger.info("> getRest");
+		
+		Restaurant r= mService.findRest(m.getId());
+		if (r!=null){
+			m.setRestaurant(r);
+			return new ResponseEntity<Restaurant>(r, HttpStatus.OK);
+		}
+		return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
+	}
+	
 /*	@RequestMapping(value = "/api/manager/createSupplier", 
 	method = RequestMethod.POST, 
 	produces = MediaType.APPLICATION_JSON_VALUE)
@@ -133,23 +148,6 @@ public class ManagerController {
 		return new ResponseEntity<Employee>(e, HttpStatus.OK);
 	}
 	
-	@RequestMapping(
-			value = "/api/manager/login", 
-			method = RequestMethod.POST, 
-			consumes = MediaType.APPLICATION_JSON_VALUE, 
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Manager> logIn(@Valid @RequestBody Manager man) throws Exception {
-		logger.info("> logIn");
-		System.out.println(man);
-		Manager m = mService.findByEmail(man.getEmail());
-		if (m != null){		
-			if (man.getPassword().equals(m.getPassword())){
-				logger.info("success");
-				return new ResponseEntity<Manager>(m,HttpStatus.OK);
-			}
-		}
-		
-		return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);	
 	}*/
 	
 	@RequestMapping(
@@ -161,8 +159,7 @@ public class ManagerController {
 		logger.info("> logIn");
 		System.out.println(man);
 		man.setActive(true);
-		Manager old= mService.findOne(man.getId());
-		mService.update(old, man);
+		mService.update(man);
 		Collection<User> users= userService.findAll();
 		for (User u:users){
 			if (u.getEmail().equals(man.getEmail())){
@@ -171,6 +168,40 @@ public class ManagerController {
 				userService.changePass(u, new_user);
 			}		
 		}
+		return new ResponseEntity<Manager>(HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(
+			value = "/api/manager/update", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Manager> update(@Valid @RequestBody Manager man) throws Exception {
+		logger.info("> update");
+		Manager old= mService.findOne(man.getId());
+		
+		//ellenorizni h van-e vmelyik usernek -> ha van end
+		Collection<User> users= userService.findAll();
+		for (User u:users){
+			if (u.getEmail().equals(man.getEmail()) && !man.getEmail().equals(old.getEmail())){
+				return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);
+			}
+		}
+		
+		
+		mService.update(man);
+		
+		//update user if email changed
+		if (!old.getEmail().equals(man.getEmail()))
+			for (User us:users){
+				if (us.getEmail().equals(old.getEmail())){
+					User new_user= us;
+					new_user.setEmail(man.getEmail());
+					userService.changePass(us, new_user);
+					userService.login(new_user);
+				}		
+			}
 		return new ResponseEntity<Manager>(HttpStatus.OK);
 	}
 	

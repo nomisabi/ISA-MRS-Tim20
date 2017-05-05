@@ -27,13 +27,12 @@ public class UserContoller {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private User login=null;
+	//private User login=null;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private SystemManagerService smService;
-	@Autowired
-	private HttpSession session;
+
 	
 	@RequestMapping(
 			value = "/api/users", 
@@ -87,7 +86,8 @@ public class UserContoller {
 			for (User user : users) {
 		        if (user.getEmail().equals(u.getEmail()) && user.getPassword().equals(u.getPassword())){
 		        	logger.info("< logIn");
-		        	login=user;
+		        	userService.login(user);
+		        	//session.setAttribute("login", user);
 		        	return new ResponseEntity<User>(user, HttpStatus.OK);
 		    	}
 			}	
@@ -102,15 +102,33 @@ public class UserContoller {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> getLogin() {
 		logger.info("> login");
-
-		if (login==null) {
+		User user = userService.getLogin();
+/*
+		if (session.getAttribute("login")==null) {
 			logger.info("< empyt");
 			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 		}
-
+*/
+		if (user==null) {
+			logger.info("< empyt");
+			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+		}
 		logger.info("< login");
-		return new ResponseEntity<User>(login, HttpStatus.OK);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
+
+	@RequestMapping(
+			value = "/api/users/logout", 
+			method = RequestMethod.GET, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> getLogout() {
+		logger.info("> logout");
+		//session.setAttribute("login", null);
+		userService.logout();
+		
+		logger.info("< login");
+		return new ResponseEntity<User>(HttpStatus.OK);
+	}
 
 }

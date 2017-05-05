@@ -98,16 +98,9 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	 	
     }
     
-    $scope.login= function(){
-    	$http.post("http://localhost:8080/api/sysman/login",{"email":$scope.mail,"password":$scope.pass })
-    	.success(function(data) {
-    		$scope.sm=JSON.stringify(data);
-    		window.location.href = '#/sysman/info';
-		}).error(function(data){
-			alert("error");
-			
-		}
-				);
+    
+    $scope.logout= function(){
+    	$http.get("http://localhost:8080/api/useres/logout");
     }
     
     $scope.reg= function() {

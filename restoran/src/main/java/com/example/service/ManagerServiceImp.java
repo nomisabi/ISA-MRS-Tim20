@@ -13,6 +13,7 @@ import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.System_manager;
 import com.example.respository.ManagerRepository;
+import com.example.respository.RestaurantRepository;
 import com.example.respository.SystemManagerRepository;
 
 @Service
@@ -22,7 +23,10 @@ public class ManagerServiceImp implements ManagerService{
     
     @Autowired
     private ManagerRepository mRepository;
- 
+    @Autowired
+    private RestaurantRepository rRepository;
+    
+    
     @Override
 	public Manager createManager(Manager m) {
 		logger.info("> create manager");
@@ -51,9 +55,28 @@ public class ManagerServiceImp implements ManagerService{
 	public Collection<Manager> findAll() {
 		logger.info("> findAll");
 		Collection<Manager> manager = (Collection<Manager>) mRepository.findAll();
+		for (Manager m:manager)
+			if (mRepository.getRest(m.getId())!=null){
+				Restaurant r=rRepository.findOne(mRepository.getRest(m.getId()));
+				//m.setRestaurant(r);
+			}
 		logger.info("< findAll");
 		return manager;
 	}
+	
+	public Restaurant findRest(Long id) {
+		logger.info("> /nfindRestSERVICE/n");
+		Restaurant r=null;
+		Long id_r= mRepository.getRest(id);
+		logger.info("> /n id:"+id_r);
+		if (id_r!=null){
+			r=rRepository.findOne(mRepository.getRest(id));		
+			logger.info(r.toString());
+		}
+		logger.info("<  /nfindRestSERVICE/n");
+		return r;
+	}
+	
 
 	@Override
 	public Manager findOne(Long id) {
@@ -97,10 +120,16 @@ public class ManagerServiceImp implements ManagerService{
 		
 	}*/
 
+	//@Override
+	//public int update(Manager man, Restaurant r) {
+		//return mRepository.updateRestaurant(man.getId(), r);
+		
+	//}
+	
 	@Override
-	public Manager update(Manager old, Manager man) {
-		mRepository.delete(old);
-		return mRepository.save(man);
+	public void update(Manager man) {
+		mRepository.updatePass(man.getId(), man.getPassword(), man.getEmail(), man.getFirstName(), man.getLastName(), man.isActive());
+	
 	}
 
 }

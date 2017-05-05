@@ -73,7 +73,6 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.searchUsers= function(search){   	
-    	alert(search);
     	$http.post('http://localhost:8080/api/friendship/search',{"firstName":search})
     	.success(function(data) {
     		$scope.users = data;

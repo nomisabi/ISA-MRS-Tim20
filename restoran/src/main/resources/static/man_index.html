@@ -33,7 +33,7 @@
             </div>
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="#/">Logout</a></li>
+                    <li><a class="logout" ng-click="logout()" href="#/">Logout</a></li>
             	</ul>
             </div>
         </header>
@@ -97,6 +97,7 @@
               <div class="col">
                   <div class="col-lg-9 bc" ng-switch="page">
                   {{page}}
+         
 	                  <div ng-switch-when="non-active" ng-controller="ManagerController">
 							<h3>Change password</h3>
 							<input type="password" placeholder="Password" class="form-control" ng-model="pw1" autofocus>
@@ -105,6 +106,228 @@
 							<br>
 							<br>
 							<button class="btn btn-theme" type="button" ng-click="changePass()">Save</button>
+			           	</div>
+			           	<div ng-switch-when="restaurant" ng-controller="ManagerController">
+							<h3>Restaurant</h3>
+								<table  class="prof">
+								<tr>
+				        			<td>Name:</td>
+				           			<td><input type="text" class="form-control" ng-model="manager.restaurant.name"></td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Location:</td>
+				           			<td><input type="text" class="form-control" ng-model="manager.restaurant.location"></td>
+				           		</tr> 
+				           		
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td><button class="btn btn-theme" type="button">Save</button>
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>Managers:
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr ng-repeat="m in manager.restaurant.manager">
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>{{m.firstName}} {{m.lastName}}
+				           			</td>
+				           		</tr>
+				           		<!-- manager name + add-->
+				           			 
+				            </table>
+				            <br>	
+								<a class="" ng-click=changeToEmployee()>
+				                   	Employees
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToSupplier()>
+				                   	Suppliers
+				                </a>
+			           	</div>
+			           	<div ng-switch-when="employee">
+							<h3>Employees</h3>
+								<a class="" ng-click=changeToCreateEmployee()>
+				                   	Adding new employee
+				                </a>
+				                
+			           	</div>
+			           	<div ng-switch-when="create_employee">
+							<h3>Adding new employee</h3>
+							<table  class="prof">
+								<tr>
+				        			<td>Email:</td>
+				           			<td><input type="text" class="form-control" ng-model="employee.email"></td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>First name:</td>
+				           			<td><input type="text" class="form-control" ng-model="employee.firstName"></td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Last name:</td>
+				           			<td><input type="text" class="form-control" ng-model="employee.lastName"></td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Birth date: {{employee.date}}</td>
+				        			<td><input type="text" ng-model="employee.date" jqdatepicker /></td>
+				           			<!--  <td><input type="datetime-local"  class="form-control" ></td>-->
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Number of shoe:</td>
+				           			<td><input type="text" class="form-control" ng-model="employee.numbS"></td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Number of sclothes:</td>
+				           			<td><input type="text" class="form-control" ng-model="employee.numbC"></td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Type:</td>
+				           			<td>
+				           				<select class="form-control" ng-model="employee.type">
+				           					<option value="CHEF">CHEF</option>
+				           					<option value="WAITER">WAITER</option>
+				           					<option value="BARTENDER">BARTENDER</option>
+				           				</select>
+				           			</td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td><button class="btn btn-theme" type="button">Save</button>
+				           			</td>
+				           		</tr>
+				           			 
+				            </table>		
+				                
+			           	</div>
+			           	<div ng-switch-when="supplier">
+							<h3>Suppliers</h3>
+								<a class="" ng-click=changeToCreateSupplier()>
+				                   	Adding new supplier
+				                </a>
+				                
+			           	</div>
+			           	<div ng-switch-when="create_supplier">
+							<h3>Adding new supplier</h3>
+							<table  class="prof">
+								<tr>
+				        			<td>Email:</td>
+				           			<td><input type="text" class="form-control" ng-model="supplier.email"></td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Name:</td>
+				           			<td><input type="text" class="form-control" ng-model="supplier.name"></td>
+				           		</tr> 
+				           		
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td><button class="btn btn-theme" type="button">Save</button>
+				           			</td>
+				           		</tr>
+				           			 
+				            </table>		
+				                
 			           	</div>
 						<div ng-switch-when="profile">
 							<table  class="prof">
@@ -138,9 +361,10 @@
 				           			<td>&nbsp;
 				           			</td>
 				           		</tr>
+				           		
 				           		<tr>
 				           			<td>
-				           				<a class="" href="#/registration">
+				           				<a class="" ng-click=changeToChangePass()>
 				                    	Change password
 				                		</a>
 				                	</td>
@@ -163,7 +387,7 @@
 				           		<tr>
 				           			<td>&nbsp;
 				           			</td>
-				           			<td><button class="btn btn-theme" type="button">Save</button>
+				           			<td><button class="btn btn-theme" ng-click="update()" type="button">Save</button>
 				           			</td>
 				           		</tr>
 				           			 

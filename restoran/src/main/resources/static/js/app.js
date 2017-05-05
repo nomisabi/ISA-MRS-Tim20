@@ -72,4 +72,3 @@ app.config(function($routeProvider) {
     */
     .otherwise({ redirectTo: '/404' });
 });
-
