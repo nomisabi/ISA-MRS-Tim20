@@ -15,5 +15,10 @@ public interface UserService {
 	User addUser(User u);
 	
 	User changePass(User old, User pass);
+	
+	User login(User user);
+	
+	User getLogin();
 
+	void logout();
 }

@@ -36,6 +36,7 @@ public class ManagerController {
 	private ManagerService mService;
 	@Autowired
 	private UserService userService;
+
 	
 	@RequestMapping(
 			value = "/api/manager/{id}", 
@@ -149,23 +150,6 @@ public class ManagerController {
 		return new ResponseEntity<Employee>(e, HttpStatus.OK);
 	}
 	
-	@RequestMapping(
-			value = "/api/manager/login", 
-			method = RequestMethod.POST, 
-			consumes = MediaType.APPLICATION_JSON_VALUE, 
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Manager> logIn(@Valid @RequestBody Manager man) throws Exception {
-		logger.info("> logIn");
-		System.out.println(man);
-		Manager m = mService.findByEmail(man.getEmail());
-		if (m != null){		
-			if (man.getPassword().equals(m.getPassword())){
-				logger.info("success");
-				return new ResponseEntity<Manager>(m,HttpStatus.OK);
-			}
-		}
-		
-		return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);	
 	}*/
 	
 	@RequestMapping(
@@ -186,6 +170,40 @@ public class ManagerController {
 				userService.changePass(u, new_user);
 			}		
 		}
+		return new ResponseEntity<Manager>(HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(
+			value = "/api/manager/update", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Manager> update(@Valid @RequestBody Manager man) throws Exception {
+		logger.info("> update");
+		Manager old= mService.findOne(man.getId());
+		
+		//ellenorizni h van-e vmelyik usernek -> ha van end
+		Collection<User> users= userService.findAll();
+		for (User u:users){
+			if (u.getEmail().equals(man.getEmail()) && !man.getEmail().equals(old.getEmail())){
+				return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);
+			}
+		}
+		
+		
+		mService.update(man);
+		
+		//update user if email changed
+		if (!old.getEmail().equals(man.getEmail()))
+			for (User us:users){
+				if (us.getEmail().equals(old.getEmail())){
+					User new_user= us;
+					new_user.setEmail(man.getEmail());
+					userService.changePass(us, new_user);
+					userService.login(new_user);
+				}		
+			}
 		return new ResponseEntity<Manager>(HttpStatus.OK);
 	}
 	

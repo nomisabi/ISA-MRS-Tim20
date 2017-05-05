@@ -36,6 +36,15 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     	
     }
     
+    $scope.update=function(){
+    	$http.post("http://localhost:8080/api/manager/update", $scope.manager).success(function(data) {
+    		$route.reload();
+    	}).error(function(data) {
+    		alert("This email address is in our system");	
+    		$route.reload();
+    	});
+    }
+    
     $scope.changePass=function(){
     	if ($scope.pw1==$scope.pw2){
     		$scope.login= $scope.manager;
