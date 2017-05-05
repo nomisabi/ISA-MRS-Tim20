@@ -7,16 +7,19 @@ public class GuestRegister {
 	private String email;
 	private String password;
 	private String password2;
+	private String firstName;
+	private String lastName;
 
 	public GuestRegister() {
 	}
 
-	public GuestRegister(String email, String password, String password2) {
+	public GuestRegister(String email, String password, String password2, String firstName, String lastName) {
 		super();
-		
 		this.email = email;
 		this.password = password;
 		this.password2 = password2;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {
@@ -43,9 +46,26 @@ public class GuestRegister {
 		this.password2 = password2;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	@Override
 	public String toString() {
-		return "GuestRegister [email=" + email + ", password=" + password + ", password2=" + password2 + "]";
+		return "GuestRegister [email=" + email + ", password=" + password + ", password2=" + password2 + ", firstName="
+				+ firstName + ", lastName=" + lastName + "]";
 	}
 
 }

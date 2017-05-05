@@ -18,10 +18,14 @@ public interface GuestService {
 	
 	Guest updateGuest(Long id,Guest newGuest);
 	
-	Guest sendFriendRequest(Guest guest, Guest friend);
+	void sendFriendRequest(Guest guest, Guest friend);
 	
-	Guest addFriend(Guest guest, Guest friend);
+	void addFriend(Long id, Guest guest, Guest friend);
 	
 	Guest deleteFriend(Guest guest, Guest friend);
+	
+	Guest findByEmailAndPass(String email,String password);
+	
+	Collection<Guest> searchGuest(String search);
 
 }

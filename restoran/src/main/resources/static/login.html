@@ -2,23 +2,30 @@
       <!-- **********************************************************************************************************************************************************
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
-{{users}}
 	  <div id="login-page">
 	  	<div class="container">
 	  	
-		      <form class="form-login">
+		      <form class="form-login" name="myForm">
 		        <h2 class="form-login-heading">sign in now</h2>
 		        <div class="login-wrap">
-		            <input type="text" class="form-control" placeholder="Email" ng-model="mail" autofocus>
+		            <input  type="email" name="email" class="email form-control input-sm" placeholder="Email" ng-model="mail" autofocus required>
+		            <div class="has-error" ng-show="myForm.email.$dirty">
+                    	<span ng-show="myForm.email.$error.required">This is a required field</span>
+                        <span ng-show="myForm.email.$invalid">This field is invalid </span>
+                    </div>
 		            <br>
-		            <input type="password" class="form-control" ng-model="pass" placeholder="Password">
+		            <input type="password" name="password" class="pass form-control input-sm" ng-model="pass" placeholder="Password" required>
+		            <div class="has-error" ng-show="myForm.password.$dirty">
+                    	<span ng-show="myForm.password.$error.required">This is a required field</span>
+                        <span ng-show="myForm.password.$invalid">This field is invalid </span>
+                    </div>
 		            <label class="checkbox">
 		                <span class="pull-right">
 		                    <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
 		
 		                </span>
 		            </label>
-		            <button class="btn btn-theme btn-block" ng-click="login()"><i class="fa fa-lock"></i> SIGN IN</button>
+		            <button class="btn btn-theme btn-block" ng-click="login()" ng-disabled="myForm.$invalid"><i class="fa fa-lock"></i> SIGN IN</button>
 		            <hr>
 		            
 		            <div class="login-social-link centered">
