@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -26,19 +28,24 @@ public class Region implements Serializable {
 	@Column
 	private int y;
 	//@OneToMany
-	private Set<Table> tables;
+	private Set<TableOfRestaurant> tables;
 	@Column 
 	private TypeRegion type;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "restaurant_id", nullable = false)
+	private Restaurant restaurant;
 	
 	public Region(){
 		
 	}
 	
-	public Region(int x, int y, TypeRegion type){
+	public Region(int x, int y, TypeRegion type, Restaurant restaurant){
 		super();
 		this.x = x;
 		this.y = y;
 		this.type = type;
+		this.restaurant = restaurant;
 		
 	}
 
@@ -66,11 +73,11 @@ public class Region implements Serializable {
 		this.y = y;
 	}
 
-	public Set<Table> getTables() {
+	public Set<TableOfRestaurant> getTables() {
 		return tables;
 	}
 
-	public void setTables(Set<Table> tables) {
+	public void setTables(Set<TableOfRestaurant> tables) {
 		this.tables = tables;
 	}
 
@@ -81,11 +88,23 @@ public class Region implements Serializable {
 	public void setType(TypeRegion type) {
 		this.type = type;
 	}
+	
+	
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
 
 	@Override
 	public String toString() {
-		return "Region [id=" + id + ", x=" + x + ", y=" + y + ", tables=" + tables + ", type=" + type + "]";
+		return "Region [id=" + id + ", x=" + x + ", y=" + y + ", tables=" + tables + ", type=" + type + ", restaurant="
+				+ restaurant + "]";
 	}
+
 	
 	
 }
