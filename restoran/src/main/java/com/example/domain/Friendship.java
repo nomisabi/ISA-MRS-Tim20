@@ -13,14 +13,14 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Friendship implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "guest_id", nullable = false)
 	private Guest guest;
 	@Column
@@ -31,7 +31,6 @@ public class Friendship implements Serializable {
 	public Friendship() {
 
 	}
-	
 
 	public Friendship(Guest guest, Long idFriend, boolean requestAccepted) {
 		super();
@@ -40,16 +39,21 @@ public class Friendship implements Serializable {
 		this.requestAccepted = requestAccepted;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Guest getGuest() {
 		return guest;
 	}
 
-
 	public void setGuest(Guest guest) {
 		this.guest = guest;
 	}
-
 
 	public Long getIdFriend() {
 		return idFriend;

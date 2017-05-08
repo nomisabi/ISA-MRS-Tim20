@@ -5,7 +5,7 @@ angular.module('myApp').controller('AllUserController',['$scope','$http','$windo
 		//$.backstretch("assets/img/login-bg.jpg", {speed: 500});
 	}
 	
-	init();
+	//init();
 
 	
 	$scope.login= function(){		

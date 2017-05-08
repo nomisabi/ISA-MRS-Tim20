@@ -22,10 +22,10 @@ public interface GuestService {
 	
 	void addFriend(Long id, Guest guest, Guest friend);
 	
-	Guest deleteFriend(Guest guest, Guest friend);
-	
 	Guest findByEmailAndPass(String email,String password);
 	
 	Collection<Guest> searchGuest(Long id,String search);
+	
+	Collection<Guest> findFriends(Long id);
 
 }

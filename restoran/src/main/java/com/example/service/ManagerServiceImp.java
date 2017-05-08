@@ -55,11 +55,11 @@ public class ManagerServiceImp implements ManagerService{
 	public Collection<Manager> findAll() {
 		logger.info("> findAll");
 		Collection<Manager> manager = (Collection<Manager>) mRepository.findAll();
-		for (Manager m:manager)
+	/*	for (Manager m:manager)
 			if (mRepository.getRest(m.getId())!=null){
 				Restaurant r=rRepository.findOne(mRepository.getRest(m.getId()));
 				//m.setRestaurant(r);
-			}
+			}*/
 		logger.info("< findAll");
 		return manager;
 	}
@@ -67,12 +67,14 @@ public class ManagerServiceImp implements ManagerService{
 	public Restaurant findRest(Long id) {
 		logger.info("> /nfindRestSERVICE/n");
 		Restaurant r=null;
+		/*
 		Long id_r= mRepository.getRest(id);
 		logger.info("> /n id:"+id_r);
 		if (id_r!=null){
 			r=rRepository.findOne(mRepository.getRest(id));		
 			logger.info(r.toString());
 		}
+		*/
 		logger.info("<  /nfindRestSERVICE/n");
 		return r;
 	}
