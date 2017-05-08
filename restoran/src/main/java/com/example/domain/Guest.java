@@ -1,7 +1,6 @@
 package com.example.domain;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 @Entity
 public class Guest implements Serializable {
@@ -33,8 +31,9 @@ public class Guest implements Serializable {
 	private String address;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="guest")
 	private Set<Friendship> friends;
-	@Transient
-	private HashMap<Long, Restaurant> visited;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
+	private Set<Reservation> reservations;
+	
 
 	public Guest() {
 	}
@@ -101,13 +100,6 @@ public class Guest implements Serializable {
 		this.address = address;
 	}
 
-	public HashMap<Long, Restaurant> getVisited() {
-		return visited;
-	}
-
-	public void setVisited(HashMap<Long, Restaurant> visited) {
-		this.visited = visited;
-	}
 
 	@Override
 	public String toString() {

@@ -29,5 +29,8 @@ public interface GuestRepository extends JpaRepository<Guest, Long> {
 	
 	@Query("SELECT Object(g) FROM Guest g JOIN g.friends f WHERE f.idFriend = ?1 AND f.requestAccepted = ?2")
 	public Collection<Guest> getRequests(Long id, boolean requestAccepted);
+	
+	@Query("SELECT Object(g) FROM Guest g, Friendship f WHERE f.idFriend = g.id AND f.guest.id = ?1")
+	public Collection<Guest> getFriends(Long id);
 
 }

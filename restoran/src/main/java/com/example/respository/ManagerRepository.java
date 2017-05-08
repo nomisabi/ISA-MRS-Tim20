@@ -23,8 +23,8 @@ public interface ManagerRepository extends CrudRepository<Manager, Long>{
     @Query("UPDATE Manager m SET m.password = ?2, m.email=?3, m.firstName=?4, m.lastName=?5, m.active=?6 WHERE m.id = ?1")
     int updatePass(Long id, String password, String email, String firstName, String lastName, boolean active);
 
-    @Query(value="SELECT r.id FROM restaurant r INNER JOIN restaurant_manager rm ON r.id=rm.restaurant_id WHERE rm.manager_id = ?1", nativeQuery=true)
-	Long getRest(Long id);
+   // @Query(value="SELECT r.id FROM restaurant r INNER JOIN restaurant_manager rm ON r.id=rm.restaurant_id WHERE rm.manager_id = ?1", nativeQuery=true)
+//	Long getRest(Long id);
 	
 	/*void createManager(Manager m);
 	

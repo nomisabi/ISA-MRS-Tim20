@@ -5,8 +5,21 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.page="restaurants";
 	$scope.friends = [];
 	$scope.users = [];
+	$scope.restaurants = [];
 	$scope.notifications = [];
-	$scope.search = "";
+	$scope.tables = [];
+	$scope.search = ""; 
+	$scope.restaurant ={id:null, name:'', location:''};
+	$scope.min = new Date();
+	$scope.max = new Date('2017-06-01');
+	$scope.time = new Date('2017-06-01 9:00');
+	$scope.date = new Date();
+	$scope.duration = 1;
+	$scope.dateStr = "";
+	$scope.timeStr = "";
+	$scope.reservation = {"restaurant":null, "dateAndTime":'', "duration": ''};
+	$scope.table = {id:null, number:null, numberOfChairs: null, restaurant: $scope.restaurant};
+	$scope.tableNum = null;
 	
 	init();
 	
@@ -21,33 +34,13 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 				});	    
 	}
 	
-	/*
-	function getData() {
-		$scope.guest = {id:1,email:'email',password:'pass',firstName:'nena',lastName:'djeric',address:'address'};
-		$scope.users = [
-			{id:2,email:'email1',password:'pass1',firstName:'nena1',lastName:'djeric1',address:'address1'},
-			{id:3,email:'email2',password:'pass2',firstName:'nena2',lastName:'djeric2',address:'address2'}
-		];
-		
-		$http.get('http://localhost:8080/api/guestLog')
-    	.success(function(data) {
-    		$scope.guest = data;
-    		$scope.guest.id = 1;
-    		
-		}).error(function(data){
-			alert("Error profile change.");
-			}
-		);	
-	}
-	*/
-	
-	$scope.changeToAddFriend= function(){
-		$scope.users = [];
-    	$scope.page="friend";
-    }
 	
 	$scope.changeToFriends= function(){
 		$scope.users = [];
+		$http.post("http://localhost:8080/api/friends",$scope.guest).success(
+				function(data){
+					$scope.friends=data;	
+				});	
     	$scope.page="friends";
     }
     
@@ -58,8 +51,20 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.changeToRestaurants= function(){
     	$scope.users = [];
+    	$http.get("http://localhost:8080/api/restaurants").success(
+				function(data){
+					$scope.restaurants=data;	
+				});	
     	$scope.page="restaurants";
     }
+    
+    $scope.changeToReserve= function(){
+    	$scope.users = [];
+    		
+    	$scope.page="reserve";
+    }
+    
+    
     
     $scope.save= function(){
     	$http.put('http://localhost:8080/api/guests/'+$scope.guest.id,$scope.guest)
@@ -83,7 +88,6 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.addRequest= function(id){   	   	
-    	alert(id);
     	$scope.users = [];
     	$http.post('http://localhost:8080/api/friendship/sendRequest',{"idGuest":$scope.guest.id,"idFriend":id})
     	.success(function(data) {
@@ -131,5 +135,82 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 			}
 		);        	
     }
+    
+    $scope.reserve= function(restaurant){   	   	
+    	alert(restaurant.id);    
+    	$scope.restaurant = restaurant;
+    	$scope.page="reserve";
+    }
+    
+    $scope.reserveNext = function(duration, date){   	   	
+    	//alert($scope.time.toLocaleTimeString());    
+    	//alert(date.toDateString());
+    	//alert($scope.restaurant.name);
+    	//alert(duration);
+    	
+    	var dateTime = new Date();
+    	dateTime.setDate(date.getDate());
+    	dateTime.setMonth(date.getMonth());
+    	dateTime.setFullYear(date.getFullYear());
+    	dateTime.setHours($scope.time.getHours());
+    	dateTime.setMinutes($scope.time.getMinutes());
+    	dateTime.setSeconds($scope.time.getSeconds());
+    	dateTime.setMilliseconds($scope.time.getMilliseconds());
+    	
+    	$scope.reservation = {"restaurant":$scope.restaurant, "dateAndTime":dateTime, "duration": duration};
+    	
+    	
+    	$http.post('http://localhost:8080/api/restaurant/tables',$scope.reservation)
+    	.success(function(data) {
+    		$scope.tables = data;
+    		//alert(data);
+    		$scope.dateStr = $scope.reservation.dateAndTime.toLocaleDateString();
+    		$scope.timeStr = $scope.reservation.dateAndTime.toLocaleTimeString();
+    		$scope.page ="reserve2";
+		}).error(function(data){
+			//alert("error");
+			}
+		); 
+    }
+    
+    $scope.reserveNext2 = function(){   	   	
+    	alert($scope.tableNum);
+    	if ($scope.tableNum != null){
+    		
+    		$scope.page ="reserve3";
+    		
+    		
+    		
+    		$http.post('http://localhost:8080/api/restaurant/reservation',{"restaurant":$scope.reservation.restaurant, "dateAndTime":$scope.reservation.dateAndTime, "duration": $scope.reservation.duration, "table": $scope.table, "guest":$scope.guest})
+        	.success(function(data) {
+        		$scope.tableNum = null;
+    		}).error(function(data){
+    			//alert("error");
+    			}
+    		); 
+    		
+    		
+    		
+    		
+    		
+    	}else{
+    		alert("Please, choose a table")
+    	}
+    	
+    }
+    
+    $scope.klik = function(vrednost) {
+    	if (vrednost.reserved){
+    		alert("Table is reserved");
+    		$scope.tableNum = null;
+    	}
+    	else{
+    		$scope.tableNum = vrednost.tableOfRestaurant.id;
+    		$scope.table = vrednost.tableOfRestaurant;
+    		alert(vrednost.tableOfRestaurant.number);
+    	}
+	}
+    
+    
 
 }]);

@@ -14,11 +14,8 @@ import com.example.respository.FriendshipRepository;
 import com.example.respository.GuestRepository;
 import com.example.respository.UserRepository;
 
-
-
 @Service
 public class GuestServiceImp implements GuestService {
-	//private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private GuestRepository guestRepository;
@@ -26,67 +23,66 @@ public class GuestServiceImp implements GuestService {
 	private UserRepository userRepository;
 	@Autowired
 	private FriendshipRepository friendshipRepository;
-	
+
 	@Override
-	public Guest getGuest(Long id){
-		return this.guestRepository.findOne(id);
+	public Guest getGuest(Long id) {
+		return guestRepository.findOne(id);
 	}
-	
+
 	@Override
-	public Guest addGuest(Guest guest){
+	public Guest addGuest(Guest guest) {
 		Assert.notNull(guest, "Guest could not be null.");
-		User u= new User(guest.getEmail(), guest.getPassword(), TypeOfUser.GUEST);
+		User u = new User(guest.getEmail(), guest.getPassword(), TypeOfUser.GUEST);
 		userRepository.save(u);
 		return guestRepository.save(guest);
 	}
-	
+
 	@Override
-	public Collection<Guest> getAllGuests(){
+	public Collection<Guest> getAllGuests() {
 		return (Collection<Guest>) guestRepository.findAll();
 	}
-	
+
 	@Override
-	public boolean isExists(Long id){
+	public boolean isExists(Long id) {
 		return guestRepository.exists(id);
 	}
-	
+
 	@Override
-	public Guest updateGuest(Long id,Guest guest){     
+	public Guest updateGuest(Long id, Guest guest) {
 		Assert.notNull(guest.getEmail(), "Email could not be null.");
-		Assert.notNull(guest.getPassword(),"Password could not be null." );
-		int id1 = guestRepository.updateGuest(id, guest.getEmail(), guest.getFirstName(), guest.getLastName(),guest.getAddress());
+		Assert.notNull(guest.getPassword(), "Password could not be null.");
+		int id1 = guestRepository.updateGuest(id, guest.getEmail(), guest.getFirstName(), guest.getLastName(),
+				guest.getAddress());
 		System.out.println(id1);
 		return guestRepository.findOne(id);
-		
-		
+
 	}
-	
+
 	@Override
-	public void sendFriendRequest(Guest guest, Guest friend){
+	public void sendFriendRequest(Guest guest, Guest friend) {
 		Friendship friendship = new Friendship(guest, friend.getId(), false);
 		friendshipRepository.save(friendship);
 	}
-	
+
 	@Override
-	public void addFriend(Long id, Guest guest, Guest friend){
+	public void addFriend(Long id, Guest guest, Guest friend) {
 		sendFriendRequest(guest, friend);
 		friendshipRepository.updateFriendship(id, true);
-		
+
 	}
-	
+
 	@Override
-	public Guest deleteFriend(Guest guest, Guest friend){
-		//delete friend from guest list friends
-		//delete guest from friend list friends
-		return guest;
-	}
-	@Override
-	public Guest findByEmailAndPass(String email,String password){
+	public Guest findByEmailAndPass(String email, String password) {
 		return guestRepository.findByEmailAndPass(email, password);
 	}
 
 	@Override
-	public Collection<Guest> searchGuest(Long id,String search){
-		return guestRepository.findByName(id,search);
+	public Collection<Guest> searchGuest(Long id, String search) {
+		return guestRepository.findByName(id, search);
+	}
+
+	@Override
+	public Collection<Guest> findFriends(Long id) {
+		return guestRepository.getFriends(id);
 	}
 }
