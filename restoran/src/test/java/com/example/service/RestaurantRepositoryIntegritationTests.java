@@ -3,6 +3,7 @@ package com.example.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,17 @@ public class RestaurantRepositoryIntegritationTests {
 	@Autowired
 	RestaurantRepository repository;
 
+	Restaurant restaurant;
+
+	@Before
+	public void setUp() {
+		restaurant = new Restaurant("restaurant1", "ns");
+		restaurant = repository.save(restaurant);
+	}
+
 	@Test
 	public void getRestaurant() {
-		Restaurant restaurant = new Restaurant("restaurant1", "ns");
-		Restaurant savedRestaurant = repository.save(restaurant);
-		Restaurant restaurantFind = repository.findOne(savedRestaurant.getId());
+		Restaurant restaurantFind = repository.findOne(restaurant.getId());
 		assertNotNull(restaurantFind);
 	}
 

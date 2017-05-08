@@ -3,6 +3,7 @@ package com.example.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,21 @@ public class TableOfRestaurantRepositoryIntegrationTests {
 	TableOfRestaurantRepository repository;
 	@Autowired
 	RestaurantRepository restaurantRepository;
+	TableOfRestaurant table;
+
+	@Before
+	public void setUp() {
+		Restaurant restaurant = new Restaurant("name", "location");
+		restaurant = restaurantRepository.save(restaurant);
+		table = new TableOfRestaurant(1, 1, restaurant);
+		table = repository.save(table);
+	}
+
+	@Test
+	public void getTable() {
+		TableOfRestaurant tableFind = repository.findOne(table.getId());
+		assertNotNull(tableFind);
+	}
 
 	@Test
 	public void createTable() {
@@ -32,13 +48,4 @@ public class TableOfRestaurantRepositoryIntegrationTests {
 		assertEquals(table, savedTable);
 	}
 
-	@Test
-	public void getTable() {
-		Restaurant restaurant = new Restaurant("name", "location");
-		Restaurant savedRestaurant = restaurantRepository.save(restaurant);
-		TableOfRestaurant table = new TableOfRestaurant(1, 1, savedRestaurant);
-		TableOfRestaurant savedTable = repository.save(table);
-		TableOfRestaurant tableFind = repository.findOne(savedTable.getId());
-		assertNotNull(tableFind);
-	}
 }

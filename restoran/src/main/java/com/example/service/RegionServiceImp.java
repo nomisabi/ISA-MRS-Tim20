@@ -15,8 +15,8 @@ public class RegionServiceImp implements RegionService{
 	private RegionRepository repository;
 	
 	@Override
-	public Collection<Region> getAllRegion (Long id){
-		return repository.getRequests(id);
+	public Collection<Region> getAllRegion (){
+		return repository.findAll();
 	}
 	
 	@Override

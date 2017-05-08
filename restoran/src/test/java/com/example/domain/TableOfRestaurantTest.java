@@ -12,10 +12,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class TableOfRestaurantTest {
 
 	TableOfRestaurant table;
+	Restaurant restaurant;
 
 	@Before
 	public void setUp() {
-		table = new TableOfRestaurant(1, 5, new Restaurant());
+		restaurant = new Restaurant("Restaurant", "proba");
+		table = new TableOfRestaurant(1, 5, restaurant);
 	}
 
 	@Test
@@ -26,6 +28,11 @@ public class TableOfRestaurantTest {
 	@Test
 	public void testTableNumberOfChairs() {
 		assertEquals(5, table.getNumberOfChairs());
+	}
+
+	@Test
+	public void testGetRestaurant() {
+		assertEquals(restaurant, table.getRestaurant());
 	}
 
 	@Test

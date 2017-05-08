@@ -1,25 +1,21 @@
 package com.example.domain;
 
-
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+@Entity
 public class Region implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -27,26 +23,28 @@ public class Region implements Serializable {
 	private int x;
 	@Column
 	private int y;
-	//@OneToMany
+	// @OneToMany
+	@Transient
 	private Set<TableOfRestaurant> tables;
-	@Column 
+	@Column
 	private TypeRegion type;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "restaurant_id", nullable = false)
+
+	// @ManyToOne(fetch = FetchType.EAGER)
+	// @JoinColumn(name = "restaurant_id", nullable = false)
+	@Transient
 	private Restaurant restaurant;
-	
-	public Region(){
-		
+
+	public Region() {
+
 	}
-	
-	public Region(int x, int y, TypeRegion type, Restaurant restaurant){
+
+	public Region(int x, int y, TypeRegion type, Restaurant restaurant) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.type = type;
 		this.restaurant = restaurant;
-		
+
 	}
 
 	public Long getId() {
@@ -88,8 +86,6 @@ public class Region implements Serializable {
 	public void setType(TypeRegion type) {
 		this.type = type;
 	}
-	
-	
 
 	public Restaurant getRestaurant() {
 		return restaurant;
@@ -105,6 +101,4 @@ public class Region implements Serializable {
 				+ restaurant + "]";
 	}
 
-	
-	
 }

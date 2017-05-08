@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -28,6 +27,7 @@ import com.example.domain.TableOfRestaurant;
 import com.example.domain.User;
 import com.example.domain.DTOs.FriendRequest;
 import com.example.domain.DTOs.GuestRegister;
+import com.example.domain.DTOs.RestaurantReservation;
 import com.example.domain.DTOs.Table;
 import com.example.service.GuestService;
 import com.example.service.ReservationService;
@@ -192,19 +192,23 @@ public class GuestController {
 	}
 
 	/*** Return all tables ***/
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/api/restaurant/tables", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Table>> getAvaliableTables(@RequestBody Reservation reservation) {
+	public ResponseEntity<Collection<Table>> getAvaliableTables(@RequestBody RestaurantReservation reservation) {
 		logger.info("> getAvaliableTables");
 		System.out.println(reservation);
-		System.out.println(reservation.getRestaurant().getId());
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-		reservation.setStartTime(sdf.format(reservation.getDateAndTime()));
-		Date endDate = reservation.getDateAndTime();
-		endDate.setHours(endDate.getHours() + reservation.getDuration());
-		reservation.setEndTime(sdf.format(endDate));
 
-		Collection<Reservation> reservations = reservationService.getAllReservationOfRestaurantInTime(
-				reservation.getRestaurant().getId(), reservation.getStartTime(), reservation.getEndTime());
+		String startTimeStr = sdf.format(reservation.getDateAndTime());
+		System.out.println(startTimeStr);
+
+		Date endTime = reservation.getDateAndTime();
+		endTime.setHours(endTime.getHours() + reservation.getDuration());
+		String endTimeStr = sdf.format(endTime);
+		System.out.println(endTimeStr);
+
+		Collection<Reservation> reservations = reservationService
+				.getAllReservationOfRestaurantInTime(reservation.getRestaurant().getId(), startTimeStr, endTimeStr);
 
 		HashMap<Long, Table> tableSS = new HashMap<Long, Table>();
 		for (Reservation reservation2 : reservations) {
@@ -230,20 +234,29 @@ public class GuestController {
 	}
 
 	/*** Return all tables ***/
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/api/restaurant/reservation", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> makeReservation(@RequestBody Reservation reservation) {
+	public ResponseEntity<Reservation> makeReservation(@RequestBody RestaurantReservation reservation) {
 		logger.info("> makeReservation");
 		System.out.println(reservation);
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-		reservation.setStartTime(sdf.format(reservation.getDateAndTime()));
+
+		Date startTime = reservation.getDateAndTime();
+		String startTimeStr = sdf.format(startTime);
+		System.out.println(startTimeStr);
+
 		Date endTime = reservation.getDateAndTime();
 		endTime.setHours(endTime.getHours() + reservation.getDuration());
-		System.out.println(endTime);
-		reservation.setEndTime(sdf.format(endTime));
+		String endTimeStr = sdf.format(endTime);
+		System.out.println(endTimeStr);
 
-		Reservation savedReservation = reservationService.createReservation(reservation);
+		Reservation makeReservation = new Reservation(reservation.getRestaurant(), reservation.getTable(),
+				reservation.getGuest(), startTimeStr, endTimeStr);
+
+		Reservation savedReservation = reservationService.createReservation(makeReservation);
 		System.out.println(savedReservation);
-		return new ResponseEntity<Reservation>(HttpStatus.OK);
+		logger.info("< makeReservation");
+		return new ResponseEntity<Reservation>(savedReservation, HttpStatus.OK);
 	}
 
 	/*

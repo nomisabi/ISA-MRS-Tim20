@@ -1,10 +1,12 @@
 package com.example.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Collection;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,18 @@ public class GuestRepositoryIntegrationTests {
 	@Autowired
 	GuestRepository repository;
 
+	Guest guest;
+
+	@Before
+	public void setUp() {
+		guest = new Guest("novi@gmail.com", "123456", "proba", "proba1");
+		guest = repository.save(guest);
+
+	}
+
 	@Test
 	public void getGuest() {
-		Guest guest = new Guest("novi@gmail.com", "123456");
-		Guest savedGuest = repository.save(guest);
-		Guest guestFind = repository.findOne(savedGuest.getId());
+		Guest guestFind = repository.findOne(guest.getId());
 		assertNotNull(guestFind);
 	}
 
@@ -38,11 +47,8 @@ public class GuestRepositoryIntegrationTests {
 
 	@Test
 	public void findByName() {
-		Guest guest = new Guest("proba@proba.com", "proba1234", "proba", "proba1");
-		repository.save(guest);
 		Collection<Guest> guests = repository.findByName(2L, "proba");
-		assertEquals(guests.size(), 1);
-
+		assertNotEquals(guests.size(), 0);
 	}
 
 	@Test

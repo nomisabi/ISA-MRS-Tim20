@@ -137,7 +137,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.reserve= function(restaurant){   	   	
-    	alert(restaurant.id);    
+    	//alert(restaurant.id);    
+    	$scope.tableNum = null;
     	$scope.restaurant = restaurant;
     	$scope.page="reserve";
     }
@@ -174,7 +175,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.reserveNext2 = function(){   	   	
-    	alert($scope.tableNum);
+    	//alert($scope.tableNum);
     	if ($scope.tableNum != null){
     		
     		$scope.page ="reserve3";

@@ -1,7 +1,6 @@
 package com.example.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 
 @Entity
 public class Reservation implements Serializable {
@@ -30,17 +28,11 @@ public class Reservation implements Serializable {
 	@JoinColumn(name = "guest_id", nullable = false)
 	private Guest guest;
 
-	// @Temporal(TemporalType.TIMESTAMP )
-	// @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	@Transient
-	private Date dateAndTime;
 	@Column
 	private String startTime;
+
 	@Column
 	private String endTime;
-
-	@Transient
-	private int duration;
 
 	public Reservation() {
 	}
@@ -86,22 +78,6 @@ public class Reservation implements Serializable {
 		this.guest = guest;
 	}
 
-	public Date getDateAndTime() {
-		return dateAndTime;
-	}
-
-	public void setDateAndTime(Date dateAndTime) {
-		this.dateAndTime = dateAndTime;
-	}
-
-	public int getDuration() {
-		return duration;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
-
 	public String getStartTime() {
 		return startTime;
 	}
@@ -120,8 +96,8 @@ public class Reservation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Reservation [restaurant=" + restaurant + ", table=" + table + ", guest=" + guest + ", dateAndTime="
-				+ dateAndTime + ", startTime=" + startTime + ", endTime=" + endTime + ", duration=" + duration + "]";
+		return "Reservation [restaurant=" + restaurant + ", table=" + table + ", guest=" + guest + ", startTime="
+				+ startTime + ", endTime=" + endTime + "]";
 	}
 
 }

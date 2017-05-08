@@ -17,8 +17,10 @@ public class TableOfRestaurant implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@Column
 	private int number;
+
 	@Column
 	private int numberOfChairs;
 
