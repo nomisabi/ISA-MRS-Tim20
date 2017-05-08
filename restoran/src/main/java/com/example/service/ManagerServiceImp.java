@@ -12,8 +12,10 @@ import com.example.domain.Manager;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.System_manager;
+import com.example.respository.EmployeeRepository;
 import com.example.respository.ManagerRepository;
 import com.example.respository.RestaurantRepository;
+import com.example.respository.SupllierRepository;
 import com.example.respository.SystemManagerRepository;
 
 @Service
@@ -25,7 +27,10 @@ public class ManagerServiceImp implements ManagerService{
     private ManagerRepository mRepository;
     @Autowired
     private RestaurantRepository rRepository;
-    
+    @Autowired
+    private EmployeeRepository eRepository;
+    @Autowired
+    private SupllierRepository sRepository;
     
     @Override
 	public Manager createManager(Manager m) {
@@ -55,11 +60,11 @@ public class ManagerServiceImp implements ManagerService{
 	public Collection<Manager> findAll() {
 		logger.info("> findAll");
 		Collection<Manager> manager = (Collection<Manager>) mRepository.findAll();
-	/*	for (Manager m:manager)
+		for (Manager m:manager)
 			if (mRepository.getRest(m.getId())!=null){
 				Restaurant r=rRepository.findOne(mRepository.getRest(m.getId()));
 				//m.setRestaurant(r);
-			}*/
+			}
 		logger.info("< findAll");
 		return manager;
 	}
@@ -67,14 +72,12 @@ public class ManagerServiceImp implements ManagerService{
 	public Restaurant findRest(Long id) {
 		logger.info("> /nfindRestSERVICE/n");
 		Restaurant r=null;
-		/*
 		Long id_r= mRepository.getRest(id);
 		logger.info("> /n id:"+id_r);
 		if (id_r!=null){
 			r=rRepository.findOne(mRepository.getRest(id));		
 			logger.info(r.toString());
 		}
-		*/
 		logger.info("<  /nfindRestSERVICE/n");
 		return r;
 	}
@@ -132,6 +135,21 @@ public class ManagerServiceImp implements ManagerService{
 	public void update(Manager man) {
 		mRepository.updatePass(man.getId(), man.getPassword(), man.getEmail(), man.getFirstName(), man.getLastName(), man.isActive());
 	
+	}
+
+	@Override
+	public Employee createEmployee(Employee e) {	
+		return eRepository.save(e);
+	}
+
+	@Override
+	public Supplier createSupplier(Supplier s) {
+		return sRepository.save(s);
+	}
+
+	@Override
+	public void updateRest(Long id_r, Long id_s) {
+		rRepository.insertSup(id_r, id_s);
 	}
 
 }

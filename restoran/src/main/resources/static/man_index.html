@@ -107,7 +107,7 @@
 							<br>
 							<button class="btn btn-theme" type="button" ng-click="changePass()">Save</button>
 			           	</div>
-			           	<div ng-switch-when="restaurant" ng-controller="ManagerController">
+			           	<div ng-switch-when="restaurant">
 							<h3>Restaurant</h3>
 								<table  class="prof">
 								<tr>
@@ -161,10 +161,10 @@
 				           			<td>{{m.firstName}} {{m.lastName}}
 				           			</td>
 				           		</tr>
-				           		<!-- manager name + add-->
-				           			 
+				           		
 				            </table>
-				            <br>	
+				            <!-- manager name + add-->
+				           			<br>	
 								<a class="" ng-click=changeToEmployee()>
 				                   	Employees
 				                </a>
@@ -172,15 +172,41 @@
 				                <a class="" ng-click=changeToSupplier()>
 				                   	Suppliers
 				                </a>
+				           
 			           	</div>
 			           	<div ng-switch-when="employee">
 							<h3>Employees</h3>
+							<table  class="prof">
+								<tr>
+		                     		<th>Email</th>
+		                     		<th>Password</th>
+		                     		<th>First name</th>
+		                     		<th>Last name</th>
+		                     		<th>Active</th>
+		                     		<th>Date</th>
+		                     		<th>NumbC</th>
+		                     		<th>NumbS</th>
+		                     		<th>Type</th>		
+	                     		</tr>
+								<tr width="20%" style="margin:5%;" ng-repeat="e in manager.restaurant.employee">
+									<td width="20%">{{e.email}}</td>
+									<td width="20%">{{e.password}}</td>
+									<td width="20%">{{e.firstName}}</td>
+									<td width="20%">{{e.lastName}}</td>
+									<td width="20%">{{e.active}}</td>
+									<td width="20%">{{e.date | date}}</td>
+									<td width="20%">{{e.numbC}}</td>
+									<td width="20%">{{e.numbS}}</td>	
+									<td width="20%">{{e.type}}</td>								
+								</tr>
+							</table>
+								
 								<a class="" ng-click=changeToCreateEmployee()>
 				                   	Adding new employee
 				                </a>
 				                
 			           	</div>
-			           	<div ng-switch-when="create_employee">
+			           	<div ng-switch-when="create_employee" ng-controller="ManagerController">
 							<h3>Adding new employee</h3>
 							<table  class="prof">
 								<tr>
@@ -214,8 +240,8 @@
 				           			</td>
 				           		</tr>
 				           		<tr>
-				        			<td>Birth date: {{employee.date}}</td>
-				        			<td><input type="text" ng-model="employee.date" jqdatepicker /></td>
+				        			<td>Birth date:</td>
+				        			<td><input type="date" class="form-control" ng-model="employee.date" /></td>
 				           			<!--  <td><input type="datetime-local"  class="form-control" ></td>-->
 				           		</tr> 
 				           		<tr>
@@ -235,7 +261,7 @@
 				           			</td>
 				           		</tr>
 				           		<tr>
-				        			<td>Number of sclothes:</td>
+				        			<td>Number of clothes:</td>
 				           			<td><input type="text" class="form-control" ng-model="employee.numbC"></td>
 				           		</tr> 
 				           		<tr>
@@ -247,10 +273,7 @@
 				           		<tr>
 				        			<td>Type:</td>
 				           			<td>
-				           				<select class="form-control" ng-model="employee.type">
-				           					<option value="CHEF">CHEF</option>
-				           					<option value="WAITER">WAITER</option>
-				           					<option value="BARTENDER">BARTENDER</option>
+				           				<select  class="form-control" ng-model="selected" ng-options="type.label for type in typeOfEmployee">
 				           				</select>
 				           			</td>
 				           		</tr> 
@@ -275,7 +298,7 @@
 				           		<tr>
 				           			<td>&nbsp;
 				           			</td>
-				           			<td><button class="btn btn-theme" type="button">Save</button>
+				           			<td><button class="btn btn-theme" ng-click="createEmployee()" type="button">Save</button>
 				           			</td>
 				           		</tr>
 				           			 
@@ -284,12 +307,26 @@
 			           	</div>
 			           	<div ng-switch-when="supplier">
 							<h3>Suppliers</h3>
+								<table  class="prof">
+								<tr>
+		                     		<th>Email</th>
+		                     		<th>Password</th>
+		                     		<th>Name</th>
+		                     		<th>Active</th>
+	                     		</tr>
+								<tr width="20%" style="margin:5%;" ng-repeat="s in manager.restaurant.suppliers">
+									<td width="20%">{{s.email}}</td>
+									<td width="20%">{{s.password}}</td>
+									<td width="20%">{{s.name}}</td>
+									<td width="20%">{{s.active}}</td>						
+								</tr>
+							</table>
 								<a class="" ng-click=changeToCreateSupplier()>
 				                   	Adding new supplier
 				                </a>
 				                
 			           	</div>
-			           	<div ng-switch-when="create_supplier">
+			           	<div ng-switch-when="create_supplier" ng-controller="ManagerController">
 							<h3>Adding new supplier</h3>
 							<table  class="prof">
 								<tr>
@@ -322,7 +359,7 @@
 				           		<tr>
 				           			<td>&nbsp;
 				           			</td>
-				           			<td><button class="btn btn-theme" type="button">Save</button>
+				           			<td><button class="btn btn-theme" ng-click="createSupplier()" type="button">Save</button>
 				           			</td>
 				           		</tr>
 				           			 

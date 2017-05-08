@@ -10,20 +10,20 @@ import org.springframework.stereotype.Service;
 import com.example.domain.Guest;
 import com.example.domain.Manager;
 import com.example.domain.Supplier;
-import com.example.respository.SupplierRepositoryImp;
+import com.example.respository.SupllierRepository;
 
 @Service
 public class SupplierServiceImp implements SupplierService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-
+	
 	@Autowired
-	private SupplierRepositoryImp supRepository;
+	private SupllierRepository supRepository;
 
 
 	@Override
 	public Collection<Supplier> findAll() {
 		logger.info("> findAll");
-		Collection<Supplier> supps = supRepository.findAll();
+		Collection<Supplier> supps = (Collection<Supplier>) supRepository.findAll();
 		logger.info("< findAll");
 		return supps;
 	}
@@ -35,40 +35,21 @@ public class SupplierServiceImp implements SupplierService {
 		logger.info("< findOne id:{}", id);
 		return sup;
 	}
-	
-	@Override
-	public Supplier findByEmail(String email){
-		logger.info("> findByEmail email:{}", email);
-		Supplier sup = supRepository.findByEmail(email);
-		logger.info("< findByEmail email:{}", email);
-		return sup;
-		
-	}
+
 
 	@Override
-	public boolean isSupplierExist(Supplier guest){
-		return supRepository.isSupplierExist(guest);
+	public boolean isSupplierExist(Long id){
+		return supRepository.exists(id);
 		
 	}
 	
 	@Override
-	public boolean changeData(Supplier s) {
-		logger.info("> changePass ", s);
-		boolean val =supRepository.changeData( s);
-		logger.info("< changePass :{}", s);
-		return val;
+	public void update(Supplier s) {
+		logger.info("> update ", s);
+		supRepository.updatePass(s.getId(), s.getPassword(), s.getEmail(), s.getName(), s.isActive());
+		logger.info("< update :{}", s);
 	}
 	
 
-	@Override
-	public Supplier getLogedIn() {
-		return supRepository.getLogedIn();
-	}
-
-	@Override
-	public void setLogedIn(Supplier m) {
-		supRepository.setLogedIn( m);
-		
-	}
 
 }

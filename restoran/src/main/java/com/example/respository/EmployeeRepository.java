@@ -2,26 +2,14 @@ package com.example.respository;
 
 import java.util.Collection;
 
+import org.springframework.data.repository.CrudRepository;
+
 import com.example.domain.Employee;
 import com.example.domain.Manager;
 import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
+import com.example.domain.User;
 
-public interface EmployeeRepository {
-	
-	Boolean login(Employee e);
-	
-	Collection<Employee> findAll();
+public interface EmployeeRepository extends CrudRepository<Employee, Long>{
 
-	Employee findOne(Long id);
-
-	Employee findByEmail(String email);
-
-	boolean isEmployeeExist(Employee em);
-	
-	boolean changePassword(String newP, String oldP, Employee em);
-	
-	void setLogedIn(Employee em);
-	
-	Employee getLogedIn();
 }

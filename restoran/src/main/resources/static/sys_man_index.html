@@ -138,7 +138,7 @@
 		           		</tr>
 		           		<tr>
 		           			<td>
-		           				<a class="" href="#/registration">
+		           				<a class="" ng-click="changeToChangePassword()">
 		                    	Change password
 		                		</a>
 		                	</td>
@@ -161,7 +161,7 @@
 		           		<tr>
 		           			<td>&nbsp;
 		           			</td>
-		           			<td><button class="btn btn-theme" type="button">Save</button>
+		           			<td><button class="btn btn-theme" ng-click="update()" type="button">Save</button>
 		           			</td>
 		           		</tr>
 		           			 
@@ -191,6 +191,7 @@
 								</tr>
 						</table>
 						<br>
+						{{man_without_rest}}
 						<br>
 						<a class="" ng-click="changeToCreateManager()">
 		                    	Create a new manager
@@ -262,7 +263,7 @@
 									<td ng-switch-when="" >null</td>
 									
 									<td ng-switch-default>{{r.manager[0].firstName}} {{r.manager[0].lastName}}</td>
-									<td><button> Add manager</button> </td>
+									<td><button><i class="fa fa-plus"></i></button> </td>
 									
 								</tr>
 						</table>
@@ -275,6 +276,7 @@
 		           		<div ng-switch-when="new_restaurant">
                      	
 						<h3>Creating a new restaurant</h3>
+						{{man_without_rest}}
 						<table  class="prof" ng-controller="SystemManagerController">
                      		
 								<tr >
@@ -301,7 +303,7 @@
 									<td>Last name:</td>
 									<td> 
 										
-										<select ng-model="new_rest_manager" ng-options=" (m.firstName+ ' '+ m.lastName)  for m in managers">
+										<select class="form-control"  ng-model="new_rest_manager" ng-options=" (m.firstName+ ' '+ m.lastName)  for m in man_without_rest">
 										
       										<option value="">-- choose manager --</option>
 										</select>
@@ -324,7 +326,9 @@
 									<td>&nbsp;</td>
 									<td><button class="btn btn-theme" type="button" ng-click="new_restaurant()">Create new restaurant</button></td>
 								</tr>
+								
 						</table>
+						
 		           	</div>
                      <div ng-switch-when="users">
                      	
@@ -339,9 +343,80 @@
 									<td>{{u.email}}</td>
 									<td>{{u.password}}</td>
 									<td>{{u.type}}</td>
+							</tr>
+							
+						</table>
+						<br> <br>
+							<button ng-click="changeToCreateSysman()"><i class="fa fa-plus"></i> New system manager</button>
+		           	</div>
+		           	<div ng-switch-when="new_sysman">
+                     	
+						<h3>Creating new manager</h3>
+						<table  class="prof" ng-controller="SystemManagerController">
+                     		
+								<tr >
+									<td>Email:</td>
+									<td><input type="email" ng-model="new_sysman.email" class="form-control"  autofocus></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr >
+									<td>Password:</td>
+									<td><input type="text" ng-model="new_sysman.password" class="form-control"  autofocus></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								<tr >
+									<td>First name:</td>
+									<td><input type="text" class="form-control" ng-model="new_sysman.firstName"></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								<tr >
+									<td>Last name:</td>
+									<td><input type="text" class="form-control"  ng-model="new_sysman.lastName"></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								
+								<tr >
+									<td>&nbsp;</td>
+									<td><button class="btn btn-theme" type="button" ng-click="new_sysmanager()">Create new system manager</button></td>
 								</tr>
 						</table>
-		           	</div>
+		           	</div>	
+					  <div ng-switch-when="new_pass" ng-controller="SystemManagerController">
+							<h3>Change password</h3>
+							<input type="password" placeholder="Password" class="form-control" ng-model="pw1" autofocus>
+							<br>
+							<input type="password" placeholder="Password again" ng-model="pw2" class="form-control" >
+							<br>
+							<br>
+							<button class="btn btn-theme" type="button" ng-click="changePass()">Save</button>
+			           	</div>				
+				
 				
 					</div>
 					

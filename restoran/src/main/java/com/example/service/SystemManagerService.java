@@ -30,6 +30,10 @@ public interface SystemManagerService {
 	boolean isRestaurantExist(Long id);
 	
 	Restaurant addRestaurant(Restaurant r);
+	 
+	Restaurant update(Restaurant r);
+	
+	void update(System_manager man);
 	
 	//System_manager updateSysMan(Long id);
 	

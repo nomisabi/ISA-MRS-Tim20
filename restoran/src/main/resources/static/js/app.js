@@ -32,7 +32,10 @@ app.config(function($routeProvider) {
    	 	templateUrl : "man_index.html",
    	 	controller: "ManagerController"
     })
-
+    .when("/supp/index", {
+   	 	templateUrl : "supp_index.html",
+   	 	controller: "SupplierController"
+    })
     .when("/sysman/info", {
    	 	templateUrl : "sysmaninfo.html",
    	 	controller: "SystemManagerController"

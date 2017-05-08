@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.domain.Guest;
 import com.example.domain.Manager;
 import com.example.domain.Supplier;
+import com.example.domain.User;
 import com.example.domain.DTOs.GuestRegister;
 import com.example.service.GuestService;
 import com.example.service.SupplierService;
+import com.example.service.UserService;
 
 @RestController
 public class SupplierController {
@@ -29,6 +31,9 @@ public class SupplierController {
 
 	@Autowired
 	private SupplierService supService;
+	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(
 			value = "/api/suppliers", 
@@ -66,18 +71,14 @@ public class SupplierController {
 			method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Supplier> logIn(@Valid @RequestBody Supplier s) throws Exception {
+	public ResponseEntity<Supplier> logIn(@Valid @RequestBody  User u) throws Exception {
 		logger.info("> logIn");
-		System.out.println(s);
-		Supplier supplier = supService.findByEmail(s.getEmail());
-		if (supplier != null){
-			if (s.getPassword().equals(supplier.getPassword())){		
-				supService.setLogedIn(supplier);
-				logger.info("success");
-				return new ResponseEntity<Supplier>(s, HttpStatus.OK);
-			}
+		Collection<Supplier> supp= supService.findAll();
+		for (Supplier s:supp)
+			if(u.getEmail().equals(s.getEmail())){
+				logger.info("< logIn");
+				return new ResponseEntity<Supplier>(s, HttpStatus.OK);		
 		}
-		
 		return new ResponseEntity<Supplier>(HttpStatus.NOT_FOUND);	
 	}
 	
@@ -89,27 +90,53 @@ public class SupplierController {
 	public ResponseEntity<Supplier> changeP(@Valid @RequestBody Supplier sup) throws Exception {
 		logger.info("> changePass");
 		System.out.println(sup);
+		sup.setActive(true);
+		supService.update(sup);
+		Collection<User> users= userService.findAll();
+		for (User u:users){
+			if (u.getEmail().equals(sup.getEmail())){
+				User new_user= u;
+				new_user.setPassword(sup.getPassword());
+				userService.changePass(u, new_user);
+			}		
+		}
+		logger.info("< changePass");
+		return new ResponseEntity<Supplier>(HttpStatus.OK);	
+	}
+	
 
-			if (supService.changeData(sup)){
-				logger.info("success");
-				return new ResponseEntity<Supplier>(HttpStatus.OK);
-			}
-		return new ResponseEntity<Supplier>(HttpStatus.NOT_FOUND);	
-	}
-	
-	
 	@RequestMapping(
-			value = "/api/suppliers/getlogedin", 
-			method = RequestMethod.GET,  
+			value = "/api/suppliers/update", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Supplier> logIn() throws Exception {
-		logger.info("> GetlogIn");
-		Supplier s = supService.getLogedIn();
-		if (s != null){
-				return new ResponseEntity<Supplier>(s, HttpStatus.OK);
-			}
+	public ResponseEntity<Supplier> update(@Valid @RequestBody Supplier sup) throws Exception {
+		logger.info("> update");
+		Supplier old= supService.findOne(sup.getId());
 		
-		return new ResponseEntity<Supplier>(HttpStatus.NOT_FOUND);
+		//ellenorizni h van-e vmelyik usernek -> ha van end
+		Collection<User> users= userService.findAll();
+		for (User u:users){
+			if (u.getEmail().equals(sup.getEmail()) && !sup.getEmail().equals(old.getEmail())){
+				return new ResponseEntity<Supplier>(HttpStatus.NOT_FOUND);
+			}
+		}
+		
+		
+		supService.update(sup);
+		
+		//update user if email changed
+		if (!old.getEmail().equals(sup.getEmail()))
+			for (User us:users){
+				if (us.getEmail().equals(old.getEmail())){
+					User new_user= us;
+					new_user.setEmail(sup.getEmail());
+					userService.changePass(us, new_user);
+					userService.login(new_user);
+				}		
+			}
+		return new ResponseEntity<Supplier>(HttpStatus.OK);
 	}
+	
 
 }
