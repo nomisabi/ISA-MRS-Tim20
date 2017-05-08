@@ -1,0 +1,363 @@
+  <div ng-controller="SystemManagerController">
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+      <header class="header black-bg">
+              <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+              </div>
+            <!--logo start-->
+            <a href="/sysman/index" class="logo"><b>CUPCAKE</b></a>
+            <!--logo end-->
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+                <ul class="nav top-menu">
+                    <!-- settings start -->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-tasks"></i>
+                            <span class="badge bg-theme">0</span>
+                        </a>
+                        <ul class="dropdown-menu extended tasks-bar">
+                          <!--    <div class="notify-arrow notify-arrow-green"></div> -->
+                           
+                            
+                        </ul>
+                    </li>
+                   
+                    <!-- inbox dropdown end -->
+                </ul>
+                <!--  notification end -->
+            </div>
+            <div class="top-menu">
+            	<ul class="nav pull-right top-menu">
+                    <li><a class="logout" ng-click="logout()" href="/#/">Logout</a></li>
+            	</ul>
+            </div>
+        </header>
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+              
+              	  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+              	  <h5 class="centered">{{sm.email}}</h5>
+              	  	
+                  <li class="mt" ng-click="changeToProfile()">
+                      <a class="active">
+                          <i class="fa fa-pencil"></i>
+                          <span>Profile</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu" ng-click="changeToManager()">
+                      <a href="javascript:;" >
+                          <i class="fa fa-user"></i>
+                          <span >Managers</span>
+                          </a>
+                          <ul class="sub">
+                          	<li><a ng-click="changeToCreateManager()">New manager</a></li>
+                          
+                      	   </ul>
+                  </li>
+
+                  <li class="sub-menu" ng-click="changeToRestaurants()">
+                      <a href="javascript:;" >
+                          <i class="fa fa-cutlery"></i>
+                          <span>Restaurants</span>
+                          </a>
+                          <ul class="sub">
+                          	<li><a ng-click="changeToCreateRestaurants()">New restaurant</a></li>                          
+                      	   </ul>
+                      
+                  </li>
+                  
+                   <li class="sub-menu"  ng-click="changeToUsers()">
+                      <a href="javascript:;" >
+                          <i class="fa fa-users"></i>
+                          <span>Users</span>
+                      </a>
+                  </li>
+               
+               
+
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+
+              <div class="col">
+                  <div class="col-lg-9 bc" ng-switch="page">
+					<div ng-switch-when="profile">
+					<table  class="prof">
+						<tr>
+		        			<td>Email:</td>
+		           			<td><input type="text" class="form-control" ng-model="sm.email"></td>
+		           		</tr> 
+		           		<tr>
+		           			<td>&nbsp;
+		           			</td>
+		           			<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		        			<td>First name:</td>
+		           			<td><input type="text" class="form-control" ng-model="sm.firstName"></td>
+		           		</tr> 
+		           		<tr>
+		           			<td>&nbsp;
+		           			</td>
+		           			<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		        			<td>Last name:</td>
+		           			<td><input type="text" class="form-control" ng-model="sm.lastName"></td>
+		           		</tr> 
+		           		<tr>
+		           			<td>&nbsp;
+		           			</td>
+		           			<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>
+		           				<a class="" href="#/registration">
+		                    	Change password
+		                		</a>
+		                	</td>
+		                	<td>&nbsp;
+		           			</td>
+		             
+		           		</tr>
+		           		<tr>
+		           			<td>&nbsp;
+		           			</td>
+		           			<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>&nbsp;
+		           			</td>
+		           			<td>&nbsp;
+		           			</td>
+		           		</tr>
+		           		<tr>
+		           			<td>&nbsp;
+		           			</td>
+		           			<td><button class="btn btn-theme" type="button">Save</button>
+		           			</td>
+		           		</tr>
+		           			 
+		            </table>	
+		           	</div>
+						
+					
+					<div ng-switch-when="manager">
+						<h3>Managers</h3>
+						<br>
+						<table  class="prof">
+							<tr>
+	                     		<th>Email</th>
+	                     		<th>Password</th>
+	                     		<th>First name</th>
+	                     		<th>Last name</th>
+	                     		<th>Active</th>
+	                     		
+                     		</tr>
+								<tr ng-repeat="m in managers">
+									<td >{{m.email}}</td>
+									<td >{{m.password}}</td>
+									<td >{{m.firstName}}</td>
+									<td >{{m.lastName}}</td>
+									<td >{{m.active}}</td>
+									
+								</tr>
+						</table>
+						<br>
+						<br>
+						<a class="" ng-click="changeToCreateManager()">
+		                    	Create a new manager
+		                </a>
+						
+		           	</div>
+		           	<div ng-switch-when="new_manager">
+                     	
+						<h3>Creating new manager</h3>
+						<table  class="prof" ng-controller="SystemManagerController">
+                     		
+								<tr >
+									<td>Email:</td>
+									<td><input type="email" ng-model="new_man.email" class="form-control"  autofocus></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								<tr >
+									<td>First name:</td>
+									<td><input type="text" class="form-control" ng-model="new_man.firstName"></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								<tr >
+									<td>Last name:</td>
+									<td><input type="text" class="form-control"  ng-model="new_man.lastName"></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								
+								<tr >
+									<td>&nbsp;</td>
+									<td><button class="btn btn-theme" type="button" ng-click="new_manager()">Create new manager</button></td>
+								</tr>
+						</table>
+		           	</div>	
+					<div ng-switch-when="restaurant">
+						<h3>Restaurants</h3>
+						<br>
+						<table class="prof">
+							<tr>
+	                     		<th>Name</th>
+	                     		<th>Location</th>
+	                     		<th>Managers</th>
+	                     		<th>&nbsp;</th>
+                     		</tr>
+								<tr ng-repeat="r in restaurants" ng-switch="r.manager[0]">
+									
+									<td >{{r.name}}</td>
+									<td >{{r.location}}</td>
+									<td ng-switch-when="" >null</td>
+									
+									<td ng-switch-default>{{r.manager[0].firstName}} {{r.manager[0].lastName}}</td>
+									<td><button> Add manager</button> </td>
+									
+								</tr>
+						</table>
+						<br>
+						<br>
+						<a class="" ng-click="changeToCreateRestaurant()">
+		                    	Create a new restaurant
+		                </a>
+		           	</div>
+		           		<div ng-switch-when="new_restaurant">
+                     	
+						<h3>Creating a new restaurant</h3>
+						<table  class="prof" ng-controller="SystemManagerController">
+                     		
+								<tr >
+									<td>Name:</td>
+									<td><input type="text" ng-model="new_rest.name" class="form-control"  autofocus></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								<tr >
+									<td>Location:</td>
+									<td><input type="text" class="form-control" ng-model="new_rest.location"></td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								<tr >
+									<td>Last name:</td>
+									<td> 
+										
+										<select ng-model="new_rest_manager" ng-options=" (m.firstName+ ' '+ m.lastName)  for m in managers">
+										
+      										<option value="">-- choose manager --</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+								
+								<tr >
+									<td>&nbsp;</td>
+									<td><button class="btn btn-theme" type="button" ng-click="new_restaurant()">Create new restaurant</button></td>
+								</tr>
+						</table>
+		           	</div>
+                     <div ng-switch-when="users">
+                     	
+						<h3>Users</h3>
+						<table>
+							<tr>
+	                     		<th>Email</th>
+	                     		<th>Password</th>
+	                     		<th>Type</th>
+                     		</tr>
+								<tr ng-repeat="u in users">
+									<td>{{u.email}}</td>
+									<td>{{u.password}}</td>
+									<td>{{u.type}}</td>
+								</tr>
+						</table>
+		           	</div>
+				
+					</div>
+					
+                  </div><!-- /col-lg-9 END SECTION MIDDLE -->
+                  
+                  
+      <!-- **********************************************************************************************************************************************************
+      RIGHT SIDEBAR CONTENT
+      *********************************************************************************************************************************************************** -->                  
+                  
+                    
+  
+          </section>
+      </section>
+
+    
+  </section>
+
+</div>

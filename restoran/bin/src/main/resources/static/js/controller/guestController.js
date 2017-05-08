@@ -2,7 +2,7 @@
 
 angular.module('myApp').controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
     var self = this;
-    self.user={id:null,email:'',password:'',password2:'',lastName:'',lastName:''};
+    self.user={id:null,email:'',password:'',password2:'',firstName:'',lastName:''};
 
     self.submit = submit;
     self.reset = reset;
@@ -11,29 +11,17 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService', f
     self.facebookLogIn = facebookLogIn;
     self.updateUser = updateUser;
     self.logIn = logIn;
-    
-    fetchUser();
- 
-    function fetchUser(){
-        UserService.fetchUser()
-            .then(
-            function(d) {
-                self.user = d;
-            },
-            function(errResponse){
-                console.error('Error while fetching Users');
-            }
-        );
-    }
 
     
     function createUser(user){
         UserService.createUser(user)
             .then(
             	function() {
+            		alert("Account successfully created.");
             		window.location.href = '#';
                 },
             function(errResponse){
+                alert("Error creating account.");
                 console.error('Error while creating User');
             }
         );
