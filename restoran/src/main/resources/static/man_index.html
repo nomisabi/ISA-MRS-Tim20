@@ -97,16 +97,23 @@
               <div class="col">
                   <div class="col-lg-9 bc" ng-switch="page">
                   {{page}}
-         
+         			
 	                  <div ng-switch-when="non-active" ng-controller="ManagerController">
+	                  <form name="myForm">
 							<h3>Change password</h3>
-							<input type="password" placeholder="Password" class="form-control" ng-model="pw1" autofocus>
+							<input type="password" name="pass" placeholder="Password" class="form-control" required ng-model="pw1" autofocus>
+							
+							<div class="has-error" ng-show="myForm.pass.$dirty">	
+								<span ng-show="myForm.pass.$error.required">This is a required field.</span>
+							</div>
 							<br>
 							<input type="password" placeholder="Password again" ng-model="pw2" class="form-control" >
 							<br>
 							<br>
-							<button class="btn btn-theme" type="button" ng-click="changePass()">Save</button>
+							<button class="btn btn-theme" type="button" ng-disabled="myForm.$invalid || myForm.pass.$pristine" ng-click="changePass()">Save</button>
+			           	</form>
 			           	</div>
+			           	
 			           	<div ng-switch-when="restaurant">
 							<h3>Restaurant</h3>
 								<table  class="prof">
@@ -367,6 +374,7 @@
 				                
 			           	</div>
 						<div ng-switch-when="profile">
+						<form name="myForm">
 							<table  class="prof">
 								<tr>
 				        			<td>Email:</td>
@@ -428,7 +436,8 @@
 				           			</td>
 				           		</tr>
 				           			 
-				            </table>	
+				            </table>
+				            </form>	
 			           	</div>
 						
 					

@@ -21,17 +21,18 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	    $http.get("http://localhost:8080/api/manager").then(
 	    		function(data){
 	    			$scope.managers=data.data;
+	    			//if ($scope.managers.count()!=0){
 	    			$http.post("http://localhost:8080/api/manager/getRestColl",$scope.managers).error(
 								function(data){	
 							}).success(
 								function(data){
-									//alert(JSON.stringify(data));
 									$scope.managers=data;
 									for (var i = 0; i < $scope.managers.length; i++){
 								    	if ($scope.managers[i].restaurant==null)
 								    		$scope.man_without_rest.push($scope.managers[i]);
 								    }
 							});
+	    				//}
 	    			});
 	    $http.get("http://localhost:8080/api/users").then(
 	    		function(data){
@@ -107,7 +108,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	$http.post("http://localhost:8080/api/sysman/createSysman",JSON.stringify($scope.new_sysman))
     		.error(function(data){
 					alert('This email address is exist.');
-					return;
+					//$window.location.reload();
 				}).then(function(data){
 			    	$window.location.reload();
 				});		
@@ -135,12 +136,11 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     
     
     $scope.update=function(){
-    	alert("dfd");
     	$http.post("http://localhost:8080/api/sysman/update", $scope.sm).success(function(data) {
-    		$route.reload();
+    		$window.location.reload();
     	}).error(function(data) {
     		alert("This email address is in our system");	
-    		$route.reload();
+    		$window.location.reload();
     	});
     }
     
