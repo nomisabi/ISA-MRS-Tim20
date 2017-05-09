@@ -60,11 +60,7 @@ public class ManagerServiceImp implements ManagerService{
 	public Collection<Manager> findAll() {
 		logger.info("> findAll");
 		Collection<Manager> manager = (Collection<Manager>) mRepository.findAll();
-		for (Manager m:manager)
-			if (mRepository.getRest(m.getId())!=null){
-				Restaurant r=rRepository.findOne(mRepository.getRest(m.getId()));
-				//m.setRestaurant(r);
-			}
+		
 		logger.info("< findAll");
 		return manager;
 	}

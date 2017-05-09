@@ -34,8 +34,9 @@ public class Manager {
 	private String lastName;
     @Column
 	private boolean active;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "rest_id")
+   // @ManyToOne
+   // @JoinColumn(name = "rest_id")
+    @Transient
 	private Restaurant restaurant;
 	
 	public Manager(){

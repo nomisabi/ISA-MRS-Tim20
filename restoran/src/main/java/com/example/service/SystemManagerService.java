@@ -8,12 +8,6 @@ import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
 
 public interface SystemManagerService {
-	//System_manager signUP(System_manager sm);
-
-	//Manager createManager(Manager sm);
-	
-	//Boolean login(System_manager m);
-	//System_manager findByEmail(String email);
 	
 	Collection<System_manager> findAll();
 
@@ -34,11 +28,6 @@ public interface SystemManagerService {
 	Restaurant update(Restaurant r);
 	
 	void update(System_manager man);
-	
-	//System_manager updateSysMan(Long id);
-	
-	//System_manager deleteSysMan(Long id);
-	//void setLogedIn(System_manager sm);
-	//System_manager getLogedIn();
+
 
 }
