@@ -105,15 +105,20 @@
               <div class="col">
                   <div class="col-lg-9 bc" ng-switch="page">
 					<div ng-switch-when="profile">
+					<form name="myForm">
 					<table  class="prof">
 						<tr>
 		        			<td>Email:</td>
-		           			<td><input type="text" class="form-control" ng-model="sm.email"></td>
+		           			<td><input type="email" class="form-control" ng-model="sm.email" name="mail" required></td>
 		           		</tr> 
 		           		<tr>
 		           			<td>&nbsp;
 		           			</td>
-		           			<td>&nbsp;
+		           			<td>
+		           				<div class="has-error" ng-show="myForm.mail.$dirty">
+			                    	<span ng-show="myForm.mail.$error.required">This is a required field.</span>
+			                        <span ng-show="myForm.mail.$invalid">This field is invalid </span>
+                    			</div>
 		           			</td>
 		           		</tr>
 		           		<tr>
@@ -138,7 +143,7 @@
 		           		</tr>
 		           		<tr>
 		           			<td>
-		           				<a class="" href="#/registration">
+		           				<a class="" ng-click="changeToChangePassword()">
 		                    	Change password
 		                		</a>
 		                	</td>
@@ -161,11 +166,12 @@
 		           		<tr>
 		           			<td>&nbsp;
 		           			</td>
-		           			<td><button class="btn btn-theme" type="button">Save</button>
+		           			<td><button class="btn btn-theme" ng-click="update()"  ng-disabled="myForm.$invalid" type="button">Save</button>
 		           			</td>
 		           		</tr>
 		           			 
-		            </table>	
+		            </table>
+		            </form>	
 		           	</div>
 						
 					
@@ -191,6 +197,7 @@
 								</tr>
 						</table>
 						<br>
+						{{man_without_rest}}
 						<br>
 						<a class="" ng-click="changeToCreateManager()">
 		                    	Create a new manager
@@ -200,16 +207,21 @@
 		           	<div ng-switch-when="new_manager">
                      	
 						<h3>Creating new manager</h3>
+						<form name="myForm">
 						<table  class="prof" ng-controller="SystemManagerController">
                      		
 								<tr >
 									<td>Email:</td>
-									<td><input type="email" ng-model="new_man.email" class="form-control"  autofocus></td>
+									<td><input type="email" name="mail" ng-model="new_man.email" class="form-control" required autofocus></td>
 								</tr>
 								<tr>
 				           			<td>&nbsp;
 				           			</td>
-				           			<td>&nbsp;
+				           			<td>
+										<div class="has-error" ng-show="myForm.mail.$dirty">	
+											<span ng-show="myForm.mail.$error.required">This is a required field.</span>
+											<span ng-show="myForm.mail.$invalid">This field is invalid </span>
+										</div>
 				           			</td>
 				           		</tr>
 								<tr >
@@ -241,9 +253,10 @@
 								
 								<tr >
 									<td>&nbsp;</td>
-									<td><button class="btn btn-theme" type="button" ng-click="new_manager()">Create new manager</button></td>
+									<td><button class="btn btn-theme" type="button" ng-disabled="myForm.$invalid || myForm.mail.$pristine" ng-click="new_manager()">Create new manager</button></td>
 								</tr>
 						</table>
+						</form>
 		           	</div>	
 					<div ng-switch-when="restaurant">
 						<h3>Restaurants</h3>
@@ -262,7 +275,7 @@
 									<td ng-switch-when="" >null</td>
 									
 									<td ng-switch-default>{{r.manager[0].firstName}} {{r.manager[0].lastName}}</td>
-									<td><button> Add manager</button> </td>
+									<td><button><i class="fa fa-plus"></i></button> </td>
 									
 								</tr>
 						</table>
@@ -272,24 +285,225 @@
 		                    	Create a new restaurant
 		                </a>
 		           	</div>
-		           		<div ng-switch-when="new_restaurant">
+		           		<div ng-switch-when="new_restaurant"  ng-controller="SystemManagerController">
+		           			{{open}}
+                     		<div ng-hide="open">
+								<h3>Creating a new restaurant</h3>
+								<h5>1/2</h5>
+								{{man_without_rest}}
+								<form name="myForm">
+									<table  class="prof" >
+		                     		
+										<tr >
+											<td>Name:</td>
+											<td><input type="text" name="name" ng-model="new_rest.name" class="form-control" required autofocus></td>
+										</tr>
+										<tr>
+						           			<td>&nbsp;
+						           			</td>
+						           			<td>
+												<div class="has-error" ng-show="myForm.name.$dirty">	
+													<span ng-show="myForm.name.$error.required">This is a required field.</span>
+												</div>
+						           			</td>
+						           		</tr>
+										<tr >
+											<td>Location:</td>
+											<td><input type="text" class="form-control" ng-model="new_rest.location"></td>
+										</tr>
+										<tr>
+						           			<td>&nbsp;
+						           			</td>
+						           			<td>&nbsp;
+						           			</td>
+						           		</tr>
+						           		<tr >
+											<td>Description:</td>
+											<td><input type="text" class="form-control" ng-model="new_rest.description"></td>
+										</tr>
+										<tr>
+						           			<td>&nbsp;
+						           			</td>
+						           			<td>&nbsp;
+						           			</td>
+						           		</tr>
+										<tr >
+											<td>Manager:</td>
+											<td> 
+												
+												<select class="form-control"  ng-model="new_rest_manager" ng-options=" (m.firstName+ ' '+ m.lastName)  for m in man_without_rest">
+												
+		      										<option value="">-- choose manager --</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+						           			<td>&nbsp;
+						           			</td>
+						           			<td>&nbsp;
+						           			</td>
+						           		</tr>
+						           		
+										
+										<tr >
+											<td>&nbsp;</td>
+											<td>
+											<!-- <button class="btn btn-theme" type="button" ng-disable="myForm.$invalid || myForm.name.$pristine" ng-click="opening_days()">Next</button> -->
+											<button class="btn btn-theme" type="button" ng-disabled="myForm.$invalid || myForm.name.$pristine" ng-click="new_restaurant()">Create</button> 
+											</td>
+										</tr>
+										
+								</table>
+								</form>
+						</div> 
+							<div ng-show="open">
+								<h3>Creating a new restaurant</h3>
+									<h5>2/2</h5>
+									
+									<br>
+									<table>
+										<tr>
+											<th colspan="2"> Day</th>
+											<th colspan="3"> Open </th>
+											<th colspan="2"> Close </th>
+										</tr>
+										<tr>
+											<td>Monday </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="23" step="1" ng-model="opening.mon_open_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.mon_open_minute" required> </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="24" step="1" ng-model="opening.mon_close_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.mon_close_minute" required> </td>
+										</tr>
+										<tr>
+											<td>Tuesday </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="23" step="1" ng-model="opening.tues_open_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.tues_open_minute" required> </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="24" step="1" ng-model="opening.tues_close_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.tues_close_minute" required> </td>
+										</tr>
+										<tr>
+											<td>Wednesday </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="23" step="1" ng-model="opening.wed_open_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.wed_open_minute" required> </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="24" step="1" ng-model="opening.wed_close_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.wed_close_minute" required> </td>
+										</tr>
+										<tr>
+											<td>Thursday </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="23" step="1" ng-model="opening.thurs_open_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.thurs_open_minute" required> </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="24" step="1" ng-model="opening.thurs_close_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.thurs_close_minute" required> </td>
+										</tr>
+										<tr>
+											<td>Friday </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="23" step="1" ng-model="opening.fri_open_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.fri_open_minute" required> </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="24" step="1" ng-model="opening.fri_close_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.fri_close_minute" required> </td>
+										</tr>
+										<tr>
+											<td>Saturday </td>
+											<td>&nbsp;</td>
+											<td> <input type="number" class="form-control" min="0" max="23" step="1" ng-model="opening.sat_open_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.sat_open_minute" required> </td>
+											<td>&nbsp;</td><td> <input type="number" class="form-control" min="0" max="24" step="1" ng-model="opening.sat_close_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.sat_close_minute" required> </td>
+										</tr>
+										<tr>
+											<td>Sunday </td>
+											<td>&nbsp;</td>
+											<td> <input type="number" class="form-control" min="0" max="23" step="1" ng-model="opening.sun_open_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.sun_open_minute" required> </td>
+											<td>&nbsp;</td>
+											<td> <input type="number" class="form-control" min="0" max="24" step="1" ng-model="opening.sun_close_hours" required></td>
+											<td> <input type="number" class="form-control" min="0" max="59" step="15" ng-model="opening.sun_close_minute" required> </td>
+										</tr>
+										<tr >
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr >
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr >
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td><button class="btn btn-theme" type="button" ng-click="new_restaurant()">Create</button></td>
+										</tr>
+										
+									</table>
+				  			
+				           		
+				          	</div>
+						
+		           	</div>
+                     <div ng-switch-when="users">
                      	
-						<h3>Creating a new restaurant</h3>
+						<h3>Users</h3>
+						<table>
+							<tr>
+	                     		<th>Email</th>
+	                     		<th>Password</th>
+	                     		<th>Type</th>
+                     		</tr>
+								<tr ng-repeat="u in users">
+									<td>{{u.email}}</td>
+									<td>{{u.password}}</td>
+									<td>{{u.type}}</td>
+							</tr>
+							
+						</table>
+						<br> <br>
+							<button ng-click="changeToCreateSysman()"><i class="fa fa-plus"></i> New system manager</button>
+		           	</div>
+		           	<div ng-switch-when="new_sysman">
+                     	
+						<h3>Creating new system manager</h3>
+						<form name="myForm">
 						<table  class="prof" ng-controller="SystemManagerController">
                      		
 								<tr >
-									<td>Name:</td>
-									<td><input type="text" ng-model="new_rest.name" class="form-control"  autofocus></td>
+									<td>Email:</td>
+									<td><input type="email" name="mail" ng-model="new_sysman.email" class="form-control" required autofocus></td>
 								</tr>
 								<tr>
 				           			<td>&nbsp;
 				           			</td>
+				           			<td>
+				           				<div class="has-error" ng-show="myForm.mail.$dirty">	
+											<span ng-show="myForm.mail.$error.required">This is a required field.</span>
+											<span ng-show="myForm.mail.$invalid">This field is invalid </span>
+										</div>
+				           			</td>
+				           		</tr>
+				           		<tr >
+									<td>Password:</td>
+									<td><input type="password" name="pass" ng-model="new_sysman.password" class="form-control" required ></td>
+								</tr>
+								<tr>
 				           			<td>&nbsp;
+				           			</td>
+				           			<td>
+										<div class="has-error" ng-show="myForm.pass.$dirty">	
+											<span ng-show="myForm.pass.$error.required">This is a required field.</span>
+										</div>
 				           			</td>
 				           		</tr>
 								<tr >
-									<td>Location:</td>
-									<td><input type="text" class="form-control" ng-model="new_rest.location"></td>
+									<td>First name:</td>
+									<td><input type="text" class="form-control" ng-model="new_sysman.firstName"></td>
 								</tr>
 								<tr>
 				           			<td>&nbsp;
@@ -299,13 +513,7 @@
 				           		</tr>
 								<tr >
 									<td>Last name:</td>
-									<td> 
-										
-										<select ng-model="new_rest_manager" ng-options=" (m.firstName+ ' '+ m.lastName)  for m in managers">
-										
-      										<option value="">-- choose manager --</option>
-										</select>
-									</td>
+									<td><input type="text" class="form-control"  ng-model="new_sysman.lastName"></td>
 								</tr>
 								<tr>
 				           			<td>&nbsp;
@@ -322,26 +530,26 @@
 								
 								<tr >
 									<td>&nbsp;</td>
-									<td><button class="btn btn-theme" type="button" ng-click="new_restaurant()">Create new restaurant</button></td>
+									<td><button class="btn btn-theme" type="button" ng-disabled="myForm.$invalid"  ng-click="new_sysmanager()">Create new system manager</button></td>
 								</tr>
 						</table>
-		           	</div>
-                     <div ng-switch-when="users">
-                     	
-						<h3>Users</h3>
-						<table>
-							<tr>
-	                     		<th>Email</th>
-	                     		<th>Password</th>
-	                     		<th>Type</th>
-                     		</tr>
-								<tr ng-repeat="u in users">
-									<td>{{u.email}}</td>
-									<td>{{u.password}}</td>
-									<td>{{u.type}}</td>
-								</tr>
-						</table>
-		           	</div>
+						</form>
+		           	</div>	
+					  <div ng-switch-when="new_pass" ng-controller="SystemManagerController">
+							<h3>Change password</h3>
+							<form name="myForm">
+								<input type="password" name="pass" placeholder="Password" class="form-control" ng-model="pw1" required autofocus>
+								<div class="has-error" ng-show="myForm.pass.$dirty">	
+									<span ng-show="myForm.pass.$error.required">This is a required field.</span>
+								</div>
+								<br>
+								<input type="password" placeholder="Password again" ng-model="pw2" class="form-control" >
+								<br>
+								<br>
+								<button class="btn btn-theme" type="button"  ng-disabled="myForm.$invalid || myForm.pass.$pristine" ng-click="changePass()">Save</button>
+							</form>
+			           	</div>				
+				
 				
 					</div>
 					

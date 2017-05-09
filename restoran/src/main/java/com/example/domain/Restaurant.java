@@ -24,13 +24,17 @@ public class Restaurant implements Serializable {
 	private String name;
 	@Column
 	private String location;
+	@Column
+	private String description;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy= "restaurant")
+	  
+	@OneToMany(cascade={CascadeType.MERGE})
 	private Set<Manager> manager;
-	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+	@OneToMany(cascade={CascadeType.MERGE})
 	private Set<Employee> employee;
-	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+	@ManyToMany(cascade={CascadeType.MERGE})
 	private Set<Supplier> suppliers;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	private Set<TableOfRestaurant> tables;
 
@@ -96,6 +100,15 @@ public class Restaurant implements Serializable {
 
 	public void setManager(Set<Manager> manager) {
 		this.manager = manager;
+	}
+
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

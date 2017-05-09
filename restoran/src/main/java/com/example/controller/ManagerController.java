@@ -10,14 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.Employee;
 import com.example.domain.Manager;
 import com.example.domain.Restaurant;
+import com.example.domain.Supplier;
 import com.example.domain.TypeOfUser;
 import com.example.domain.User;
+import com.example.domain.DTOs.EmployeeRestaurant;
+import com.example.domain.DTOs.SupplierRestaurant;
 import com.example.service.ManagerService;
+import com.example.service.SystemManagerService;
 import com.example.service.UserService;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -34,7 +43,8 @@ public class ManagerController {
 	private ManagerService mService;
 	@Autowired
 	private UserService userService;
-
+	@Autowired
+	private SystemManagerService smService;
 	
 	@RequestMapping(
 			value = "/api/manager/{id}", 
@@ -125,30 +135,71 @@ public class ManagerController {
 		return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
 	}
 	
-/*	@RequestMapping(value = "/api/manager/createSupplier", 
-	method = RequestMethod.POST, 
-	produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Supplier>  createSupplier(@Valid @RequestBody Supplier s) throws Exception {
-		logger.info("> createSupplier: ");
-
-		mService.createSupplier(s);
-		logger.info("< createSupplier");
-		
-		return new ResponseEntity<Supplier>(s, HttpStatus.OK);
+	@RequestMapping(
+			value = "/api/manager/getRestColl", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Manager>> getRstColl(@Valid @RequestBody Collection<Manager> managers) throws Exception {
+		logger.info("> getRest");
+		for (Manager m: managers){
+			Restaurant r= mService.findRest(m.getId());
+			if (r!=null){
+				m.setRestaurant(r);}
+		}		
+		return new ResponseEntity<Collection<Manager>>(managers, HttpStatus.OK);		
 	}
 	
+	@RequestMapping(value = "/api/manager/createSupplier", 
+	method = RequestMethod.POST, 
+	produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Supplier>  createSupplier(@Valid @RequestBody SupplierRestaurant sr) throws Exception {
+		logger.info("> createSupplier: ");
+		Collection<User> users = userService.findAll();
+		for (User u: users)
+			if (u.getEmail().equals(sr.getS().getEmail()))
+				return new ResponseEntity<Supplier>( HttpStatus.NOT_FOUND);
+		
+		User user = new User(sr.getS().getEmail(), sr.getS().getPassword(), TypeOfUser.SUPPLIER);
+		Set<Restaurant> rest = new HashSet<Restaurant>();
+		rest.add(sr.getR());
+		//sr.getS().setRestaurants(rest);
+		Supplier s =mService.createSupplier(sr.getS());
+		Set<Supplier> supp = sr.getR().getSuppliers();
+		supp.add(s);
+		sr.getR().setSuppliers(supp);
+		userService.addUser(user);
+		//smService.update(sr.getR());
+		mService.updateRest(sr.getR().getId(), sr.getS().getId());
+		logger.info("< createSupplier");
+		
+		return new ResponseEntity<Supplier>(sr.getS(), HttpStatus.OK);
+	}
+	
+	//email ellenorzes
+	//beirni userbe
 	@RequestMapping(value = "/api/manager/createEmployee", 
 	method = RequestMethod.POST, 
 	produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Employee>  createEmployee(@Valid  @RequestBody Employee e) throws Exception {
+	public ResponseEntity<Employee>  createEmployee(@Valid  @RequestBody EmployeeRestaurant er) throws Exception {
 		logger.info("> createEmployee: ");
-			mService.createEmployee(e);
-		logger.info("< createEmployee");
+		Collection<User> users = userService.findAll();
+		for (User u: users)
+			if (u.getEmail().equals(er.getE().getEmail()))
+				return new ResponseEntity<Employee>( HttpStatus.NOT_FOUND);
 		
-		return new ResponseEntity<Employee>(e, HttpStatus.OK);
-	}
+		User user = new User(er.getE().getEmail(), er.getE().getPassword(), TypeOfUser.EMPLOYEE);
+		Employee e =mService.createEmployee(er.getE());
+		Set<Employee> empl = er.getR().getEmployee();
+		empl.add(e);
+		er.getR().setEmployee(empl);
+		userService.addUser(user);
+		smService.update(er.getR());
+		
+		logger.info("< createEmployee");	
+		return new ResponseEntity<Employee>(er.getE(), HttpStatus.OK);
 	
-	}*/
+	}
 	
 	@RequestMapping(
 			value = "/api/manager/changePass", 

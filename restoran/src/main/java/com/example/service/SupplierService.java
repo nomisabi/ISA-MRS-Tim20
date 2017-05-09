@@ -12,13 +12,8 @@ public interface SupplierService {
 
 	Supplier findOne(Long id);
 
-	Supplier findByEmail(String email);
-
-	boolean isSupplierExist(Supplier sup);
+	boolean isSupplierExist(Long id);
 	
-	boolean changeData(Supplier s);
-	
-	Supplier getLogedIn();
-	void setLogedIn(Supplier s);
+	void update(Supplier s);
 
 }

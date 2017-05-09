@@ -2,7 +2,18 @@
 angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route', function($scope, $http,window, $route) {
 	
 	$scope.page="non-active";
-	//$scope.rest={"name":"xy","location":"yt"};
+	$scope.typeOfEmployee = [{
+		    value: 'CHEF',
+		    label: 'Chef'
+		  }, {
+		    value: 'WAITER',
+		    label: 'Waiter'
+		  }, {
+			value: 'BARTENDER',
+			label: 'Bartender'
+		  }]; 
+	$scope.selected = $scope.typeOfEmployee[0];
+
 	function init() {
 		$http.get("http://localhost:8080/api/users/login").success(
 				function(data){	
@@ -11,12 +22,13 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 								$scope.manager=data;
 								$http.post("http://localhost:8080/api/manager/getRest",$scope.manager).error(
 										function(data){
-											alert("error");
+											//alert("error");
 									}).success(
 										function(data){
 											//$scope.rest=data;
-											//alert(JSON.stringify(data));
+											alert(JSON.stringify(data));
 											$scope.manager.restaurant=data;
+											
 									});
 								if ($scope.manager.active)
 									$scope.page="profile";
@@ -77,7 +89,8 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		if ($scope.manager.active)
     		$scope.page="drinkmenu";   	
   	}
-  	$scope.changeToSupplier= function(){  
+  	$scope.changeToSupplier= function(){
+  		//alert("supplier");
   		if ($scope.manager.active)
     		$scope.page="supplier";   	
   	}
@@ -109,5 +122,30 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		if ($scope.manager.active)
     		$scope.page="non-active"; 
   	}
+  	
+  	$scope.createEmployee= function(){
+  		if ($scope.manager.restaurant!=null){
+  			alert($scope.selected);
+  			$scope.employee.type=$scope.selected.value;
+	  		$scope.employee.password="pass";
+	  		$scope.employee.numbC= Number($scope.employee.numbC);
+			$scope.employee.numbS= Number($scope.employee.numbS);
+	  		alert(JSON.stringify($scope.employee));
+	  		$http.post("http://localhost:8080/api/manager/createEmployee",{"e":$scope.employee, "r":$scope.manager.restaurant}).success(
+					function(data){
+						$route.reload();
+					});
+  		}
+  	}
 
+	$scope.createSupplier= function(){
+		$scope.supplier.password="pass";
+		
+  		alert(JSON.stringify($scope.supplier));
+  		$http.post("http://localhost:8080/api/manager/createSupplier",{"s":$scope.supplier, "r":$scope.manager.restaurant}).success(
+				function(data){
+					$route.reload();
+				});
+  	}
+	
 }]);

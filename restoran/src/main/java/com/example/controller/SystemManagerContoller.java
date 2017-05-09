@@ -42,7 +42,8 @@ public class SystemManagerContoller {
 	private SystemManagerService smService;
 	@Autowired
 	private ManagerService mService;
-	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(
 			value = "/api/sysman", 
@@ -79,18 +80,25 @@ public class SystemManagerContoller {
 	
 
 	@RequestMapping(
-			value = "/api/sysman/signUp", 
+			value = "/api/sysman/createSysman", 
 			method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<System_manager>  signUp(@Valid @RequestBody System_manager sm) throws Exception {
-		logger.info("> signUp: "+sm.getEmail()+", "+ sm.getPassword());
-
-		//if (smService.signUP(sm)==null)
-			//return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
+		logger.info("> creat Sys man: ");
+		
+		Collection<User> users = userService.findAll();
+		
+		for (User us: users){
+			if (us.getEmail().equals(sm.getEmail()))
+					return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
+		}
+		System_manager sysman= smService.addSysMan(sm);
+		User u = new User(sysman.getEmail(), sysman.getPassword(), TypeOfUser.SYS_MAN);
+		userService.addUser(u);
 		logger.info("< signUp");
 		
-		 return new ResponseEntity<System_manager>(HttpStatus.OK);
+		return new ResponseEntity<System_manager>(sysman, HttpStatus.OK);
 	}
 	
 	@RequestMapping(
@@ -120,20 +128,7 @@ public class SystemManagerContoller {
 		
 		return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
 	}
-	/*
-	@RequestMapping(
-			value = "/api/sysman/getlogedin", 
-			method = RequestMethod.GET,  
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<System_manager> logIn() throws Exception {
-		logger.info("> GetlogIn");
-		System_manager s = smService.getLogedIn();
-		if (s != null){
-				return new ResponseEntity<System_manager>(s, HttpStatus.OK);
-			}
-		
-		return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
-	}*/
+
 	
 	@RequestMapping(
 			value = "/api/sysman/restaurants", 
@@ -195,6 +190,62 @@ public class SystemManagerContoller {
 		return new ResponseEntity<Restaurant>(rm.getR(),HttpStatus.OK);
 	}
 	
+	@RequestMapping(
+			value = "/api/sysman/update", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<System_manager> update(@Valid @RequestBody System_manager man) throws Exception {
+		logger.info("> update");
+		System_manager old= smService.findOne(man.getId());
+		
+		//ellenorizni h van-e vmelyik usernek -> ha van end
+		Collection<User> users= userService.findAll();
+		for (User u:users){
+			if (u.getEmail().equals(man.getEmail()) && !man.getEmail().equals(old.getEmail())){
+				return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
+			}
+		}
+		
+		smService.update(man);
+		
+		//update user if email changed
+		if (!old.getEmail().equals(man.getEmail()))
+			for (User us:users){
+				if (us.getEmail().equals(old.getEmail())){
+					User new_user= us;
+					new_user.setEmail(man.getEmail());
+					userService.changePass(us, new_user);
+					userService.login(new_user);
+				}		
+			}
+		return new ResponseEntity<System_manager>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/sysman/updatePass", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<System_manager> updatePass(@Valid @RequestBody System_manager man) throws Exception {
+		logger.info("> update");
 
+		//ellenorizni h van-e vmelyik usernek -> ha van end
+		Collection<User> users= userService.findAll();
+		for (User u:users){
+			if (u.getEmail().equals(man.getEmail())){
+				smService.update(man);
+				User user = u;
+				user.setPassword(man.getPassword());
+				userService.changePass(u, user);
+				userService.login(user);
+				logger.info("< update");
+				return new ResponseEntity<System_manager>(HttpStatus.OK);
+			}
+		}
+		
+		return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
+	}
+	
 	
 }

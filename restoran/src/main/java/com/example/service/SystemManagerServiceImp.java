@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.domain.Manager;
 import com.example.domain.Restaurant;
+import com.example.domain.Supplier;
 import com.example.domain.System_manager;
 import com.example.respository.ManagerRepository;
 import com.example.respository.RestaurantRepository;
@@ -107,15 +108,21 @@ public class SystemManagerServiceImp implements SystemManagerService{
 		Restaurant res= rRepository.save(r);
 		return res;	
 	}
-	/*
+	
 	@Override
-	public void setLogedIn(System_manager sm){
-		smRepository.setLogedIn(sm);
+	public Restaurant update(Restaurant r){
+		rRepository.delete(r.getId());
+		rRepository.save(r);
+		return r;	
 	}
 
 	@Override
-	public System_manager getLogedIn(){
-		return smRepository.getLogedIn();
+	public void update(System_manager man) {
+		logger.info("> update ");
+		smRepository.updatePass(man.getId(), man.getPassword(), man.getEmail(), man.getFirstName(), man.getLastName());
+		logger.info("< update :{}", man);
+		
 	}
-	*/
+	
+	
 }

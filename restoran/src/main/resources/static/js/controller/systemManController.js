@@ -3,6 +3,7 @@
 angular.module('myApp').controller('SystemManagerController',['$scope','$http','$window','$route','SystemManagerFactory',function($scope, $http,$window,$ocLazyLoad,$route, SystemManagerFactory) {
 
 	$scope.page="profile";
+	$scope.man_without_rest=[];
 	function init() {
 
 		$http.get("http://localhost:8080/api/users/login").success(
@@ -10,12 +11,29 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 					$http.post("http://localhost:8080/api/sysman/login",data).success(
 							function(data){
 								$scope.sm=data;
-							});
+								if (data==null)
+									$window.location.href="/";
+							}).error(
+									function(data){
+										$window.location.href="/";
+									})
 				});
 	    $http.get("http://localhost:8080/api/manager").then(
 	    		function(data){
 	    			$scope.managers=data.data;
-	    		});
+	    			//if ($scope.managers.count()!=0){
+	    			$http.post("http://localhost:8080/api/manager/getRestColl",$scope.managers).error(
+								function(data){	
+							}).success(
+								function(data){
+									$scope.managers=data;
+									for (var i = 0; i < $scope.managers.length; i++){
+								    	if ($scope.managers[i].restaurant==null)
+								    		$scope.man_without_rest.push($scope.managers[i]);
+								    }
+							});
+	    				//}
+	    			});
 	    $http.get("http://localhost:8080/api/users").then(
 	    		function(data){
 	    			$scope.users=data.data;
@@ -24,6 +42,13 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	    		function(data){
 	    			$scope.restaurants=data.data;
 	    		});
+	    
+	    
+	  /*  for (m in $scope.managers){
+	    	if (m.restaurant==null)
+	    		$scope.man_without_rest.push(m);
+	    }*/
+	    
 	    
 	}
 	
@@ -75,22 +100,27 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 					alert('edef');
 			    	$window.location.reload();
 					$scope.page="manager";   
-				});
-    		
+				});		
     }	
+    
+    $scope.new_sysmanager= function(){   
+    	alert(JSON.stringify($scope.new_sysman));
+    	$http.post("http://localhost:8080/api/sysman/createSysman",JSON.stringify($scope.new_sysman))
+    		.error(function(data){
+					alert('This email address is exist.');
+					//$window.location.reload();
+				}).then(function(data){
+			    	$window.location.reload();
+				});		
+    }
     
     $scope.new_restaurant= function(){
     	
-    	//alert("new man "+JSON.stringify($scope.new_man));
-    	
-    	//$scope.new_rest.manager= [$scope.new_rest_manager];
-    	alert(JSON.stringify($scope.new_rest));
     	$http.post("http://localhost:8080/api/sysman/addRest",{"r":$scope.new_rest, "m":$scope.new_rest_manager})
     		.error(function(data){
 					alert('This restaurant name is exist.');
 					return;
 			}).success(function(data){
-					//alert("proba");
 					$window.location.reload();
 					$scope.page="restaurant";  
 				});
@@ -100,27 +130,37 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     
     
     $scope.logout= function(){
-    	$http.get("http://localhost:8080/api/useres/logout");
+    	$http.get("http://localhost:8080/api/users/logout");
+    }
+   
+    
+    
+    $scope.update=function(){
+    	$http.post("http://localhost:8080/api/sysman/update", $scope.sm).success(function(data) {
+    		$window.location.reload();
+    	}).error(function(data) {
+    		alert("This email address is in our system");	
+    		$window.location.reload();
+    	});
     }
     
-    $scope.reg= function() {
-		if ($scope.newpass!=$scope.newpass2){
-			if ($scope.newpass1=="")
-				alert("Password is required.");	
-			alert("Passwords are not equals.");}
-		else if ($scope.newemail=="")
-			alert("Email is required.");
-		else
-		{
-			$http.post("http://localhost:8080/api/sysman/signUp",{"email":$scope.newemail,"password":$scope.newpass}).success(
-					function(data) {
-						window.location.href = '#/sysman/login';
-					}).error(function(data){
-						alert('This email address is exist.');
+    $scope.changePass=function(){
+    	if ($scope.pw1==$scope.pw2){
+    		$scope.login= $scope.sm;
+    		$scope.login.password=$scope.pw1;
+    		//alert("iit vok");
+    		//alert(JSON.stringify($scope.login));
+    		$http.post("http://localhost:8080/api/sysman/updatePass",$scope.login).success(
+					function(data){
+						//alert("mar megint szorakozik");
+						$window.location.reload();
 					});
-		}
-    	
-	}
+    	} else {
+    		alert("Passwords don't equals");
+    		}
+    }
+
+
     
     $scope.changeToManager= function(){
     	$scope.page="manager";
@@ -132,6 +172,10 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	
     }
     $scope.changeToRestaurants= function(){
+    	/*for (var i = 0; i < $scope.managers.length; i++){
+	    	if ($scope.managers[i].restaurant==null)
+	    		$scope.man_without_rest.push($scope.managers[i]);
+	    }*/
     	$scope.page="restaurant";
     	
     }
@@ -144,7 +188,12 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     $scope.changeToUsers= function(){
     	$scope.page="users";    	
     }
-    
+    $scope.changeToCreateSysman= function(){
+    	$scope.page="new_sysman";    	
+    }
+    $scope.changeToChangePassword= function(){
+    	$scope.page="new_pass";    	
+    }
    
 
 }]);

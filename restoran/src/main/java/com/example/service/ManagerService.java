@@ -13,22 +13,22 @@ public interface ManagerService {
 	
 	Manager createManager(Manager m);
 	
-	//Employee createEmployee(Employee e);
+	Employee createEmployee(Employee e);
 
-	//Supplier createSupplier(Supplier s);
+	Supplier createSupplier(Supplier s);
 	
 	Collection<Manager> findAll();
 
 	Manager findOne(Long id);
 	
-	//int update(Manager man, Restaurant r);
 	void update(Manager man);
 
 	//Manager findByEmail(String email);
 
 	boolean isManagerExist(Long id);
 	
-	
 	Restaurant findRest(Long id) ;
+	
+	void updateRest(Long id_r, Long id_s);
 
 }
