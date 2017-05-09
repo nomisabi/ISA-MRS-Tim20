@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.example.domain.Friendship;
@@ -15,6 +16,7 @@ import com.example.respository.GuestRepository;
 import com.example.respository.UserRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class GuestServiceImp implements GuestService {
 
 	@Autowired
@@ -30,6 +32,7 @@ public class GuestServiceImp implements GuestService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public Guest addGuest(Guest guest) {
 		Assert.notNull(guest, "Guest could not be null.");
 		User u = new User(guest.getEmail(), guest.getPassword(), TypeOfUser.GUEST);
@@ -48,6 +51,7 @@ public class GuestServiceImp implements GuestService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public Guest updateGuest(Long id, Guest guest) {
 		Assert.notNull(guest.getEmail(), "Email could not be null.");
 		Assert.notNull(guest.getPassword(), "Password could not be null.");
@@ -59,15 +63,16 @@ public class GuestServiceImp implements GuestService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void sendFriendRequest(Guest guest, Guest friend) {
 		Friendship friendship = new Friendship(guest, friend.getId(), false);
 		friendshipRepository.save(friendship);
 	}
 
 	@Override
-	public void addFriend(Long id, Guest guest, Guest friend) {
-		sendFriendRequest(guest, friend);
-		friendshipRepository.updateFriendship(id, true);
+	@Transactional(readOnly = false)
+	public void addFriend(Long guestId, Long friendId) {
+		friendshipRepository.confirmFriendship(friendId, guestId, true);
 
 	}
 
@@ -83,6 +88,11 @@ public class GuestServiceImp implements GuestService {
 
 	@Override
 	public Collection<Guest> findFriends(Long id) {
-		return guestRepository.getFriends(id);
+		return guestRepository.getFriends(id, true);
+	}
+
+	@Override
+	public Collection<Guest> getRequests(Long id) {
+		return guestRepository.getRequests(id);
 	}
 }

@@ -20,12 +20,14 @@ public interface GuestService {
 	
 	void sendFriendRequest(Guest guest, Guest friend);
 	
-	void addFriend(Long id, Guest guest, Guest friend);
+	void addFriend(Long guestId, Long friendId);
 	
 	Guest findByEmailAndPass(String email,String password);
 	
 	Collection<Guest> searchGuest(Long id,String search);
 	
 	Collection<Guest> findFriends(Long id);
+	
+	Collection<Guest> getRequests(Long id);
 
 }

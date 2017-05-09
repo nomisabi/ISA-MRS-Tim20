@@ -5,8 +5,6 @@ import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.example.domain.Guest;
-import com.example.domain.Restaurant;
 import com.example.domain.TableOfRestaurant;
 
 public interface TableOfRestaurantRepository extends JpaRepository<TableOfRestaurant, Long> {

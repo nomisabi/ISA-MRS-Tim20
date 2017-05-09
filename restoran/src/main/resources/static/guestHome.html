@@ -22,7 +22,29 @@
                         <ul class="dropdown-menu extended tasks-bar">
                             <div class="notify-arrow notify-arrow-green"></div>
                             <li>
-                                <p class="green">You have {{notifications.length}} notifications</p>
+                                <p class="green">You have {{notifications.length}} friend requests</p>
+                            </li>
+                           
+                            <li ng-repeat="x in notifications">
+                                    <div class="task-info">
+                                    <br>
+                                        <div class="desc"> &nbsp; &nbsp;{{x.firstName + " " + x.lastName}}</div>
+                                    </div>
+                                    <div>
+                                    <table>
+                                    	<tr>
+                                    	<td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+                                    	<td>&nbsp; &nbsp; &nbsp; </td>
+                                    	<td><input type="button" ng-click="confirmRequest(x)" value="Confirm" class="btn btn btn-info btn-xs">  </td>
+                                    	<td>&nbsp;</td>
+                                    	<td><input type="button" value="Delete request" class="btn btn-default btn-xs"> </td>
+                                    	<tr>
+                                    </table>
+                                        
+                                    
+                                    </div>
+                                    <br>
+                                
                             </li>
                             
                         </ul>
@@ -322,7 +344,7 @@
 		           		    <td>&nbsp;</td>
 		           			<td>&nbsp;
 		           			</td>
-		           			<td><input  class="btn btn-theme" type="submit" value="Next">
+		           			<td><input  class="btn btn-theme" type="submit" value="Reserve">
 		           			</td>
 		           		</tr>
 		           		
@@ -333,6 +355,7 @@
 		           	</div>
 		           	
 		           	<div ng-switch-when="reserve3">
+		           		<form ng-submit="reserveNext3()">
 		           		<table>
 		           			<tr> 
 		           				<td> Restaurant </td>
@@ -371,6 +394,7 @@
 		           		
 		           		
 		           		</table>
+		           		</form>
 		           	</div>
 		           	
 		           	

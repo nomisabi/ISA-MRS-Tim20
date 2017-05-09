@@ -1,17 +1,20 @@
 package com.example.service;
 
-import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
+
+import javax.persistence.LockModeType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.example.domain.Reservation;
 import com.example.respository.ReservationRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class ReservationServiceImp implements ReservationService {
 
 	@Autowired
@@ -28,8 +31,14 @@ public class ReservationServiceImp implements ReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public Reservation createReservation(Reservation reservation) {
 		Assert.notNull(reservation, "Reservation could not be null.");
+		Collection<Reservation> reservations = reservationRepository.get(reservation.getRestaurant().getId(),
+				reservation.getTable().getId(), reservation.getStartTime(), reservation.getEndTime());
+		if (!reservations.isEmpty()) {
+			return null;
+		}
 		return reservationRepository.save(reservation);
 	}
 

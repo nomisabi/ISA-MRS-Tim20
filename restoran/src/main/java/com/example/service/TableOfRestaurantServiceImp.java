@@ -4,11 +4,13 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.TableOfRestaurant;
 import com.example.respository.TableOfRestaurantRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 	
 	@Autowired
@@ -20,6 +22,7 @@ public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 	}
 	
 	@Override
+	@Transactional(readOnly = false)
 	public TableOfRestaurant addTable(TableOfRestaurant table){
 		return repository.save(table);
 	}

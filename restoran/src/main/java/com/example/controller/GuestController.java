@@ -151,6 +151,28 @@ public class GuestController {
 		return new ResponseEntity<Guest>(currentGuest, HttpStatus.OK);
 	}
 
+	/*** Get all requests of guest ***/
+	@RequestMapping(value = "/api/friendship/getRequest", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Guest>> getRequests(@RequestBody Guest guest) throws Exception {
+		System.out.println(guest);
+		Collection<Guest> guests = guestService.getRequests(guest.getId());
+		for (Guest guest2 : guests) {
+			System.out.println(guest2);
+		}
+
+		return new ResponseEntity<Collection<Guest>>(guests,HttpStatus.OK);
+	}
+	
+	/*** Send friendship request ***/
+	@RequestMapping(value = "/api/friendship/addFriend", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Guest>> addFriend(@RequestBody FriendRequest friendRequest) throws Exception {
+		System.out.println(friendRequest);
+		guestService.addFriend(friendRequest.getIdGuest(), friendRequest.getIdFriend());
+		
+
+		return new ResponseEntity<Collection<Guest>>(HttpStatus.OK);
+	}
+
 	/***
 	 * Return all guest with firstName or lastName that match the search
 	 * criteria
@@ -255,6 +277,9 @@ public class GuestController {
 
 		Reservation savedReservation = reservationService.createReservation(makeReservation);
 		System.out.println(savedReservation);
+		if (savedReservation == null) {
+			return new ResponseEntity<Reservation>(HttpStatus.NOT_FOUND);
+		}
 		logger.info("< makeReservation");
 		return new ResponseEntity<Reservation>(savedReservation, HttpStatus.OK);
 	}

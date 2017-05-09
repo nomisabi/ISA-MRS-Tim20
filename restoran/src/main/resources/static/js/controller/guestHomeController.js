@@ -30,7 +30,13 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 					$http.post("http://localhost:8080/api/guest/login",data).success(
 							function(data){
 								$scope.guest=data;
+								$http.post("http://localhost:8080/api/friendship/getRequest",data).success(
+										function(data){
+											$scope.notifications = data;
+											//alert($scope.notifications.length);
+										});
 							});
+					
 				});	    
 	}
 	
@@ -95,12 +101,9 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		}).error(function(data){
 			//alert("error");
 			}
-		); 
-    	
-    	
-    	
-    	
+		); 	
     }
+    
     $scope.deleteRequest= function(email){
     	
     	alert("Delete request.<"+email+">");
@@ -130,6 +133,20 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$http.post('http://localhost:8080/api/addFriend',{"idGuest":$scope.guest.id,"idFriend":id})
     	.success(function(data) {
     		//
+		}).error(function(data){
+			//alert("error");
+			}
+		);        	
+    }
+    
+    $scope.confirmRequest= function(guest){   
+    	
+    	alert(guest.id);
+    	alert($scope.guest.id);
+    	$http.post('http://localhost:8080/api/friendship/addFriend',{"idGuest":$scope.guest.id,"idFriend":guest.id})
+    	.success(function(data) {
+    		$window.location.reload();
+    		$scope.page = "friends";
 		}).error(function(data){
 			//alert("error");
 			}
@@ -177,19 +194,19 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.reserveNext2 = function(){   	   	
     	//alert($scope.tableNum);
     	if ($scope.tableNum != null){
-    		
-    		$scope.page ="reserve3";
-    		
-    		
-    		
     		$http.post('http://localhost:8080/api/restaurant/reservation',{"restaurant":$scope.reservation.restaurant, "dateAndTime":$scope.reservation.dateAndTime, "duration": $scope.reservation.duration, "table": $scope.table, "guest":$scope.guest})
         	.success(function(data) {
         		$scope.tableNum = null;
+        	//	alert("Reservation succesful");
+        		$scope.page ="reserve3";
+        		
     		}).error(function(data){
-    			//alert("error");
+    			alert("Table is reserved. Please choose other table.");
     			}
     		); 
     		
+    		
+    	 		
     		
     		
     		
@@ -197,6 +214,12 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	}else{
     		alert("Please, choose a table")
     	}
+    	
+    }
+    
+    $scope.reserveNext3 = function(){   	
+    	
+    	
     	
     }
     
