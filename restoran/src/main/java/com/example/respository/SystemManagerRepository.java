@@ -17,6 +17,6 @@ public interface SystemManagerRepository  extends CrudRepository<System_manager,
 
 	@Modifying
 	@Transactional
-    @Query("UPDATE System_manager m SET m.password = ?2, m.email=?3, m.firstName=?4, m.lastName=?5 WHERE m.id = ?1")
-    int updatePass(Long id, String password, String email, String firstName, String lastName);
+    @Query("UPDATE System_manager m SET m.password = ?3, m.email=?2, m.firstName=?4, m.lastName=?5 WHERE m.id = ?1")
+    int updatePass(Long id, String email, String password, String firstName, String lastName);
 }

@@ -66,6 +66,14 @@ public class User implements Serializable{
 	public void setType(TypeOfUser type) {
 		this.type = type;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	
 	

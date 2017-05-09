@@ -119,7 +119,7 @@ public class SystemManagerServiceImp implements SystemManagerService{
 	@Override
 	public void update(System_manager man) {
 		logger.info("> update ");
-		smRepository.updatePass(man.getId(), man.getPassword(), man.getEmail(), man.getFirstName(), man.getLastName());
+		smRepository.updatePass(man.getId(), man.getEmail(), man.getPassword(), man.getFirstName(), man.getLastName());
 		logger.info("< update :{}", man);
 		
 	}

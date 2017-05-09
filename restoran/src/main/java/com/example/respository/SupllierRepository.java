@@ -18,8 +18,8 @@ public interface SupllierRepository extends CrudRepository<Supplier, Long>{
 
 	@Modifying
 	@Transactional
-    @Query("UPDATE Supplier s SET s.password = ?2, s.email=?3, s.name=?4, s.active=?5 WHERE s.id = ?1")
-    int updatePass(Long id, String password, String email, String name, boolean active);
+    @Query("UPDATE Supplier s SET s.password = ?3, s.email=?2, s.name=?4, s.active=?5 WHERE s.id = ?1")
+    int updatePass(Long id, String email, String password, String name, boolean active);
 
 	//@Query(value="SELECT r.id FROM restaurant r INNER JOIN restaurant_manager rm ON r.id=rm.restaurant_id WHERE rm.manager_id = ?1", nativeQuery=true)
 	//Long getRest(Long id);

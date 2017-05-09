@@ -46,7 +46,7 @@ public class SupplierServiceImp implements SupplierService {
 	@Override
 	public void update(Supplier s) {
 		logger.info("> update ", s);
-		supRepository.updatePass(s.getId(), s.getPassword(), s.getEmail(), s.getName(), s.isActive());
+		supRepository.updatePass(s.getId(),  s.getEmail(),s.getPassword(), s.getName(), s.isActive());
 		logger.info("< update :{}", s);
 	}
 	
