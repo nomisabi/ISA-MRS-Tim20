@@ -94,28 +94,38 @@
                   {{page}}
          
 	                  <div ng-switch-when="non-active" ng-controller="SupplierController">
+	                  		<form name="myForm">
 							<h3>Change password</h3>
-							<input type="password" placeholder="Password" class="form-control" ng-model="pw1" autofocus>
+							<input type="password" name="pass" placeholder="Password" class="form-control" ng-model="pw1" required autofocus>
 							<br>
+							<div class="has-error" ng-show="myForm.pass.$dirty">	
+								<span ng-show="myForm.pass.$error.required">This is a required field.</span>
+							</div>
 							<input type="password" placeholder="Password again" ng-model="pw2" class="form-control" >
 							<br>
 							<br>
-							<button class="btn btn-theme" type="button" ng-click="changePass()">Save</button>
+							<button class="btn btn-theme" ng-disabled="myForm.$invalid || myForm.pass.$pristine" type="button" ng-click="changePass()">Save</button>
+							</form>
 			           	</div>
 			           	<div ng-switch-when="restaurant">
 							<h3>Restaurants</h3>
 			           	</div>
 			           	<div ng-switch-when="profile">
 							<h3>Profile</h3>
+							<form name="myForm">
 							<table  class="prof">
 								<tr>
 				        			<td>Email:</td>
-				           			<td><input type="text" class="form-control" ng-model="supplier.email"></td>
+				           			<td><input type="email" name="mail" class="form-control" ng-model="supplier.email" required></td>
 				           		</tr> 
 				           		<tr>
 				           			<td>&nbsp;
 				           			</td>
-				           			<td>&nbsp;
+				           			<td>
+										<div class="has-error" ng-show="myForm.mail.$dirty">
+					                    	<span ng-show="myForm.mail.$error.required">This is a required field.</span>
+					                        <span ng-show="myForm.mail.$invalid">This field is invalid </span>
+		                    			</div>
 				           			</td>
 				           		</tr>
 				           		<tr>
@@ -155,11 +165,12 @@
 				           		<tr>
 				           			<td>&nbsp;
 				           			</td>
-				           			<td><button class="btn btn-theme" ng-click="update()" type="button">Save</button>
+				           			<td><button class="btn btn-theme" ng-disabled="myForm.$invalid" ng-click="update()" type="button">Save</button>
 				           			</td>
 				           		</tr>
 				           			 
-				            </table>	
+				            </table>
+				            </form>	
 			           	</div>
 					
 					

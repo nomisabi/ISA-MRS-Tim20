@@ -134,7 +134,10 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	  		$http.post("http://localhost:8080/api/manager/createEmployee",{"e":$scope.employee, "r":$scope.manager.restaurant}).success(
 					function(data){
 						$route.reload();
-					});
+					}).error(
+							function(data){
+								alert("Email address is used.");
+							});
   		}
   	}
 
@@ -145,7 +148,10 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		$http.post("http://localhost:8080/api/manager/createSupplier",{"s":$scope.supplier, "r":$scope.manager.restaurant}).success(
 				function(data){
 					$route.reload();
-				});
+				}).error(
+					function(data){
+						alert("Email address is used.");
+					});
   	}
 	
 }]);
