@@ -12,7 +12,7 @@ public interface RestaurantService {
 	
 	Restaurant createRestaurant(Restaurant restaurant);
 	
-	
+	void updateMenu(Restaurant r);
 	
 
 }

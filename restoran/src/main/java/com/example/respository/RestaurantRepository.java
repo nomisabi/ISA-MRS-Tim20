@@ -16,5 +16,9 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Long>{
     @Query(value="INSERT INTO restaurant_suppliers (restaurant_id, suppliers_id) VALUES (?1,?2)", nativeQuery=true)
     int insertSup(Long id_rest, Long id_sup);
 
+	@Modifying
+	@Transactional
+    @Query(value="UPDATE Restaurant SET menu_id=?2 WHERE id = ?1", nativeQuery=true)
+    int updateMenu(Long id, Long man_id);
 
 }

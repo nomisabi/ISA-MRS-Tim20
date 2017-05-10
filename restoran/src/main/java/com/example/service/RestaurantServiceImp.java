@@ -31,4 +31,10 @@ public class RestaurantServiceImp implements RestaurantService {
 		return restaurantRepository.save(restaurant);
 	}
 
+	@Override
+	public void updateMenu(Restaurant r) {
+		restaurantRepository.updateMenu(r.getId(), r.getMenu().getId());
+		
+	}
+
 }

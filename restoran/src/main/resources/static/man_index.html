@@ -179,7 +179,91 @@
 				                <a class="" ng-click=changeToSupplier()>
 				                   	Suppliers
 				                </a>
+				                <a class="" ng-click=changeToMenu()>
+				                   	Menu
+				                </a>
 				           
+			           	</div>
+			           	<div ng-switch-when="menu" ng-controller="ManagerController">
+							<h3>Menu</h3>
+							<table  class="prof">
+								<tr>
+		                     		<th>Name</th>
+		                     		<th>Description</th>
+		                     		<th>Price </th>	
+	                     		</tr>
+								<tr ng-repeat="m in manager.restaurant.menu.items">
+									<td >{{m.food.name}}</td>
+									<td >{{m.food.description}}</td>
+									<td >{{m.price}}</td>								
+								</tr>
+							</table>
+								
+								<a class="" ng-click=changeToNewItem()>
+				                   	New item
+				                </a>     
+			           	</div>
+			           	<div ng-switch-when="new_item_menu" ng-controller="ManagerController">
+							<h3>New menuitem</h3>
+							<form name="myForm">
+							<table  class="prof">
+								<tr>
+				        			<td>Name:</td>
+				           			<td><input type="text" name="name" class="form-control" ng-model="menuitem.food.name" required autofocus></td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>
+				           			<div class="has-error" ng-show="myForm.name.$dirty">
+				                    	<span ng-show="myForm.name.$error.required">This is a required field.</span>
+                    				</div>
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Description:</td>
+				           			<td><input type="text" name="desc" class="form-control" ng-model="menuitem.food.description" required></td>
+				           		</tr> 
+				           		
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>
+				           			<div class="has-error" ng-show="myForm.desc.$dirty">
+				                    	<span ng-show="myForm.desc.$error.required">This is a required field.</span>
+                    				</div>
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Price:</td>
+				           			<td><input type="number" min="0" name="price" class="form-control" ng-model="menuitem.price" required></td>
+				           		</tr> 
+				           		
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>
+				           			<div class="has-error" ng-show="myForm.price.$dirty">
+				                    	<span ng-show="myForm.price.$error.required">This is a required field.</span>
+				                    	<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
+                    				</div>
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td><button class="btn btn-theme" ng-disabled="myForm.$invalid || myForm.name.$pristine || myForm.desc.$pristine || myForm.price.$pristine" ng-click="createNewItem()" type="button">Save</button>
+				           			</td>
+				           		</tr>
+				           			 
+				            </table>		
+				            </form>    
 			           	</div>
 			           	<div ng-switch-when="employee">
 							<h3>Employees</h3>

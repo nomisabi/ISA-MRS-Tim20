@@ -13,4 +13,6 @@ INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (3,4,1);
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (1,2,2);
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (2,4,2);
-
+INSERT INTO manager (email, password, first_name, last_name, active) VALUES ('a@a.a','a','a','a',true) ;
+INSERT INTO restaurant_manager (restaurant_id, manager_id) values (1,1);
+INSERT INTO usert (email, password, type) VALUES ('a@a.a','a',1);

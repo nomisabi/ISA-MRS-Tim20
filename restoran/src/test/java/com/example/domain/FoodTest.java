@@ -14,7 +14,7 @@ public class FoodTest {
 	
 	@Before
 	public void setUp(){
-		f = new Food("Pizza","Pica",300.00);
+		f = new Food("Pizza","Pica");
 	}
 	
 	@Test
@@ -27,8 +27,4 @@ public class FoodTest {
 		assertEquals("Pica", f.getDescription());
 	}
 	
-	@Test
-	public void TestFoodPrice() {
-		assertEquals(300,00, f.getPrice());
-	}
 }
