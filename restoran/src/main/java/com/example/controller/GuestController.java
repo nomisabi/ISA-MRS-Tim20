@@ -33,6 +33,7 @@ import com.example.service.GuestService;
 import com.example.service.ReservationService;
 import com.example.service.RestaurantService;
 import com.example.service.TableOfRestaurantService;
+import com.example.service.UserService;
 
 @RestController
 public class GuestController {
@@ -46,6 +47,8 @@ public class GuestController {
 	private TableOfRestaurantService tableService;
 	@Autowired
 	private ReservationService reservationService;
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private HttpSession session;
 
@@ -115,6 +118,15 @@ public class GuestController {
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
 
+		User currentUser = userService.getLogin();
+		if (currentUser == null) {
+			System.out.println("User not found");
+			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
+		}
+		if (!currentUser.getEmail().equals(guest.getEmail())) {
+			userService.updateEmail(currentUser.getId(), guest.getEmail());
+			userService.logout();
+		}
 		Guest updatedGuest = guestService.updateGuest(id, guest);
 		session.setAttribute("guest", updatedGuest);
 		System.out.println("Updating guest" + updatedGuest);
@@ -160,15 +172,14 @@ public class GuestController {
 			System.out.println(guest2);
 		}
 
-		return new ResponseEntity<Collection<Guest>>(guests,HttpStatus.OK);
+		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
 	}
-	
+
 	/*** Send friendship request ***/
 	@RequestMapping(value = "/api/friendship/addFriend", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Guest>> addFriend(@RequestBody FriendRequest friendRequest) throws Exception {
 		System.out.println(friendRequest);
 		guestService.addFriend(friendRequest.getIdGuest(), friendRequest.getIdFriend());
-		
 
 		return new ResponseEntity<Collection<Guest>>(HttpStatus.OK);
 	}
@@ -283,58 +294,5 @@ public class GuestController {
 		logger.info("< makeReservation");
 		return new ResponseEntity<Reservation>(savedReservation, HttpStatus.OK);
 	}
-
-	/*
-	 * @RequestMapping(value = "/api/friendship{id}", method =
-	 * RequestMethod.POST) public ResponseEntity<Guest>
-	 * addFriend(@PathVariable("id") long id, @RequestBody FriendRequest
-	 * friendRequest) throws Exception { System.out.println(friendRequest);
-	 * Guest currentGuest = guestService.getGuest(friendRequest.getIdGuest());
-	 * 
-	 * if (currentGuest == null) { System.out.println("Guest with id " +
-	 * friendRequest.getIdGuest() + " not found"); return new
-	 * ResponseEntity<Guest>(HttpStatus.NOT_FOUND); }
-	 * 
-	 * Guest sessionGuest = (Guest) session.getAttribute("guest");
-	 * 
-	 * if (currentGuest.getId() != sessionGuest.getId()) {
-	 * System.out.println("Guest with id " + friendRequest.getIdGuest() +
-	 * " not log in"); return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND); }
-	 * 
-	 * Guest friendGuest = guestService.getGuest(friendRequest.getIdFriend());
-	 * 
-	 * if (friendGuest == null) { System.out.println("Guest with id " +
-	 * friendRequest.getIdGuest() + " not found"); return new
-	 * ResponseEntity<Guest>(HttpStatus.NOT_FOUND); }
-	 * 
-	 * guestService.addFriend(id, currentGuest, friendGuest);
-	 * 
-	 * return new ResponseEntity<Guest>(currentGuest, HttpStatus.OK); }
-	 * 
-	 * @RequestMapping(value = "/api/deleteFriend", method = RequestMethod.POST)
-	 * public ResponseEntity<Guest> deleteFriend(@RequestBody FriendRequest
-	 * friendRequest) throws Exception { System.out.println(friendRequest);
-	 * Guest currentGuest = guestService.getGuest(friendRequest.getIdGuest());
-	 * 
-	 * if (currentGuest == null) { System.out.println("Guest with id " +
-	 * friendRequest.getIdGuest() + " not found"); return new
-	 * ResponseEntity<Guest>(HttpStatus.NOT_FOUND); }
-	 * 
-	 * Guest sessionGuest = (Guest) session.getAttribute("guest");
-	 * 
-	 * if (currentGuest.getId() != sessionGuest.getId()) {
-	 * System.out.println("Guest with id " + friendRequest.getIdGuest() +
-	 * " not log in"); return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND); }
-	 * 
-	 * Guest friendGuest = guestService.getGuest(friendRequest.getIdFriend());
-	 * 
-	 * if (friendGuest == null) { System.out.println("Guest with id " +
-	 * friendRequest.getIdGuest() + " not found"); return new
-	 * ResponseEntity<Guest>(HttpStatus.NOT_FOUND); }
-	 * 
-	 * Guest savedGuest = guestService.deleteFriend(currentGuest, friendGuest);
-	 * 
-	 * return new ResponseEntity<Guest>(savedGuest, HttpStatus.OK); }
-	 */
 
 }

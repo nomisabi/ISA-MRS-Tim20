@@ -2,7 +2,7 @@
 
 angular.module('myApp').controller('GuestHomeController',['$scope','$http','$window','GuestHomeFactory',function($scope, $http,$window,$ocLazyLoad, GuestHomeFactory) {
 	$scope.guest = {id:null,email:'',password:'',firstName:'',lastName:'',address:''};
-	$scope.page="restaurants";
+	$scope.page="profile";
 	$scope.friends = [];
 	$scope.users = [];
 	$scope.restaurants = [];
@@ -25,9 +25,11 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	
 	
 	function init() {
-		$http.get("http://localhost:8080/api/users/login").success(
+		$http.get("http://localhost:8080/api/users/login")
+		.success(
 				function(data){
-					$http.post("http://localhost:8080/api/guest/login",data).success(
+					$http.post("http://localhost:8080/api/guest/login",data)
+					.success(
 							function(data){
 								$scope.guest=data;
 								$http.post("http://localhost:8080/api/friendship/getRequest",data).success(
@@ -35,9 +37,19 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 											$scope.notifications = data;
 											//alert($scope.notifications.length);
 										});
-							});
+							}
+					).error(
+							function(data){
+								$window.location.href="/#/";
+							}
+					);
 					
-				});	    
+				}
+		).error(
+				function(data){
+					$window.location.href="/";
+				}
+		);	    
 	}
 	
 	
@@ -48,6 +60,11 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 					$scope.friends=data;	
 				});	
     	$scope.page="friends";
+    }
+	
+	$scope.changeToFriend= function(){
+		$scope.users = [];	
+    	$scope.page="friend";
     }
     
     $scope.changeToProfile= function(){
@@ -76,6 +93,12 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$http.put('http://localhost:8080/api/guests/'+$scope.guest.id,$scope.guest)
     	.success(function(data) {
     		alert("Profile changes successfully saved.");
+    		if (data.email != $scope.guest.email){
+    			$window.location.href="/#/";
+    		}else{
+    			$scope.guest = data;
+    			$window.location.reload();
+    		}
 		}).error(function(data){
 			alert("Error profile change.");
 			}
@@ -141,10 +164,11 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.confirmRequest= function(guest){   
     	
-    	alert(guest.id);
-    	alert($scope.guest.id);
+    	//alert(guest.id);
+    	//alert($scope.guest.id);
     	$http.post('http://localhost:8080/api/friendship/addFriend',{"idGuest":$scope.guest.id,"idFriend":guest.id})
     	.success(function(data) {
+    		alert("Request confirm");
     		$window.location.reload();
     		$scope.page = "friends";
 		}).error(function(data){
@@ -235,6 +259,9 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	}
 	}
     
+    $scope.logout= function(){
+    	$http.get("http://localhost:8080/api/users/logout");
+    }
     
 
 }]);

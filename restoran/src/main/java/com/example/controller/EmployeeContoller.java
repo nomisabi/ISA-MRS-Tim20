@@ -35,7 +35,7 @@ public class EmployeeContoller {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
+
 	private EmployeeService emService;
 	@Autowired
 	private HttpSession session;

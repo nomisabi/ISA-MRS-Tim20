@@ -32,6 +32,7 @@ public class ReservationServiceImp implements ReservationService {
 
 	@Override
 	@Transactional(readOnly = false)
+	@Lock(LockModeType.PESSIMISTIC_READ)
 	public Reservation createReservation(Reservation reservation) {
 		Assert.notNull(reservation, "Reservation could not be null.");
 		Collection<Reservation> reservations = reservationRepository.get(reservation.getRestaurant().getId(),
