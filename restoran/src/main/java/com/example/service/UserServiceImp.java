@@ -19,15 +19,15 @@ import com.example.respository.SystemManagerRepository;
 import com.example.respository.UserRepository;
 
 @Service
-public class UserServiceImp implements UserService{
-	
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-    
-    @Autowired
-    private UserRepository userRepository;
+public class UserServiceImp implements UserService {
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	@Autowired
+	private UserRepository userRepository;
 	@Autowired
 	private HttpSession session;
-	
+
 	@Override
 	public Collection<User> findAll() {
 		logger.info("> findAll");
@@ -37,23 +37,23 @@ public class UserServiceImp implements UserService{
 		logger.info("< findAll");
 		return users;
 	}
-	
+
 	@Override
 	public User findByEmail(String email) {
 		logger.info("> findByEmail");
-		//User user= userRepository.findByEmail(email);
+		// User user= userRepository.findByEmail(email);
 		logger.info("< findByEmail");
-		//return user;
+		// return user;
 		return null;
 	}
 
 	@Override
 	public User addUser(User u) {
 		logger.info("> savev");
-		User user= userRepository.save(u);
+		User user = userRepository.save(u);
 		logger.info("< save");
 		return user;
-		//return null;
+		// return null;
 	}
 
 	@Override
@@ -71,14 +71,17 @@ public class UserServiceImp implements UserService{
 	@Override
 	public void logout() {
 		session.setAttribute("login", null);
-		
+
 	}
 
 	@Override
 	public User getLogin() {
-		return (User)session.getAttribute("login");
+		return (User) session.getAttribute("login");
 	}
 
+	@Override
+	public int updateEmail(Long id, String email) {
+		return userRepository.updateGuest(id, email);
+	}
 
-	
 }

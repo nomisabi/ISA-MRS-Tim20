@@ -1,3 +1,4 @@
+<<<<<<< HEAD
   <section id="container" >
       <!-- **********************************************************************************************************************************************************
       TOP BAR CONTENT & NOTIFICATIONS
@@ -453,4 +454,461 @@
 
     
   </section>
+=======
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+      <header class="header black-bg">
+              <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+              </div>
+            <!--logo start-->
+            <a href="/#/guest/index/" class="logo"><b>CUPCAKE</b></a>
+            <!--logo end-->
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+                <ul class="nav top-menu">
+                    <!-- settings start -->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-tasks"></i>
+                            <span class="badge bg-theme">{{notifications.length}}</span>
+                        </a>
+                        <ul class="dropdown-menu extended tasks-bar">
+                            <div class="notify-arrow notify-arrow-green"></div>
+                            <li>
+                                <p class="green">You have {{notifications.length}} friend requests</p>
+                            </li>
+                           
+                            <li ng-repeat="x in notifications">
+                                    <div class="task-info">
+                                    <br>
+                                        <div class="desc"> &nbsp; &nbsp;{{x.firstName + " " + x.lastName}}</div>
+                                    </div>
+                                    <div>
+                                    <table>
+                                    	<tr>
+                                    	<td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+                                    	<td>&nbsp; &nbsp; &nbsp; </td>
+                                    	<td><input type="button" ng-click="confirmRequest(x)" value="Confirm" class="btn btn btn-info btn-xs">  </td>
+                                    	<td>&nbsp;</td>
+                                    	<td><input type="button" value="Delete request" class="btn btn-default btn-xs"> </td>
+                                    	<tr>
+                                    </table>
+                                        
+                                    
+                                    </div>
+                                    <br>
+                                
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    <!-- settings end -->
+                    
+                </ul>
+                <!--  notification end -->
+            </div>
+            <div class="top-menu">
+            	<ul class="nav pull-right top-menu">
+                    <li><a class="logout" ng-click="logout()" href="/#/">Logout</a></li>
+            	</ul>
+            </div>
+        </header>
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+              
+              	  <p class="centered"><a href="/#/guest/index/"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+              	  <h5 class="centered">{{guest.firstName + " " + guest.lastName}}</h5>
+              	  <li class="sub-menu" ng-click="changeToRestaurants()">
+                      <a href="javascript:;" >
+                          <i class="fa fa-cutlery"></i>
+                          <span>Restaurants</span>
+                          </a>
+                  </li>
+                  
+                  <li class="sub-menu"  ng-click="changeToFriends()">
+                      <a href="javascript:;" >
+                          <i class="fa fa-users"></i>
+                          <span>Friends</span>
+                      </a>
+                  </li>
+                  
+                  <li class="sub-menu"  ng-click="changeToFriend()">
+                      <a href="javascript:;" >
+                          <i class="fa fa-user"></i>
+                          <span>Add Friend</span>
+                      </a>
+                  </li>
+                  
+                  	
+                  <li class="sub-menu" ng-click="changeToProfile()">
+                          <a href="javascript:;" >
+                          <i class="fa fa-pencil"></i>
+                          <span>Profile</span>
+                          </a>
+                          	
+                     
+                  </li>
+
+               
+               
+
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+          	<div class="row" ng-switch="page">
+          	
+          		<!-- PROFILE -->
+          		<div ng-switch-when="profile">
+					<!--  <div>
+					<img style="margin-left: 40%;" width="150px" height="150px" src="user.png">
+					</div> -->
+					<div class="row mt">
+						<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
+							<div class="form-panel">
+								<h4 class="mb"><i class="fa fa-angle-right"></i> Profile </h4>
+								<form class="form-horizontal style-form" name="myForm">
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">Email</label>
+										<div class="col-sm-10">
+											<input type="email" ng-model="guest.email" name="email" class="form-control" placeholder="Enter your Email" required="required">
+											<div class="has-error" ng-show="myForm.email.$dirty">
+												<span ng-show="myForm.email.$error.required">This is a required field</span>
+												<span ng-show="myForm.email.$invalid">This field is invalid </span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">First Name</label>
+										<div class="col-sm-10">
+											<input type="text" ng-model="guest.firstName" class="form-control" placeholder="Enter your First Name" required="required" name="firstName">
+											<div class="has-error" ng-show="myForm.firstName.$dirty">
+												<span ng-show="myForm.firstName.$error.required">This is a required field</span>
+											</div>
+										</div>
+										<br>
+										<br>
+										<br>
+										<label class="col-sm-2 col-sm-2 control-label">Last Name</label>
+										<div class="col-sm-10">
+											<input type="text" ng-model="guest.lastName" class="form-control" placeholder="Enter your Last Name" required="required" name="lastName">
+											<div class="has-error" ng-show="myForm.lastName.$dirty">
+												<span ng-show="myForm.lastName.$error.required">This is a required field</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">Address</label>
+										<div class="col-sm-10">
+											<input type="text" ng-model="guest.address" class="form-control" placeholder="Enter your Address">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+										<div class="col-sm-10">
+											<button style="margin-left: 90%;" class="btn btn-theme" ng-disabled="(myForm.$pristine == true || myForm.$invalid == true)" type="button" ng-click="save()">Save</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div><!-- col-lg-12-->      	
+					</div><!-- /row -->
+				</div><!-- END PROFILE -->
+				
+				
+				<!-- ADD FRIEND -->
+				<div ng-switch-when="friend">
+				<div class="row mt">
+					<div class="col-lg-12" style="width: 50%; margin-left: 5%;">
+          			<div class="form-panel" style="width: 80%">
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Add friend</h4>
+                      <form class="form-inline"  ng-submit="searchUsers(search)" name="myForm">
+                          <div class="form-group">
+                              <input type="text" ng-model="search" name="search"  class="form-control" style="width: 300px;"  placeholder="Enter First or Last Name" required="required">
+                          </div>
+                          
+                          <button type="submit" class="btn btn-theme" ng-disabled="myForm.$invalid" value="Search">Search</button>
+                      </form>
+          			</div><!-- /form-panel -->
+          		</div><!-- /col-lg-12 -->
+          		</div>
+          		
+          		<br><br>
+          		<div class="row mt">
+          			<div class="col-md-12" style="width: 80%; margin-left: 5%;">
+          				<div class="content-panel" ng-hide="users.length == 0">
+          					<table class="table table-striped table-advance table-hover" >
+          						<thead>
+          							<tr>
+          								<th> First Name </th>
+          								<th> Last Name </th>
+          								<th> Send friendship request</th>
+          							</tr>
+          						</thead>
+          						<tbody>
+          							<tr ng-repeat="user in users">
+          								<td>{{user.firstName}}</td>
+          								<td>{{user.lastName}} </td>
+          								<td>
+          									<a class="btn btn-default" ng-click="addRequest(user.id)">
+          										<i class="fa fa-user" aria-hidden="true"></i>
+          										<span> Add Friend </span>
+          									</a>
+          								</td>
+          							</tr>
+          						</tbody>
+          					</table>
+          				</div><!-- /content-panel -->
+          			</div><!-- /col-md-12 -->
+          		</div><!-- /row -->
+          	</div><!-- END ADD FRIEND -->
+          	
+          	
+          	<!-- FRIENDS -->
+          	<div ng-switch-when="friends">
+          		<div class="row mt">
+          			<div class="col-md-12" style="width: 80%; margin-left: 5%;">
+          				<div class="content-panel">
+          					<h4><i class="fa fa-angle-right"></i> Friends:</h4>
+          					<hr>
+          					<table class="table table-striped table-advance table-hover" ng-hide="friends.length == 0">	
+          						<thead>
+          							<tr>
+          								<th> First Name </th>
+          								<th> Last Name </th>
+          								<th> Delete friend</th>
+          							</tr>
+          						</thead>
+          						<tbody>
+          							<tr ng-repeat="friend in friends">
+          								<td>{{friend.firstName}}</td>	
+          								<td>{{friend.lastName}} </td>
+          								<td>
+          									<a class="btn btn-danger"  ng-click="deleteFriend(friend.id)">
+          									<i class="fa fa-trash-o fa-lg"></i> 
+          									<span> Delete</span>
+          									</a>
+          								</td>
+          							</tr>
+          						</tbody>
+          					</table>
+          				</div><!-- /content-panel -->
+          			</div><!-- /col-md-12 -->
+          		</div><!-- /row -->
+          	</div><!-- END FRIENDS -->
+          	
+          	
+          	<!-- RESTAURANTS -->
+          	<div ng-switch-when="restaurants">
+          		<div class="row mt">
+          			<div class="col-md-12" style="width: 80%; margin-left: 5%;">
+          				<div class="content-panel">
+          					<h4><i class="fa fa-angle-right"></i> Restaurants:</h4>
+          					<hr>
+          					<table style="width: 100%" class="table table-striped table-advance table-hover" ng-hide="restaurants.length == 0">
+          						<thead>
+          							<tr>
+          								<th> Name </th>
+          								<th> Reserve </th>
+          							</tr>
+          						</thead>
+          						<tbody>
+          							<tr ng-repeat="restaurant in restaurants">
+          								<td>{{restaurant.name}}</td>
+          								<td>
+          									<a class="btn btn-default" ng-click="reserve(restaurant)">
+          									<i class="fa fa-plus" aria-hidden="true"></i>
+          									<span> Reserve restaurant </span>
+          									</a>
+          								</td>
+          							</tr>
+          						</tbody>
+          					</table>
+          				</div><!-- /content-panel -->
+          			</div><!-- /col-md-12 -->
+          		</div>
+          	</div><!-- END RESTAURANTS -->
+          	
+          	
+          	<!-- RESERVATION RESTAURANT 1/3 -->
+          	<div ng-switch-when="reserve">
+          			<div class="row mt">
+          				<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
+							<div class="form-panel">
+								<h4 class="mb"><i class="fa fa-angle-right"></i> Restaurant reservations </h4>
+								<hr>
+								<form class="form-horizontal style-form" name="myForm" ng-submit="reserveNext(duration,date)">
+									<div class="form-group">
+										<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{restaurant.name}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">Date</label>
+										<div class="col-sm-10">
+											<ng-combo-date-picker  ng-model="date" ng-min-date="{{ min.toString() }}" ng-max-date="{{ max.toString() }}"></ng-combo-date-picker>
+										</div>
+										<br>
+										<br>
+										<br>
+										<label class="col-sm-2 col-sm-2 control-label">Time</label>
+										<div class="col-sm-10">
+											<input type="text"  dn-timepicker ng-model="time" max-time='9:00 pm' min-time='9:00 am' time-format='h:mm a' step='30' required="required" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label"> Duration</label>
+										<div class="col-sm-10">
+											<input ng-model="duration" type="number" width="20px" min="1" max="12" required="required">  <span>   hour</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+										<div class="col-sm-10">
+											<!--<button style="margin-left: 90%;" class="btn btn-theme" ng-disabled="(myForm.$pristine == true || myForm.$invalid == true)" type="button" ng-click="reserveNext(duration,date)">Next</button>-->
+										<input style="margin-left: 50%;"  class="btn btn-theme" type="submit" value="Next">
+										</div>
+										
+									</div>
+								</form>
+							</div>
+						</div><!-- col-lg-12-->      	
+					</div><!-- /row -->
+				</div><!-- END RESERVATION RESTAURANT 1/3 -->
+				
+				
+				<!-- RESERVATION RESTAURANT 2/3 -->
+				<div ng-switch-when="reserve2">
+		           	<div class="row mt">
+          				<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
+							<div class="form-panel">
+								<h4 class="mb"><i class="fa fa-angle-right"></i> Restaurant reservations </h4>
+								<hr>
+								<form class="form-horizontal style-form" name="myForm" ng-submit="reserveNext2()">
+									<div class="form-group">
+										<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{restaurant.name}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">Date</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{dateStr}} </p>
+										</div>
+										<br>
+										<br>
+										<br>
+										<label class="col-sm-2 col-sm-2 control-label">Time</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{timeStr}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label"> Duration</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{reservation.duration}}  &nbsp; hour</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label"> </label>
+										<div class="col-lg-10">
+											<ul>
+		           						<li ng-repeat="x in tables" ng-click="klik(x)">
+		           						{{'Table number: ' + x.tableOfRestaurant.number + ', chairs: ' + x.tableOfRestaurant.numberOfChairs + ', reserved: ' + x.reserved}} &nbsp;
+		           						</li>
+		           					</ul>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+										<div class="col-sm-10">
+											<!--<button style="margin-left: 90%;" class="btn btn-theme" ng-disabled="(myForm.$pristine == true || myForm.$invalid == true)" type="button" ng-click="reserveNext(duration,date)">Next</button>-->
+										<input style="margin-left: 50%;"  class="btn btn-theme" type="submit" value="Reserve">
+										</div>
+										
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>    	
+				</div><!-- END RESERVATION RESTAURANT 2/3 -->
+				
+				
+				<!-- RESERVATION RESTAURANT 3/3 -->
+				<div ng-switch-when="reserve3">
+		           	<div class="row mt">
+          				<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
+							<div class="form-panel">
+								<h4 class="mb"><i class="fa fa-angle-right"></i> Restaurant reservations </h4>
+								<hr>
+								<form class="form-horizontal style-form" name="myForm" ng-submit="reserveNext3()">
+									<div class="form-group">
+										<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{restaurant.name}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">Date</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{dateStr}} </p>
+										</div>
+										<br>
+										<br>
+										<br>
+										<label class="col-sm-2 col-sm-2 control-label">Time</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{timeStr}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label"> Duration</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{reservation.duration}}  &nbsp; hour</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label"> Table</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{table.number}} </p>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div><!-- END RESERVATION RESTAURANT 3/3 -->
+		           	
+		           	
+		           
+					
+			
+		</section>
+      </section><!-- /MAIN CONTENT -->
+
+    
+  </section>
+>>>>>>> branch 'master' of https://github.com/nevenaDj/ISA-MRS-Tim20
   
