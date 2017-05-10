@@ -27,9 +27,9 @@ public class EmployeeServiceImp implements EmployeeService{
 	public Boolean login(Employee e) {
 		
 		logger.info("> login");
-		Boolean value= emRepository.login(e);
+		//Boolean value= emRepository.login(e);
         logger.info("< login");
-		return value;
+		return true;
 	}
 
 	@Override
@@ -51,34 +51,35 @@ public class EmployeeServiceImp implements EmployeeService{
 	@Override
 	public Employee findByEmail(String email){
 		logger.info("> findByEmail email:{}", email);
-		Employee em = emRepository.findByEmail(email);
+		//Employee em = emRepository.findByEmail(email);
 		logger.info("< findByEmail email:{}", email);
-		return em;
+		return null;
 		
 	}
 
 	@Override
 	public boolean isEmployeeExist(Employee em){
-		return emRepository.isEmployeeExist(em);
-		
+		//return emRepository.isEmployeeExist(em);
+		return true;
 	}
     
 	@Override
 	public boolean changePassword(String newP, String oldP, Employee em) {
 		logger.info("> changePass ", em);
-		boolean val = emRepository.changePassword(newP, oldP, em);
+		//boolean val = emRepository.changePassword(newP, oldP, em);
 		logger.info("< changePass :{}", em);
-		return val;
+		return true;
 	}
 	
 	@Override
 	public Employee getLogedIn() {
-		return emRepository.getLogedIn();
+		//return emRepository.getLogedIn();
+		return null;
 	}
 
 	@Override
 	public void setLogedIn(Employee em) {
-		emRepository.setLogedIn( em);
+	//	emRepository.setLogedIn( em);
 		
 	}
 

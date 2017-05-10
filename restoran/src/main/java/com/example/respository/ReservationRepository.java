@@ -2,10 +2,7 @@ package com.example.respository;
 
 import java.util.Collection;
 
-import javax.persistence.LockModeType;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.domain.Reservation;
@@ -19,7 +16,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 			+ "((r.startTime>=?2 AND r.startTime < ?3) OR (r.endTime > ?2 AND r.endTime <= ?3))")
 	public Collection<Reservation> getAllReservationOfRestaurantInTime(Long id, String dateStart, String dateEnd);
 
-	@Lock(LockModeType.PESSIMISTIC_READ)
 	@Query("SELECT Object(r) FROM Reservation r WHERE r.restaurant.id = ?1 AND r.table.id = ?2 AND "
 			+ "((r.startTime>=?3 AND r.startTime < ?4) OR (r.endTime > ?3 AND r.endTime <= ?4)) ")
 	public Collection<Reservation> get(Long idRestaurant, Long idTable, String dateStart, String dateEnd);

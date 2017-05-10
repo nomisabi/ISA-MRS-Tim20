@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Restaurant implements Serializable {
@@ -27,7 +28,8 @@ public class Restaurant implements Serializable {
 	@Column
 	private String description;
 
-	  
+	@OneToOne
+	private Menu menu;
 	@OneToMany(cascade={CascadeType.MERGE})
 	private Set<Manager> manager;
 	@OneToMany(cascade={CascadeType.MERGE})
@@ -109,6 +111,16 @@ public class Restaurant implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	
+
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Menu menu) {
+		this.menu = menu;
 	}
 
 	@Override

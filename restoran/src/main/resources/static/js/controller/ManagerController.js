@@ -85,6 +85,10 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     	if ($scope.manager.active)
     		$scope.page="menu";   	  
     }
+    $scope.changeToNewItem= function(){ 
+    	if ($scope.manager.active)
+    		$scope.page="new_item_menu";   	  
+    }
   	$scope.changeToDrinkMenu= function(){
   		if ($scope.manager.active)
     		$scope.page="drinkmenu";   	
@@ -153,5 +157,25 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 						alert("Email address is used.");
 					});
   	}
+	
+	$scope.createNewItem= function(){
+		if ($scope.manager.restaurant.menu!=null){
+			menu=$scope.manager.restaurant.menu;
+			menu.items=[];
+		}else{
+			//alert("haho");
+			menu={items:[]};
+			//alert(JSON.stringify(menu));
+		}
+		menu.dateUpdate=new Date();
+		//alert(JSON.stringify(menu));
+		menu.items.push($scope.menuitem);
+		//alert(JSON.stringify(menu));
+		$http.post("http://localhost:8080/api/manager/addMenuItem", {"m":menu, "r":$scope.manager.restaurant}).success(function(data) {
+			alert(JSON.stringify(data));
+		}).error(function(data) {
+			alert("error");
+		});	
+	}
 	
 }]);

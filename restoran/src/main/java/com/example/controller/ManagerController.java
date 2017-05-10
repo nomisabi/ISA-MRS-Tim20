@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.Employee;
+import com.example.domain.Food;
 import com.example.domain.Manager;
+import com.example.domain.Menu;
+import com.example.domain.MenuItem;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.TypeOfUser;
@@ -19,6 +22,8 @@ import com.example.domain.User;
 import com.example.domain.DTOs.EmployeeRestaurant;
 import com.example.domain.DTOs.SupplierRestaurant;
 import com.example.service.ManagerService;
+import com.example.service.MenuService;
+import com.example.service.RestaurantService;
 import com.example.service.SystemManagerService;
 import com.example.service.UserService;
 
@@ -45,6 +50,10 @@ public class ManagerController {
 	private UserService userService;
 	@Autowired
 	private SystemManagerService smService;
+	@Autowired
+	private MenuService menuService;
+	@Autowired
+	private RestaurantService restService;
 	
 	@RequestMapping(
 			value = "/api/manager/{id}", 
@@ -182,7 +191,7 @@ public class ManagerController {
 	method = RequestMethod.POST, 
 	produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Employee>  createEmployee(@Valid  @RequestBody EmployeeRestaurant er) throws Exception {
-		logger.info("> createEmployee: ");
+		logger.info("> createEmployee: "+er.getE().getId());
 		Collection<User> users = userService.findAll();
 		for (User u: users)
 			if (u.getEmail().equals(er.getE().getEmail()))
@@ -256,22 +265,35 @@ public class ManagerController {
 		return new ResponseEntity<Manager>(HttpStatus.OK);
 	}
 	
-	/*
 	@RequestMapping(
-			value = "/api/manager/getlogedin", 
-			method = RequestMethod.GET,  
+			value = "/api/manager/addMenuItem", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Manager> logIn() throws Exception {
-		logger.info("> GetlogIn");
-		Manager m = mService.getLogedIn();
-		if (m != null){
-				return new ResponseEntity<Manager>(m, HttpStatus.OK);
+	public ResponseEntity<Menu> update(@Valid @RequestBody MenuRestaurant rm) throws Exception {
+		Menu m= rm.getM();
+		logger.info("> add menu item: "+m.toString());
+		Collection<MenuItem> items= m.getItems();
+		for (MenuItem mi: items){
+			if (!menuService.isMenuItemExist(mi.getId())){
+				Food f= mi.getFood();
+				menuService.createFood(f);
+				menuService.createMenuItem(mi);
 			}
-		
-		return new ResponseEntity<Manager>(HttpStatus.NOT_FOUND);
+		}
+		if (rm.getR().getMenu()==null){
+			m= menuService.createMenu(m);
+			rm.getR().setMenu(m);
+			restService.updateMenu(rm.getR());
+		}
+		else
+		{
+			menuService.insertNewItem(m);
+		}
+		logger.info("< add menu item");
+		return new ResponseEntity<Menu>(m,HttpStatus.OK);
 	}
-
-*/
+	
 	
 	
 }
