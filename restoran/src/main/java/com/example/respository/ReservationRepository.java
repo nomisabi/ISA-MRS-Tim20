@@ -8,13 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.example.domain.Reservation;
 
-import java.util.Collection;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import com.example.domain.Reservation;
-
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
 	@Query("SELECT Object(r) FROM Reservation r WHERE r.restaurant.id = ?1")
@@ -29,4 +22,3 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	public Collection<Reservation> get(Long idRestaurant, Long idTable, String dateStart, String dateEnd);
 
 }
-
