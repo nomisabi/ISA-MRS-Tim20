@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.domain.Guest;
 import com.example.domain.Reservation;
 import com.example.domain.Restaurant;
 import com.example.domain.TableOfRestaurant;
@@ -39,9 +38,7 @@ public class ReservationRepositoryIntegrationTests {
 		restaurant = restaurantRepository.save(restaurant);
 		TableOfRestaurant table = new TableOfRestaurant(1, 5, restaurant);
 		table = tableRepository.save(table);
-		Guest guest = new Guest("proba.proba.com", "proba1234");
-		guest = guestRepository.save(guest);
-		reservation = new Reservation(restaurant, table, guest, "2017-05-08 15:00", "2017-05-08 17:00");
+		reservation = new Reservation(restaurant, table, "2017-05-08 15:00", "2017-05-08 17:00");
 		reservation = repository.save(reservation);
 	}
 

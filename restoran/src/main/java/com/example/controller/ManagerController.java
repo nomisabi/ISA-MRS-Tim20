@@ -27,7 +27,6 @@ import com.example.service.RestaurantService;
 import com.example.service.SystemManagerService;
 import com.example.service.UserService;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -203,8 +202,8 @@ public class ManagerController {
 		empl.add(e);
 		er.getR().setEmployee(empl);
 		userService.addUser(user);
-		//smService.update(er.getR());
-		restService.insertEmpl(er.getR().getId(), er.getE().getId());
+		smService.update(er.getR());
+		
 		logger.info("< createEmployee");	
 		return new ResponseEntity<Employee>(er.getE(), HttpStatus.OK);
 	
@@ -294,36 +293,6 @@ public class ManagerController {
 		return new ResponseEntity<Menu>(m,HttpStatus.OK);
 	}
 	
-	@RequestMapping(
-			value = "/api/manager/updateMenu", 
-			method = RequestMethod.POST, 
-			consumes = MediaType.APPLICATION_JSON_VALUE, 
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Menu> updateMenu(@Valid @RequestBody Menu m) throws Exception {
-		logger.info("> update menu item: "+m.toString());
-		Collection<MenuItem> items= m.getItems();
-		for (MenuItem mi: items){
-			Food f= mi.getFood();
-			menuService.updateFood(f);
-			menuService.updateMenuItem(mi);	
-		}
-		menuService.updateMenu(m);
-		//menuService.insertNewItem(m);
-		logger.info("< update menu item");
-		return new ResponseEntity<Menu>(m,HttpStatus.OK);
-	}
 	
-	@RequestMapping(
-			value = "/api/manager/deleteMenuItem", 
-			method = RequestMethod.POST, 
-			consumes = MediaType.APPLICATION_JSON_VALUE, 
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<MenuItem> updateMenu(@Valid @RequestBody MenuItem m) throws Exception {
-		logger.info("> delete menu item: "+m.toString());
-		menuService.deleteMenuItem(m.getId());
-		menuService.deleteFood(m.getFood().getId());
-		logger.info("< deletet menu item");
-		return new ResponseEntity<MenuItem>(m,HttpStatus.OK);
-	}
 	
 }

@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.Guest;
+import com.example.domain.GuestReservation;
 import com.example.domain.Reservation;
 import com.example.domain.Restaurant;
 import com.example.domain.TableOfRestaurant;
 import com.example.domain.User;
 import com.example.domain.DTOs.FriendRequest;
 import com.example.domain.DTOs.GuestRegister;
+import com.example.domain.DTOs.InviteFriends;
 import com.example.domain.DTOs.RestaurantReservation;
 import com.example.domain.DTOs.Table;
 import com.example.service.GuestService;
@@ -296,16 +298,33 @@ public class GuestController {
 		String endTimeStr = sdf.format(endTime);
 		System.out.println(endTimeStr);
 
-		Reservation makeReservation = new Reservation(reservation.getRestaurant(), reservation.getTable(),
-				reservation.getGuest(), startTimeStr, endTimeStr);
+		Reservation makeReservation = new Reservation(reservation.getRestaurant(), reservation.getTable(), startTimeStr,
+				endTimeStr);
 
 		Reservation savedReservation = reservationService.createReservation(makeReservation);
 		System.out.println(savedReservation);
 		if (savedReservation == null) {
 			return new ResponseEntity<Reservation>(HttpStatus.NOT_FOUND);
 		}
+		GuestReservation guestReservation = new GuestReservation(reservation.getGuest(), savedReservation);
+		reservationService.saveGuestReservation(guestReservation);
 		logger.info("< makeReservation");
 		return new ResponseEntity<Reservation>(savedReservation, HttpStatus.OK);
+	}
+
+	/*** Invite friends ***/
+	@RequestMapping(value = "/api/restaurant/friends", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Reservation> inviteFriends(@RequestBody InviteFriends invite) {
+		logger.info("> inviteFriends");
+		System.out.println(invite);
+
+		for (Guest guest : invite.getFriends()) {
+			GuestReservation guestReservation = new GuestReservation(guest, invite.getReservation());
+			reservationService.saveGuestReservation(guestReservation);
+			System.out.println(guest);
+		}
+
+		return new ResponseEntity<Reservation>(HttpStatus.OK);
 	}
 
 }

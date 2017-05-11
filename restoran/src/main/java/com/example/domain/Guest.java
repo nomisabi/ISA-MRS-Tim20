@@ -32,7 +32,7 @@ public class Guest implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="guest")
 	private Set<Friendship> friends;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
-	private Set<Reservation> reservations;
+	private Set<GuestReservation> guestReservations;
 	
 
 	public Guest() {

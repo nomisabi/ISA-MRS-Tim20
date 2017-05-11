@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.util.Collection;
 
+import com.example.domain.GuestReservation;
 import com.example.domain.Reservation;
 
 public interface ReservationService {
@@ -11,6 +12,8 @@ public interface ReservationService {
 	Collection<Reservation> getAllReservations();
 
 	Reservation createReservation(Reservation reservation);
+	
+	GuestReservation saveGuestReservation(GuestReservation guestReservation);
 
 	Collection<Reservation> getAllReservationOfRestaurant(Long idRestaurant);
 

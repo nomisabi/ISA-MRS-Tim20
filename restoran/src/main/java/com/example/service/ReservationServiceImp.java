@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.example.domain.GuestReservation;
 import com.example.domain.Reservation;
+import com.example.respository.GuestReservationRepository;
 import com.example.respository.ReservationRepository;
 
 @Service
@@ -19,6 +21,8 @@ public class ReservationServiceImp implements ReservationService {
 
 	@Autowired
 	ReservationRepository reservationRepository;
+	@Autowired
+	GuestReservationRepository guestReservationRepository;
 
 	@Override
 	public Reservation getReservation(Long id) {
@@ -44,6 +48,13 @@ public class ReservationServiceImp implements ReservationService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
+	public GuestReservation saveGuestReservation(GuestReservation guestReservation) {
+		Assert.notNull(guestReservation, "Reservation could not be null.");
+		return guestReservationRepository.save(guestReservation);
+	}
+
+	@Override
 	public Collection<Reservation> getAllReservationOfRestaurant(Long idRestaurant) {
 		return reservationRepository.getAllReservationOfRestaurant(idRestaurant);
 	}
@@ -53,4 +64,3 @@ public class ReservationServiceImp implements ReservationService {
 		return reservationRepository.getAllReservationOfRestaurantInTime(id, dateStart, dateEnd);
 	}
 }
-

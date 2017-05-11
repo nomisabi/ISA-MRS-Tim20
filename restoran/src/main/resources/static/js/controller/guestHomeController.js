@@ -17,9 +17,10 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.duration = 1;
 	$scope.dateStr = "";
 	$scope.timeStr = "";
-	$scope.reservation = {"restaurant":null, "dateAndTime":'', "duration": ''};
+	$scope.reservation = {id:null,"restaurant":null, "dateAndTime":'', "duration": ''};
 	$scope.table = {id:null, number:null, numberOfChairs: null, restaurant: $scope.restaurant};
 	$scope.tableNum = null;
+	$scope.list = [];
 	
 	init();
 	
@@ -85,6 +86,12 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$scope.users = [];
     		
     	$scope.page="reserve";
+    }
+    
+    $scope.changeToHome= function(){
+    	$scope.users = [];
+    		
+    	$scope.page="home";
     }
     
     
@@ -206,18 +213,20 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		$http.post('http://localhost:8080/api/restaurant/reservation',{"restaurant":$scope.reservation.restaurant, "dateAndTime":$scope.reservation.dateAndTime, "duration": $scope.reservation.duration, "table": $scope.table, "guest":$scope.guest})
         	.success(function(data) {
         		$scope.tableNum = null;
+        		$scope.reservation = data;
+        		$http.post("http://localhost:8080/api/friends",$scope.guest).success(
+        				function(data){
+        					$scope.friends=data;	
+        					$scope.list = [];
+        					$scope.page ="reserve3";
+        				});	
         	//	alert("Reservation succesful");
-        		$scope.page ="reserve3";
+        		
         		
     		}).error(function(data){
     			alert("Table is reserved. Please choose other table.");
     			}
-    		); 
-    		
-    		
-    	 		
-    		
-    		
+    		);    		
     		
     		
     	}else{
@@ -226,9 +235,14 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	
     }
     
-    $scope.reserveNext3 = function(){   	
-    	
-    	
+    $scope.reserveNext3 = function(){   	    	
+    	$http.post('http://localhost:8080/api/restaurant/friends',{"friends":$scope.list,"reservation":$scope.reservation})
+    	.success(function(data) {
+    		alert("Friends invited");
+		}).error(function(data){
+			//alert("error");
+			}
+		); 
     	
     }
     
@@ -242,6 +256,16 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		$scope.table = vrednost.tableOfRestaurant;
     		alert(vrednost.tableOfRestaurant.number);
     	}
+	}
+    
+    $scope.addToList = function(item) {
+    	var idx = $scope.list.indexOf(item);
+        if (idx > -1) {
+          $scope.list.splice(idx, 1);
+        }
+        else {
+          $scope.list.push(item);
+        }
 	}
     
     $scope.logout= function(){
