@@ -27,7 +27,6 @@ import com.example.service.RestaurantService;
 import com.example.service.SystemManagerService;
 import com.example.service.UserService;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
 import java.util.Collection;
 import java.util.HashSet;

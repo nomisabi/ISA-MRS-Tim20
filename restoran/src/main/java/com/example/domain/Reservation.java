@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Reservation implements Serializable {
@@ -24,9 +25,8 @@ public class Reservation implements Serializable {
 	@ManyToOne(optional = false)
 	private TableOfRestaurant table;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "guest_id", nullable = false)
-	private Guest guest;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation")
+	private Set<GuestReservation> guestReservations;
 
 	@Column
 	private String startTime;
@@ -37,11 +37,10 @@ public class Reservation implements Serializable {
 	public Reservation() {
 	}
 
-	public Reservation(Restaurant restaurant, TableOfRestaurant table, Guest guest, String startTime, String endTime) {
+	public Reservation(Restaurant restaurant, TableOfRestaurant table, String startTime, String endTime) {
 		super();
 		this.restaurant = restaurant;
 		this.table = table;
-		this.guest = guest;
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
@@ -70,14 +69,6 @@ public class Reservation implements Serializable {
 		this.table = table;
 	}
 
-	public Guest getGuest() {
-		return guest;
-	}
-
-	public void setGuest(Guest guest) {
-		this.guest = guest;
-	}
-
 	public String getStartTime() {
 		return startTime;
 	}
@@ -96,8 +87,8 @@ public class Reservation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Reservation [restaurant=" + restaurant + ", table=" + table + ", guest=" + guest + ", startTime="
-				+ startTime + ", endTime=" + endTime + "]";
+		return "Reservation [restaurant=" + restaurant + ", table=" + table + ", guestReservations=" + guestReservations
+				+ ", startTime=" + startTime + ", endTime=" + endTime + "]";
 	}
 
 }
