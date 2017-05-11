@@ -45,4 +45,5 @@ public interface MenuService {
 	Collection<Food> findAllFood();
 	
 	void deleteFood(Long id);
+	
 }

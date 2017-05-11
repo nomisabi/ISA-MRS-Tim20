@@ -2,6 +2,7 @@
 angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route', function($scope, $http,window, $route) {
 	
 	$scope.page="non-active";
+	$scope.updateMenu=false;
 	$scope.typeOfEmployee = [{
 		    value: 'CHEF',
 		    label: 'Chef'
@@ -26,7 +27,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 									}).success(
 										function(data){
 											//$scope.rest=data;
-											alert(JSON.stringify(data));
+											//alert(JSON.stringify(data));
 											$scope.manager.restaurant=data;
 											
 									});
@@ -86,8 +87,9 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="menu";   	  
     }
     $scope.changeToNewItem= function(){ 
-    	if ($scope.manager.active)
-    		$scope.page="new_item_menu";   	  
+    	if ($scope.manager.active){
+    		$scope.page="new_item_menu";   
+    	}
     }
   	$scope.changeToDrinkMenu= function(){
   		if ($scope.manager.active)
@@ -126,6 +128,12 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		if ($scope.manager.active)
     		$scope.page="non-active"; 
   	}
+  	$scope.changeToUpdateMenu= function(i){
+  		$scope.menuUpdate=i;
+  		$scope.menuUpdate2=i;
+  		if ($scope.manager.active)
+    		$scope.page="updateMenu"; 
+  	}
   	
   	$scope.createEmployee= function(){
   		if ($scope.manager.restaurant!=null){
@@ -159,23 +167,68 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	}
 	
 	$scope.createNewItem= function(){
+		//alert(JSON.stringify($scope.manager.restaurant));
 		if ($scope.manager.restaurant.menu!=null){
+			//alert($scope.manager.restaurant.menu.items.length);
+			for (var i=0; i<$scope.manager.restaurant.menu.items.length;i++){
+				//alert(JSON.stringify($scope.manager.restaurant.menu.items[i]));
+				//alert(JSON.stringify($scope.menuitem));
+				
+				if ($scope.manager.restaurant.menu.items[i].food.name==$scope.menuitem.food.name){
+					alert("Food with this name is exist.");
+					return;
+				}
+			}
 			menu=$scope.manager.restaurant.menu;
 			menu.items=[];
 		}else{
-			//alert("haho");
 			menu={items:[]};
-			//alert(JSON.stringify(menu));
 		}
 		menu.dateUpdate=new Date();
-		//alert(JSON.stringify(menu));
 		menu.items.push($scope.menuitem);
-		//alert(JSON.stringify(menu));
 		$http.post("http://localhost:8080/api/manager/addMenuItem", {"m":menu, "r":$scope.manager.restaurant}).success(function(data) {
-			alert(JSON.stringify(data));
+			$route.reload();
 		}).error(function(data) {
 			alert("error");
 		});	
+	}
+	
+	$scope.updateMenuItem= function(){
+		x=0;
+		for (var i=0; i<$scope.manager.restaurant.menu.items.length;i++){
+			if ($scope.manager.restaurant.menu.items[i].food.name==$scope.menuUpdate.food.name){
+				x++;
+			}
+		}
+		if (x>1){
+			alert("Food with this name is exist.");
+			return;
+		}
+		menu= $scope.manager.restaurant.menu;
+		//delete menu.$$hashKey;
+		alert(JSON.stringify(menu));
+		menu.items= [$scope.menuUpdate];
+		
+		menu.dateUpdate=new Date();
+		alert(JSON.stringify(menu));
+		$http.post("http://localhost:8080/api/manager/updateMenu", menu).success(function(data) {
+			$route.reload();
+		}).error(function(data) {
+			alert("error");
+		});	
+	}
+	
+	$scope.deleteMenuItem= function(i){
+		var result = confirm("Want to delete?");
+		if (result) {
+			alert(JSON.stringify(i));
+			$http.post("http://localhost:8080/api/manager/deleteMenuItem", i).success(function(data) {
+				$route.reload();
+			}).error(function(data) {
+				alert("error");
+			});
+		}
+			
 	}
 	
 }]);
