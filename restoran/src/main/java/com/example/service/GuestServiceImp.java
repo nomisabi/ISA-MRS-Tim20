@@ -73,6 +73,17 @@ public class GuestServiceImp implements GuestService {
 	@Transactional(readOnly = false)
 	public void addFriend(Long guestId, Long friendId) {
 		friendshipRepository.confirmFriendship(friendId, guestId, true);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public boolean deleteFriend(Long guestId, Long friendId) {
+		Friendship f = friendshipRepository.findByGuestAndFriendId(guestId, friendId);
+		if (f == null) {
+			return false;
+		}
+		friendshipRepository.delete(f.getId());
+		return true;
 
 	}
 

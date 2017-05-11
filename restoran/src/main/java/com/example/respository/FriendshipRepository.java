@@ -11,12 +11,14 @@ import com.example.domain.Friendship;
 @Repository
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
-	@Query("SELECT Object(f) FROM Friendship f WHERE f.guest.id = ?1 AND f.idFriend = ?2")
+	@Query("SELECT Object(f) FROM Friendship f WHERE (f.guest.id = ?1 AND f.idFriend = ?2) OR (f.guest.id = ?2 AND f.idFriend = ?1)")
 	public Friendship findByGuestAndFriendId(Long idGuest, Long idFriend);
 
 	@Modifying
 	@Transactional
 	@Query("UPDATE Friendship f SET f.requestAccepted = ?3 WHERE f.guest.id = ?1 AND f.idFriend = ?2")
 	int confirmFriendship(Long id, Long idfriend, boolean requestAccepted);
+	
+	
 
 }

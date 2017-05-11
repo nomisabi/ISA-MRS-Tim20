@@ -22,6 +22,8 @@ public interface GuestService {
 	
 	void addFriend(Long guestId, Long friendId);
 	
+	boolean deleteFriend(Long guestId, Long friendId);
+	
 	Guest findByEmailAndPass(String email,String password);
 	
 	Collection<Guest> searchGuest(Long id,String search);

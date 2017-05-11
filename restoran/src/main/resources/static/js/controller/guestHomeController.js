@@ -127,50 +127,35 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		); 	
     }
     
-    $scope.deleteRequest= function(email){
-    	
-    	alert("Delete request.<"+email+">");
-    	
-    }
-    $scope.deleteFriend= function(id){
-    	alert("Delete friend.<"+id+">");
-    	for(var i = 0; i < $scope.friends.length; i++){
-            if($scope.friends[i].id === id) {
-                $scope.users[$scope.friends.length] = $scope.friends[i];
-                $scope.friends.splice(i, 1);
-                break;
-            }
-        }	
-    	
-    	$http.post('http://localhost:8080/api/deleteFriend',{"idGuest":$scope.guest.id,"idFriend":id})
+    $scope.deleteRequest= function(id){    	
+    	$http.post('http://localhost:8080/api/friendship/deleteFriend',{"idGuest":$scope.guest.id,"idFriend":id})
     	.success(function(data) {
-    		//
+    		//$scope.changeToFriends();
+    		$window.location.reload();
 		}).error(function(data){
 			//alert("error");
 			}
-		);   
+		);    
     }
     
-    
-    $scope.addFriend= function(id){   	   	
-    	$http.post('http://localhost:8080/api/addFriend',{"idGuest":$scope.guest.id,"idFriend":id})
+    $scope.deleteFriend= function(id){    	
+    	$http.post('http://localhost:8080/api/friendship/deleteFriend',{"idGuest":$scope.guest.id,"idFriend":id})
     	.success(function(data) {
-    		//
+    		$scope.changeToFriends();
+    		//$window.location.reload();
 		}).error(function(data){
 			//alert("error");
 			}
-		);        	
+		);    
     }
+   
     
     $scope.confirmRequest= function(guest){   
-    	
-    	//alert(guest.id);
-    	//alert($scope.guest.id);
     	$http.post('http://localhost:8080/api/friendship/addFriend',{"idGuest":$scope.guest.id,"idFriend":guest.id})
     	.success(function(data) {
     		alert("Request confirm");
     		$window.location.reload();
-    		$scope.page = "friends";
+    	//	$scope.changeToFriends();
 		}).error(function(data){
 			//alert("error");
 			}

@@ -175,11 +175,24 @@ public class GuestController {
 		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
 	}
 
-	/*** Send friendship request ***/
+	/*** Add friend ***/
 	@RequestMapping(value = "/api/friendship/addFriend", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Guest>> addFriend(@RequestBody FriendRequest friendRequest) throws Exception {
 		System.out.println(friendRequest);
 		guestService.addFriend(friendRequest.getIdGuest(), friendRequest.getIdFriend());
+
+		return new ResponseEntity<Collection<Guest>>(HttpStatus.OK);
+	}
+
+	/*** Delete friend ***/
+	@RequestMapping(value = "/api/friendship/deleteFriend", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Guest>> deleteFriend(@RequestBody FriendRequest friendRequest) throws Exception {
+		System.out.println(friendRequest);
+		System.out.println("delete");
+		boolean flag = guestService.deleteFriend(friendRequest.getIdGuest(), friendRequest.getIdFriend());
+		if (!flag) {
+			return new ResponseEntity<Collection<Guest>>(HttpStatus.NOT_FOUND);
+		}
 
 		return new ResponseEntity<Collection<Guest>>(HttpStatus.OK);
 	}
@@ -266,7 +279,7 @@ public class GuestController {
 		return new ResponseEntity<Collection<Table>>(tableSS.values(), HttpStatus.OK);
 	}
 
-	/*** Return all tables ***/
+	/*** Make reservation ***/
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/api/restaurant/reservation", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Reservation> makeReservation(@RequestBody RestaurantReservation reservation) {
