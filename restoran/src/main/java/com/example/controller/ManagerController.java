@@ -21,6 +21,7 @@ import com.example.domain.TypeOfUser;
 import com.example.domain.User;
 import com.example.domain.DTOs.EmployeeRestaurant;
 import com.example.domain.DTOs.SupplierRestaurant;
+import com.example.service.DrinkMenuService;
 import com.example.service.ManagerService;
 import com.example.service.MenuService;
 import com.example.service.RestaurantService;
@@ -51,6 +52,8 @@ public class ManagerController {
 	private SystemManagerService smService;
 	@Autowired
 	private MenuService menuService;
+	@Autowired
+	private DrinkMenuService drinkMenuService;
 	@Autowired
 	private RestaurantService restService;
 	
@@ -264,6 +267,7 @@ public class ManagerController {
 		return new ResponseEntity<Manager>(HttpStatus.OK);
 	}
 	
+	
 	@RequestMapping(
 			value = "/api/manager/addMenuItem", 
 			method = RequestMethod.POST, 
@@ -293,6 +297,37 @@ public class ManagerController {
 		return new ResponseEntity<Menu>(m,HttpStatus.OK);
 	}
 	
+	@RequestMapping(
+			value = "/api/manager/updateMenu", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Menu> updateMenu(@Valid @RequestBody Menu m) throws Exception {
+		logger.info("> update menu item: "+m.toString());
+		Collection<MenuItem> items= m.getItems();
+		for (MenuItem mi: items){
+			Food f= mi.getFood();
+			menuService.updateFood(f);
+			menuService.updateMenuItem(mi);	
+		}
+		menuService.updateMenu(m);
+		//menuService.insertNewItem(m);
+		logger.info("< update menu item");
+		return new ResponseEntity<Menu>(m,HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/deleteMenuItem", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MenuItem> updateMenu(@Valid @RequestBody MenuItem m) throws Exception {
+		logger.info("> delete menu item: "+m.toString());
+		menuService.deleteMenuItem(m.getId());
+		menuService.deleteFood(m.getFood().getId());
+		logger.info("< deletet menu item");
+		return new ResponseEntity<MenuItem>(m,HttpStatus.OK);
+	}
 	
 	
 }
