@@ -37,4 +37,10 @@ public class RestaurantServiceImp implements RestaurantService {
 		
 	}
 
+	@Override
+	public void insertEmpl(Long id_r, Long id_e) {
+		restaurantRepository.insertEmpl(id_r, id_e);
+		
+	}
+
 }

@@ -14,6 +14,6 @@ public interface MenuItemRepository extends CrudRepository<MenuItem, Long> {
 
 	@Modifying
 	@Transactional
-    @Query(value="UPDATE MenuItem m SET m.price = ?2 WHERE m.id = ?1", nativeQuery=true)
+    @Query(value="UPDATE menu_item SET price = ?2 WHERE id = ?1", nativeQuery=true)
     int update(Long id, double price);
 }

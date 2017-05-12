@@ -28,6 +28,7 @@ public interface SystemManagerService {
 	Restaurant update(Restaurant r);
 	
 	void update(System_manager man);
+	
 
 
 }

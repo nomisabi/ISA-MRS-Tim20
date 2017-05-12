@@ -14,5 +14,6 @@ public interface RestaurantService {
 	
 	void updateMenu(Restaurant r);
 	
+	void insertEmpl(Long id_r, Long id_e);
 
 }

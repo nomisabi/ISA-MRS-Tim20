@@ -13,6 +13,6 @@ public interface FoodRepository extends CrudRepository<Food, Long> {
 
 	@Modifying
 	@Transactional
-    @Query(value="UPDATE Food f SET f.name = ?2, f.description=?3 WHERE f.id = ?1", nativeQuery=true)
+    @Query(value="UPDATE Food SET name = ?2, description=?3 WHERE id = ?1", nativeQuery=true)
     int update(Long id, String name, String desc);
 }
