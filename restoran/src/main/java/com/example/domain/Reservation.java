@@ -85,10 +85,19 @@ public class Reservation implements Serializable {
 		this.endTime = endTime;
 	}
 
+	public Reservation(Long id, Restaurant restaurant, TableOfRestaurant table, String startTime, String endTime) {
+		super();
+		this.id = id;
+		this.restaurant = restaurant;
+		this.table = table;
+		this.startTime = startTime;
+		this.endTime = endTime;
+	}
+
 	@Override
 	public String toString() {
-		return "Reservation [restaurant=" + restaurant + ", table=" + table + ", guestReservations=" + guestReservations
-				+ ", startTime=" + startTime + ", endTime=" + endTime + "]";
+		return "Reservation [id=" + id + ", restaurant=" + restaurant + ", table=" + table + ", startTime=" + startTime
+				+ ", endTime=" + endTime + "]";
 	}
 
 }

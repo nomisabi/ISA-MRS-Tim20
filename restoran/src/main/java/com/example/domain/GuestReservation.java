@@ -19,11 +19,11 @@ public class GuestReservation implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="guest_id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "guest_id", nullable = false)
 	private Guest guest;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="reservation_id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "reservation_id", nullable = false)
 	private Reservation reservation;
 
 	public GuestReservation() {
@@ -62,8 +62,7 @@ public class GuestReservation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "InviteFrien [guest=" + guest + ", reservation=" + reservation + "]";
+		return "GuestReservation [guest=" + guest + ", reservation=" + reservation + "]";
 	}
 
 }
-

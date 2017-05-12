@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.example.domain.GuestReservation;
 import com.example.domain.Reservation;
+import com.example.domain.Restaurant;
 
 public interface ReservationService {
 
@@ -18,5 +19,7 @@ public interface ReservationService {
 	Collection<Reservation> getAllReservationOfRestaurant(Long idRestaurant);
 
 	Collection<Reservation> getAllReservationOfRestaurantInTime(Long id, String dateStart, String dateEnd);
+	
+	Collection<Reservation> getVisitedRestaurant(Long id);
 
 }

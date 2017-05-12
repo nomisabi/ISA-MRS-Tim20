@@ -257,13 +257,26 @@ public class GuestController {
 		return new ResponseEntity<Collection<Restaurant>>(restaurants, HttpStatus.OK);
 	}
 
+	/*** Get all visited restaurants ***/
+	@RequestMapping(value = "/api/visitedRestaurants", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Reservation>> getVisitedRestaurants(@RequestBody Guest guest) {
+		logger.info("> getVisitedRestaurants");
+		System.out.println(guest);
+		Collection<Reservation> restaurants = reservationService.getVisitedRestaurant(guest.getId());
+		for (Reservation restaurant : restaurants) {
+			System.out.println(restaurant);
+		}
+		logger.info("< getVisitedRestaurants");
+		return new ResponseEntity<Collection<Reservation>>(restaurants, HttpStatus.OK);
+	}
+
 	/*** Return all tables ***/
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/api/restaurant/tables", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Table>> getAvaliableTables(@RequestBody RestaurantReservation reservation) {
 		logger.info("> getAvaliableTables");
 		System.out.println(reservation);
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY HH:mm");
 
 		String startTimeStr = sdf.format(reservation.getDateAndTime());
 		System.out.println(startTimeStr);
@@ -305,7 +318,7 @@ public class GuestController {
 	public ResponseEntity<Reservation> makeReservation(@RequestBody RestaurantReservation reservation) {
 		logger.info("> makeReservation");
 		System.out.println(reservation);
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY HH:mm");
 
 		Date startTime = reservation.getDateAndTime();
 		String startTimeStr = sdf.format(startTime);

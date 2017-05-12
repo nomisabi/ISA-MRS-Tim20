@@ -7,6 +7,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.users = [];
 	$scope.restaurants = [];
 	$scope.notifications = [];
+	$scope.reservations = [];
 	$scope.tables = [];
 	$scope.search = ""; 
 	$scope.restaurant ={id:null, name:'', location:''};
@@ -21,6 +22,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.table = {id:null, number:null, numberOfChairs: null, restaurant: $scope.restaurant};
 	$scope.tableNum = null;
 	$scope.list = [];
+	$scope.myOrder = '';
+	$scope.reverse = false;
 	
 	init();
 	
@@ -75,6 +78,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.changeToRestaurants= function(){
     	$scope.users = [];
+    	$scope.restaurants = [];
+    	$scope.reservations = [];
     	$http.get("http://localhost:8080/api/restaurants").success(
 				function(data){
 					$scope.restaurants=data;	
@@ -90,6 +95,12 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.changeToHome= function(){
     	$scope.users = [];
+    	$scope.restaurants = [];
+    	$scope.reservations = [];
+    	$http.post("http://localhost:8080/api/visitedRestaurants", $scope.guest).success(
+				function(data){
+					$scope.reservations=data;	
+				});	
     		
     	$scope.page="home";
     }
@@ -192,6 +203,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.reserve= function(restaurant){   	   	
     	//alert(restaurant.id);    
     	$scope.tableNum = null;
+    	$scope.table = {id:null, number:null, numberOfChairs: null, restaurant: $scope.restaurant};
     	$scope.restaurant = restaurant;
     	$scope.page="reserve";
     }
@@ -218,7 +230,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	.success(function(data) {
     		$scope.tables = data;
     		//alert(data);
-    		$scope.dateStr = $scope.reservation.dateAndTime.toLocaleDateString();
+    		$scope.dateStr = $scope.reservation.dateAndTime.toDateString();
     		$scope.timeStr = $scope.reservation.dateAndTime.toLocaleTimeString();
     		$scope.page ="reserve2";
 		}).error(function(data){
@@ -259,7 +271,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$http.post('http://localhost:8080/api/restaurant/friends',{"friends":$scope.list,"reservation":$scope.reservation})
     	.success(function(data) {
     		alert("Friends invited");
-    		$scope.page ="reserve4";
+    		$scope.page = "reserve4";
 		}).error(function(data){
 			//alert("error");
 			}
@@ -267,7 +279,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	
     }
     
-    $scope.reserveNext4 = function(){   	    	
+    $scope.reserveNext4 = function(){   	
+    	alert("sub");
     	
     	
     }
@@ -306,6 +319,12 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		}
 		return false;
 	}
+    
+    $scope.orderByMe = function(x) {
+    	//alert(x);
+    	$scope.reverse = ($scope.myOrder === x) ? !$scope.reverse : false;
+        $scope.myOrder = x;
+    }
     
 
 }]);

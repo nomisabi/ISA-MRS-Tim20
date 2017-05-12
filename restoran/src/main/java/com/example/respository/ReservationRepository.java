@@ -20,5 +20,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	@Query("SELECT Object(r) FROM Reservation r WHERE r.restaurant.id = ?1 AND r.table.id = ?2 AND "
 			+ "((r.startTime>=?3 AND r.startTime < ?4) OR (r.endTime > ?3 AND r.endTime <= ?4)) ")
 	public Collection<Reservation> get(Long idRestaurant, Long idTable, String dateStart, String dateEnd);
+	
+	@Query("SELECT Object(r) FROM Reservation r, GuestReservation g WHERE r.id = g.reservation.id AND g.guest.id = ?1")
+	public Collection<Reservation> getVisitedRestaurant(Long id);
 
 }

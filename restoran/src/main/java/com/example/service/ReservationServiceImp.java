@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import com.example.domain.GuestReservation;
 import com.example.domain.Reservation;
+import com.example.domain.Restaurant;
 import com.example.respository.GuestReservationRepository;
 import com.example.respository.ReservationRepository;
 
@@ -62,5 +63,10 @@ public class ReservationServiceImp implements ReservationService {
 	@Override
 	public Collection<Reservation> getAllReservationOfRestaurantInTime(Long id, String dateStart, String dateEnd) {
 		return reservationRepository.getAllReservationOfRestaurantInTime(id, dateStart, dateEnd);
+	}
+
+	@Override
+	public Collection<Reservation> getVisitedRestaurant(Long id) {
+		return reservationRepository.getVisitedRestaurant(id);
 	}
 }
