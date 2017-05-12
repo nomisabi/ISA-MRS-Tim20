@@ -14,7 +14,7 @@ public interface DrinkMenuRepository  extends CrudRepository<DrinkMenu, Long>  {
 
 	@Modifying
 	@Transactional
-    @Query(value="UPDATE DrinkMenu SET date_update = ?2 WHERE id = ?1", nativeQuery=true)
+    @Query(value="UPDATE drink_menu SET date_update = ?2 WHERE id = ?1", nativeQuery=true)
     int update(Long id, Date date);
 	
 	@Modifying

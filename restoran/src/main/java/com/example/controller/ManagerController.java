@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.Drink;
+import com.example.domain.DrinkMenu;
+import com.example.domain.DrinkMenuItem;
 import com.example.domain.Employee;
 import com.example.domain.Food;
 import com.example.domain.Manager;
@@ -19,7 +22,9 @@ import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.TypeOfUser;
 import com.example.domain.User;
+import com.example.domain.DTOs.DrinkRestaurant;
 import com.example.domain.DTOs.EmployeeRestaurant;
+import com.example.domain.DTOs.MenuRestaurant;
 import com.example.domain.DTOs.SupplierRestaurant;
 import com.example.service.DrinkMenuService;
 import com.example.service.ManagerService;
@@ -329,5 +334,66 @@ public class ManagerController {
 		return new ResponseEntity<MenuItem>(m,HttpStatus.OK);
 	}
 	
+	@RequestMapping(
+			value = "/api/manager/addDrinkMenuItem", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DrinkMenu> updateDrink(@Valid @RequestBody DrinkRestaurant rd) throws Exception {
+		DrinkMenu m= rd.getD();
+		logger.info("> add menu item: "+m.toString());
+		Collection<DrinkMenuItem> items= m.getItems();
+		for (DrinkMenuItem mi: items){
+			if (!drinkMenuService.isDrinkMenuItemExist(mi.getId())){
+				Drink d= mi.getDrink();
+				drinkMenuService.createDrink(d);
+				drinkMenuService.createDrinkMenuItem(mi);
+			}
+		}
+		if (rd.getR().getDrinkMenu()==null){
+			m= drinkMenuService.createDrinkMenu(m);
+			//drinkMenuService.insertDrinkNewItem(m);
+			rd.getR().setDrinkMenu(m);
+			restService.updateDrinkMenu(rd.getR());
+		}
+		else
+		{
+			drinkMenuService.insertDrinkNewItem(m);
+		}
+		logger.info("< add menu item");
+		return new ResponseEntity<DrinkMenu>(m,HttpStatus.OK);
+	}
 	
+
+	@RequestMapping(
+			value = "/api/manager/updateDrinkMenu", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DrinkMenu> updateDrinkMenu(@Valid @RequestBody DrinkMenu m) throws Exception {
+		logger.info("> update drink menu item: "+m.toString());
+		Collection<DrinkMenuItem> items= m.getItems();
+		for (DrinkMenuItem mi: items){
+			Drink d= mi.getDrink();
+			drinkMenuService.updateDrink(d);
+			drinkMenuService.updateDrinkMenuItem(mi);	
+		}
+		drinkMenuService.updateDrinkMenu(m);
+		//menuService.insertNewItem(m);
+		logger.info("< update drink menu item");
+		return new ResponseEntity<DrinkMenu>(m,HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/deleteDrinkMenuItem", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DrinkMenuItem> updateDrinkMenu(@Valid @RequestBody DrinkMenuItem m) throws Exception {
+		logger.info("> delete Drink menu item: "+m.toString());
+		drinkMenuService.deleteDrinkMenuItem(m.getId());
+		drinkMenuService.deleteDrink(m.getDrink().getId());
+		logger.info("< deletet Drink menu item");
+		return new ResponseEntity<DrinkMenuItem>(m,HttpStatus.OK);
+	}
 }
