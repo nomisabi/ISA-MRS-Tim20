@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.domain.DTOs;
 
 import com.example.domain.Menu;
 import com.example.domain.Restaurant;

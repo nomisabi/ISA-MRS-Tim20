@@ -27,7 +27,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 									}).success(
 										function(data){
 											//$scope.rest=data;
-											//alert(JSON.stringify(data));
+											alert(JSON.stringify(data));
 											$scope.manager.restaurant=data;
 											
 									});
@@ -95,6 +95,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		if ($scope.manager.active)
     		$scope.page="drinkmenu";   	
   	}
+    $scope.changeToNewDrinkItem= function(){ 
+    	if ($scope.manager.active){
+    		$scope.page="new_drink_item";   
+    	}
+    }
   	$scope.changeToSupplier= function(){
   		//alert("supplier");
   		if ($scope.manager.active)
@@ -133,6 +138,12 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		$scope.menuUpdate2=i;
   		if ($scope.manager.active)
     		$scope.page="updateMenu"; 
+  	}
+  	$scope.changeToUpdateDrinkMenu= function(i){
+  		$scope.drinkMenuUpdate=i;
+  		$scope.drinkMenuUpdate2=i;
+  		if ($scope.manager.active)
+    		$scope.page="updateDrinkMenu"; 
   	}
   	
   	$scope.createEmployee= function(){
@@ -193,6 +204,29 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		});	
 	}
 	
+	$scope.createNewDrinkItem= function(){
+		//alert("drink");
+		if ($scope.manager.restaurant.drinkMenu!=null){
+			for (var i=0; i<$scope.manager.restaurant.drinkMenu.items.length;i++){
+				if ($scope.manager.restaurant.drinkMenu.items[i].drink.name==$scope.drinkmenuitem.drink.name){
+					alert("Drink with this name is exist.");
+					return;
+				}
+			}
+			drinkmenu=$scope.manager.restaurant.drinkMenu;
+			drinkmenu.items=[];
+		}else{
+			drinkmenu={items:[]};
+		}
+		drinkmenu.dateUpdate=new Date();
+		drinkmenu.items.push($scope.drinkmenuitem);
+		$http.post("http://localhost:8080/api/manager/addDrinkMenuItem", {"d":drinkmenu, "r":$scope.manager.restaurant}).success(function(data) {
+			$route.reload();
+		}).error(function(data) {
+			alert("error");
+		});	
+	}
+	
 	$scope.updateMenuItem= function(){
 		x=0;
 		for (var i=0; i<$scope.manager.restaurant.menu.items.length;i++){
@@ -218,11 +252,50 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		});	
 	}
 	
+	$scope.updateDrinkMenuItem= function(){
+
+		x=0;
+		for (var i=0; i<$scope.manager.restaurant.drinkMenu.items.length;i++){
+			if ($scope.manager.restaurant.drinkMenu.items[i].drink.name==$scope.drinkMenuUpdate.drink.name){
+				x++;
+			}
+		}
+		if (x>1){
+			alert("Drink with this name is exist.");
+			return;
+		}
+		alert(JSON.stringify($scope.manager.restaurant.drinkMenu));
+		drink_menu= $scope.manager.restaurant.drinkMenu;
+		//delete menu.$$hashKey;
+		alert(JSON.stringify(drink_menu));
+		drink_menu.items= [$scope.drinkMenuUpdate];
+		drink_menu.dateUpdate=new Date();
+		alert(JSON.stringify(drink_menu));
+		$http.post("http://localhost:8080/api/manager/updateDrinkMenu", drink_menu).success(function(data) {
+			$route.reload();
+		}).error(function(data) {
+			alert("error");
+		});	
+	}
+	
 	$scope.deleteMenuItem= function(i){
 		var result = confirm("Want to delete?");
 		if (result) {
 			alert(JSON.stringify(i));
 			$http.post("http://localhost:8080/api/manager/deleteMenuItem", i).success(function(data) {
+				$route.reload();
+			}).error(function(data) {
+				alert("error");
+			});
+		}
+			
+	}
+	
+	$scope.deleteDrinkMenuItem= function(i){
+		var result = confirm("Want to delete?");
+		if (result) {
+			alert(JSON.stringify(i));
+			$http.post("http://localhost:8080/api/manager/deleteDrinkMenuItem", i).success(function(data) {
 				$route.reload();
 			}).error(function(data) {
 				alert("error");

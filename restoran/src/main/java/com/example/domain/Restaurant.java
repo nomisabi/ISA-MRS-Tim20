@@ -30,6 +30,8 @@ public class Restaurant implements Serializable {
 
 	@OneToOne
 	private Menu menu;
+	@OneToOne
+	private DrinkMenu drinkMenu;
 	@OneToMany(cascade={CascadeType.MERGE})
 	private Set<Manager> manager;
 	@OneToMany(cascade={CascadeType.MERGE})
@@ -121,6 +123,14 @@ public class Restaurant implements Serializable {
 
 	public void setMenu(Menu menu) {
 		this.menu = menu;
+	}
+
+	public DrinkMenu getDrinkMenu() {
+		return drinkMenu;
+	}
+
+	public void setDrinkMenu(DrinkMenu drinkMenu) {
+		this.drinkMenu = drinkMenu;
 	}
 
 	@Override

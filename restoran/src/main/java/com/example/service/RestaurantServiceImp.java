@@ -36,6 +36,13 @@ public class RestaurantServiceImp implements RestaurantService {
 		restaurantRepository.updateMenu(r.getId(), r.getMenu().getId());
 		
 	}
+	
+	@Override
+	public void updateDrinkMenu(Restaurant r) {
+		restaurantRepository.updateDrinkMenu(r.getId(), r.getDrinkMenu().getId());
+		
+	}
+
 
 	@Override
 	public void insertEmpl(Long id_r, Long id_e) {
