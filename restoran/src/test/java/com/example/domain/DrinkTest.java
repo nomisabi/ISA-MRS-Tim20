@@ -14,7 +14,7 @@ public class DrinkTest {
 	
 	@Before
 	public void setUp(){
-		d = new Drink("Turska kafa","Kafa",100.00);
+		d = new Drink("Turska kafa","Kafa");
 	}
 	
 	@Test
@@ -27,8 +27,5 @@ public class DrinkTest {
 		assertEquals("Kafa", d.getDescription());
 	}
 	
-	@Test
-	public void TestDrinkPrice() {
-		assertEquals(100,00, d.getPrice());
-	}
+
 }

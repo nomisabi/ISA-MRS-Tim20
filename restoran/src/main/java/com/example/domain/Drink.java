@@ -21,18 +21,15 @@ public class Drink implements Serializable {
 	private String name;
 	@Column
 	private String description;
-	@Column
-	private double price;
 	
 	public Drink() {
 		
 	}
 	
-	public Drink(String name, String description, double price){
+	public Drink(String name, String description){
 		super();
 		this.name = name;
 		this.description = description;
-		this.price = price;
 	}
 
 	public Long getId() {
@@ -59,17 +56,9 @@ public class Drink implements Serializable {
 		this.description = description;
 	}
 
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
 	@Override
 	public String toString() {
-		return "Drink [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + "]";
+		return "Drink [id=" + id + ", name=" + name + ", description=" + description +  "]";
 	}
 	
 	
