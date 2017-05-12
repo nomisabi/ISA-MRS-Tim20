@@ -28,16 +28,17 @@ public interface GuestRepository extends JpaRepository<Guest, Long> {
 			+ "CONCAT(LOWER(g.firstName),' ',LOWER(g.lastName)) LIKE LOWER(CONCAT('%',?2,'%')))")
 	public Collection<Guest> findByName(Long id, String firstName);
 
-	@Query("SELECT Object(g) FROM Guest g JOIN g.friends f WHERE f.idFriend = ?1 AND f.requestAccepted = ?2")
-	public Collection<Guest> getRequests(Long id, boolean requestAccepted);
+	@Query("SELECT Object(g) FROM Guest g, Friendship f WHERE f.requestAccepted = true AND "
+			+ "((f.idFriend = g.id AND f.guest.id = ?1) OR (f.guest.id = g.id AND f.idFriend = ?1))")
+	public Collection<Guest> getFriends(Long id);
 
-	@Query("SELECT Object(g) FROM Guest g, Friendship f WHERE f.requestAccepted = ?2 AND ((f.idFriend = g.id AND f.guest.id = ?1) OR (f.guest.id = g.id AND f.idFriend = ?1))")
-	public Collection<Guest> getFriends(Long id, boolean requestAccepted);
+	@Query("SELECT Object(g) FROM Guest g, Friendship f WHERE f.requestAccepted = true AND "
+			+ "((f.idFriend = g.id AND f.guest.id = ?1) OR (f.guest.id = g.id AND f.idFriend = ?1)) AND "
+			+ "CONCAT(LOWER(g.firstName),' ',LOWER(g.lastName)) LIKE LOWER(CONCAT('%',?2,'%')))")
+	public Collection<Guest> searchFriends(Long id, String name);
 
-	@Query("SELECT Object(g) FROM Guest g, Friendship f WHERE f.idFriend = ?1 AND f.guest.id = g.id AND f.requestAccepted = false")
+	@Query("SELECT Object(g) FROM Guest g, Friendship f WHERE f.idFriend = ?1 AND"
+			+ " f.guest.id = g.id AND f.requestAccepted = false")
 	public Collection<Guest> getRequests(Long id);
-
-	@Query("SELECT Object(g) FROM Guest g WHERE g.id NOT IN (SELECT f.guest.id FROM Friendship f)")
-	public Collection<Guest> getSearchGuests();
 
 }

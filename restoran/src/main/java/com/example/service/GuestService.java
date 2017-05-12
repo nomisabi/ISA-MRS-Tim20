@@ -31,5 +31,7 @@ public interface GuestService {
 	Collection<Guest> findFriends(Long id);
 	
 	Collection<Guest> getRequests(Long id);
+	
+	Collection<Guest> searchFriends(Long id,String name);
 
 }

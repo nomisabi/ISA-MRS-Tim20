@@ -20,7 +20,7 @@ public class Friendship implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "guest_id", nullable = false)
 	private Guest guest;
 	@Column

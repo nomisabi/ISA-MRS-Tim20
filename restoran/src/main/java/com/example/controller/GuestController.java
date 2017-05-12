@@ -214,6 +214,24 @@ public class GuestController {
 		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
 	}
 
+	/***
+	 * Return all friends of guest with firstName or lastName that match the
+	 * search criteria
+	 ***/
+	@RequestMapping(value = "/api/friendship/searchFriends", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Guest>> searchFriends(@RequestBody Guest guest) {
+		logger.info("> getFriends");
+		System.out.println(guest);
+		Guest cuurrentGuest = (Guest) session.getAttribute("guest");
+		System.out.println(cuurrentGuest);
+		Collection<Guest> guests = guestService.searchFriends(cuurrentGuest.getId(), guest.getFirstName());
+		for (Guest guest2 : guests) {
+			System.out.println(guest2);
+		}
+
+		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
+	}
+
 	/*** Get friends ***/
 	@RequestMapping(value = "/api/friends", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Guest>> getFriends(@RequestBody Guest guest) {

@@ -123,6 +123,26 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		);         	
     }
     
+    $scope.searchFriends= function(search){   	
+    	$scope.friends = [];
+    	$http.post('http://localhost:8080/api/friendship/searchFriends',{"firstName":search})
+    	.success(function(data) {
+    		for (var j = 0; j < $scope.list.length; j++) {
+				$scope.friends.push($scope.list[j]);
+			}
+    		
+    		for (var i = 0; i < data.length; i++) {
+    			if (!$scope.exists(data[i])){
+    				$scope.friends.push(data[i]);
+    			}
+				
+			}
+		}).error(function(data){
+			//alert("error");
+			}
+		);         	
+    }
+    
     $scope.addRequest= function(id){   	   	
     	$scope.users = [];
     	$http.post('http://localhost:8080/api/friendship/sendRequest',{"idGuest":$scope.guest.id,"idFriend":id})
@@ -216,7 +236,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
         		$scope.reservation = data;
         		$http.post("http://localhost:8080/api/friends",$scope.guest).success(
         				function(data){
-        					$scope.friends=data;	
+        					$scope.friends=[];	
         					$scope.list = [];
         					$scope.page ="reserve3";
         				});	
@@ -239,10 +259,16 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$http.post('http://localhost:8080/api/restaurant/friends',{"friends":$scope.list,"reservation":$scope.reservation})
     	.success(function(data) {
     		alert("Friends invited");
+    		$scope.page ="reserve4";
 		}).error(function(data){
 			//alert("error");
 			}
 		); 
+    	
+    }
+    
+    $scope.reserveNext4 = function(){   	    	
+    	
     	
     }
     
@@ -271,6 +297,15 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.logout= function(){
     	$http.get("http://localhost:8080/api/users/logout");
     }
+    
+    $scope.exists = function(item) {
+		for (var i = 0; i < $scope.list.length; i++) {
+			if ($scope.list[i].id == item.id){
+				return true;
+			}
+		}
+		return false;
+	}
     
 
 }]);

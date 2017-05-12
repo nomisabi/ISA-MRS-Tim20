@@ -72,7 +72,7 @@ public class GuestServiceImp implements GuestService {
 	@Override
 	@Transactional(readOnly = false)
 	public void addFriend(Long guestId, Long friendId) {
-		friendshipRepository.confirmFriendship(friendId, guestId, true);
+		friendshipRepository.confirmFriendship(friendId, guestId);
 	}
 
 	@Override
@@ -99,11 +99,16 @@ public class GuestServiceImp implements GuestService {
 
 	@Override
 	public Collection<Guest> findFriends(Long id) {
-		return guestRepository.getFriends(id, true);
+		return guestRepository.getFriends(id);
 	}
 
 	@Override
 	public Collection<Guest> getRequests(Long id) {
 		return guestRepository.getRequests(id);
+	}
+
+	@Override
+	public Collection<Guest> searchFriends(Long id, String name) {
+		return guestRepository.searchFriends(id, name);
 	}
 }

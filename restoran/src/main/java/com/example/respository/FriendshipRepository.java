@@ -16,8 +16,8 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
 	@Modifying
 	@Transactional
-	@Query("UPDATE Friendship f SET f.requestAccepted = ?3 WHERE f.guest.id = ?1 AND f.idFriend = ?2")
-	int confirmFriendship(Long id, Long idfriend, boolean requestAccepted);
+	@Query("UPDATE Friendship f SET f.requestAccepted = true WHERE f.guest.id = ?1 AND f.idFriend = ?2")
+	int confirmFriendship(Long id, Long idfriend);
 	
 	
 
