@@ -4,6 +4,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 	$scope.page="non-active";
 	
 	function init() {
+		$ocLazyLoad.load('assets/js/common-scripts.js');
 		$http.get("http://localhost:8080/api/users/login").success(
 				function(data){	
 					$http.post("http://localhost:8080/api/suppliers/login",data).success(

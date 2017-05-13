@@ -18,6 +18,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	$scope.selected = $scope.typeOfEmployee[0];
 
 	function init() {
+		$ocLazyLoad.load('assets/js/common-scripts.js');
 		$http.get("http://localhost:8080/api/users/login").success(
 				function(data){	
 					$http.post("http://localhost:8080/api/manager/login",data).success(

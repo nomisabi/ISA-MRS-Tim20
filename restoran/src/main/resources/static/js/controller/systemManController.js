@@ -5,9 +5,11 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	$scope.page="profile";
 	$scope.man_without_rest=[];
 	$ocLazyLoad.load('assets/js/common-scripts.js');
+	
 	function init() {
-
+		$ocLazyLoad.load('assets/js/common-scripts.js');
 		$http.get("http://localhost:8080/api/users/login").success(
+
 				function(data){
 					$http.post("http://localhost:8080/api/sysman/login",data).success(
 							function(data){

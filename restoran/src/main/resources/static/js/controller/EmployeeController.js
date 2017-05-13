@@ -3,7 +3,7 @@ angular.module('myApp').controller('EmployeeController',['$scope','$http','$wind
 	
 
 	function init() {
-
+		
 		$http.get("http://localhost:8080/api/employees/getlogedin").success(
 				function(data){
 					$scope.employees=data;

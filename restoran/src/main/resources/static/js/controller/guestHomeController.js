@@ -34,6 +34,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	
 	
 	function init() {
+		$ocLazyLoad.load('assets/js/common-scripts.js');
 		$http.get("http://localhost:8080/api/users/login")
 		.success(
 				function(data){
