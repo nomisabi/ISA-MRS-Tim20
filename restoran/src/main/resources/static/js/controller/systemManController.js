@@ -4,6 +4,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 
 	$scope.page="profile";
 	$scope.man_without_rest=[];
+	$ocLazyLoad.load('assets/js/common-scripts.js');
 	function init() {
 
 		$http.get("http://localhost:8080/api/users/login").success(

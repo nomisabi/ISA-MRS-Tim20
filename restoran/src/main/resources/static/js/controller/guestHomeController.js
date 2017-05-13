@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('myApp').controller('GuestHomeController',['$scope','$http','$window','GuestHomeFactory',function($scope, $http,$window,$ocLazyLoad, GuestHomeFactory) {
+	$ocLazyLoad.load('assets/js/common-scripts.js');
 	$scope.guest = {id:null,email:'',password:'',firstName:'',lastName:'',address:''};
 	$scope.page="profile";
 	$scope.friends = [];

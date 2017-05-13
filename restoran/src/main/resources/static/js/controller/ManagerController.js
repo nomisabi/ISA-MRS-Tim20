@@ -2,6 +2,7 @@
 angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad', function($scope, $http,$window, $route, $ocLazyLoad) {
 	
 	$ocLazyLoad.load('assets/js/common-scripts.js');
+	$ocLazyLoad.load('js/interact.js');
 	$scope.page="non-active";
 	$scope.updateMenu=false;
 	$scope.typeOfEmployee = [{

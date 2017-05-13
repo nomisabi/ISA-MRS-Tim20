@@ -11,7 +11,7 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService', f
     self.facebookLogIn = facebookLogIn;
     self.updateUser = updateUser;
     self.logIn = logIn;
-
+	$ocLazyLoad.load('assets/js/common-scripts.js');
     
     function createUser(user){
         UserService.createUser(user)
