@@ -1,6 +1,7 @@
 
-angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route', function($scope, $http,window, $route) {
+angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad', function($scope, $http,$window, $route, $ocLazyLoad) {
 	
+	$ocLazyLoad.load('assets/js/common-scripts.js');
 	$scope.page="non-active";
 	$scope.updateMenu=false;
 	$scope.typeOfEmployee = [{
@@ -121,9 +122,9 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		if ($scope.manager.active)
     		$scope.page="schedule"; 
   	}
-  	$scope.changeToRoens= function(){
+  	$scope.changeToRegions= function(){
   		if ($scope.manager.active)
-    		$scope.page="reon"; 
+    		$scope.page="regions"; 
   	}
   	$scope.changeToScores= function(){
   		if ($scope.manager.active)

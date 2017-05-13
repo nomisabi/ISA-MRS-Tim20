@@ -188,10 +188,21 @@
 				                   	Drink Menu
 				                </a>
 				                 <br>
-				           		<a class="" ng-click=changeToDrinkMenu()>
-				                   	Drink Menu
+				           		<a class="" ng-click="changeToRegions()">
+				                   	Map
 				                </a>
+				                
 			           	</div>
+			           	<div ng-switch-when="regions">
+			           		<div id="no-drop" class="draggable drag-drop"> #no-drop </div>
+
+							<div id="yes-drop" class="draggable drag-drop"> #yes-drop </div>
+							
+							<div id="outer-dropzone" class="dropzone">
+							  #outer-dropzone
+							  <div id="inner-dropzone" class="dropzone">#inner-dropzone</div>
+							 </div>
+			           	</div>			           	
 			           	<div ng-switch-when="menu">
 			           		
 							<h3>Menu</h3>
