@@ -365,7 +365,7 @@ public class GuestController {
 
 		}
 
-		GuestReservation guestReservation = new GuestReservation(reservation.getGuest(), savedReservation);
+		GuestReservation guestReservation = new GuestReservation(reservation.getGuest(), savedReservation, true);
 		reservationService.saveGuestReservation(guestReservation);
 		logger.info("< makeReservation");
 
@@ -399,14 +399,14 @@ public class GuestController {
 		for (MenuItem menuItem : itemsReservation.getMenuItems()) {
 			System.out.println(menuItem);
 			MenuItemReservation menuItemReservation = new MenuItemReservation(menuItem, itemsReservation.getGuest(),
-					itemsReservation.getReservation());
+					itemsReservation.getReservation(), itemsReservation.isPrepared());
 			reservationService.saveMenuItem(menuItemReservation);
 		}
 
 		for (DrinkMenuItem drinkMenuItem : itemsReservation.getDrinkMenuItems()) {
 			System.out.println(drinkMenuItem);
 			DrinkMenuItemReservation drinkMenuItemReservation = new DrinkMenuItemReservation(drinkMenuItem,
-					itemsReservation.getGuest(), itemsReservation.getReservation());
+					itemsReservation.getGuest(), itemsReservation.getReservation(), itemsReservation.isPrepared());
 			reservationService.saveDrinkMenuItem(drinkMenuItemReservation);
 		}
 

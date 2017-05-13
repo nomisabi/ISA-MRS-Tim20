@@ -27,6 +27,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.savedReservation = {id:null,"restaurant":null, "startTime":'', "endTime": ''};
 	$scope.menuList =[];
 	$scope.drinkList = [];
+	$scope.prepared = false;
 	
 	init();
 	
@@ -275,6 +276,9 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	.success(function(data) {
     		//alert("Friends invited");
     		$scope.restaurant = data;
+    		$scope.prepared = false;
+    		$scope.menuList = [];
+    		$scope.drinkList = [];
     		$scope.page = "reserve4";
 		}).error(function(data){
 			//alert("error");
@@ -284,7 +288,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.reserveNext4 = function(){   	
-    	$http.post('http://localhost:8080/api/restaurant/order',{"menuItems":$scope.menuList,"drinkMenuItems":$scope.drinkList, "reservation": $scope.savedReservation, "guest": $scope.guest})
+    	$http.post('http://localhost:8080/api/restaurant/order',{"menuItems":$scope.menuList,"drinkMenuItems":$scope.drinkList, "reservation": $scope.savedReservation, "guest": $scope.guest, "prepared": $scope.prepared})
     	.success(function(data) {
     		//alert("Order");
     		$scope.reservation = data;
@@ -294,10 +298,17 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 			//alert("error");
 			}
 		); 
-    	
-    	
-    	
+    
     }
+    
+    $scope.choosePrepared = function() {
+    	//alert(item.id);
+    	$scope.prepared = !$scope.prepared;
+    	//alert($scope.prepared);
+    	
+  
+	}
+    
     
     $scope.klik = function(item) {
     	//alert(item.id);

@@ -12,6 +12,7 @@ public class ItemsReservation {
 	private Collection<DrinkMenuItem> drinkMenuItems;
 	private Reservation reservation;
 	private Guest guest;
+	private boolean prepared;
 
 	public ItemsReservation() {
 	}
@@ -23,6 +24,16 @@ public class ItemsReservation {
 		this.drinkMenuItems = drinkMenuItems;
 		this.reservation = reservation;
 		this.guest = guest;
+	}
+
+	public ItemsReservation(Collection<MenuItem> menuItems, Collection<DrinkMenuItem> drinkMenuItems,
+			Reservation reservation, Guest guest, boolean prepared) {
+		super();
+		this.menuItems = menuItems;
+		this.drinkMenuItems = drinkMenuItems;
+		this.reservation = reservation;
+		this.guest = guest;
+		this.prepared = prepared;
 	}
 
 	public Collection<MenuItem> getMenuItems() {
@@ -57,10 +68,18 @@ public class ItemsReservation {
 		this.guest = guest;
 	}
 
+	public boolean isPrepared() {
+		return prepared;
+	}
+
+	public void setPrepared(boolean prepared) {
+		this.prepared = prepared;
+	}
+
 	@Override
 	public String toString() {
 		return "ItemsReservation [menuItems=" + menuItems + ", drinkMenuItems=" + drinkMenuItems + ", reservation="
-				+ reservation + ", guest=" + guest + "]";
+				+ reservation + ", guest=" + guest + ", prepared=" + prepared + "]";
 	}
 
 }

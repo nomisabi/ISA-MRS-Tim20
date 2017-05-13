@@ -22,11 +22,17 @@ public class Reservation implements Serializable {
 	@ManyToOne(optional = false)
 	private Restaurant restaurant;
 
-	// @ManyToOne(optional = false)
-	// private TableOfRestaurant table;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation")
+	private Set<TableReservation> tables;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation")
 	private Set<GuestReservation> guestReservations;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation")
+	private Set<MenuItemReservation> menuItemsReservation;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation")
+	private Set<DrinkMenuItemReservation> drinkItemsReservation;
 
 	@Column
 	private String startTime;

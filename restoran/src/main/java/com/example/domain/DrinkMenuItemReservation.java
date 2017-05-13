@@ -2,11 +2,13 @@ package com.example.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -21,7 +23,10 @@ public class DrinkMenuItemReservation implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Guest guest;
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "reservation_id")
 	private Reservation reservation;
+	@Column
+	private boolean prepared;
 
 	public DrinkMenuItemReservation() {
 
@@ -32,6 +37,15 @@ public class DrinkMenuItemReservation implements Serializable {
 		this.drinkMenuItem = drinkMenuItem;
 		this.guest = guest;
 		this.reservation = reservation;
+	}
+
+	public DrinkMenuItemReservation(DrinkMenuItem drinkMenuItem, Guest guest, Reservation reservation,
+			boolean prepared) {
+		super();
+		this.drinkMenuItem = drinkMenuItem;
+		this.guest = guest;
+		this.reservation = reservation;
+		this.prepared = prepared;
 	}
 
 	public Long getId() {
@@ -64,6 +78,14 @@ public class DrinkMenuItemReservation implements Serializable {
 
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
+	}
+
+	public boolean isPrepared() {
+		return prepared;
+	}
+
+	public void setPrepared(boolean prepared) {
+		this.prepared = prepared;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.example.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,8 @@ public class GuestReservation implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reservation_id", nullable = false)
 	private Reservation reservation;
+	@Column
+	private boolean accepted;
 
 	public GuestReservation() {
 
@@ -34,6 +37,13 @@ public class GuestReservation implements Serializable {
 		super();
 		this.guest = guest;
 		this.reservation = reservation;
+	}
+
+	public GuestReservation(Guest guest, Reservation reservation, boolean accepted) {
+		super();
+		this.guest = guest;
+		this.reservation = reservation;
+		this.accepted = accepted;
 	}
 
 	public Long getId() {
@@ -58,6 +68,14 @@ public class GuestReservation implements Serializable {
 
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
+	}
+
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
 	}
 
 	@Override
