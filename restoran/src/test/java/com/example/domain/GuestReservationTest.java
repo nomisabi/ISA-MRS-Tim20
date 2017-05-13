@@ -18,8 +18,7 @@ public class GuestReservationTest {
 	public void setUp() {
 		guest = new Guest("proba@proba.com", "123456");
 		Restaurant restaurant = new Restaurant("proba", "proba");
-		TableOfRestaurant table = new TableOfRestaurant(1, 5, restaurant);
-		reservation = new Reservation(restaurant, table, "2017-05-15 12:00", "2017-05-15 14:00");
+		reservation = new Reservation(restaurant,"2017-05-15 12:00", "2017-05-15 14:00");
 		guestReservation = new GuestReservation(guest, reservation);
 	}
 

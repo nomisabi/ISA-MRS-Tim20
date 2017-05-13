@@ -38,7 +38,7 @@ public class ReservationRepositoryIntegrationTests {
 		restaurant = restaurantRepository.save(restaurant);
 		TableOfRestaurant table = new TableOfRestaurant(1, 5, restaurant);
 		table = tableRepository.save(table);
-		reservation = new Reservation(restaurant, table, "2017-05-08 15:00", "2017-05-08 17:00");
+		reservation = new Reservation(restaurant,"2017-05-08 15:00", "2017-05-08 17:00");
 		reservation = repository.save(reservation);
 	}
 

@@ -22,11 +22,17 @@ public class Reservation implements Serializable {
 	@ManyToOne(optional = false)
 	private Restaurant restaurant;
 
-	@ManyToOne(optional = false)
-	private TableOfRestaurant table;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation")
+	private Set<TableReservation> tables;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation")
 	private Set<GuestReservation> guestReservations;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation")
+	private Set<MenuItemReservation> menuItemsReservation;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation")
+	private Set<DrinkMenuItemReservation> drinkItemsReservation;
 
 	@Column
 	private String startTime;
@@ -37,10 +43,9 @@ public class Reservation implements Serializable {
 	public Reservation() {
 	}
 
-	public Reservation(Restaurant restaurant, TableOfRestaurant table, String startTime, String endTime) {
+	public Reservation(Restaurant restaurant, String startTime, String endTime) {
 		super();
 		this.restaurant = restaurant;
-		this.table = table;
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
@@ -61,14 +66,6 @@ public class Reservation implements Serializable {
 		this.restaurant = restaurant;
 	}
 
-	public TableOfRestaurant getTable() {
-		return table;
-	}
-
-	public void setTable(TableOfRestaurant table) {
-		this.table = table;
-	}
-
 	public String getStartTime() {
 		return startTime;
 	}
@@ -87,8 +84,7 @@ public class Reservation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Reservation [restaurant=" + restaurant + ", table=" + table + ", guestReservations=" + guestReservations
-				+ ", startTime=" + startTime + ", endTime=" + endTime + "]";
+		return "Reservation [restaurant=" + restaurant + ", startTime=" + startTime + ", endTime=" + endTime + "]";
 	}
 
 }

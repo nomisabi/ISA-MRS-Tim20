@@ -32,11 +32,11 @@ public class Restaurant implements Serializable {
 	private Menu menu;
 	@OneToOne
 	private DrinkMenu drinkMenu;
-	@OneToMany(cascade={CascadeType.MERGE})
+	@OneToMany(cascade = { CascadeType.MERGE })
 	private Set<Manager> manager;
-	@OneToMany(cascade={CascadeType.MERGE})
+	@OneToMany(cascade = { CascadeType.MERGE })
 	private Set<Employee> employee;
-	@ManyToMany(cascade={CascadeType.MERGE})
+	@ManyToMany(cascade = { CascadeType.MERGE })
 	private Set<Supplier> suppliers;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
@@ -106,7 +106,6 @@ public class Restaurant implements Serializable {
 		this.manager = manager;
 	}
 
-	
 	public String getDescription() {
 		return description;
 	}
@@ -114,8 +113,6 @@ public class Restaurant implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
 
 	public Menu getMenu() {
 		return menu;
@@ -135,7 +132,8 @@ public class Restaurant implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Restaurant [name=" + name + ", location=" + location + ", manager=" + manager + "]";
+		return "Restaurant [name=" + name + ", location=" + location + ", description=" + description + ", menu=" + menu
+				+ ", drinkMenu=" + drinkMenu + "]";
 	}
 
 }

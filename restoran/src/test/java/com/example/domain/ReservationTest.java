@@ -30,7 +30,7 @@ public class ReservationTest {
 		startTime = sdf.format(date);
 		date = new Date();
 		endTime = sdf.format(date);
-		reservation = new Reservation(restaurant, table, startTime, endTime);
+		reservation = new Reservation(restaurant, startTime, endTime);
 
 	}
 
@@ -39,10 +39,7 @@ public class ReservationTest {
 		assertEquals(restaurant, reservation.getRestaurant());
 	}
 
-	@Test
-	public void testGetTable() {
-		assertEquals(table, reservation.getTable());
-	}
+	
 
 	@Test
 	public void testGetStartTime() {
