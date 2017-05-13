@@ -416,6 +416,47 @@
 											<p class="form-control-static">{{restaurant.name}}</p>
 										</div>
 									</div>
+									<div class="form-group">
+										<label class="col-lg-2 col-sm-2 control-label">Menu</label>
+										<div class="col-lg-10">
+											<table class="table table-striped table-advance table-hover">
+												<tr>
+													<th>Name</th>
+													<th>Price</th>
+													<th>Choose</th>
+												</tr>
+												<tr ng-repeat="x in restaurant.menu.items">
+													<td>{{ x.food.name}}</td>
+													<td>{{x.price}}</td>
+													<td><input type="checkbox" ng-click="addToMenuList(x)" ></td>
+												</tr>
+											
+											</table>
+											
+											
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 col-sm-2 control-label">Drink</label>
+										<div class="col-lg-10">
+											<table class="table table-striped table-advance table-hover">
+												<tr>
+													<th>Name</th>
+													<th>Price</th>
+													<th>Choose</th>
+												</tr>
+												<tr ng-repeat="x in restaurant.drinkMenu.items">
+													<td>{{ x.drink.name}}</td>
+													<td>{{x.price}}</td>
+													<td><input type="checkbox" ng-click="addToDrinkList(x)" ></td>
+												</tr>
+											
+											</table>
+											
+											
+										</div>
+									</div>
+									
 									
 									
 									
@@ -473,8 +514,9 @@
 										<label class="col-sm-2 col-sm-2 control-label"> </label>
 										<div class="col-lg-10">
 											<ul>
-		           						<li ng-repeat="x in tables" ng-click="klik(x)">
-		           						{{'Table number: ' + x.tableOfRestaurant.number + ', chairs: ' + x.tableOfRestaurant.numberOfChairs + ', reserved: ' + x.reserved}} &nbsp;
+		           						<li ng-repeat="x in tables">
+		           						{{'Table number: ' + x.tableOfRestaurant.number + ', chairs: ' + x.tableOfRestaurant.numberOfChairs }} &nbsp;
+		           						<input type="checkbox" ng-click="klik(x.tableOfRestaurant)" ng-hide="x.reserved">
 		           						</li>
 		           					</ul>
 										</div>
@@ -529,7 +571,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label"> Table</label>
 										<div class="col-lg-10">
-											<p class="form-control-static">{{table.number}} </p>
+											<p class="form-control-static"> <span ng-repeat="table in tableNum">{{table.number +  "  "}}</span> </p>
 										</div>
 									</div>
 									<div class="form-group">

@@ -1,5 +1,6 @@
 package com.example.domain.DTOs;
 
+import java.util.Collection;
 import java.util.Date;
 
 import com.example.domain.Guest;
@@ -8,7 +9,7 @@ import com.example.domain.TableOfRestaurant;
 
 public class RestaurantReservation {
 	private Restaurant restaurant;
-	private TableOfRestaurant table;
+	private Collection<TableOfRestaurant> tables;
 	private Guest guest;
 	private Date dateAndTime;
 	private int duration;
@@ -17,11 +18,11 @@ public class RestaurantReservation {
 
 	}
 
-	public RestaurantReservation(Restaurant restaurant, TableOfRestaurant table, Guest guest, Date dateAndTime,
-			int duration) {
+	public RestaurantReservation(Restaurant restaurant, Collection<TableOfRestaurant> tables, Guest guest,
+			Date dateAndTime, int duration) {
 		super();
 		this.restaurant = restaurant;
-		this.table = table;
+		this.tables = tables;
 		this.guest = guest;
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
@@ -35,20 +36,20 @@ public class RestaurantReservation {
 		this.restaurant = restaurant;
 	}
 
-	public TableOfRestaurant getTable() {
-		return table;
-	}
-
-	public void setTable(TableOfRestaurant table) {
-		this.table = table;
-	}
-
 	public Guest getGuest() {
 		return guest;
 	}
 
 	public void setGuest(Guest guest) {
 		this.guest = guest;
+	}
+
+	public Collection<TableOfRestaurant> getTables() {
+		return tables;
+	}
+
+	public void setTables(Collection<TableOfRestaurant> tables) {
+		this.tables = tables;
 	}
 
 	public Date getDateAndTime() {
@@ -69,7 +70,7 @@ public class RestaurantReservation {
 
 	@Override
 	public String toString() {
-		return "RestaurantReservation [restaurant=" + restaurant + ", table=" + table + ", guest=" + guest
+		return "RestaurantReservation [restaurant=" + restaurant + ", tables=" + tables + ", guest=" + guest
 				+ ", dateAndTime=" + dateAndTime + ", duration=" + duration + "]";
 	}
 

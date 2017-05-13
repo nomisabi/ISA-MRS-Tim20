@@ -20,10 +20,13 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.timeStr = "";
 	$scope.reservation = {id:null,"restaurant":null, "dateAndTime":'', "duration": ''};
 	$scope.table = {id:null, number:null, numberOfChairs: null, restaurant: $scope.restaurant};
-	$scope.tableNum = null;
+	$scope.tableNum = [];
 	$scope.list = [];
 	$scope.myOrder = '';
 	$scope.reverse = false;
+	$scope.savedReservation = {id:null,"restaurant":null, "startTime":'', "endTime": ''};
+	$scope.menuList =[];
+	$scope.drinkList = [];
 	
 	init();
 	
@@ -232,6 +235,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		//alert(data);
     		$scope.dateStr = $scope.reservation.dateAndTime.toDateString();
     		$scope.timeStr = $scope.reservation.dateAndTime.toLocaleTimeString();
+    		$scope.list = [];
+    		$scope.tableNum = [];
     		$scope.page ="reserve2";
 		}).error(function(data){
 			//alert("error");
@@ -241,21 +246,19 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.reserveNext2 = function(){   	   	
     	//alert($scope.tableNum);
-    	if ($scope.tableNum != null){
-    		$http.post('http://localhost:8080/api/restaurant/reservation',{"restaurant":$scope.reservation.restaurant, "dateAndTime":$scope.reservation.dateAndTime, "duration": $scope.reservation.duration, "table": $scope.table, "guest":$scope.guest})
+    	if ($scope.tableNum.length != 0){
+    		$http.post('http://localhost:8080/api/restaurant/reservation',{"restaurant":$scope.reservation.restaurant, "dateAndTime":$scope.reservation.dateAndTime, "duration": $scope.reservation.duration, "tables": $scope.tableNum, "guest":$scope.guest})
         	.success(function(data) {
-        		$scope.tableNum = null;
-        		$scope.reservation = data;
-        		$http.post("http://localhost:8080/api/friends",$scope.guest).success(
-        				function(data){
-        					$scope.friends=[];	
-        					$scope.list = [];
-        					$scope.page ="reserve3";
-        				});	
+        		$scope.savedReservation = data;
+        		$scope.friends=[];	
+        		$scope.list = [];
+        		$scope.page ="reserve3";
+        				
         	//	alert("Reservation succesful");
         		
         		
     		}).error(function(data){
+    			
     			alert("Table is reserved. Please choose other table.");
     			}
     		);    		
@@ -268,9 +271,10 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.reserveNext3 = function(){   	    	
-    	$http.post('http://localhost:8080/api/restaurant/friends',{"friends":$scope.list,"reservation":$scope.reservation})
+    	$http.post('http://localhost:8080/api/restaurant/friends',{"friends":$scope.list,"reservation":$scope.savedReservation})
     	.success(function(data) {
-    		alert("Friends invited");
+    		//alert("Friends invited");
+    		$scope.restaurant = data;
     		$scope.page = "reserve4";
 		}).error(function(data){
 			//alert("error");
@@ -280,24 +284,44 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.reserveNext4 = function(){   	
-    	alert("sub");
+    	$http.post('http://localhost:8080/api/restaurant/order',{"menuItems":$scope.menuList,"drinkMenuItems":$scope.drinkList, "reservation": $scope.savedReservation, "guest": $scope.guest})
+    	.success(function(data) {
+    		//alert("Order");
+    		$scope.reservation = data;
+    		$scope.changeToHome();
+    		
+		}).error(function(data){
+			//alert("error");
+			}
+		); 
+    	
     	
     	
     }
     
-    $scope.klik = function(vrednost) {
-    	if (vrednost.reserved){
-    		alert("Table is reserved");
-    		$scope.tableNum = null;
-    	}
-    	else{
-    		$scope.tableNum = vrednost.tableOfRestaurant.id;
-    		$scope.table = vrednost.tableOfRestaurant;
-    		alert(vrednost.tableOfRestaurant.number);
-    	}
+    $scope.klik = function(item) {
+    	//alert(item.id);
+    	var idx = $scope.tableNum.indexOf(item);
+        if (idx > -1) {
+          $scope.tableNum.splice(idx, 1);
+        }
+        else {
+          $scope.tableNum.push(item);
+        }
+        //alert($scope.tableNum);
+    	//if (vrednost.reserved){
+    	//	alert("Table is reserved");
+    	//	$scope.tableNum = null;
+    	//}
+    	//else{
+    //		$scope.tableNum = vrednost.tableOfRestaurant.id;
+    //		$scope.table = vrednost.tableOfRestaurant;
+    //		alert(vrednost.tableOfRestaurant.number);
+    //	}
 	}
     
     $scope.addToList = function(item) {
+    	//alert(item.id);
     	var idx = $scope.list.indexOf(item);
         if (idx > -1) {
           $scope.list.splice(idx, 1);
@@ -305,6 +329,31 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
         else {
           $scope.list.push(item);
         }
+        //alert($scope.list);
+	}
+    
+    $scope.addToMenuList = function(item) {
+    	//alert(item.id);
+    	var idx = $scope.menuList.indexOf(item);
+        if (idx > -1) {
+          $scope.menuList.splice(idx, 1);
+        }
+        else {
+          $scope.menuList.push(item);
+        }
+        //alert($scope.list);
+	}
+    
+    $scope.addToDrinkList = function(item) {
+    	//alert(item.id);
+    	var idx = $scope.drinkList.indexOf(item);
+        if (idx > -1) {
+          $scope.drinkList.splice(idx, 1);
+        }
+        else {
+          $scope.drinkList.push(item);
+        }
+        //alert($scope.list);
 	}
     
     $scope.logout= function(){

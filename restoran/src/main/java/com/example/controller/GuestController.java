@@ -20,15 +20,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.DrinkMenuItem;
+import com.example.domain.DrinkMenuItemReservation;
 import com.example.domain.Guest;
 import com.example.domain.GuestReservation;
+import com.example.domain.MenuItem;
+import com.example.domain.MenuItemReservation;
 import com.example.domain.Reservation;
 import com.example.domain.Restaurant;
 import com.example.domain.TableOfRestaurant;
+import com.example.domain.TableReservation;
 import com.example.domain.User;
 import com.example.domain.DTOs.FriendRequest;
 import com.example.domain.DTOs.GuestRegister;
 import com.example.domain.DTOs.InviteFriends;
+import com.example.domain.DTOs.ItemsReservation;
 import com.example.domain.DTOs.RestaurantReservation;
 import com.example.domain.DTOs.Table;
 import com.example.service.GuestService;
@@ -286,14 +292,20 @@ public class GuestController {
 		String endTimeStr = sdf.format(endTime);
 		System.out.println(endTimeStr);
 
-		Collection<Reservation> reservations = reservationService
+		Collection<TableReservation> reservations = reservationService
 				.getAllReservationOfRestaurantInTime(reservation.getRestaurant().getId(), startTimeStr, endTimeStr);
 
 		HashMap<Long, Table> tableSS = new HashMap<Long, Table>();
-		for (Reservation reservation2 : reservations) {
-			System.out.println(reservation2.getTable());
-			tableSS.put(reservation2.getTable().getId(), new Table(reservation2.getTable(), true));
+		// for (Reservation reservation2 : reservations) {
+		// System.out.println(reservation2.getTable());
+		// tableSS.put(reservation2.getTable().getId(), new
+		// Table(reservation2.getTable(), true));
+		//
+		// }
 
+		for (TableReservation tableReservation : reservations) {
+			System.out.println(tableReservation);
+			tableSS.put(tableReservation.getTable().getId(), new Table(tableReservation.getTable(), true));
 		}
 
 		Collection<TableOfRestaurant> tables = tableService
@@ -322,30 +334,47 @@ public class GuestController {
 
 		Date startTime = reservation.getDateAndTime();
 		String startTimeStr = sdf.format(startTime);
-		System.out.println(startTimeStr);
 
 		Date endTime = reservation.getDateAndTime();
 		endTime.setHours(endTime.getHours() + reservation.getDuration());
 		String endTimeStr = sdf.format(endTime);
-		System.out.println(endTimeStr);
 
-		Reservation makeReservation = new Reservation(reservation.getRestaurant(), reservation.getTable(), startTimeStr,
-				endTimeStr);
+		HashMap<Long, TableReservation> trs = new HashMap<>();
+
+		for (TableOfRestaurant t : reservation.getTables()) {
+			System.out.println(t);
+			TableReservation tableReservation = new TableReservation(t, startTimeStr, endTimeStr);
+			tableReservation = reservationService.saveTable(tableReservation);
+			if (tableReservation == null) {
+				return new ResponseEntity<Reservation>(HttpStatus.NOT_FOUND);
+			}
+			trs.put(tableReservation.getId(), tableReservation);
+		}
+
+		Reservation makeReservation = new Reservation(reservation.getRestaurant(), startTimeStr, endTimeStr);
 
 		Reservation savedReservation = reservationService.createReservation(makeReservation);
 		System.out.println(savedReservation);
 		if (savedReservation == null) {
 			return new ResponseEntity<Reservation>(HttpStatus.NOT_FOUND);
 		}
+
+		for (TableReservation tr : trs.values()) {
+			System.out.println(tr);
+			reservationService.setReservation(tr.getId(), savedReservation);
+
+		}
+
 		GuestReservation guestReservation = new GuestReservation(reservation.getGuest(), savedReservation);
 		reservationService.saveGuestReservation(guestReservation);
 		logger.info("< makeReservation");
+
 		return new ResponseEntity<Reservation>(savedReservation, HttpStatus.OK);
 	}
 
 	/*** Invite friends ***/
 	@RequestMapping(value = "/api/restaurant/friends", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> inviteFriends(@RequestBody InviteFriends invite) {
+	public ResponseEntity<Restaurant> inviteFriends(@RequestBody InviteFriends invite) {
 		logger.info("> inviteFriends");
 		System.out.println(invite);
 
@@ -355,7 +384,33 @@ public class GuestController {
 			System.out.println(guest);
 		}
 
-		return new ResponseEntity<Reservation>(HttpStatus.OK);
+		Restaurant restaurant = invite.getReservation().getRestaurant();
+		System.out.println(restaurant);
+
+		return new ResponseEntity<Restaurant>(restaurant, HttpStatus.OK);
+	}
+
+	/*** Ordering food and drink ***/
+	@RequestMapping(value = "/api/restaurant/order", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Reservation>> orderFoodAndDrink(@RequestBody ItemsReservation itemsReservation) {
+		logger.info("> orderingFoodAndDrink");
+		System.out.println(itemsReservation);
+
+		for (MenuItem menuItem : itemsReservation.getMenuItems()) {
+			System.out.println(menuItem);
+			MenuItemReservation menuItemReservation = new MenuItemReservation(menuItem, itemsReservation.getGuest(),
+					itemsReservation.getReservation());
+			reservationService.saveMenuItem(menuItemReservation);
+		}
+
+		for (DrinkMenuItem drinkMenuItem : itemsReservation.getDrinkMenuItems()) {
+			System.out.println(drinkMenuItem);
+			DrinkMenuItemReservation drinkMenuItemReservation = new DrinkMenuItemReservation(drinkMenuItem,
+					itemsReservation.getGuest(), itemsReservation.getReservation());
+			reservationService.saveDrinkMenuItem(drinkMenuItemReservation);
+		}
+
+		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
 	}
 
 }
