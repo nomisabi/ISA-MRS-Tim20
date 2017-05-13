@@ -1,5 +1,5 @@
 
-angular.module('myApp').controller('SupplierController',['$scope','$http','$window', '$route',function($scope, $http,$window, $route) {
+angular.module('myApp').controller('SupplierController',['$scope','$http','$window', '$route','$ocLazyLoad',function($scope,$http,$window, $route,$ocLazyLoad) {
 	$ocLazyLoad.load('assets/js/common-scripts.js');
 	$scope.page="non-active";
 	

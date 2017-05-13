@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp').controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
+angular.module('myApp').controller('UserController', ['$scope', 'UserService','$ocLazyLoad', function($scope, UserService, $ocLazyLoad) {
     var self = this;
     self.user={id:null,email:'',password:'',password2:'',firstName:'',lastName:''};
 

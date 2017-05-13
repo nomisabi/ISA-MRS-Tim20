@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp').controller('SystemManagerController',['$scope','$http','$window','$route','SystemManagerFactory',function($scope, $http,$window,$ocLazyLoad,$route, SystemManagerFactory) {
+angular.module('myApp').controller('SystemManagerController',['$scope','$http','$window','$route','$ocLazyLoad','SystemManagerFactory',function($scope, $http,$window,$route, $ocLazyLoad,SystemManagerFactory) {
 
 	$scope.page="profile";
 	$scope.man_without_rest=[];
