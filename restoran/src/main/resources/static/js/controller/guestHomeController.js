@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('myApp').controller('GuestHomeController',['$scope','$http','$window', '$ocLazyLoad','GuestHomeFactory',function($scope, $http,$window,$ocLazyLoad, GuestHomeFactory) {
+angular.module('myApp').controller('GuestHomeController',['$scope','$http','$window', '$ocLazyLoad','GuestHomeFactory','$routeParams',function($scope, $http,$window,$ocLazyLoad, GuestHomeFactory,$route$routeParams) {
 	$ocLazyLoad.load('assets/js/common-scripts.js');
+	$scope.message = $route$routeParams.id;
 	$scope.guest = {id:null,email:'',password:'',firstName:'',lastName:'',address:''};
-	$scope.page="profile";
+	$scope.page="";
 	$scope.friends = [];
 	$scope.users = [];
 	$scope.restaurants = [];
@@ -34,13 +35,17 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	
 	
 	function init() {
+		//alert($scope.message);
 		$ocLazyLoad.load('assets/js/common-scripts.js');
+		
+		if ($scope.message === undefined){
 		$http.get("http://localhost:8080/api/users/login")
 		.success(
 				function(data){
 					$http.post("http://localhost:8080/api/guest/login",data)
 					.success(
 							function(data){
+								$scope.page = "profile";
 								$scope.guest=data;
 								$http.post("http://localhost:8080/api/friendship/getRequest",data).success(
 										function(data){
@@ -60,6 +65,23 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 					$window.location.href="/";
 				}
 		);	    
+		}else{
+			$scope.page = "invite";
+			$http.post("http://localhost:8080/api/reservation",{"id":$scope.message})
+			.success(
+					function(data){
+						//alert("daa");
+						$scope.reservation = data.reservation;
+						$scope.friends = data.friends;
+						$scope.guest = data.guest;
+						
+					}
+			).error(
+					function(data){
+						$window.location.href="/#/";
+					}
+			);
+		}
 	}
 	
 	
@@ -386,6 +408,35 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	//alert(x);
     	$scope.reverse = ($scope.myOrder === x) ? !$scope.reverse : false;
         $scope.myOrder = x;
+    }
+    
+    $scope.confirmInvite = function() {
+    	alert("confirm");
+    	$http.post('http://localhost:8080/api/reservation/confirm',{"id":$scope.message})
+    	.success(function(data) {
+    		//$scope.users = data;
+    		$scope.friends = [];
+    		$scope.savedReservation = $scope.reservation;
+    		$scope.reserveNext3();
+		}).error(function(data){
+			//alert("error");
+			}
+		);     
+    }
+    
+    $scope.deleteInvite = function() {
+    	alert("delete");
+    	
+    	$http.post('http://localhost:8080/api/reservation/delete',{"id":$scope.message})
+    	.success(function(data) {
+    		//$scope.users = data;
+    		$scope.friends = [];
+    		$scope.reservation = [];
+    		$scope.changeToProfile();
+		}).error(function(data){
+			//alert("error");
+			}
+		);     
     }
     
 

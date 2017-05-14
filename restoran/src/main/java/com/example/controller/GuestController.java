@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,12 +32,14 @@ import com.example.domain.Restaurant;
 import com.example.domain.TableOfRestaurant;
 import com.example.domain.TableReservation;
 import com.example.domain.User;
+import com.example.domain.DTOs.ConfirmInvite;
 import com.example.domain.DTOs.FriendRequest;
 import com.example.domain.DTOs.GuestRegister;
 import com.example.domain.DTOs.InviteFriends;
 import com.example.domain.DTOs.ItemsReservation;
 import com.example.domain.DTOs.RestaurantReservation;
 import com.example.domain.DTOs.Table;
+import com.example.service.EmailService;
 import com.example.service.GuestService;
 import com.example.service.ReservationService;
 import com.example.service.RestaurantService;
@@ -57,6 +60,8 @@ public class GuestController {
 	private ReservationService reservationService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private EmailService emailService;
 	@Autowired
 	private HttpSession session;
 
@@ -380,8 +385,13 @@ public class GuestController {
 
 		for (Guest guest : invite.getFriends()) {
 			GuestReservation guestReservation = new GuestReservation(guest, invite.getReservation());
-			reservationService.saveGuestReservation(guestReservation);
+			guestReservation = reservationService.saveGuestReservation(guestReservation);
 			System.out.println(guest);
+			try {
+				emailService.sendMail(guest,guestReservation.getId() );
+			} catch (MailException | InterruptedException e) {
+				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+			}
 		}
 
 		Restaurant restaurant = invite.getReservation().getRestaurant();
@@ -411,6 +421,50 @@ public class GuestController {
 		}
 
 		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
+	}
+
+	/*** Confirm ***/
+	@RequestMapping(value = "/api/reservation", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ConfirmInvite> getRequest(@RequestBody ConfirmInvite confirm) {
+		logger.info("> confirm");
+		System.out.println(confirm);
+
+		Reservation reservation = reservationService.getReservationGuest(confirm.getId());
+		System.out.println(reservation);
+		confirm.setReservation(reservation);
+
+		Guest guest = reservationService.getGuest(confirm.getId());
+
+		System.out.println(guest);
+		confirm.setGuest(guest);
+		Collection<Guest> guests = reservationService.getGuests(reservation.getId(), guest.getId());
+
+		for (Guest guest2 : guests) {
+			System.out.println(guest2);
+		}
+		confirm.setFriends(guests);
+
+		return new ResponseEntity<ConfirmInvite>(confirm, HttpStatus.OK);
+	}
+
+	/*** Confirm ***/
+	@RequestMapping(value = "/api/reservation/confirm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ConfirmInvite> confirmationInvite(@RequestBody ConfirmInvite confirm) {
+		logger.info("> confirm");
+		System.out.println(confirm);
+		reservationService.setAccepted(confirm.getId());
+
+		return new ResponseEntity<ConfirmInvite>(confirm, HttpStatus.OK);
+	}
+
+	/*** Delete ***/
+	@RequestMapping(value = "/api/reservation/delete", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ConfirmInvite> deleteInvite(@RequestBody ConfirmInvite confirm) {
+		logger.info("> delete");
+		System.out.println(confirm);
+		reservationService.deleteGuestReservation(confirm.getId());
+
+		return new ResponseEntity<ConfirmInvite>(confirm, HttpStatus.OK);
 	}
 
 }
