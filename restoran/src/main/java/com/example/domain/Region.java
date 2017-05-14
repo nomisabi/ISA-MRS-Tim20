@@ -5,10 +5,13 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity
@@ -23,15 +26,14 @@ public class Region implements Serializable {
 	private int x;
 	@Column
 	private int y;
-	// @OneToMany
-	@Transient
+
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="region")
 	private Set<TableOfRestaurant> tables;
 	@Column
 	private TypeRegion type;
 
-	// @ManyToOne(fetch = FetchType.EAGER)
-	// @JoinColumn(name = "restaurant_id", nullable = false)
-	@Transient
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "restaurant_id", nullable = false)
 	private Restaurant restaurant;
 
 	public Region() {
