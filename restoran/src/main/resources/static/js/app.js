@@ -1,4 +1,4 @@
-var app = angular.module("myApp", ['oc.lazyLoad', 'ngRoute', 'ngComboDatePicker','dnTimepicker']);
+var app = angular.module("myApp", ['oc.lazyLoad', 'ngRoute', 'ngComboDatePicker','dnTimepicker','dndLists']);
 
 app.config(function($routeProvider) {
     $routeProvider
