@@ -27,7 +27,8 @@ public class Restaurant implements Serializable {
 	private String location;
 	@Column
 	private String description;
-
+	@Column
+	private String species;
 	@OneToOne
 	private Menu menu;
 	@OneToOne
@@ -38,9 +39,8 @@ public class Restaurant implements Serializable {
 	private Set<Employee> employee;
 	@ManyToMany(cascade = { CascadeType.MERGE })
 	private Set<Supplier> suppliers;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-	private Set<TableOfRestaurant> tables;
+	@OneToMany(fetch=FetchType.LAZY, mappedBy= "restaurant")
+	private Set<Region> regions;
 
 	public Restaurant() {
 	}
@@ -96,6 +96,14 @@ public class Restaurant implements Serializable {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getSpecies() {
+		return species;
+	}
+
+	public void setSpecies(String species) {
+		this.species = species;
 	}
 
 	public Set<Manager> getManager() {

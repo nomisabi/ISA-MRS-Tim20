@@ -25,8 +25,11 @@ public class TableOfRestaurant implements Serializable {
 	private int numberOfChairs;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "restaurant_id", nullable = false)
 	private Restaurant restaurant;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "region_id")
+	private Region region;
 
 	public TableOfRestaurant() {
 	}
@@ -68,6 +71,14 @@ public class TableOfRestaurant implements Serializable {
 
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
+	}
+
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
 	}
 
 	@Override
