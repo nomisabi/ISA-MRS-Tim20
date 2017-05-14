@@ -89,7 +89,7 @@
     opacity: 0.5;
 }
 
-.nestedDemo .toolbox .dndDraggingSource {
+.advancedDemo .toolbox .dndDraggingSource {
     opacity: 1.0;
 }
 
@@ -101,19 +101,19 @@
 }
 
 .advancedDemo .trashcan img {
-    width: 100%;
+    width: 10%;
     -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);
     filter: grayscale(100%);
 }
 
 .advancedDemo .trashcan .dndDragover img {
-    width: 100%;
+    width: 10%;
     -webkit-filter: none;
     -moz-filter: none;
     filter: none;
 }
 
-.nestedDemo .trashcan .dndPlaceholder {
+.advancedDemo .trashcan .dndPlaceholder {
     display: none;
 }

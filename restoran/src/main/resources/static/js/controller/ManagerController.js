@@ -324,6 +324,8 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 
     $scope.dropCallback = function(index, item, external, type) {
     	alert("Index: "+index+", item: "+JSON.stringify(item)+", external: "+external+", type: "+type);
+    	if (item.effectAllowed=="copy")
+    		item.effectAllowed="all";
         $scope.logListEvent('dropped at', index, external, type);
         // Return false here to cancel drop. Return true if you insert the item yourself.
         return item;
