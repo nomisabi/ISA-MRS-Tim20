@@ -64,6 +64,9 @@ app.config(function($routeProvider) {
     })
     .when("/supplier/info", {
     	templateUrl : "showSupplier.html"
+    }).when("/guest/index/:id",{
+    	templateUrl : "guestHome.html",
+   	 	controller: "GuestHomeController"
     })
     .otherwise({ redirectTo: '/404' });
 });

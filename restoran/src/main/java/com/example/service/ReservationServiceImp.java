@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.example.domain.DrinkMenuItemReservation;
+import com.example.domain.Guest;
 import com.example.domain.GuestReservation;
 import com.example.domain.MenuItemReservation;
 import com.example.domain.Reservation;
@@ -111,5 +112,32 @@ public class ReservationServiceImp implements ReservationService {
 	@Transactional(readOnly = false)
 	public DrinkMenuItemReservation saveDrinkMenuItem(DrinkMenuItemReservation drinkMenuItemReservation) {
 		return drinkMenuReservationRepository.save(drinkMenuItemReservation);
+	}
+
+	@Override
+	public Reservation getReservationGuest(Long idGuest) {
+		return reservationRepository.getReservationGuest(idGuest);
+	}
+
+	@Override
+	public Collection<Guest> getGuests(Long idReservation, Long idGuest) {
+		return reservationRepository.getGuestOfReservation(idReservation, idGuest);
+	}
+
+	@Override
+	public Guest getGuest(Long id) {
+		return reservationRepository.getGuestO(id);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void setAccepted(Long id) {
+		guestReservationRepository.update(id);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteGuestReservation(Long id) {
+		guestReservationRepository.delete(id);
 	}
 }

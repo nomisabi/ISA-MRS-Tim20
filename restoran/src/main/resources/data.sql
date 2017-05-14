@@ -6,7 +6,7 @@ INSERT INTO usert (email, password, type) VALUES ('zika@gmail.com','123456',2);
 INSERT INTO usert (email, password, type) VALUES ('a@a.a','a',1);
 
 INSERT INTO guest (email, password, first_name,last_name) VALUES ('nena@gmail.com','nenasw','Nena','Djeric');
-INSERT INTO guest (email, password, first_name,last_name) VALUES ('pera@gmail.com','123456','Pera','Petrovic');
+INSERT INTO guest (email, password, first_name,last_name) VALUES ('nevena5695@gmail.com','123456','Pera','Petrovic');
 INSERT INTO guest (email, password, first_name,last_name) VALUES ('mika@gmail.com','123456','Mika','Mikic');
 INSERT INTO guest (email, password, first_name,last_name) VALUES ('zika@gmail.com','123456','Zika','Petrovic');
 INSERT INTO friendship (id_friend, guest_id, request_accepted) VALUES (1,2, TRUE);
@@ -35,7 +35,7 @@ INSERT INTO drink_menu_items (drink_menu_id, items_id) VALUES (1,1);
 INSERT INTO drink_menu_items (drink_menu_id, items_id) VALUES (1,2);
 
 INSERT INTO restaurant (name,location, menu_id,drink_menu_id) values ('Nasa Prica','Blaa',1,1);
-INSERT INTO restaurant (name, location) values ('Dva Stapica','Bla');
+INSERT INTO restaurant (name, location,species) values ('Dva Stapica','Bla', 'Kineski');
 
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (1,2,1);
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (2,2,1);
