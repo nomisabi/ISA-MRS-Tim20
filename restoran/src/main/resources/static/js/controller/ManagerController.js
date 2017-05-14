@@ -1,8 +1,13 @@
 
 angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad', function($scope, $http,$window, $route, $ocLazyLoad) {
 	
+	$ocLazyLoad.load('js/drag_drop.js');	
 	$ocLazyLoad.load('assets/js/common-scripts.js');
-	$ocLazyLoad.load('js/interact.js');
+	
+	$scope.list_of_region=[{name:'1', list:['1','2']},{name:'2', list:['1']},{name:'3', list:['1','2','3']}];
+
+	$scope.cont=['tables'];
+	
 	$scope.page="non-active";
 	$scope.updateMenu=false;
 	$scope.typeOfEmployee = [{
@@ -31,6 +36,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 										function(data){
 											//$scope.rest=data;
 											alert(JSON.stringify(data));
+											//alert(JSON.stingify(data.regions));
 											$scope.manager.restaurant=data;
 											
 									});
@@ -307,4 +313,141 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 			
 	}
 	
+	$scope.dragoverCallback = function(index, external, type, callback) {
+        $scope.logListEvent('dragged over', index, external, type);
+        // Invoke callback to origin for container types.
+        if (type == 'container' && !external) {
+            console.log('Container being dragged contains ' + callback() + ' items');
+        }
+        return index < 10; // Disallow dropping in the third row.
+    };
+
+    $scope.dropCallback = function(index, item, external, type) {
+    	alert("Index: "+index+", item: "+JSON.stringify(item)+", external: "+external+", type: "+type);
+        $scope.logListEvent('dropped at', index, external, type);
+        // Return false here to cancel drop. Return true if you insert the item yourself.
+        return item;
+    };
+
+    $scope.logEvent = function(message) {
+        console.log(message);
+    };
+
+    $scope.logListEvent = function(action, index, external, type) {
+        var message = external ? 'External ' : '';
+        message += type + ' element was ' + action + ' position ' + index;
+        console.log(message);
+    };
+
+    // Initialize model
+  /*  $scope.model = [[], []];
+    var id = 10;
+    angular.forEach(['all', 'move', 'copy', 'link', 'copyLink', 'copyMove'], function(effect, i) {
+      var container = {items: [], effectAllowed: effect};
+      for (var k = 0; k < 7; ++k) {
+        container.items.push({label: effect + ' ' + id++, effectAllowed: effect});
+      }
+      $scope.model[i % $scope.model.length].push(container);
+    });
+
+*/
+
+    $scope.model=[
+                  [
+                   {
+                	 "name":"123",
+                     "items": [
+                       {
+                         "label": "all 10",
+                         "effectAllowed": "all"
+                       },
+                       {
+                         "label": "all 11",
+                         "effectAllowed": "all"
+                       },
+                       {
+                         "label": "all 12",
+                         "effectAllowed": "all"
+                       },
+                       {
+                         "label": "all 13",
+                         "effectAllowed": "all"
+                       },
+                       {
+                         "label": "all 14",
+                         "effectAllowed": "all"
+                       },
+                       {
+                         "label": "all 15",
+                         "effectAllowed": "all"
+                       },
+                       {
+                         "label": "all 16",
+                         "effectAllowed": "all"
+                       }
+                     ],
+                     "effectAllowed": "all"
+                   }],
+                   [
+                    {
+                 	 "name":"123",
+                      "items": [
+                        {
+                          "label": "all 10",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 11",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 12",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 13",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 14",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 15",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 16",
+                          "effectAllowed": "all"
+                        }
+                      ],
+                      "effectAllowed": "all"
+                    }],
+                   [{
+                	 "name":"New item",
+                     "items": [
+                       {
+                         "label": "chair 2",
+                         "effectAllowed": "copy"
+                       },
+                       {
+                         "label": "chair 4",
+                         "effectAllowed": "copy"
+                       },
+                       {
+                         "label": "chair 6",
+                         "effectAllowed": "copy"
+                       },
+                       {
+                         "label": "chair 8",
+                         "effectAllowed": "copy"
+                       }
+                     ],
+                     "effectAllowed": "all"
+                   }
+                   ]];
+    
+    $scope.$watch('model', function(model) {
+        $scope.modelAsJson = angular.toJson(model, true);
+    }, true);
 }]);
