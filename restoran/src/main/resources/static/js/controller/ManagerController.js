@@ -36,6 +36,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 										function(data){
 											//$scope.rest=data;
 											alert(JSON.stringify(data));
+											//alert(JSON.stingify(data.regions));
 											$scope.manager.restaurant=data;
 											
 									});
@@ -322,6 +323,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     };
 
     $scope.dropCallback = function(index, item, external, type) {
+    	alert("234");
         $scope.logListEvent('dropped at', index, external, type);
         // Return false here to cancel drop. Return true if you insert the item yourself.
         return item;
@@ -349,9 +351,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     });
 
 */
+
     $scope.model=[
                   [
                    {
+                	 "name":"123",
                      "items": [
                        {
                          "label": "all 10",
@@ -384,35 +388,59 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
                      ],
                      "effectAllowed": "all"
                    }],
+                   [
+                    {
+                 	 "name":"123",
+                      "items": [
+                        {
+                          "label": "all 10",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 11",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 12",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 13",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 14",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 15",
+                          "effectAllowed": "all"
+                        },
+                        {
+                          "label": "all 16",
+                          "effectAllowed": "all"
+                        }
+                      ],
+                      "effectAllowed": "all"
+                    }],
                    [{
+                	 "name":"New item",
                      "items": [
                        {
-                         "label": "copy 24",
-                         "effectAllowed": "all"
+                         "label": "chair 2",
+                         "effectAllowed": "copy"
                        },
                        {
-                         "label": "copy 25",
-                         "effectAllowed": "all"
+                         "label": "chair 4",
+                         "effectAllowed": "copy"
                        },
                        {
-                         "label": "copy 26",
-                         "effectAllowed": "all"
+                         "label": "chair 6",
+                         "effectAllowed": "copy"
                        },
                        {
-                         "label": "copy 27",
-                         "effectAllowed": "all"
-                       },
-                       {
-                         "label": "copy 28",
-                         "effectAllowed": "all"
-                       },
-                       {
-                         "label": "copy 29",
-                         "effectAllowed": "all"
-                       },
-                       {
-                         "label": "copy 30",
-                         "effectAllowed": "all"
+                         "label": "chair 8",
+                         "effectAllowed": "copy"
                        }
                      ],
                      "effectAllowed": "all"

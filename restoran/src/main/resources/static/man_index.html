@@ -195,23 +195,18 @@
 			           	</div>
 			           	<div ng-switch-when="regions">
 			           		<div class="advancedDemo row">
-			           			List: {{list_of_region}}
 							    <div ng-repeat="containers in model" class="col-md-6">
 							        <div class="dropzone box box-yellow">
-							        	<h3>Dropzone {{$index + 1}}</h3>
 										<ul dnd-list="containers"
 										    dnd-allowed-types="['container']"
 										    dnd-external-sources="true"
-										    dnd-dragover="dragoverCallback(index, external, type, callback)"
-										    dnd-drop="dropCallback(index, item, external, type)">
+										   >
 										    <li ng-repeat="container in containers"
-										        dnd-draggable="container"
-										        dnd-type="'container'"
-										        dnd-effect-allowed="copyMove"
-										        dnd-moved="containers.splice($index, 1)"
-										        dnd-callback="container.items.length">
+										    	dnd-type="'container'"
+										        >
 										        <div class="container-element box box-blue">
-										            <h3>Container (effects allowed: {{container.effectAllowed}})</h3>
+										        <h3>{{container.name}}</h3>
+										        
 										            <ul dnd-list="container.items"
 										                dnd-allowed-types="['item']"
 										                dnd-horizontal-list="true"
@@ -235,7 +230,7 @@
 										        </div>
 										    </li>
 										</ul>
-							        </div>
+							        </div>	        
 							    </div>
 							</div>
 							
