@@ -21,6 +21,7 @@ import com.example.respository.GuestReservationRepository;
 import com.example.respository.MenuItemReservationRepository;
 import com.example.respository.ReservationRepository;
 import com.example.respository.TableReservationRepository;
+import com.example.respository.VerificationTokenRepository;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,6 +37,8 @@ public class ReservationServiceImp implements ReservationService {
 	MenuItemReservationRepository menuReservationRepository;
 	@Autowired
 	DrinkMenuItemReservationRepository drinkMenuReservationRepository;
+	@Autowired
+	VerificationTokenRepository verificationRepository;
 
 	@Override
 	public Reservation getReservation(Long id) {
@@ -138,6 +141,12 @@ public class ReservationServiceImp implements ReservationService {
 	@Override
 	@Transactional(readOnly = false)
 	public void deleteGuestReservation(Long id) {
-		guestReservationRepository.delete(id);
+		Long idV = verificationRepository.getId(id);
+		verificationRepository.delete(idV);
+	}
+	
+	@Override
+	public Long getGuestReservationId(String token){
+		return verificationRepository.getGuestReservationId(token);
 	}
 }

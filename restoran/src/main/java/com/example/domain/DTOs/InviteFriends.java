@@ -9,6 +9,7 @@ import com.example.domain.Reservation;
 public class InviteFriends {
 	private Reservation reservation;
 	private Collection<Guest> friends;
+	private Guest guest;
 
 	public InviteFriends() {
 
@@ -34,6 +35,14 @@ public class InviteFriends {
 
 	public void setFriends(Collection<Guest> friends) {
 		this.friends = friends;
+	}
+
+	public Guest getGuest() {
+		return guest;
+	}
+
+	public void setGuest(Guest guest) {
+		this.guest = guest;
 	}
 
 	@Override

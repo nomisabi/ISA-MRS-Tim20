@@ -357,7 +357,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     $scope.model=[
                   [
                    {
-                	 "name":"123",
+                	 "name":"12",
                      "items": [
                        {
                          "label": "all 10",
