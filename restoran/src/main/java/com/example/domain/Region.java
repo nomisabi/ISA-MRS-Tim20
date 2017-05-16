@@ -24,7 +24,7 @@ public class Region implements Serializable {
 	private Long id;
 
 
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="region")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="region")
 	private Set<TableOfRestaurant> tables;
 	@Column
 	private String name;
@@ -51,15 +51,6 @@ public class Region implements Serializable {
 		this.id = id;
 	}
 
-	public Set<TableOfRestaurant> getTables() {
-		return tables;
-	}
-
-	public void setTables(Set<TableOfRestaurant> tables) {
-		this.tables = tables;
-	}
-
-
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
@@ -75,6 +66,15 @@ public class Region implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	
+	public Set<TableOfRestaurant> getTables() {
+		return tables;
+	}
+
+	public void setTables(Set<TableOfRestaurant> tables) {
+		this.tables = tables;
 	}
 
 	@Override
