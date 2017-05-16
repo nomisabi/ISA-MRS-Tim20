@@ -29,19 +29,23 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 					$http.post("http://localhost:8080/api/manager/login",data).success(
 							function(data){
 								$scope.manager=data;
-								$http.post("http://localhost:8080/api/manager/getRest",$scope.manager).error(
+								$http.post("http://localhost:8080/api/manager/getRest",$scope.manager).success(
 										function(data){
-											//alert("error");
-									}).success(
-										function(data){
-											//$scope.rest=data;
-											alert(JSON.stringify(data));
-											//alert(JSON.stingify(data.regions));
+											if (data==null)
+												$window.location.href="/";
+											//alert(JSON.stringify(data));
 											$scope.manager.restaurant=data;
+											$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
+												//alert("vmi");
+												alert(JSON.stringify(data.data));
+											});
 											
 									});
+								
 								if ($scope.manager.active)
 									$scope.page="profile";
+							}).error(function(data){
+								$window.location.href="/";
 							});
 				});
 		
@@ -53,7 +57,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
  
     $scope.logout=function(){
     	$http.get("http://localhost:8080/api/users/logout").success(function(data) {
-    		//$window.href.location="/#/";
+    		$window.href.location="/#/";
     	});
     	
     }

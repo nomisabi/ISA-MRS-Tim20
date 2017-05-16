@@ -29,7 +29,7 @@ public class EmailService {
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject(subject);
 		mail.setText("http://localhost:8080/#/guest/index/" + id);
-	//	javaMailSender.send(mail);
+		javaMailSender.send(mail);
 		
 		System.out.println("email poslat");
 		

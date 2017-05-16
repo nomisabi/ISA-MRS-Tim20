@@ -1,11 +1,13 @@
 INSERT INTO usert (email, password, type) VALUES ('admin@admin.com','admin',0);
 INSERT INTO usert (email, password, type) VALUES ('nena@gmail.com','nenasw',2);
-INSERT INTO usert (email, password, type) VALUES ('pera@gmail.com','123456',2);
+INSERT INTO usert (email, password, type) VALUES ('nevena5695@gmail.com','123456',2);
 INSERT INTO usert (email, password, type) VALUES ('mika@gmail.com','123456',2);
 INSERT INTO usert (email, password, type) VALUES ('zika@gmail.com','123456',2);
+INSERT INTO usert (email, password, type) VALUES ('nomisabi@gmail.com','nomisabi',2);
 INSERT INTO usert (email, password, type) VALUES ('a@a.a','a',1);
 
 INSERT INTO guest (email, password, first_name,last_name) VALUES ('nena@gmail.com','nenasw','Nena','Djeric');
+INSERT INTO guest (email, password, first_name,last_name) VALUES ('nomisabi@gmail.com','nomisabi','Noemi','Sabados');
 INSERT INTO guest (email, password, first_name,last_name) VALUES ('nevena5695@gmail.com','123456','Pera','Petrovic');
 INSERT INTO guest (email, password, first_name,last_name) VALUES ('mika@gmail.com','123456','Mika','Mikic');
 INSERT INTO guest (email, password, first_name,last_name) VALUES ('zika@gmail.com','123456','Zika','Petrovic');
@@ -31,16 +33,21 @@ INSERT INTO drink_menu (date_update) VALUES ('2017-05-13 20:00');
 INSERT INTO menu_items (menu_id, items_id) VALUES (1,1);
 INSERT INTO menu_items (menu_id, items_id) VALUES (1,2);
 
-INSERT INTO drink_menu_items (drink_menu_id, items_id) VALUES (1,1);
-INSERT INTO drink_menu_items (drink_menu_id, items_id) VALUES (1,2);
+
 
 INSERT INTO restaurant (name,location, menu_id,drink_menu_id) values ('Nasa Prica','Blaa',1,1);
 INSERT INTO restaurant (name, location,species) values ('Dva Stapica','Bla', 'Kineski');
 
-INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (1,2,1);
-INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (2,2,1);
-INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (3,4,1);
+INSERT INTO restaurant_manager (restaurant_id, manager_id) values (1,1);
+
+INSERT INTO region (name, restaurant_id) values ('r1',1);
+INSERT INTO region (name, restaurant_id) values ('r2',1);
+
+
+
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (1,2,1,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (2,2,1,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (3,4,2,1);
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (1,2,2);
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (2,4,2);
 
-INSERT INTO restaurant_manager (restaurant_id, manager_id) values (1,1);

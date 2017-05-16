@@ -18,6 +18,7 @@ import com.example.domain.Food;
 import com.example.domain.Manager;
 import com.example.domain.Menu;
 import com.example.domain.MenuItem;
+import com.example.domain.Region;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.TypeOfUser;
@@ -29,6 +30,7 @@ import com.example.domain.DTOs.SupplierRestaurant;
 import com.example.service.DrinkMenuService;
 import com.example.service.ManagerService;
 import com.example.service.MenuService;
+import com.example.service.RegionService;
 import com.example.service.RestaurantService;
 import com.example.service.SystemManagerService;
 import com.example.service.UserService;
@@ -61,6 +63,8 @@ public class ManagerController {
 	private DrinkMenuService drinkMenuService;
 	@Autowired
 	private RestaurantService restService;
+	@Autowired
+	private RegionService regionService;
 	
 	@RequestMapping(
 			value = "/api/manager/{id}", 
@@ -395,5 +399,21 @@ public class ManagerController {
 		drinkMenuService.deleteDrink(m.getDrink().getId());
 		logger.info("< deletet Drink menu item");
 		return new ResponseEntity<DrinkMenuItem>(m,HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/regions", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Region>> getReg(@Valid @RequestBody Restaurant id) throws Exception {
+		logger.info("> getRegion");
+		
+	//	Restaurant rest= restService.getRestaurant(id.getId());
+		Collection<Region> r=regionService.getRegion(id);
+		if (r!=null){
+			return new ResponseEntity<Collection<Region>>(r, HttpStatus.OK);
+		}
+		return new ResponseEntity<Collection<Region>>(HttpStatus.NOT_FOUND);
 	}
 }

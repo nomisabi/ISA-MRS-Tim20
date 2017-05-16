@@ -40,7 +40,6 @@ public class Restaurant implements Serializable {
 	@ManyToMany(cascade = { CascadeType.MERGE })
 	private Set<Supplier> suppliers;
 	@OneToMany(fetch=FetchType.LAZY, mappedBy= "restaurant")
-	//@OneToMany(cascade = { CascadeType.MERGE })
 	private Set<Region> regions;
 
 	public Restaurant() {
