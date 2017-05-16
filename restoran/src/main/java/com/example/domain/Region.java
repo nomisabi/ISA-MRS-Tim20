@@ -22,12 +22,12 @@ public class Region implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	@Column
+	private String name;
 
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="region")
 	private Set<TableOfRestaurant> tables;
-	@Column
-	private String name;
+	
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "restaurant_id", nullable = false)

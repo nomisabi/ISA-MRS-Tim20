@@ -33,7 +33,8 @@ INSERT INTO drink_menu (date_update) VALUES ('2017-05-13 20:00');
 INSERT INTO menu_items (menu_id, items_id) VALUES (1,1);
 INSERT INTO menu_items (menu_id, items_id) VALUES (1,2);
 
-
+INSERT INTO drink_menu_items (drink_menu_id, items_id) VALUES (1,1);
+INSERT INTO drink_menu_items (drink_menu_id, items_id) VALUES (1,2);
 
 INSERT INTO restaurant (name,location, menu_id,drink_menu_id) values ('Nasa Prica','Blaa',1,1);
 INSERT INTO restaurant (name, location,species) values ('Dva Stapica','Bla', 'Kineski');
