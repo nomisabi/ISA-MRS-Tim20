@@ -21,8 +21,6 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 			label: 'Bartender'
 		  }]; 
 	$scope.selected = $scope.typeOfEmployee[0];
-	
-	
 
 	function init() {
 		$ocLazyLoad.load('assets/js/common-scripts.js');
@@ -38,7 +36,8 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 											//alert(JSON.stringify(data));
 											$scope.manager.restaurant=data;
 											$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
-												$scope.regions=data.data;												
+												//alert("vmi");
+												alert(JSON.stringify(data.data));
 											});
 											
 									});
@@ -136,47 +135,6 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="schedule"; 
   	}
   	$scope.changeToRegions= function(){
-  		$scope.model=[
-  	                   [{
-  	                	 "name":"New item",
-  	                     "items": [
-  	                       {
-  	                         "label": "chair 2",
-  	                         "effectAllowed": "copy"
-  	                       },
-  	                       {
-  	                         "label": "chair 4",
-  	                         "effectAllowed": "copy"
-  	                       },
-  	                       {
-  	                         "label": "chair 6",
-  	                         "effectAllowed": "copy"
-  	                       },
-  	                       {
-  	                         "label": "chair 8",
-  	                         "effectAllowed": "copy"
-  	                       }
-  	                     ],
-  	                     "effectAllowed": "all"
-  	                   }
-  	                   ]];
-  		
-  		//alert(JSON.stringify($scope.regions));
-  		
-  		for (var i=0; i<$scope.regions.length;i++){
-  			var container = {name:$scope.regions[i].name, items: [], effectAllowed: 'all'};
-  			items=[];
-  			for (var j=0; j<$scope.regions[i].tables.length;j++){
-  				//alert(JSON.stringify($scope.regions[i].tables[j]));
-  				item= {
-	                         "label": $scope.regions[i].tables[j].number+ " ("+$scope.regions[i].tables[j].numberOfChairs+")",
-	                         "effectAllowed": "move"
-	                       };
-  				items.push(item)
-  			}
-  			container.items=items;
-  			$scope.model.push([container]);
-  		}
   		if ($scope.manager.active)
     		$scope.page="regions"; 
   	}
@@ -399,11 +357,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     });
 
 */
-/*
+
     $scope.model=[
                   [
                    {
-                	 "name":"123",
+                	 "name":"12",
                      "items": [
                        {
                          "label": "all 10",
@@ -494,8 +452,6 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
                      "effectAllowed": "all"
                    }
                    ]];
-    
-    */
     
     $scope.$watch('model', function(model) {
         $scope.modelAsJson = angular.toJson(model, true);

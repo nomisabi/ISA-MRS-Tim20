@@ -1,50 +1,31 @@
 package com.example.domain;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
 public class VerificationToken {
-	private static final int EXPIRATION = 60 * 24;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
-	private User user;
-	@Column
-	private Date expiryDate;
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval= true)
+	private GuestReservation guestReservation;
 	@Column
 	private String token;
 
-	private Date calculateExpiryDate() {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Timestamp(cal.getTime().getTime()));
-		cal.add(Calendar.MINUTE, EXPIRATION);
-		return new Date(cal.getTime().getTime());
-	}
-
 	public VerificationToken() {
 	}
-	
-	
 
-	public VerificationToken(User user,String token) {
+	public VerificationToken(GuestReservation guestReservation, String token) {
 		super();
-		this.user = user;
+		this.guestReservation = guestReservation;
 		this.token = token;
-		this.expiryDate = calculateExpiryDate();
 	}
 
 	public Long getId() {
@@ -55,20 +36,20 @@ public class VerificationToken {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public GuestReservation getGuestReservation() {
+		return guestReservation;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setGuestReservation(GuestReservation guestReservation) {
+		this.guestReservation = guestReservation;
 	}
 
-	public Date getExpiryDate() {
-		return expiryDate;
+	public String getToken() {
+		return token;
 	}
 
-	public void setExpiryDate(Date expiryDate) {
-		this.expiryDate = expiryDate;
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }
