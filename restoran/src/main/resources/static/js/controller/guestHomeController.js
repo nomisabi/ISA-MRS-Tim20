@@ -30,6 +30,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.menuList =[];
 	$scope.drinkList = [];
 	$scope.prepared = false;
+	$scope.id = null;
 	
 	init();
 	
@@ -67,13 +68,14 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		);	    
 		}else{
 			$scope.page = "invite";
-			$http.post("http://localhost:8080/api/reservation",{"id":$scope.message})
+			$http.post("http://localhost:8080/api/reservation",{"token":$scope.message})
 			.success(
 					function(data){
 						//alert("daa");
 						$scope.reservation = data.reservation;
 						$scope.friends = data.friends;
 						$scope.guest = data.guest;
+						$scope.id = data.id;
 						
 					}
 			).error(
@@ -296,7 +298,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.reserveNext3 = function(){   	    	
-    	$http.post('http://localhost:8080/api/restaurant/friends',{"friends":$scope.list,"reservation":$scope.savedReservation})
+    	$http.post('http://localhost:8080/api/restaurant/friends',{"friends":$scope.list,"reservation":$scope.savedReservation, "guest":$scope.guest})
     	.success(function(data) {
     		//alert("Friends invited");
     		$scope.restaurant = data;
@@ -412,7 +414,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.confirmInvite = function() {
     	alert("confirm");
-    	$http.post('http://localhost:8080/api/reservation/confirm',{"id":$scope.message})
+    	$http.post('http://localhost:8080/api/reservation/confirm',{"id":$scope.id})
     	.success(function(data) {
     		//$scope.users = data;
     		$scope.friends = [];
@@ -427,7 +429,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.deleteInvite = function() {
     	alert("delete");
     	
-    	$http.post('http://localhost:8080/api/reservation/delete',{"id":$scope.message})
+    	$http.post('http://localhost:8080/api/reservation/delete',{"id":$scope.id})
     	.success(function(data) {
     		//$scope.users = data;
     		$scope.friends = [];

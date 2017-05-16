@@ -43,4 +43,5 @@ public interface ReservationService {
 	
 	void deleteGuestReservation(Long id);
 
+	Long getGuestReservationId(String token);
 }

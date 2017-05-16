@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import static org.mockito.Matchers.contains;
+
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -301,12 +303,6 @@ public class GuestController {
 				.getAllReservationOfRestaurantInTime(reservation.getRestaurant().getId(), startTimeStr, endTimeStr);
 
 		HashMap<Long, Table> tableSS = new HashMap<Long, Table>();
-		// for (Reservation reservation2 : reservations) {
-		// System.out.println(reservation2.getTable());
-		// tableSS.put(reservation2.getTable().getId(), new
-		// Table(reservation2.getTable(), true));
-		//
-		// }
 
 		for (TableReservation tableReservation : reservations) {
 			System.out.println(tableReservation);
@@ -388,7 +384,7 @@ public class GuestController {
 			guestReservation = reservationService.saveGuestReservation(guestReservation);
 			System.out.println(guest);
 			try {
-				emailService.sendMail(guest,guestReservation.getId() );
+				emailService.sendMail(guestReservation, invite.getGuest(), guest, guestReservation.getId());
 			} catch (MailException | InterruptedException e) {
 				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
 			}
@@ -429,11 +425,16 @@ public class GuestController {
 		logger.info("> confirm");
 		System.out.println(confirm);
 
-		Reservation reservation = reservationService.getReservationGuest(confirm.getId());
+		Long id = reservationService.getGuestReservationId(confirm.getToken());
+		confirm.setId(id);
+
+		Reservation reservation = reservationService.getReservationGuest(id);
 		System.out.println(reservation);
 		confirm.setReservation(reservation);
 
-		Guest guest = reservationService.getGuest(confirm.getId());
+		Guest guest = reservationService.getGuest(id);
+
+		session.setAttribute("guest", guest);
 
 		System.out.println(guest);
 		confirm.setGuest(guest);

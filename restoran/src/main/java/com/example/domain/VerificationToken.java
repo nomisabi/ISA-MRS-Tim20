@@ -1,3 +1,4 @@
+
 package com.example.domain;
 
 import javax.persistence.Column;

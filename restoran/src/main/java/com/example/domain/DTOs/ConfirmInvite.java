@@ -1,3 +1,4 @@
+
 package com.example.domain.DTOs;
 
 import java.util.Collection;
@@ -75,3 +76,4 @@ public class ConfirmInvite {
 	}
 
 }
+

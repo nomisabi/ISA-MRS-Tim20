@@ -13,6 +13,8 @@ public interface GuestReservationRepository extends JpaRepository<GuestReservati
 	@Transactional
 	@Query("UPDATE GuestReservation g SET g.accepted = true WHERE g.id = ?1")
 	int update(Long id);
+	
+	
 
 }
 
