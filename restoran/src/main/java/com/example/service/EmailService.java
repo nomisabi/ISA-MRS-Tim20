@@ -25,7 +25,7 @@ public class EmailService {
 	private VerificationTokenRepository repository;
 
 	@Async
-	public void sendMail(GuestReservation guestReservation,Guest guest, Guest friend, Long id) throws MailException, InterruptedException {
+	public void sendMail(GuestReservation guestReservation,Guest guest, Guest friend) throws MailException, InterruptedException {
 		String token = UUID.randomUUID().toString();
 		VerificationToken verification = new VerificationToken(guestReservation, token);
 		repository.save(verification);

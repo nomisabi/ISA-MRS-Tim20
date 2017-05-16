@@ -143,10 +143,18 @@ public class ReservationServiceImp implements ReservationService {
 	public void deleteGuestReservation(Long id) {
 		Long idV = verificationRepository.getId(id);
 		verificationRepository.delete(idV);
+		guestReservationRepository.delete(id);
 	}
-	
+
 	@Override
-	public Long getGuestReservationId(String token){
+	public Long getGuestReservationId(String token) {
 		return verificationRepository.getGuestReservationId(token);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteToken(Long idGuestReservation) {
+		Long id = verificationRepository.getId(idGuestReservation);
+		verificationRepository.delete(id);
 	}
 }

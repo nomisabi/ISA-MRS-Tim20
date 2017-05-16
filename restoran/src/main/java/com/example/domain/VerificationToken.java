@@ -15,7 +15,7 @@ public class VerificationToken {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval= true)
+	@OneToOne(fetch = FetchType.EAGER)
 	private GuestReservation guestReservation;
 	@Column
 	private String token;

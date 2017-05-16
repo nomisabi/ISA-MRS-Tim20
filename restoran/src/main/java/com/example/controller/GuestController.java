@@ -1,7 +1,5 @@
 package com.example.controller;
 
-import static org.mockito.Matchers.contains;
-
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -384,7 +382,7 @@ public class GuestController {
 			guestReservation = reservationService.saveGuestReservation(guestReservation);
 			System.out.println(guest);
 			try {
-				emailService.sendMail(guestReservation, invite.getGuest(), guest, guestReservation.getId());
+				emailService.sendMail(guestReservation, invite.getGuest(), guest);
 			} catch (MailException | InterruptedException e) {
 				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
 			}
@@ -454,6 +452,7 @@ public class GuestController {
 		logger.info("> confirm");
 		System.out.println(confirm);
 		reservationService.setAccepted(confirm.getId());
+		reservationService.deleteToken(confirm.getId());
 
 		return new ResponseEntity<ConfirmInvite>(confirm, HttpStatus.OK);
 	}

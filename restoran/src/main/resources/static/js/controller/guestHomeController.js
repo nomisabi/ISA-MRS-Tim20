@@ -287,12 +287,15 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		}).error(function(data){
     			
     			alert("Table is reserved. Please choose other table.");
+    			$scope.reserveNext($scope.duration, $scope.date);
     			}
     		);    		
     		
     		
     	}else{
-    		alert("Please, choose a table")
+    		alert("Please, choose a table");
+    		
+    		
     	}
     	
     }
