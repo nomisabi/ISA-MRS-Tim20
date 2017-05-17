@@ -23,8 +23,10 @@ public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 	
 	@Override
 	@Transactional(readOnly = false)
-	public TableOfRestaurant addTable(TableOfRestaurant table){
-		return repository.save(table);
+	public TableOfRestaurant addTable(TableOfRestaurant table, Long id_reg){
+		TableOfRestaurant t= repository.save(table);
+		repository.insertReg(table.getId(), id_reg);
+		return t;
 	}
 	
 
