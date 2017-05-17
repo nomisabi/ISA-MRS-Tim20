@@ -19,8 +19,8 @@ public interface TableOfRestaurantRepository extends JpaRepository<TableOfRestau
     @Query(value="UPDATE table_of_restaurant SET region_id=?2 WHERE id=?1", nativeQuery=true)
     int insertReg(Long id_table, Long id_reg);
 	
-	@Query("SELECT Object(t) FROM TableOfRestaurant t WHERE t.number = ?1")
-	public TableOfRestaurant getByNum(int num);
+	@Query(value="SELECT Object(t) FROM TableOfRestaurant t WHERE t.number = ?1 and t.restaurant.id=?2", nativeQuery=false)
+	public TableOfRestaurant getByNum(int num, Long id);
 
 	@Modifying
 	@Transactional

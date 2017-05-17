@@ -447,7 +447,7 @@ public class ManagerController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TableOfRestaurant> delTable(@Valid @RequestBody TableOfRestaurant t) throws Exception {
 		logger.info("> delTable: "+t.toString());
-		TableOfRestaurant table=tableService.getByNumber(t.getNumber());
+		TableOfRestaurant table=tableService.getByNumber(t.getNumber(), t.getRestaurant().getId());
 		logger.info("\t\t table: "+table.toString());
 		tableService.deleteTable(table.getId());
 		logger.info("< delTable: "+t.toString());

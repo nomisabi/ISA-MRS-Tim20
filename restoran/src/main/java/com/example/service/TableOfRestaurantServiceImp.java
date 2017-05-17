@@ -37,8 +37,8 @@ public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 	}
 	
 	@Override
-	public TableOfRestaurant getByNumber(int num) {
-		return repository.getByNum(num);
+	public TableOfRestaurant getByNumber(int num, Long id) {
+		return repository.getByNum(num, id);
 	}
 
 }

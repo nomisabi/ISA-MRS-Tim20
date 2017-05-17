@@ -372,7 +372,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
         }
         return index < 10; // Disallow dropping in the third row.
     };
-
+    $scope.moved=false;
     $scope.changed_label="";
     $scope.effect="";
     $scope.dropCallback = function(index, item, external, type) {
@@ -381,6 +381,8 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.changed_label=item.label;
     		item.effectAllowed="all";
     		$scope.effect="all";
+    	}else{
+    		$scope.moved=true;
     	}
         $scope.logListEvent('dropped at', index, external, type);
         // Return false here to cancel drop. Return true if you insert the item yourself.
@@ -388,6 +390,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     };
 
     function addTable(label){
+    	alert("add table")
     	region=null;
 		region_send=null;
 		numb=0;
@@ -424,7 +427,12 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
         	}
     		label=$scope.changed_label;
     	}
-    	
+    	if ($scope.moved==true)
+    	{
+    		$scope.moved=false;
+    		return;
+    	}
+    	$scope.moved=false;
     	$scope.effect="";
     	var x=0;
 		for (var i=0; i<$scope.model.length;i++){
@@ -435,7 +443,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   				}
   			}
   		}
-		$http.post("http://localhost:8080/api/manager/deleteTable", {"number":item.label, "numberOfChairs":item.numberOfChairs}).then(function(data){
+		$http.post("http://localhost:8080/api/manager/deleteTable", {"number":item.label, "numberOfChairs":item.numberOfChairs, "restaurant":$scope.manager.restaurant}).then(function(data){
 			alert("atment");											
 		});
     }

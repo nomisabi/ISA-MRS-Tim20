@@ -12,5 +12,5 @@ public interface TableOfRestaurantService {
 	
 	void deleteTable(Long id);
 
-	TableOfRestaurant getByNumber(int num);
+	TableOfRestaurant getByNumber(int num, Long id);
 }
