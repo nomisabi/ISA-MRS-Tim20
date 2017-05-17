@@ -9,5 +9,8 @@ public interface TableOfRestaurantService {
 	Collection<TableOfRestaurant> getAllTableOfRestaurant(Long id);
 	
 	TableOfRestaurant addTable(TableOfRestaurant table, Long id_reg);
+	
+	void deleteTable(Long id);
 
+	TableOfRestaurant getByNumber(int num);
 }

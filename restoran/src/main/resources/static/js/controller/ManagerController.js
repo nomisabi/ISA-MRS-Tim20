@@ -435,7 +435,9 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   				}
   			}
   		}
-		alert("deleted");
+		$http.post("http://localhost:8080/api/manager/deleteTable", {"number":item.label, "numberOfChairs":item.numberOfChairs}).then(function(data){
+			alert("atment");											
+		});
     }
     
     function sortNumber(a,b) {

@@ -439,4 +439,18 @@ public class ManagerController {
 		}
 		return new ResponseEntity<TableOfRestaurant>(HttpStatus.NOT_FOUND);
 	}
+	
+	@RequestMapping(
+			value = "/api/manager/deleteTable", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<TableOfRestaurant> delTable(@Valid @RequestBody TableOfRestaurant t) throws Exception {
+		logger.info("> delTable: "+t.toString());
+		TableOfRestaurant table=tableService.getByNumber(t.getNumber());
+		logger.info("\t\t table: "+table.toString());
+		tableService.deleteTable(table.getId());
+		logger.info("< delTable: "+t.toString());
+		return new ResponseEntity<TableOfRestaurant>(HttpStatus.OK);
+	}
 }

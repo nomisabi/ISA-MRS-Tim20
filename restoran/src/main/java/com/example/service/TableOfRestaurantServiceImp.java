@@ -28,6 +28,17 @@ public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 		repository.insertReg(table.getId(), id_reg);
 		return t;
 	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteTable(Long id) {
+		repository.delete(id);
+		System.out.println("izbrisao: "+id);
+	}
 	
+	@Override
+	public TableOfRestaurant getByNumber(int num) {
+		return repository.getByNum(num);
+	}
 
 }

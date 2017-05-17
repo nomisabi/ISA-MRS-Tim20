@@ -19,5 +19,7 @@ public interface TableReservationRepository extends JpaRepository<TableReservati
 	@Transactional
 	@Query("UPDATE TableReservation t SET t.reservation = ?2 WHERE t.id = ?1")
 	int setReservation(Long id, Reservation reservation);
+	
+	
 
 }
