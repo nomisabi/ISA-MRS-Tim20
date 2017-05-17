@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.example.domain.DrinkMenuItem;
 import com.example.domain.DrinkMenuItemReservation;
 import com.example.domain.Guest;
 import com.example.domain.GuestReservation;
+import com.example.domain.MenuItem;
 import com.example.domain.MenuItemReservation;
 import com.example.domain.Reservation;
+import com.example.domain.TableOfRestaurant;
 import com.example.domain.TableReservation;
 import com.example.respository.DrinkMenuItemReservationRepository;
 import com.example.respository.GuestReservationRepository;
@@ -156,5 +159,21 @@ public class ReservationServiceImp implements ReservationService {
 	public void deleteToken(Long idGuestReservation) {
 		Long id = verificationRepository.getId(idGuestReservation);
 		verificationRepository.delete(id);
+	}
+
+	@Override
+	public Collection<TableOfRestaurant> getAllTableResrvation(Long idReservation) {
+		return tableReservationRepository.getAllTableReservation(idReservation);
+
+	}
+
+	@Override
+	public Collection<MenuItem> getAllMenuItemReservation(Long idReservation, Long idGuest) {
+		return menuReservationRepository.getMenuItems(idReservation, idGuest);
+	}
+
+	@Override
+	public Collection<DrinkMenuItem> getAllDrinkMenuItemReservation(Long idReservation, Long idGuest) {
+		return drinkMenuReservationRepository.getMenuItems(idReservation, idGuest);
 	}
 }

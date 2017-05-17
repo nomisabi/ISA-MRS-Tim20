@@ -58,6 +58,7 @@ public class GuestServiceImp implements GuestService {
 		int id1 = guestRepository.updateGuest(id, guest.getEmail(), guest.getFirstName(), guest.getLastName(),
 				guest.getAddress());
 		System.out.println(id1);
+		guestRepository.flush();
 		return guestRepository.findOne(id);
 
 	}

@@ -39,7 +39,7 @@ public class EmailService {
 		String text = "You are invited to the restaurant by " + guest.getFirstName() + " " + guest.getLastName()
 				+ "\n\n Click on the link for more details:   ";
 		mail.setText(text + "http://localhost:8080/#/guest/index/" + token);
-		javaMailSender.send(mail);
+		//javaMailSender.send(mail);
 
 		System.out.println("email poslat");
 

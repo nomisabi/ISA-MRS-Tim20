@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,6 +39,7 @@ import com.example.domain.DTOs.FriendRequest;
 import com.example.domain.DTOs.GuestRegister;
 import com.example.domain.DTOs.InviteFriends;
 import com.example.domain.DTOs.ItemsReservation;
+import com.example.domain.DTOs.ReservationDetails;
 import com.example.domain.DTOs.RestaurantReservation;
 import com.example.domain.DTOs.Table;
 import com.example.service.EmailService;
@@ -141,6 +144,8 @@ public class GuestController {
 			userService.logout();
 		}
 		Guest updatedGuest = guestService.updateGuest(id, guest);
+
+		// updatedGuest = guestService.getGuest(id);
 		session.setAttribute("guest", updatedGuest);
 		System.out.println("Updating guest" + updatedGuest);
 		return new ResponseEntity<Guest>(updatedGuest, HttpStatus.OK);
@@ -287,7 +292,7 @@ public class GuestController {
 	public ResponseEntity<Collection<Table>> getAvaliableTables(@RequestBody RestaurantReservation reservation) {
 		logger.info("> getAvaliableTables");
 		System.out.println(reservation);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY HH:mm");
 
 		String startTimeStr = sdf.format(reservation.getDateAndTime());
 		System.out.println(startTimeStr);
@@ -329,7 +334,7 @@ public class GuestController {
 	public ResponseEntity<Reservation> makeReservation(@RequestBody RestaurantReservation reservation) {
 		logger.info("> makeReservation");
 		System.out.println(reservation);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY HH:mm");
 
 		Date startTime = reservation.getDateAndTime();
 		String startTimeStr = sdf.format(startTime);
@@ -465,6 +470,54 @@ public class GuestController {
 		reservationService.deleteGuestReservation(confirm.getId());
 
 		return new ResponseEntity<ConfirmInvite>(confirm, HttpStatus.OK);
+	}
+
+	/*** Get guest with {id} ***/
+	@RequestMapping(value = "/api/reservation/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ReservationDetails> getReservation(@PathVariable("id") Long id, @RequestBody Guest guest) {
+		logger.info("> getReservation id:{}", id);
+		DateTimeFormatter sdf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		LocalDateTime now = LocalDateTime.now();
+		System.out.println(id);
+		System.out.println(guest);
+		Reservation reservation = reservationService.getReservation(id);
+		String startTime = reservation.getStartTime();
+		boolean flag = false;
+
+		LocalDateTime startTimeD = LocalDateTime.parse(startTime, sdf);
+		System.out.println(startTimeD);
+		
+		System.out.println(now);
+		
+		now = now.plusMinutes(30);
+		System.out.println(now);
+		if (now.isBefore(startTimeD)) {
+			flag = true;
+		}
+
+		System.out.println(flag);
+		System.out.println(reservation);
+		Collection<TableOfRestaurant> tables = reservationService.getAllTableResrvation(id);
+		for (TableOfRestaurant tableOfRestaurant : tables) {
+			System.out.println(tableOfRestaurant);
+		}
+		Collection<Guest> guests = reservationService.getGuests(id, guest.getId());
+		for (Guest guest2 : guests) {
+			System.out.println(guest2);
+		}
+		Collection<MenuItem> menuItems = reservationService.getAllMenuItemReservation(id, guest.getId());
+		for (MenuItem menuItem : menuItems) {
+			System.out.println(menuItem);
+		}
+
+		Collection<DrinkMenuItem> drinkMenuItems = reservationService.getAllDrinkMenuItemReservation(id, guest.getId());
+		for (DrinkMenuItem drinkMenuItem : drinkMenuItems) {
+			System.out.println(drinkMenuItem);
+		}
+		ReservationDetails details = new ReservationDetails(reservation, tables, guests, menuItems, drinkMenuItems,
+				flag);
+
+		return new ResponseEntity<ReservationDetails>(details, HttpStatus.OK);
 	}
 
 }
