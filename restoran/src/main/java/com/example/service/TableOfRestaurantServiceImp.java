@@ -23,9 +23,22 @@ public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 	
 	@Override
 	@Transactional(readOnly = false)
-	public TableOfRestaurant addTable(TableOfRestaurant table){
-		return repository.save(table);
+	public TableOfRestaurant addTable(TableOfRestaurant table, Long id_reg){
+		TableOfRestaurant t= repository.save(table);
+		repository.insertReg(table.getId(), id_reg);
+		return t;
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteTable(Long id) {
+		repository.delete(id);
+		System.out.println("izbrisao: "+id);
 	}
 	
+	@Override
+	public TableOfRestaurant getByNumber(int num, Long id) {
+		return repository.getByNum(num, id);
+	}
 
 }

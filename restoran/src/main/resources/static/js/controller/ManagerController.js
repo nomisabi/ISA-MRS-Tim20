@@ -141,19 +141,27 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	                     "items": [
   	                       {
   	                         "label": "chair 2",
-  	                         "effectAllowed": "copy"
+  	                         "effectAllowed": "copy",
+  	                         "id":0,
+  	                         "numberOfChairs":2
   	                       },
   	                       {
   	                         "label": "chair 4",
   	                         "effectAllowed": "copy"
+  	                        , "id":0 ,
+  	  	                    "numberOfChairs":4
   	                       },
   	                       {
   	                         "label": "chair 6",
   	                         "effectAllowed": "copy"
+  	                        	, "id":0 ,
+  	  	                         "numberOfChairs":6
   	                       },
   	                       {
   	                         "label": "chair 8",
   	                         "effectAllowed": "copy"
+  	                        	, "id":0 ,
+  	  	                         "numberOfChairs":8
   	                       }
   	                     ],
   	                     "effectAllowed": "all"
@@ -166,10 +174,13 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   			var container = {name:$scope.regions[i].name, items: [], effectAllowed: 'all'};
   			items=[];
   			for (var j=0; j<$scope.regions[i].tables.length;j++){
-  				//alert(JSON.stringify($scope.regions[i].tables[j]));
+  				//alert(JSON.stringify($scope.regions[i].tables[j].id));
   				item= {
-	                         "label": $scope.regions[i].tables[j].number+ " ("+$scope.regions[i].tables[j].numberOfChairs+")",
-	                         "effectAllowed": "move"
+	                         "label": $scope.regions[i].tables[j].number,
+	                         "effectAllowed": "move",
+	                         "id":$scope.regions[i].tables[j].id,
+  	                         "numberOfChairs":$scope.regions[i].tables[j].numberOfChairs
+	                         
 	                       };
   				items.push(item)
   			}
@@ -232,13 +243,8 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	}
 	
 	$scope.createNewItem= function(){
-		//alert(JSON.stringify($scope.manager.restaurant));
 		if ($scope.manager.restaurant.menu!=null){
-			//alert($scope.manager.restaurant.menu.items.length);
 			for (var i=0; i<$scope.manager.restaurant.menu.items.length;i++){
-				//alert(JSON.stringify($scope.manager.restaurant.menu.items[i]));
-				//alert(JSON.stringify($scope.menuitem));
-				
 				if ($scope.manager.restaurant.menu.items[i].food.name==$scope.menuitem.food.name){
 					alert("Food with this name is exist.");
 					return;
@@ -366,16 +372,107 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
         }
         return index < 10; // Disallow dropping in the third row.
     };
-
+    $scope.moved=false;
+    $scope.changed_label="";
+    $scope.effect="";
     $scope.dropCallback = function(index, item, external, type) {
-    	alert("Index: "+index+", item: "+JSON.stringify(item)+", external: "+external+", type: "+type);
-    	if (item.effectAllowed=="copy")
+    	if (item.effectAllowed=="copy"){ 
+    		item.label=findMin();
+    		$scope.changed_label=item.label;
     		item.effectAllowed="all";
+    		$scope.effect="all";
+    	}else{
+    		$scope.moved=true;
+    	}
         $scope.logListEvent('dropped at', index, external, type);
         // Return false here to cancel drop. Return true if you insert the item yourself.
         return item;
     };
 
+    function addTable(label){
+    	alert("add table")
+    	region=null;
+		region_send=null;
+		numb=0;
+		
+		for (var i=0; i<$scope.model.length;i++){
+  			for (var j=0; j<$scope.model[i][0].items.length;j++){
+  				if ($scope.model[i][0].items[j].label==label){
+  	  					region= $scope.model[i];
+  	  					numb=$scope.model[i][0].items[j].numberOfChairs;
+  				}
+  			}
+  		}
+		
+		for (var i=0; i<$scope.regions.length;i++){
+  			for (var j=0; j<$scope.regions[i].tables.length;j++){
+  				if ($scope.regions[i].name==region[0].name){
+  	  					region_send= $scope.regions[i];
+  				}
+  			}
+  		}
+		//alert("r1: "+JSON.stringify(region_send));
+		table={"number":label,"numberOfChairs": numb, "restaurant":$scope.manager.restaurant, "region":region_send};
+		$http.post("http://localhost:8080/api/manager/newTable", {"t":table, "r":region_send}).then(function(data){
+			//alert("atment");											
+		});
+		
+    }
+    
+    $scope.deleteTable=function(item){
+    	label=item.label;
+    	if (typeof item.label === 'string'){
+    		if ($scope.effect==""){
+        		return;
+        	}
+    		label=$scope.changed_label;
+    	}
+    	if ($scope.moved==true)
+    	{
+    		$scope.moved=false;
+    		return;
+    	}
+    	$scope.moved=false;
+    	$scope.effect="";
+    	var x=0;
+		for (var i=0; i<$scope.model.length;i++){
+  			for (var j=0; j<$scope.model[i][0].items.length;j++){
+  				if ($scope.model[i][0].items[j].label==label){
+  						addTable(label);
+  	  					return;
+  				}
+  			}
+  		}
+		$http.post("http://localhost:8080/api/manager/deleteTable", {"number":item.label, "numberOfChairs":item.numberOfChairs, "restaurant":$scope.manager.restaurant}).then(function(data){
+			alert("atment");											
+		});
+    }
+    
+    function sortNumber(a,b) {
+        return a - b;
+    }
+    
+    function findMin(){
+    	l=[];
+    	for (var i=0; i<$scope.model.length;i++){
+  			for (var j=0; j<$scope.model[i][0].items.length;j++){
+  				if (typeof $scope.model[i][0].items[j].label === "number"){
+  					//alert("ah");
+  					l.push($scope.model[i][0].items[j].label);
+  				}
+  			}
+    	}
+   
+    	l.sort(sortNumber);
+    	x=1;
+    	while (true){
+    		if (!l.includes(x)){
+    			return x;
+    		}
+    		x++;	
+    	}
+    }
+    
     $scope.logEvent = function(message) {
         console.log(message);
     };

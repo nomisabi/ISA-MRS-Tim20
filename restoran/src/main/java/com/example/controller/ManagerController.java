@@ -21,18 +21,21 @@ import com.example.domain.MenuItem;
 import com.example.domain.Region;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
+import com.example.domain.TableOfRestaurant;
 import com.example.domain.TypeOfUser;
 import com.example.domain.User;
 import com.example.domain.DTOs.DrinkRestaurant;
 import com.example.domain.DTOs.EmployeeRestaurant;
 import com.example.domain.DTOs.MenuRestaurant;
 import com.example.domain.DTOs.SupplierRestaurant;
+import com.example.domain.DTOs.TableRegion;
 import com.example.service.DrinkMenuService;
 import com.example.service.ManagerService;
 import com.example.service.MenuService;
 import com.example.service.RegionService;
 import com.example.service.RestaurantService;
 import com.example.service.SystemManagerService;
+import com.example.service.TableOfRestaurantService;
 import com.example.service.UserService;
 
 
@@ -65,6 +68,8 @@ public class ManagerController {
 	private RestaurantService restService;
 	@Autowired
 	private RegionService regionService;
+	@Autowired
+	private TableOfRestaurantService tableService;
 	
 	@RequestMapping(
 			value = "/api/manager/{id}", 
@@ -415,5 +420,37 @@ public class ManagerController {
 			return new ResponseEntity<Collection<Region>>(r, HttpStatus.OK);
 		}
 		return new ResponseEntity<Collection<Region>>(HttpStatus.NOT_FOUND);
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/newTable", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<TableOfRestaurant> addTable(@Valid @RequestBody TableRegion tr) throws Exception {
+		logger.info("> addTable: "+tr.getT().toString());
+		
+		Collection<TableOfRestaurant> tables=tr.getR().getTables();
+		tables.add(tr.getT());
+		tr.getR().setTables((Set<TableOfRestaurant>) tables);
+		TableOfRestaurant table= tableService.addTable(tr.getT(), tr.getR().getId());
+		if (table!=null){
+			return new ResponseEntity<TableOfRestaurant>(table, HttpStatus.OK);
+		}
+		return new ResponseEntity<TableOfRestaurant>(HttpStatus.NOT_FOUND);
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/deleteTable", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<TableOfRestaurant> delTable(@Valid @RequestBody TableOfRestaurant t) throws Exception {
+		logger.info("> delTable: "+t.toString());
+		TableOfRestaurant table=tableService.getByNumber(t.getNumber(), t.getRestaurant().getId());
+		logger.info("\t\t table: "+table.toString());
+		tableService.deleteTable(table.getId());
+		logger.info("< delTable: "+t.toString());
+		return new ResponseEntity<TableOfRestaurant>(HttpStatus.OK);
 	}
 }

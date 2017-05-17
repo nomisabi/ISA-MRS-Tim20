@@ -83,8 +83,7 @@ public class TableOfRestaurant implements Serializable {
 */
 	@Override
 	public String toString() {
-		return "TableOfRestaurant [number=" + number + ", numberOfChairs=" + numberOfChairs + ", restaurant="
-				+ restaurant + "]";
+		return "TableOfRestaurant [number=" + number + ", numberOfChairs=" + numberOfChairs +", id="+id+"]";
 	}
 
 }
