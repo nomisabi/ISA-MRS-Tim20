@@ -3,7 +3,7 @@
 angular.module('myApp').controller('GuestHomeController',['$scope','$http','$window', '$ocLazyLoad','GuestHomeFactory','$routeParams',function($scope, $http,$window,$ocLazyLoad, GuestHomeFactory,$route$routeParams) {
 	$ocLazyLoad.load('assets/js/common-scripts.js');
 	$scope.message = $route$routeParams.id;
-	/*$scope.date = new Date();
+	$scope.date = new Date();
     $scope.time = new Date();
     $scope.dateTime = new Date();
     $scope.minDate = moment().subtract(1, 'month');
@@ -11,7 +11,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.dates = [new Date('2016-11-14T00:00:00'), new Date('2016-11-15T00:00:00'),
       new Date('2016-11-30T00:00:00'), new Date('2016-12-12T00:00:00'), new Date('2016-12-13T00:00:00'),
       new Date('2016-12-31T00:00:00')];
-    */
+    
 	$scope.guest = {id:null,email:'',password:'',firstName:'',lastName:'',address:''};
 	$scope.page="";
 	$scope.friends = [];
@@ -43,6 +43,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.flag = false;
 	$scope.drinkReserve = [];
 	init();
+	
 	
 	
 	
@@ -319,20 +320,21 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     
-    $scope.reserveNext = function(duration, date){   	   	
+    $scope.reserveNext = function(duration, dateTime){   	   	
+    	alert(dateTime);
     	//alert($scope.time.toLocaleTimeString());    
     	//alert(date.toDateString());
     	//alert($scope.restaurant.name);
     	//alert(duration);
     	
-    	var dateTime = new Date();
-    	dateTime.setDate(date.getDate());
-    	dateTime.setMonth(date.getMonth());
-    	dateTime.setFullYear(date.getFullYear());
-    	dateTime.setHours($scope.time.getHours());
-    	dateTime.setMinutes($scope.time.getMinutes());
-    	dateTime.setSeconds($scope.time.getSeconds());
-    	dateTime.setMilliseconds($scope.time.getMilliseconds());
+    	//var dateTime = new Date();
+    	//dateTime.setDate(date.getDate());
+    	//dateTime.setMonth(date.getMonth());
+    	//dateTime.setFullYear(date.getFullYear());
+    	//dateTime.setHours($scope.time.getHours());
+    	//dateTime.setMinutes($scope.time.getMinutes());
+    	//dateTime.setSeconds($scope.time.getSeconds());
+    	//dateTime.setMilliseconds($scope.time.getMilliseconds());
     	
     	$scope.reservation = {"restaurant":$scope.restaurant, "dateAndTime":dateTime, "duration": duration};
     	
