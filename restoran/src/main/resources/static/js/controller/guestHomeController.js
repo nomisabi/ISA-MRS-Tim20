@@ -15,7 +15,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.restaurant ={id:null, name:'', location:''};
 	$scope.min = new Date();
 	$scope.max = new Date('2017-06-01');
-	$scope.time = new Date('2017-06-01 9:00');
+	$scope.time = new Date('2017-06-01 23:35');
 	$scope.date = new Date();
 	$scope.duration = 1;
 	$scope.dateStr = "";
@@ -31,47 +31,84 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.drinkList = [];
 	$scope.prepared = false;
 	$scope.id = null;
-	
+	$scope.flag = false;
 	init();
 	
+	function popover(tekst) {
+		var unique_id = $.gritter.add({
+            // (string | mandatory) the heading of the notification
+            title: 'Notification',
+            // (string | mandatory) the text inside the notification
+            text: tekst,
+            // (string | optional) the image to display on the left
+            image: 'assets/img/ui-sam.jpg',
+            // (bool | optional) if you want it to fade out on its own or just sit there
+            sticky: false,
+            // (int | optional) the time you want it to be alive for before fading out
+            time: 5000,
+            // (string | optional) the class name you want to apply to that specific message
+            class_name: 'my-sticky-class'
+        });
+		$("#date-popover").popover({html: true, trigger: "manual"});
+        $("#date-popover").hide();
+        $("#date-popover").click(function (e) {
+            $(this).hide();
+        });
+		
+	}
+	
+	$scope.getNotifications = function() {
+		$http.post("http://localhost:8080/api/friendship/getRequest",$scope.guest).success(
+				function(data){
+					$scope.notifications = data;
+					$scope.popover();
+					
+				});
+	}
+	
+	
+	$scope.getGuestLogIn = function(data) {
+		$http.post("http://localhost:8080/api/guest/login",data)
+		.success(
+				function(data){
+					$scope.page = "profile";
+					$scope.guest=data;
+					$scope.getNotifications();
+					
+				}
+		).error(
+				function(data){
+					$window.location.href="/#/";
+				}
+		);
+		
+	}
+	
+	$scope.getUserLogIn = function() {
+		
+	}
 	
 	function init() {
 		//alert($scope.message);
 		$ocLazyLoad.load('assets/js/common-scripts.js');
 		
 		if ($scope.message === undefined){
-		$http.get("http://localhost:8080/api/users/login")
-		.success(
+			$http.get("http://localhost:8080/api/users/login")
+			.success(
 				function(data){
-					$http.post("http://localhost:8080/api/guest/login",data)
-					.success(
-							function(data){
-								$scope.page = "profile";
-								$scope.guest=data;
-								$http.post("http://localhost:8080/api/friendship/getRequest",data).success(
-										function(data){
-											$scope.notifications = data;
-											//alert($scope.notifications.length);
-										});
-							}
-					).error(
-							function(data){
-								$window.location.href="/#/";
-							}
-					);
+					$scope.getGuestLogIn(data);
 					
 				}
-		).error(
+			).error(
 				function(data){
 					$window.location.href="/";
 				}
-		);	    
+			);	    
 		}else{
 			$scope.page = "invite";
 			$http.post("http://localhost:8080/api/reservation",{"token":$scope.message})
 			.success(
 					function(data){
-						//alert("daa");
 						$scope.reservation = data.reservation;
 						$scope.friends = data.friends;
 						$scope.guest = data.guest;
@@ -135,18 +172,39 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$scope.page="home";
     }
     
+    $scope.changeToViewReservation = function (id){
+    	alert(id);
+    	$http.post('http://localhost:8080/api/reservation/' + id,$scope.guest)
+    	.success(function(data) {
+    		$scope.reservation = data.reservation;
+    		$scope.friends = data.guests;
+    		$scope.tables = data.tables;
+    		$scope.menuList = data.menuItems;
+    		$scope.drinkList = data.drinkMenuItems;
+    		$scope.flag = data.flag;
+    		//$scope.users = data;
+		}).error(function(data){
+			//alert("error");
+			}
+		); 
+    	$scope.page = "view";
+    }
+    
     
     
     $scope.save= function(){
     	$http.put('http://localhost:8080/api/guests/'+$scope.guest.id,$scope.guest)
     	.success(function(data) {
-    		alert("Profile changes successfully saved.");
+    		//alert("Profile changes successfully saved.");
     		if (data.email != $scope.guest.email){
     			$window.location.href="/#/";
+    			popover("Profile changes successfully saved.Please, log in with a new email address.");
     		}else{
     			$scope.guest = data;
+    			//popover("Profile changes successfully saved.");
     			$window.location.reload();
     		}
+    		
 		}).error(function(data){
 			alert("Error profile change.");
 			}
@@ -188,7 +246,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$scope.users = [];
     	$http.post('http://localhost:8080/api/friendship/sendRequest',{"idGuest":$scope.guest.id,"idFriend":id})
     	.success(function(data) {
-    		alert("Request successfuly sent.")
+    		popover("Request for friendship successfully sent.");
 		}).error(function(data){
 			//alert("error");
 			}
@@ -198,8 +256,12 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.deleteRequest= function(id){    	
     	$http.post('http://localhost:8080/api/friendship/deleteFriend',{"idGuest":$scope.guest.id,"idFriend":id})
     	.success(function(data) {
+    		//alert("delete");
+    		
+    		$scope.getNotifications();
+    		popover("Friend request has been canceled.");
     		//$scope.changeToFriends();
-    		$window.location.reload();
+    		//$window.location.reload();
 		}).error(function(data){
 			//alert("error");
 			}
@@ -209,7 +271,9 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.deleteFriend= function(id){    	
     	$http.post('http://localhost:8080/api/friendship/deleteFriend',{"idGuest":$scope.guest.id,"idFriend":id})
     	.success(function(data) {
+    		
     		$scope.changeToFriends();
+    		popover("Friend successfully deleted from the list of friends.");
     		//$window.location.reload();
 		}).error(function(data){
 			//alert("error");
@@ -221,9 +285,11 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.confirmRequest= function(guest){   
     	$http.post('http://localhost:8080/api/friendship/addFriend',{"idGuest":$scope.guest.id,"idFriend":guest.id})
     	.success(function(data) {
-    		alert("Request confirm");
-    		$window.location.reload();
-    	//	$scope.changeToFriends();
+    		//alert("Request confirm");
+    		
+    		$scope.getNotifications();
+    		$scope.changeToFriends();
+    		popover("Friend request is accepted.");
 		}).error(function(data){
 			//alert("error");
 			}
@@ -280,20 +346,23 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
         		$scope.friends=[];	
         		$scope.list = [];
         		$scope.page ="reserve3";
+        		popover("You have successfully reserved a table at a restaurant " + $scope.reservation.restaurant.name+". \n\nNow you can invite friends to a restaurant. If you don't want to do this click Next.");
         				
         	//	alert("Reservation succesful");
         		
         		
     		}).error(function(data){
     			
-    			alert("Table is reserved. Please choose other table.");
+    			//alert("Table is reserved. Please choose other table.");
+    			popover("Table is reserved. Please choose other table.");
     			$scope.reserveNext($scope.duration, $scope.date);
     			}
     		);    		
     		
     		
     	}else{
-    		alert("Please, choose a table");
+    		popover("Please, choose a table");
+    		//alert("Please, choose a table");
     		
     		
     	}
@@ -301,6 +370,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.reserveNext3 = function(){   	    	
+    	$ocLazyLoad.load('assets/js/common-scripts.js');
     	$http.post('http://localhost:8080/api/restaurant/friends',{"friends":$scope.list,"reservation":$scope.savedReservation, "guest":$scope.guest})
     	.success(function(data) {
     		//alert("Friends invited");
@@ -309,6 +379,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		$scope.menuList = [];
     		$scope.drinkList = [];
     		$scope.page = "reserve4";
+    		popover("Now you can order food or drinks.\n\nIf you don't want to do this click on Next.");
 		}).error(function(data){
 			//alert("error");
 			}
@@ -348,20 +419,9 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
         else {
           $scope.tableNum.push(item);
         }
-        //alert($scope.tableNum);
-    	//if (vrednost.reserved){
-    	//	alert("Table is reserved");
-    	//	$scope.tableNum = null;
-    	//}
-    	//else{
-    //		$scope.tableNum = vrednost.tableOfRestaurant.id;
-    //		$scope.table = vrednost.tableOfRestaurant;
-    //		alert(vrednost.tableOfRestaurant.number);
-    //	}
 	}
     
     $scope.addToList = function(item) {
-    	//alert(item.id);
     	var idx = $scope.list.indexOf(item);
         if (idx > -1) {
           $scope.list.splice(idx, 1);
@@ -369,11 +429,9 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
         else {
           $scope.list.push(item);
         }
-        //alert($scope.list);
 	}
     
     $scope.addToMenuList = function(item) {
-    	//alert(item.id);
     	var idx = $scope.menuList.indexOf(item);
         if (idx > -1) {
           $scope.menuList.splice(idx, 1);
@@ -381,11 +439,9 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
         else {
           $scope.menuList.push(item);
         }
-        //alert($scope.list);
 	}
     
     $scope.addToDrinkList = function(item) {
-    	//alert(item.id);
     	var idx = $scope.drinkList.indexOf(item);
         if (idx > -1) {
           $scope.drinkList.splice(idx, 1);
@@ -393,7 +449,6 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
         else {
           $scope.drinkList.push(item);
         }
-        //alert($scope.list);
 	}
     
     $scope.logout= function(){
@@ -410,19 +465,18 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	}
     
     $scope.orderByMe = function(x) {
-    	//alert(x);
     	$scope.reverse = ($scope.myOrder === x) ? !$scope.reverse : false;
         $scope.myOrder = x;
     }
     
     $scope.confirmInvite = function() {
-    	alert("confirm");
     	$http.post('http://localhost:8080/api/reservation/confirm',{"id":$scope.id})
     	.success(function(data) {
     		//$scope.users = data;
     		$scope.friends = [];
     		$scope.savedReservation = $scope.reservation;
     		$scope.reserveNext3();
+    		popover("Invitation was accepted. Now you can order food or drinks.")
 		}).error(function(data){
 			//alert("error");
 			}
@@ -430,7 +484,6 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.deleteInvite = function() {
-    	alert("delete");
     	
     	$http.post('http://localhost:8080/api/reservation/delete',{"id":$scope.id})
     	.success(function(data) {
@@ -438,6 +491,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		$scope.friends = [];
     		$scope.reservation = [];
     		$scope.changeToProfile();
+    		popover("Invitation canceled.");
+    		
 		}).error(function(data){
 			//alert("error");
 			}
