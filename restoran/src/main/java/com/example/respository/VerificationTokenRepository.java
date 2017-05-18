@@ -11,5 +11,5 @@ public interface VerificationTokenRepository extends JpaRepository<VerificationT
 	public Long getGuestReservationId(String token);
 	
 	@Query("SELECT id FROM VerificationToken t WHERE guestReservation.id = ?1")
-	public Long getId(Long id);
+	public Long getId(Long guestReservationId);
 }

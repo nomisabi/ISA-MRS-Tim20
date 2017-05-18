@@ -278,7 +278,7 @@ public class GuestController {
 	public ResponseEntity<Collection<Reservation>> getVisitedRestaurants(@RequestBody Guest guest) {
 		logger.info("> getVisitedRestaurants");
 		System.out.println(guest);
-		Collection<Reservation> restaurants = reservationService.getVisitedRestaurant(guest.getId());
+		Collection<Reservation> restaurants = reservationService.getVisitedRestaurants(guest.getId());
 		for (Reservation restaurant : restaurants) {
 			System.out.println(restaurant);
 		}
@@ -303,7 +303,7 @@ public class GuestController {
 		System.out.println(endTimeStr);
 
 		Collection<TableReservation> reservations = reservationService
-				.getAllReservationOfRestaurantInTime(reservation.getRestaurant().getId(), startTimeStr, endTimeStr);
+				.getAllReservationTable(reservation.getRestaurant().getId(), startTimeStr, endTimeStr);
 
 		HashMap<Long, Table> tableSS = new HashMap<Long, Table>();
 
@@ -431,17 +431,17 @@ public class GuestController {
 		Long id = reservationService.getGuestReservationId(confirm.getToken());
 		confirm.setId(id);
 
-		Reservation reservation = reservationService.getReservationGuest(id);
+		Reservation reservation = reservationService.getReservationOfGuest(id);
 		System.out.println(reservation);
 		confirm.setReservation(reservation);
 
-		Guest guest = reservationService.getGuest(id);
+		Guest guest = reservationService.getGuestOfGuestReservation(id);
 
 		session.setAttribute("guest", guest);
 
 		System.out.println(guest);
 		confirm.setGuest(guest);
-		Collection<Guest> guests = reservationService.getGuests(reservation.getId(), guest.getId());
+		Collection<Guest> guests = reservationService.getFriends(reservation.getId(), guest.getId());
 
 		for (Guest guest2 : guests) {
 			System.out.println(guest2);
@@ -456,8 +456,9 @@ public class GuestController {
 	public ResponseEntity<ConfirmInvite> confirmationInvite(@RequestBody ConfirmInvite confirm) {
 		logger.info("> confirm");
 		System.out.println(confirm);
-		reservationService.setAccepted(confirm.getId());
-		reservationService.deleteToken(confirm.getId());
+		reservationService.confirmReservation(confirm.getId());
+		Long verificationId = reservationService.getVerificationId(confirm.getId());
+		reservationService.deleteToken(verificationId);
 
 		return new ResponseEntity<ConfirmInvite>(confirm, HttpStatus.OK);
 	}
@@ -467,6 +468,10 @@ public class GuestController {
 	public ResponseEntity<ConfirmInvite> deleteInvite(@RequestBody ConfirmInvite confirm) {
 		logger.info("> delete");
 		System.out.println(confirm);
+		Long verificationId = reservationService.getVerificationId(confirm.getId());
+		if (verificationId != null) {
+			reservationService.deleteToken(verificationId);
+		}
 		reservationService.deleteGuestReservation(confirm.getId());
 
 		return new ResponseEntity<ConfirmInvite>(confirm, HttpStatus.OK);
@@ -486,9 +491,9 @@ public class GuestController {
 
 		LocalDateTime startTimeD = LocalDateTime.parse(startTime, sdf);
 		System.out.println(startTimeD);
-		
+
 		System.out.println(now);
-		
+
 		now = now.plusMinutes(30);
 		System.out.println(now);
 		if (now.isBefore(startTimeD)) {
@@ -497,11 +502,11 @@ public class GuestController {
 
 		System.out.println(flag);
 		System.out.println(reservation);
-		Collection<TableOfRestaurant> tables = reservationService.getAllTableResrvation(id);
+		Collection<TableOfRestaurant> tables = reservationService.getAllTableOfReservation(id);
 		for (TableOfRestaurant tableOfRestaurant : tables) {
 			System.out.println(tableOfRestaurant);
 		}
-		Collection<Guest> guests = reservationService.getGuests(id, guest.getId());
+		Collection<Guest> guests = reservationService.getFriends(id, guest.getId());
 		for (Guest guest2 : guests) {
 			System.out.println(guest2);
 		}
@@ -514,10 +519,41 @@ public class GuestController {
 		for (DrinkMenuItem drinkMenuItem : drinkMenuItems) {
 			System.out.println(drinkMenuItem);
 		}
-		ReservationDetails details = new ReservationDetails(reservation, tables, guests, menuItems, drinkMenuItems,
-				flag);
+
+		Long guestReservationId = reservationService.getGuestReservationId(id, guest.getId());
+		ReservationDetails details = new ReservationDetails(reservation, guestReservationId, tables, guests, menuItems,
+				drinkMenuItems, flag);
 
 		return new ResponseEntity<ReservationDetails>(details, HttpStatus.OK);
+	}
+
+	/*** Delete reservation ***/
+	@RequestMapping(value = "/api/reservation/guest/delete", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ReservationDetails> deleteGuestReservation(@RequestBody ReservationDetails details) {
+		logger.info("> delete");
+		System.out.println(details);
+
+		DateTimeFormatter sdf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		LocalDateTime now = LocalDateTime.now();
+		String startTime = details.getReservation().getStartTime();
+		boolean flag = false;
+
+		LocalDateTime startTimeD = LocalDateTime.parse(startTime, sdf);
+		System.out.println(startTimeD);
+
+		System.out.println(now);
+
+		now = now.plusMinutes(30);
+		System.out.println(now);
+		if (now.isBefore(startTimeD)) {
+			flag = true;
+			reservationService.deleteGuestReservation(details.getGuestReservationId());
+			return new ResponseEntity<ReservationDetails>(details,HttpStatus.OK);
+		}
+
+		details.setFlag(flag);
+
+		return new ResponseEntity<ReservationDetails>(details, HttpStatus.NOT_FOUND);
 	}
 
 }

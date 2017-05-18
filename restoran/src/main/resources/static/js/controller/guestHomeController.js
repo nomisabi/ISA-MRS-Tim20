@@ -3,6 +3,15 @@
 angular.module('myApp').controller('GuestHomeController',['$scope','$http','$window', '$ocLazyLoad','GuestHomeFactory','$routeParams',function($scope, $http,$window,$ocLazyLoad, GuestHomeFactory,$route$routeParams) {
 	$ocLazyLoad.load('assets/js/common-scripts.js');
 	$scope.message = $route$routeParams.id;
+	/*$scope.date = new Date();
+    $scope.time = new Date();
+    $scope.dateTime = new Date();
+    $scope.minDate = moment().subtract(1, 'month');
+    $scope.maxDate = moment().add(1, 'month');
+    $scope.dates = [new Date('2016-11-14T00:00:00'), new Date('2016-11-15T00:00:00'),
+      new Date('2016-11-30T00:00:00'), new Date('2016-12-12T00:00:00'), new Date('2016-12-13T00:00:00'),
+      new Date('2016-12-31T00:00:00')];
+    */
 	$scope.guest = {id:null,email:'',password:'',firstName:'',lastName:'',address:''};
 	$scope.page="";
 	$scope.friends = [];
@@ -15,7 +24,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.restaurant ={id:null, name:'', location:''};
 	$scope.min = new Date();
 	$scope.max = new Date('2017-06-01');
-	$scope.time = new Date('2017-06-01 23:35');
+	$scope.time = new Date('2017-06-01 21:57');
 	$scope.date = new Date();
 	$scope.duration = 1;
 	$scope.dateStr = "";
@@ -32,7 +41,10 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.prepared = false;
 	$scope.id = null;
 	$scope.flag = false;
+	$scope.drinkReserve = [];
 	init();
+	
+	
 	
 	function popover(tekst) {
 		var unique_id = $.gritter.add({
@@ -182,6 +194,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		$scope.menuList = data.menuItems;
     		$scope.drinkList = data.drinkMenuItems;
     		$scope.flag = data.flag;
+    		$scope.id = data.guestReservationId;
     		//$scope.users = data;
 		}).error(function(data){
 			//alert("error");
@@ -281,6 +294,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		);    
     }
    
+   
     
     $scope.confirmRequest= function(guest){   
     	$http.post('http://localhost:8080/api/friendship/addFriend',{"idGuest":$scope.guest.id,"idFriend":guest.id})
@@ -303,6 +317,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$scope.restaurant = restaurant;
     	$scope.page="reserve";
     }
+    
     
     $scope.reserveNext = function(duration, date){   	   	
     	//alert($scope.time.toLocaleTimeString());    
@@ -378,6 +393,11 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		$scope.prepared = false;
     		$scope.menuList = [];
     		$scope.drinkList = [];
+    		$scope.drinkReserve = [];
+    		for (var i = 0; i < data.drinkMenu.items.length; i++) {
+				$scope.drinkList.push({"drink": data.drinkMenu.items[i].drink,"price": data.drinkMenu.items[i].price,"quality": 0});
+				
+			}
     		$scope.page = "reserve4";
     		popover("Now you can order food or drinks.\n\nIf you don't want to do this click on Next.");
 		}).error(function(data){
@@ -451,6 +471,29 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
         }
 	}
     
+    $scope.addDrink = function(id) {
+    	alert(id);
+    	for (var i = 0; i < $scope.drinkList.length; i++) {
+			if ( $scope.drinkList[i].drink.id == id ){
+				$scope.drinkList[i].quality ++;
+				if ($scope.drinkList[i].quality == 1){
+					
+				}
+				break;
+			}
+		}
+	}
+    
+    $scope.deleteDrink = function(id) {
+    	alert(id);
+    	for (var i = 0; i < $scope.drinkList.length; i++) {
+			if ( $scope.drinkList[i].drink.id == id ){
+				$scope.drinkList[i].quality --;
+				break;
+			}
+		}
+	}
+    
     $scope.logout= function(){
     	$http.get("http://localhost:8080/api/users/logout");
     }
@@ -490,7 +533,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		//$scope.users = data;
     		$scope.friends = [];
     		$scope.reservation = [];
-    		$scope.changeToProfile();
+    		$scope.changeToHome();
     		popover("Invitation canceled.");
     		
 		}).error(function(data){
@@ -499,5 +542,28 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		);     
     }
     
+    
+    $scope.deleteReservation = function() {
+    	
+    	$http.post('/api/reservation/guest/delete',{"reservation":$scope.reservation, "guestReservationId": $scope.id, "tables": $scope.tables, "guests": $scope.friends, "menuItems": $scope.menuList, "drinkMenuItems": $scope.drinkList })
+    	.success(function(data) {
+    		$scope.changeToHome();
+    		popover("Reservation is canceled.");
+    		
+		}).error(function(data){
+			
+			$scope.reservation = data.reservation;
+    		$scope.friends = data.guests;
+    		$scope.tables = data.tables;
+    		$scope.menuList = data.menuItems;
+    		$scope.drinkList = data.drinkMenuItems;
+    		$scope.flag = data.flag;
+    		$scope.id = data.guestReservationId;
+    		popover("There is less than 30 minutes to the reservation. You can't cancel this reservation.");
+			}
+		);     
+    }
 
-}]);
+    
+
+}])

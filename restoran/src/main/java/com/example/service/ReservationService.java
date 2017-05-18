@@ -15,44 +15,66 @@ import com.example.domain.TableReservation;
 public interface ReservationService {
 
 	Reservation getReservation(Long id);
+	
+	Collection<Reservation> getAllReservations();
+	
+	Reservation createReservation(Reservation reservation);
+	
+	TableReservation saveTable(TableReservation tableReservation);
+	
+	GuestReservation saveGuestReservation(GuestReservation guestReservation);
+	
+	MenuItemReservation saveMenuItem(MenuItemReservation menuItemReservation);
 
-	Collection<TableOfRestaurant> getAllTableResrvation(Long idReservation);
+	DrinkMenuItemReservation saveDrinkMenuItem(DrinkMenuItemReservation drinkMenuItemReservation);
+	
+	void setReservation(Long id, Reservation reservation);
+	
+	void confirmReservation(Long guestReservationid);
+	
+	Collection<TableReservation> getAllReservationTable(Long idRestaurant, String dateStart, String dateEnd);
+
+	Collection<TableOfRestaurant> getAllTableOfReservation(Long idReservation);
 
 	Collection<MenuItem> getAllMenuItemReservation(Long idReservation, Long idGuest);
 
 	Collection<DrinkMenuItem> getAllDrinkMenuItemReservation(Long idReservation, Long idGuest);
 
-	Collection<Reservation> getAllReservations();
+	Collection<Guest> getFriends(Long idReservation, Long idGuest);
+	
+	Collection<Reservation> getVisitedRestaurants(Long idGuest);
 
-	Reservation createReservation(Reservation reservation);
+	Reservation getReservationOfGuest(Long idGuest);
 
-	GuestReservation saveGuestReservation(GuestReservation guestReservation);
-
-	Collection<Reservation> getAllReservationOfRestaurant(Long idRestaurant);
-
-	Collection<TableReservation> getAllReservationOfRestaurantInTime(Long id, String dateStart, String dateEnd);
-
-	Collection<Reservation> getVisitedRestaurant(Long id);
-
-	TableReservation saveTable(TableReservation tableReservation);
-
-	void setReservation(Long id, Reservation reservation);
-
-	MenuItemReservation saveMenuItem(MenuItemReservation menuItemReservation);
-
-	DrinkMenuItemReservation saveDrinkMenuItem(DrinkMenuItemReservation drinkMenuItemReservation);
-
-	Reservation getReservationGuest(Long idGuest);
-
-	Collection<Guest> getGuests(Long idReservation, Long idGuest);
-
-	Guest getGuest(Long id);
-
-	void setAccepted(Long id);
-
-	void deleteGuestReservation(Long id);
+	Long getGuestReservationId(Long idReservation, Long idGuest);
 
 	Long getGuestReservationId(String token);
 
-	void deleteToken(Long idGuestReservation);
+	Guest getGuestOfGuestReservation(Long id);
+	
+	Long getVerificationId(Long idGuestReservation);
+	
+	void deleteToken(Long id);
+
+	void deleteGuestReservation(Long id);
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+	
+	
 }
