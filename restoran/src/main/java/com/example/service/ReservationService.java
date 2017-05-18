@@ -16,45 +16,48 @@ public interface ReservationService {
 
 	Reservation getReservation(Long id);
 
-	Collection<TableOfRestaurant> getAllTableResrvation(Long idReservation);
-
-	Collection<MenuItem> getAllMenuItemReservation(Long idReservation, Long idGuest);
-
-	Collection<DrinkMenuItem> getAllDrinkMenuItemReservation(Long idReservation, Long idGuest);
-
 	Collection<Reservation> getAllReservations();
 
 	Reservation createReservation(Reservation reservation);
 
-	GuestReservation saveGuestReservation(GuestReservation guestReservation);
-
-	Collection<Reservation> getAllReservationOfRestaurant(Long idRestaurant);
-
-	Collection<TableReservation> getAllReservationOfRestaurantInTime(Long id, String dateStart, String dateEnd);
-
-	Collection<Reservation> getVisitedRestaurant(Long id);
-
 	TableReservation saveTable(TableReservation tableReservation);
 
-	void setReservation(Long id, Reservation reservation);
+	GuestReservation saveGuestReservation(GuestReservation guestReservation);
 
 	MenuItemReservation saveMenuItem(MenuItemReservation menuItemReservation);
 
 	DrinkMenuItemReservation saveDrinkMenuItem(DrinkMenuItemReservation drinkMenuItemReservation);
 
-	Reservation getReservationGuest(Long idGuest);
+	void setReservation(Long id, Reservation reservation);
 
-	Collection<Guest> getGuests(Long idReservation, Long idGuest);
+	void confirmReservation(Long guestReservationid);
 
-	Guest getGuest(Long id);
+	Collection<TableReservation> getAllReservationTable(Long idRestaurant, String dateStart, String dateEnd);
 
-	void setAccepted(Long id);
+	Collection<TableOfRestaurant> getAllTableOfReservation(Long idReservation);
 
-	void deleteGuestReservation(Long id);
+	Collection<MenuItem> getAllMenuItemReservation(Long idReservation, Long idGuest);
+
+	Collection<DrinkMenuItem> getAllDrinkMenuItemReservation(Long idReservation, Long idGuest);
+
+	Collection<Guest> getFriends(Long idReservation, Long idGuest);
+
+	Collection<Reservation> getVisitedRestaurants(Long idGuest);
+
+	Reservation getReservationOfGuest(Long idGuest);
+
+	Long getGuestReservationId(Long idReservation, Long idGuest);
 
 	Long getGuestReservationId(String token);
 
-	void deleteToken(Long idGuestReservation);
-	
+	Guest getGuestOfGuestReservation(Long id);
+
+	Long getVerificationId(Long idGuestReservation);
+
+	void deleteToken(Long id);
+
+	void deleteGuestReservation(Long id);
+
 	Collection<TableReservation> getbyTable(Long id_table);
+
 }

@@ -10,6 +10,7 @@ import com.example.domain.TableOfRestaurant;
 
 public class ReservationDetails {
 	private Reservation reservation;
+	private Long guestReservationId;
 	private Collection<TableOfRestaurant> tables;
 	private Collection<Guest> guests;
 	private Collection<MenuItem> menuItems;
@@ -20,10 +21,12 @@ public class ReservationDetails {
 
 	}
 
-	public ReservationDetails(Reservation reservation, Collection<TableOfRestaurant> tables, Collection<Guest> guests,
-			Collection<MenuItem> menuItems, Collection<DrinkMenuItem> drinkMenuItems, boolean flag) {
+	public ReservationDetails(Reservation reservation, Long guestReservationId, Collection<TableOfRestaurant> tables,
+			Collection<Guest> guests, Collection<MenuItem> menuItems, Collection<DrinkMenuItem> drinkMenuItems,
+			boolean flag) {
 		super();
 		this.reservation = reservation;
+		this.guestReservationId = guestReservationId;
 		this.tables = tables;
 		this.guests = guests;
 		this.menuItems = menuItems;
@@ -37,6 +40,14 @@ public class ReservationDetails {
 
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
+	}
+
+	public Long getGuestReservationId() {
+		return guestReservationId;
+	}
+
+	public void setGuestReservationId(Long guestReservationId) {
+		this.guestReservationId = guestReservationId;
 	}
 
 	public Collection<TableOfRestaurant> getTables() {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp').controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
+angular.module('myApp').controller('UserController', ['$scope', 'UserService','$ocLazyLoad', function($scope, UserService, $ocLazyLoad) {
     var self = this;
     self.user={id:null,email:'',password:'',password2:'',firstName:'',lastName:''};
 
@@ -11,7 +11,7 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService', f
     self.facebookLogIn = facebookLogIn;
     self.updateUser = updateUser;
     self.logIn = logIn;
-
+	$ocLazyLoad.load('assets/js/common-scripts.js');
     
     function createUser(user){
         UserService.createUser(user)

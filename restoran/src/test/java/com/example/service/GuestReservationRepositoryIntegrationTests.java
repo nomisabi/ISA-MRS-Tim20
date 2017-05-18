@@ -55,7 +55,7 @@ public class GuestReservationRepositoryIntegrationTests {
 
 	@Test
 	public void update() {
-		repository.update(guestReservation.getId());
+		repository.confirmReservation(guestReservation.getId());
 		GuestReservation updated = repository.findOne(guestReservation.getId());
 		assertEquals(true, updated.isAccepted());
 	}

@@ -27,9 +27,15 @@
                         <span ng-show="myForm.password2.$invalid">This field is invalid </span>
                     </div>
                     <br>
-		            <input type="text" ng-model="ctrl.user.firstName" name="firstName" class="form-control" placeholder="Enter your first name"/>
+		            <input type="text" ng-model="ctrl.user.firstName" name="firstName" class="form-control" placeholder="Enter your first name" required="required"/>
+		            <div class="has-error" ng-show="myForm.firstName.$dirty">
+                    	<span ng-show="myForm.firstName.$error.required">This is a required field</span>
+                    </div>
 		            <br>
-		            <input type="text" ng-model="ctrl.user.lastName" name="lastName" class="form-control" placeholder="Enter your last name"/>
+		            <input type="text" ng-model="ctrl.user.lastName" name="lastName" class="form-control" placeholder="Enter your last name" required="required"/>
+		            <div class="has-error" ng-show="myForm.lastName.$dirty">
+                    	<span ng-show="myForm.lastName.$error.required">This is a required field</span>
+                    </div>
 		            <br>
 		            <input class="btn btn-theme btn-block" type="submit" value="Sign Up" ng-disabled="myForm.$invalid">
 		            <hr>

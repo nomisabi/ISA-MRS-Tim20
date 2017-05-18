@@ -57,13 +57,6 @@ public class ReservationServiceImp implements ReservationService {
 	@Transactional(readOnly = false)
 	public Reservation createReservation(Reservation reservation) {
 		Assert.notNull(reservation, "Reservation could not be null.");
-		// Collection<Reservation> reservations =
-		// reservationRepository.get(reservation.getRestaurant().getId(),
-		// reservation.getTable().getId(), reservation.getStartTime(),
-		// reservation.getEndTime());
-		// if (!reservations.isEmpty()) {
-		// return null;
-		// }
 		return reservationRepository.save(reservation);
 	}
 
@@ -72,40 +65,22 @@ public class ReservationServiceImp implements ReservationService {
 	@Lock(LockModeType.PESSIMISTIC_READ)
 	public TableReservation saveTable(TableReservation tableReservation) {
 		Assert.notNull(tableReservation, "TableReservation could not be null.");
+		// dobavi sve rezervisane stolove u zadato vreme
 		Collection<TableReservation> tableReservations = tableReservationRepository.get(
 				tableReservation.getTable().getId(), tableReservation.getStartTime(), tableReservation.getEndTime());
+		// ako ima rezervisanih stolova u ovo vreme vrati null
 		if (!tableReservations.isEmpty()) {
 			return null;
 		}
+		// ako nema rezervisanih stolova upisi rezervaciju stola
 		return tableReservationRepository.save(tableReservation);
 	}
 
 	@Override
 	@Transactional(readOnly = false)
 	public GuestReservation saveGuestReservation(GuestReservation guestReservation) {
-		Assert.notNull(guestReservation, "Reservation could not be null.");
+		Assert.notNull(guestReservation, "GuestReservation could not be null.");
 		return guestReservationRepository.save(guestReservation);
-	}
-
-	@Override
-	public Collection<Reservation> getAllReservationOfRestaurant(Long idRestaurant) {
-		return reservationRepository.getAllReservationOfRestaurant(idRestaurant);
-	}
-
-	@Override
-	public Collection<TableReservation> getAllReservationOfRestaurantInTime(Long id, String dateStart, String dateEnd) {
-		return reservationRepository.getAllReservationTable(id, dateStart, dateEnd);
-	}
-
-	@Override
-	public Collection<Reservation> getVisitedRestaurant(Long id) {
-		return reservationRepository.getVisitedRestaurant(id);
-	}
-
-	@Override
-	@Transactional(readOnly = false)
-	public void setReservation(Long id, Reservation reservation) {
-		tableReservationRepository.setReservation(id, reservation);
 	}
 
 	@Override
@@ -121,54 +96,24 @@ public class ReservationServiceImp implements ReservationService {
 	}
 
 	@Override
-	public Reservation getReservationGuest(Long idGuest) {
-		return reservationRepository.getReservationGuest(idGuest);
-	}
-
-	@Override
-	public Collection<Guest> getGuests(Long idReservation, Long idGuest) {
-		return reservationRepository.getGuestOfReservation(idReservation, idGuest);
-	}
-
-	@Override
-	public Guest getGuest(Long id) {
-		return reservationRepository.getGuestO(id);
+	@Transactional(readOnly = false)
+	public void setReservation(Long id, Reservation reservation) {
+		tableReservationRepository.setReservation(id, reservation);
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public void setAccepted(Long id) {
-		guestReservationRepository.update(id);
+	public void confirmReservation(Long idGuestReservation) {
+		guestReservationRepository.confirmReservation(idGuestReservation);
 	}
 
 	@Override
-	@Transactional(readOnly = false)
-	public void deleteGuestReservation(Long id) {
-		Long idV = verificationRepository.getId(id);
-		verificationRepository.delete(idV);
-		guestReservationRepository.delete(id);
+	public Collection<TableReservation> getAllReservationTable(Long idRestaurant, String dateStart, String dateEnd) {
+		return reservationRepository.getAllReservationTable(idRestaurant, dateStart, dateEnd);
 	}
 
 	@Override
-	public Long getGuestReservationId(String token) {
-		return verificationRepository.getGuestReservationId(token);
-	}
-
-	@Override
-	@Transactional(readOnly = false)
-	public void deleteToken(Long idGuestReservation) {
-		Long id = verificationRepository.getId(idGuestReservation);
-		verificationRepository.delete(id);
-	}
-
-	@Override
-	public Collection<TableReservation> getbyTable(Long id_table) {
-		//return null;
-		return tableReservationRepository.getByTable(id_table);
-	}
-	
-		@Override
-	public Collection<TableOfRestaurant> getAllTableResrvation(Long idReservation) {
+	public Collection<TableOfRestaurant> getAllTableOfReservation(Long idReservation) {
 		return tableReservationRepository.getAllTableReservation(idReservation);
 
 	}
@@ -183,4 +128,59 @@ public class ReservationServiceImp implements ReservationService {
 		return drinkMenuReservationRepository.getMenuItems(idReservation, idGuest);
 
 	}
+
+	@Override
+	public Collection<Guest> getFriends(Long idReservation, Long idGuest) {
+		return reservationRepository.getGuestOfReservation(idReservation, idGuest);
+	}
+
+	@Override
+	public Collection<Reservation> getVisitedRestaurants(Long idGuest) {
+		return reservationRepository.getVisitedRestaurant(idGuest);
+	}
+
+	@Override
+	public Reservation getReservationOfGuest(Long idGuest) {
+		return reservationRepository.getReservationOfGuest(idGuest);
+	}
+
+	@Override
+	public Long getGuestReservationId(Long idReservation, Long idGuest) {
+		return guestReservationRepository.getGuestOfReservation(idReservation, idGuest);
+	}
+
+	@Override
+	public Long getGuestReservationId(String token) {
+		return verificationRepository.getGuestReservationId(token);
+	}
+
+	@Override
+	public Guest getGuestOfGuestReservation(Long id) {
+		return reservationRepository.getGuestOfGuestReservation(id);
+	}
+
+	@Override
+	public Long getVerificationId(Long idGuestReservation) {
+		return verificationRepository.getId(idGuestReservation);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteGuestReservation(Long id) {
+
+		guestReservationRepository.delete(id);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteToken(Long id) {
+		verificationRepository.delete(id);
+	}
+
+	@Override
+	public Collection<TableReservation> getbyTable(Long id_table) {
+		// return null;
+		return tableReservationRepository.getByTable(id_table);
+	}
+
 }
