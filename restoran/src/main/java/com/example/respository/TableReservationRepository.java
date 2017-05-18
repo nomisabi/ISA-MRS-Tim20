@@ -20,6 +20,7 @@ public interface TableReservationRepository extends JpaRepository<TableReservati
 	@Query("UPDATE TableReservation t SET t.reservation = ?2 WHERE t.id = ?1")
 	int setReservation(Long id, Reservation reservation);
 	
-	
+	@Query(value="SELECT Object(t) FROM TableReservation t WHERE t.table.id = ?1", nativeQuery=false)
+	public Collection<TableReservation> getByTable(Long idTable);
 
 }

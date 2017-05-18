@@ -41,4 +41,12 @@ public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 		return repository.getByNum(num, id);
 	}
 
+	@Override
+	@Transactional(readOnly = false)
+	public void updateTable(Long id_table, Long id_region) {
+		System.out.println("table: "+id_table+"region: "+id_region);
+		repository.insertReg(id_table, id_region);
+		
+	}
+
 }

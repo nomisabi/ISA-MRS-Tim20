@@ -164,23 +164,23 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	  	                         "numberOfChairs":8
   	                       }
   	                     ],
-  	                     "effectAllowed": "all"
+  	                     "effectAllowed": "all",
+  	                   "copying": false
   	                   }
   	                   ]];
   		
   		//alert(JSON.stringify($scope.regions));
   		
   		for (var i=0; i<$scope.regions.length;i++){
-  			var container = {name:$scope.regions[i].name, items: [], effectAllowed: 'all'};
+  			var container = {name:$scope.regions[i].name, id:$scope.regions[i].id, items: [], effectAllowed: 'all', copying:true};
   			items=[];
   			for (var j=0; j<$scope.regions[i].tables.length;j++){
-  				//alert(JSON.stringify($scope.regions[i].tables[j].id));
+  
   				item= {
 	                         "label": $scope.regions[i].tables[j].number,
 	                         "effectAllowed": "move",
 	                         "id":$scope.regions[i].tables[j].id,
   	                         "numberOfChairs":$scope.regions[i].tables[j].numberOfChairs
-	                         
 	                       };
   				items.push(item)
   			}
@@ -372,6 +372,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
         }
         return index < 10; // Disallow dropping in the third row.
     };
+    
     $scope.moved=false;
     $scope.changed_label="";
     $scope.effect="";
@@ -390,7 +391,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     };
 
     function addTable(label){
-    	alert("add table")
+
     	region=null;
 		region_send=null;
 		numb=0;
@@ -419,6 +420,34 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		
     }
     
+    function move(label){
+    	alert("move table");
+    	region=null;
+    	old_r=null;
+    	new_r=null;    	
+		numb=0;
+		
+		for (var i=0; i<$scope.model.length;i++){
+  			for (var j=0; j<$scope.model[i][0].items.length;j++){
+  				if ($scope.model[i][0].items[j].label==label){
+  	  					region= $scope.model[i];
+  	  					numb=$scope.model[i][0].items[j].numberOfChairs;
+  				}
+  			}
+  		}
+		//alert(JSON.stringify(region));
+		table={"number":label,"numberOfChairs": numb, "restaurant":$scope.manager.restaurant};
+		new_r={"id":region[0].id,"name":region[0].name, "restaurant":$scope.manager.restaurant};
+		//alert(JSON.stringify(new_r));
+		$http.post("http://localhost:8080/api/manager/updateTable",{"t":table, "r":new_r}).error(function(data){
+			alert("error");
+		});
+		$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
+			$scope.regions=data.data;		
+			//alert("ds");
+		});
+    }
+    
     $scope.deleteTable=function(item){
     	label=item.label;
     	if (typeof item.label === 'string'){
@@ -430,6 +459,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     	if ($scope.moved==true)
     	{
     		$scope.moved=false;
+    		move(label);
     		return;
     	}
     	$scope.moved=false;
@@ -443,8 +473,27 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   				}
   			}
   		}
-		$http.post("http://localhost:8080/api/manager/deleteTable", {"number":item.label, "numberOfChairs":item.numberOfChairs, "restaurant":$scope.manager.restaurant}).then(function(data){
-			alert("atment");											
+		
+		$http.post("http://localhost:8080/api/manager/deleteTable", {"number":item.label, "numberOfChairs":item.numberOfChairs, "restaurant":$scope.manager.restaurant}).error(function(data){
+			region=null;
+			
+			for (var i=0; i<$scope.regions.length;i++){
+	  			for (var j=0; j<$scope.regions[i].tables.length;j++){
+	  				if ($scope.regions[i].tables[j].number==item.label){
+	  	  					region= $scope.regions[i];
+	  				}
+	  			}
+	  		}	
+			//alert(JSON.stringify(region.name));
+			for (var i=0; i<$scope.model.length;i++){
+	  			if ($scope.model[i][0].name== region.name){
+	  				$scope.model[i][0].items.push(item);
+	  			}
+	  		}
+			alert("This table is reserved.");
+			
+		}).then(function(data){
+			//alert("success");											
 		});
     }
     
@@ -483,115 +532,6 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
         console.log(message);
     };
 
-    // Initialize model
-  /*  $scope.model = [[], []];
-    var id = 10;
-    angular.forEach(['all', 'move', 'copy', 'link', 'copyLink', 'copyMove'], function(effect, i) {
-      var container = {items: [], effectAllowed: effect};
-      for (var k = 0; k < 7; ++k) {
-        container.items.push({label: effect + ' ' + id++, effectAllowed: effect});
-      }
-      $scope.model[i % $scope.model.length].push(container);
-    });
-
-*/
-/*
-    $scope.model=[
-                  [
-                   {
-                	 "name":"12",
-                     "items": [
-                       {
-                         "label": "all 10",
-                         "effectAllowed": "all"
-                       },
-                       {
-                         "label": "all 11",
-                         "effectAllowed": "all"
-                       },
-                       {
-                         "label": "all 12",
-                         "effectAllowed": "all"
-                       },
-                       {
-                         "label": "all 13",
-                         "effectAllowed": "all"
-                       },
-                       {
-                         "label": "all 14",
-                         "effectAllowed": "all"
-                       },
-                       {
-                         "label": "all 15",
-                         "effectAllowed": "all"
-                       },
-                       {
-                         "label": "all 16",
-                         "effectAllowed": "all"
-                       }
-                     ],
-                     "effectAllowed": "all"
-                   }],
-                   [
-                    {
-                 	 "name":"123",
-                      "items": [
-                        {
-                          "label": "all 10",
-                          "effectAllowed": "all"
-                        },
-                        {
-                          "label": "all 11",
-                          "effectAllowed": "all"
-                        },
-                        {
-                          "label": "all 12",
-                          "effectAllowed": "all"
-                        },
-                        {
-                          "label": "all 13",
-                          "effectAllowed": "all"
-                        },
-                        {
-                          "label": "all 14",
-                          "effectAllowed": "all"
-                        },
-                        {
-                          "label": "all 15",
-                          "effectAllowed": "all"
-                        },
-                        {
-                          "label": "all 16",
-                          "effectAllowed": "all"
-                        }
-                      ],
-                      "effectAllowed": "all"
-                    }],
-                   [{
-                	 "name":"New item",
-                     "items": [
-                       {
-                         "label": "chair 2",
-                         "effectAllowed": "copy"
-                       },
-                       {
-                         "label": "chair 4",
-                         "effectAllowed": "copy"
-                       },
-                       {
-                         "label": "chair 6",
-                         "effectAllowed": "copy"
-                       },
-                       {
-                         "label": "chair 8",
-                         "effectAllowed": "copy"
-                       }
-                     ],
-                     "effectAllowed": "all"
-                   }
-                   ]];
-    
-    */
     
     $scope.$watch('model', function(model) {
         $scope.modelAsJson = angular.toJson(model, true);

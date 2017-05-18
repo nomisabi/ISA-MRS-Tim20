@@ -13,4 +13,6 @@ public interface TableOfRestaurantService {
 	void deleteTable(Long id);
 
 	TableOfRestaurant getByNumber(int num, Long id);
+	
+	void updateTable(Long id_table, Long id_region);
 }

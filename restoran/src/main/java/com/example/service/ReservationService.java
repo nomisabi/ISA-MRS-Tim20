@@ -46,4 +46,6 @@ public interface ReservationService {
 	Long getGuestReservationId(String token);
 	
 	void deleteToken(Long idGuestReservation);
+	
+	Collection<TableReservation> getbyTable(Long id_table);
 }

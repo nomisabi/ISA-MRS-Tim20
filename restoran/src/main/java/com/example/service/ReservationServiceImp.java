@@ -157,4 +157,9 @@ public class ReservationServiceImp implements ReservationService {
 		Long id = verificationRepository.getId(idGuestReservation);
 		verificationRepository.delete(id);
 	}
+
+	@Override
+	public Collection<TableReservation> getbyTable(Long id_table) {
+		return tableReservationRepository.getByTable(id_table);
+	}
 }
