@@ -52,7 +52,7 @@ body, .form-control{
 }
 
   
-  .dialogdemoBasicUsage #popupContainer {
+ .dialogdemoBasicUsage #popupContainer {
   position: relative; }
 
 .dialogdemoBasicUsage .footer {
@@ -68,10 +68,13 @@ body, .form-control{
   width: 200px; }
 
 .dialogdemoBasicUsage div#status {
-  color: #c60008; }
+  color: #515151; }
 
 .dialogdemoBasicUsage .dialog-demo-prerendered md-checkbox {
   margin-bottom: 0; }
 
 
+.md-primary {
+    color : #337ab7;
+}
   

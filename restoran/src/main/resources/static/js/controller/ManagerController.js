@@ -58,17 +58,35 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     $scope.showPrompt = function(ev) {
         // Appending dialog to document.body to cover sidenav in docs app
         var confirm = $mdDialog.prompt()
-          .title('What would you name your dog?')
-          .textContent('Bowser is a common name.')
-          .placeholder('Dog name')
+          .title('What would you name your region?')
+          .textContent('')
+          .placeholder('Name of region')
           .ariaLabel('Dog name')
-          .initialValue('Buddy')
+          .initialValue('')
           .targetEvent(ev)
-          .ok('Okay!')
-          .cancel('I\'m a cat person');
+          .ok('Create!')
+          .cancel('Cancel');
 
         $mdDialog.show(confirm).then(function(result) {
           $scope.status = 'You decided to name your dog ' + result + '.';
+          $http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
+  			$scope.regions=data.data;
+  			for (var i=0; i<$scope.regions.length;i++){
+	  			if ($scope.regions[i].name == result){
+	  				alert("Region with this name is exist.");
+	  				return;
+	  				}
+	  			}
+          });
+  		  region={"name":result,"restaurant":$scope.manager.restaurant};
+  		  $http.post("http://localhost:8080/api/manager/newRegion",region).then(function(data){
+  			$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
+  	  			$scope.regions=data.data;
+  			});
+  			  var container = {name:result, id:data.data.id, items: [], effectAllowed: 'all', copying:true};
+  			  $scope.model.push([container]);
+  			  //alert(JSON.stringify($scope.model));
+  		  });
         }, function() {
           $scope.status = 'You didn\'t name your dog.';
         });
@@ -428,15 +446,17 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   				}
   			}
   		}
+		//alert(region[0].name);
 		
+		//alert(JSON.stringify($scope.regions));
 		for (var i=0; i<$scope.regions.length;i++){
-  			for (var j=0; j<$scope.regions[i].tables.length;j++){
-  				if ($scope.regions[i].name==region[0].name){
-  	  					region_send= $scope.regions[i];
-  				}
+			//alert($scope.regions[i].name);
+  			if ($scope.regions[i].name == region[0].name){
+  					//alert("Mi a francot szorakozik???");
+  	  				region_send= $scope.regions[i];
   			}
   		}
-		//alert("r1: "+JSON.stringify(region_send));
+		//alert("r2: "+JSON.stringify(region_send));
 		table={"number":label,"numberOfChairs": numb, "restaurant":$scope.manager.restaurant, "region":region_send};
 		$http.post("http://localhost:8080/api/manager/newTable", {"t":table, "r":region_send}).then(function(data){
 			//alert("atment");											
@@ -561,79 +581,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
         $scope.modelAsJson = angular.toJson(model, true);
     }, true);
     
-    $scope.showAlert = function(ev) {
-        // Appending dialog to document.body to cover sidenav in docs app
-        // Modal dialogs should fully cover application
-        // to prevent interaction outside of dialog
-        $mdDialog.show(
-          $mdDialog.alert()
-            .parent(angular.element(document.querySelector('#popupContainer')))
-            .clickOutsideToClose(true)
-            .title('This is an alert title')
-            .textContent('You can specify some description text in here.')
-            .ariaLabel('Alert Dialog Demo')
-            .ok('Got it!')
-            .targetEvent(ev)
-        );
-      };
-
-      $scope.showConfirm = function(ev) {
-        // Appending dialog to document.body to cover sidenav in docs app
-        var confirm = $mdDialog.confirm()
-              .title('Would you like to delete your debt?')
-              .textContent('All of the banks have agreed to forgive you your debts.')
-              .ariaLabel('Lucky day')
-              .targetEvent(ev)
-              .ok('Please do it!')
-              .cancel('Sounds like a scam');
-
-        $mdDialog.show(confirm).then(function() {
-          $scope.status = 'You decided to get rid of your debt.';
-        }, function() {
-          $scope.status = 'You decided to keep your debt.';
-        });
-      };
-
   
-      $scope.showAdvanced = function(ev) {
-        $mdDialog.show({
-          controller: DialogController,
-          templateUrl: 'dialog1.tmpl.html',
-          parent: angular.element(document.body),
-          targetEvent: ev,
-          clickOutsideToClose:true,
-          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-        })
-        .then(function(answer) {
-          $scope.status = 'You said the information was "' + answer + '".';
-        }, function() {
-          $scope.status = 'You cancelled the dialog.';
-        });
-      };
-
-      $scope.showTabDialog = function(ev) {
-        $mdDialog.show({
-          controller: DialogController,
-          templateUrl: 'tabDialog.tmpl.html',
-          parent: angular.element(document.body),
-          targetEvent: ev,
-          clickOutsideToClose:true
-        })
-            .then(function(answer) {
-              $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-              $scope.status = 'You cancelled the dialog.';
-            });
-      };
-
-      $scope.showPrerenderedDialog = function(ev) {
-        $mdDialog.show({
-          contentElement: '#myDialog',
-          parent: angular.element(document.body),
-          targetEvent: ev,
-          clickOutsideToClose: true
-        });
-      };
 
       function DialogController($scope, $mdDialog) {
         $scope.hide = function() {

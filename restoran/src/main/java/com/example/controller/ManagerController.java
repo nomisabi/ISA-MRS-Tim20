@@ -477,4 +477,20 @@ public class ManagerController {
 		
 		return new ResponseEntity<TableOfRestaurant>(HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping(
+			value = "/api/manager/newRegion", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Region> addRegion(@Valid @RequestBody Region r) throws Exception {
+		logger.info("> addRegion: "+r.toString());
+		Region reg= regionService.addRegion(r);
+	
+		if (reg!=null){
+			return new ResponseEntity<Region>(reg, HttpStatus.OK);
+		}
+		return new ResponseEntity<Region>(HttpStatus.NOT_FOUND);
+	}
 }
