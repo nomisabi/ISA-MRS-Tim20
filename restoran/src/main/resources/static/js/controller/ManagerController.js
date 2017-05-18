@@ -1,11 +1,13 @@
 
-angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad', function($scope, $http,$window, $route, $ocLazyLoad) {
+angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad','$mdDialog', function($scope, $http,$window, $route, $ocLazyLoad, $mdDialog) {
 	
 	$ocLazyLoad.load('js/drag_drop.js');	
 	$ocLazyLoad.load('assets/js/common-scripts.js');
 	
 	$scope.list_of_region=[{name:'1', list:['1','2']},{name:'2', list:['1']},{name:'3', list:['1','2','3']}];
 
+	 $scope.status = '  ';
+	  $scope.customFullscreen = false;
 	$scope.cont=['tables'];
 	
 	$scope.page="non-active";
@@ -36,9 +38,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 												$window.location.href="/";
 											//alert(JSON.stringify(data));
 											$scope.manager.restaurant=data;
-											$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
-												$scope.regions=data.data;												
-											});
+											
 											
 									});
 								
@@ -55,6 +55,25 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	
     init();
  
+    $scope.showPrompt = function(ev) {
+        // Appending dialog to document.body to cover sidenav in docs app
+        var confirm = $mdDialog.prompt()
+          .title('What would you name your dog?')
+          .textContent('Bowser is a common name.')
+          .placeholder('Dog name')
+          .ariaLabel('Dog name')
+          .initialValue('Buddy')
+          .targetEvent(ev)
+          .ok('Okay!')
+          .cancel('I\'m a cat person');
+
+        $mdDialog.show(confirm).then(function(result) {
+          $scope.status = 'You decided to name your dog ' + result + '.';
+        }, function() {
+          $scope.status = 'You didn\'t name your dog.';
+        });
+      };
+    
     $scope.logout=function(){
     	$http.get("http://localhost:8080/api/users/logout").success(function(data) {
     		$window.href.location="/#/";
@@ -135,58 +154,63 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="schedule"; 
   	}
   	$scope.changeToRegions= function(){
-  		$scope.model=[
-  	                   [{
-  	                	 "name":"New item",
-  	                     "items": [
-  	                       {
-  	                         "label": "chair 2",
-  	                         "effectAllowed": "copy",
-  	                         "id":0,
-  	                         "numberOfChairs":2
-  	                       },
-  	                       {
-  	                         "label": "chair 4",
-  	                         "effectAllowed": "copy"
-  	                        , "id":0 ,
-  	  	                    "numberOfChairs":4
-  	                       },
-  	                       {
-  	                         "label": "chair 6",
-  	                         "effectAllowed": "copy"
-  	                        	, "id":0 ,
-  	  	                         "numberOfChairs":6
-  	                       },
-  	                       {
-  	                         "label": "chair 8",
-  	                         "effectAllowed": "copy"
-  	                        	, "id":0 ,
-  	  	                         "numberOfChairs":8
-  	                       }
-  	                     ],
-  	                     "effectAllowed": "all",
-  	                   "copying": false
-  	                   }
-  	                   ]];
+  		$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
+			$scope.regions=data.data;	
+			$scope.model=[
+	  	                   [{
+	  	                	 "name":"New item",
+	  	                     "items": [
+	  	                       {
+	  	                         "label": "chair 2",
+	  	                         "effectAllowed": "copy",
+	  	                         "id":0,
+	  	                         "numberOfChairs":2
+	  	                       },
+	  	                       {
+	  	                         "label": "chair 4",
+	  	                         "effectAllowed": "copy"
+	  	                        , "id":0 ,
+	  	  	                    "numberOfChairs":4
+	  	                       },
+	  	                       {
+	  	                         "label": "chair 6",
+	  	                         "effectAllowed": "copy"
+	  	                        	, "id":0 ,
+	  	  	                         "numberOfChairs":6
+	  	                       },
+	  	                       {
+	  	                         "label": "chair 8",
+	  	                         "effectAllowed": "copy"
+	  	                        	, "id":0 ,
+	  	  	                         "numberOfChairs":8
+	  	                       }
+	  	                     ],
+	  	                     "effectAllowed": "all",
+	  	                   "copying": false
+	  	                   }
+	  	                   ]];
+	  		
+	  		//alert(JSON.stringify($scope.regions));
+	  		
+	  		for (var i=0; i<$scope.regions.length;i++){
+	  			var container = {name:$scope.regions[i].name, id:$scope.regions[i].id, items: [], effectAllowed: 'all', copying:true};
+	  			items=[];
+	  			for (var j=0; j<$scope.regions[i].tables.length;j++){
+	  
+	  				item= {
+		                         "label": $scope.regions[i].tables[j].number,
+		                         "effectAllowed": "move",
+		                         "id":$scope.regions[i].tables[j].id,
+	  	                         "numberOfChairs":$scope.regions[i].tables[j].numberOfChairs
+		                       };
+	  				items.push(item)
+	  			}
+	  			container.items=items;
+	  			$scope.model.push([container]);
+	  		}
+		});
   		
-  		//alert(JSON.stringify($scope.regions));
   		
-  		for (var i=0; i<$scope.regions.length;i++){
-  			var container = {name:$scope.regions[i].name, id:$scope.regions[i].id, items: [], effectAllowed: 'all', copying:true};
-  			items=[];
-  			for (var j=0; j<$scope.regions[i].tables.length;j++){
-  
-  				item= {
-	                         "label": $scope.regions[i].tables[j].number,
-	                         "effectAllowed": "move",
-	                         "id":$scope.regions[i].tables[j].id,
-  	                         "numberOfChairs":$scope.regions[i].tables[j].numberOfChairs
-	                       };
-  				items.push(item)
-  			}
-  			container.items=items;
-  			$scope.model.push([container]);
-  		}
   		if ($scope.manager.active)
     		$scope.page="regions"; 
   	}
@@ -536,4 +560,96 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     $scope.$watch('model', function(model) {
         $scope.modelAsJson = angular.toJson(model, true);
     }, true);
+    
+    $scope.showAlert = function(ev) {
+        // Appending dialog to document.body to cover sidenav in docs app
+        // Modal dialogs should fully cover application
+        // to prevent interaction outside of dialog
+        $mdDialog.show(
+          $mdDialog.alert()
+            .parent(angular.element(document.querySelector('#popupContainer')))
+            .clickOutsideToClose(true)
+            .title('This is an alert title')
+            .textContent('You can specify some description text in here.')
+            .ariaLabel('Alert Dialog Demo')
+            .ok('Got it!')
+            .targetEvent(ev)
+        );
+      };
+
+      $scope.showConfirm = function(ev) {
+        // Appending dialog to document.body to cover sidenav in docs app
+        var confirm = $mdDialog.confirm()
+              .title('Would you like to delete your debt?')
+              .textContent('All of the banks have agreed to forgive you your debts.')
+              .ariaLabel('Lucky day')
+              .targetEvent(ev)
+              .ok('Please do it!')
+              .cancel('Sounds like a scam');
+
+        $mdDialog.show(confirm).then(function() {
+          $scope.status = 'You decided to get rid of your debt.';
+        }, function() {
+          $scope.status = 'You decided to keep your debt.';
+        });
+      };
+
+  
+      $scope.showAdvanced = function(ev) {
+        $mdDialog.show({
+          controller: DialogController,
+          templateUrl: 'dialog1.tmpl.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose:true,
+          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function(answer) {
+          $scope.status = 'You said the information was "' + answer + '".';
+        }, function() {
+          $scope.status = 'You cancelled the dialog.';
+        });
+      };
+
+      $scope.showTabDialog = function(ev) {
+        $mdDialog.show({
+          controller: DialogController,
+          templateUrl: 'tabDialog.tmpl.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose:true
+        })
+            .then(function(answer) {
+              $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+              $scope.status = 'You cancelled the dialog.';
+            });
+      };
+
+      $scope.showPrerenderedDialog = function(ev) {
+        $mdDialog.show({
+          contentElement: '#myDialog',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose: true
+        });
+      };
+
+      function DialogController($scope, $mdDialog) {
+        $scope.hide = function() {
+          $mdDialog.hide();
+        };
+
+        $scope.cancel = function() {
+          $mdDialog.cancel();
+        };
+
+        $scope.answer = function(answer) {
+          $mdDialog.hide(answer);
+        };
+      }
+    
+    
 }]);
+
+

@@ -194,6 +194,7 @@
 				                
 			           	</div>
 			           	<div ng-switch-when="regions">
+			           
 			           		<div class="advancedDemo row">
 							    <div ng-repeat="containers in model" class="col-md-6">
 							        <div class="dropzone box box-yellow">
@@ -274,7 +275,10 @@
 							    </div>   
 							</div>
 							
-			           	</div>			           	
+					
+
+			           	</div>	
+			           				           	
 			           	<div ng-switch-when="menu">
 			           		
 							<h3>Menu</h3>
@@ -874,6 +878,46 @@
 				            </form>	
 			           	</div>
 						
+						<div ng-switch-when="scores">
+						<div  class="md-padding dialogdemoBasicUsage" id="popupContainer" ng-cloak="" ng-app="MyApp">
+  <p class="inset">
+    Open a dialog over the app's content. Press escape or click outside to close the dialog and
+    send focus back to the triggering button.
+  </p>
+
+  <div class="dialog-demo-content" layout="row" layout-wrap="" layout-margin="" layout-align="center">
+    <md-button class="md-primary md-raised" ng-click="showAlert($event)">
+      Alert Dialog
+    </md-button>
+    <md-button class="md-primary md-raised" ng-click="showConfirm($event)">
+      Confirm Dialog
+    </md-button>
+    <md-button class="md-primary md-raised" ng-click="showPrompt($event)">
+      Prompt Dialog
+    </md-button>
+    <md-button class="md-primary md-raised" ng-click="showAdvanced($event)">
+      Custom Dialog
+    </md-button>
+    <md-button class="md-primary md-raised" ng-click="showTabDialog($event)">
+      Tab Dialog
+    </md-button>
+    <md-button class="md-primary md-raised" ng-if="listPrerenderedButton" ng-click="showPrerenderedDialog($event)">
+      Pre-Rendered Dialog
+    </md-button>
+  </div>
+  <p class="footer">Note: The <b>Confirm</b> dialog does not use <code>$mdDialog.clickOutsideToClose(true)</code>.</p>
+
+  <div ng-if="status" id="status">
+    <b layout="row" layout-align="center center" class="md-padding">
+      {{status}}
+    </b>
+  </div>
+
+
+
+
+
+					</div>				
 					
 					
 		           	</div>
