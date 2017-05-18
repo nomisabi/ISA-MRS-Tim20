@@ -22,6 +22,7 @@ import com.example.domain.Region;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.TableOfRestaurant;
+import com.example.domain.TableReservation;
 import com.example.domain.TypeOfUser;
 import com.example.domain.User;
 import com.example.domain.DTOs.DrinkRestaurant;
@@ -33,6 +34,7 @@ import com.example.service.DrinkMenuService;
 import com.example.service.ManagerService;
 import com.example.service.MenuService;
 import com.example.service.RegionService;
+import com.example.service.ReservationService;
 import com.example.service.RestaurantService;
 import com.example.service.SystemManagerService;
 import com.example.service.TableOfRestaurantService;
@@ -70,6 +72,8 @@ public class ManagerController {
 	private RegionService regionService;
 	@Autowired
 	private TableOfRestaurantService tableService;
+	@Autowired
+	private ReservationService reservationService;
 	
 	@RequestMapping(
 			value = "/api/manager/{id}", 
@@ -448,9 +452,29 @@ public class ManagerController {
 	public ResponseEntity<TableOfRestaurant> delTable(@Valid @RequestBody TableOfRestaurant t) throws Exception {
 		logger.info("> delTable: "+t.toString());
 		TableOfRestaurant table=tableService.getByNumber(t.getNumber(), t.getRestaurant().getId());
+		Collection<TableReservation> tables=reservationService.getbyTable(table.getId());
+
+			logger.info(""+tables.size());
+		
+		if (reservationService.getbyTable(table.getId()).size()!=0)
+			return new ResponseEntity<TableOfRestaurant>(HttpStatus.NOT_FOUND);
 		logger.info("\t\t table: "+table.toString());
 		tableService.deleteTable(table.getId());
 		logger.info("< delTable: "+t.toString());
+		return new ResponseEntity<TableOfRestaurant>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/updateTable", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<TableOfRestaurant> updateTable(@Valid @RequestBody TableRegion tr) throws Exception {
+		logger.info("> updateTable: "+tr.getT().toString());
+		TableOfRestaurant table=tableService.getByNumber(tr.getT().getNumber(), tr.getT().getRestaurant().getId());
+		logger.info(tr.getR().toString());
+		tableService.updateTable(table.getId(), tr.getR().getId());
+		
 		return new ResponseEntity<TableOfRestaurant>(HttpStatus.OK);
 	}
 }

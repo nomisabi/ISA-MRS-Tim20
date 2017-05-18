@@ -126,6 +126,7 @@ public class ReservationServiceImp implements ReservationService {
 	@Override
 	public Collection<DrinkMenuItem> getAllDrinkMenuItemReservation(Long idReservation, Long idGuest) {
 		return drinkMenuReservationRepository.getMenuItems(idReservation, idGuest);
+
 	}
 
 	@Override
@@ -174,6 +175,12 @@ public class ReservationServiceImp implements ReservationService {
 	@Transactional(readOnly = false)
 	public void deleteToken(Long id) {
 		verificationRepository.delete(id);
+	}
+
+	@Override
+	public Collection<TableReservation> getbyTable(Long id_table) {
+		// return null;
+		return tableReservationRepository.getByTable(id_table);
 	}
 
 }

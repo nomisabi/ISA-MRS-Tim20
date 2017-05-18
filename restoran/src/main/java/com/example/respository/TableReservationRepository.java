@@ -1,3 +1,4 @@
+
 package com.example.respository;
 
 import java.util.Collection;
@@ -24,4 +25,7 @@ public interface TableReservationRepository extends JpaRepository<TableReservati
 	@Query("SELECT Object(t) FROM TableReservation tr, TableOfRestaurant t WHERE tr.reservation.id = ?1 AND tr.table.id = t.id ")
 	public Collection<TableOfRestaurant> getAllTableReservation(Long idReservation);
 
+	@Query(value="SELECT Object(t) FROM TableReservation t WHERE t.table.id = ?1", nativeQuery=false)
+	 public Collection<TableReservation> getByTable(Long idTable);
 }
+
