@@ -163,8 +163,8 @@ public class ReservationServiceImp implements ReservationService {
 
 	@Override
 	public Collection<TableReservation> getbyTable(Long id_table) {
-		return null;
-		//return tableReservationRepository.getByTable(id_table);
+		//return null;
+		return tableReservationRepository.getByTable(id_table);
 	}
 	
 		@Override
