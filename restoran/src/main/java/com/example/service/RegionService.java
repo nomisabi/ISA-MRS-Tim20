@@ -11,4 +11,8 @@ public interface RegionService {
 	Region addRegion(Region region);
 
 	Collection<Region> getRegion(Restaurant rest);
+	
+	void updateName(Region r);
+	
+	void deleteRegion(Region r);
 }
