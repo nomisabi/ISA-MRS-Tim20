@@ -8,9 +8,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.dateTime = new Date();
     $scope.minDate = moment().subtract(1, 'month');
     $scope.maxDate = moment().add(1, 'month');
-    $scope.dates = [new Date('2016-11-14T00:00:00'), new Date('2016-11-15T00:00:00'),
-      new Date('2016-11-30T00:00:00'), new Date('2016-12-12T00:00:00'), new Date('2016-12-13T00:00:00'),
-      new Date('2016-12-31T00:00:00')];
+    $scope.dateTimeStr = '';
     
 	$scope.guest = {id:null,email:'',password:'',firstName:'',lastName:'',address:''};
 	$scope.page="";
@@ -22,13 +20,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.tables = [];
 	$scope.search = ""; 
 	$scope.restaurant ={id:null, name:'', location:''};
-	$scope.min = new Date();
-	$scope.max = new Date('2017-06-01');
-	$scope.time = new Date('2017-06-01 21:57');
-	$scope.date = new Date();
 	$scope.duration = 1;
-	$scope.dateStr = "";
-	$scope.timeStr = "";
 	$scope.reservation = {id:null,"restaurant":null, "dateAndTime":'', "duration": ''};
 	$scope.table = {id:null, number:null, numberOfChairs: null, restaurant: $scope.restaurant};
 	$scope.tableNum = [];
@@ -42,6 +34,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.id = null;
 	$scope.flag = false;
 	$scope.drinkReserve = [];
+	$scope.regions = [];
+	$scope.model = [];
 	init();
 	
 	
@@ -321,30 +315,43 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     
     $scope.reserveNext = function(duration, dateTime){   	   	
-    	alert(dateTime);
-    	//alert($scope.time.toLocaleTimeString());    
-    	//alert(date.toDateString());
-    	//alert($scope.restaurant.name);
-    	//alert(duration);
-    	
-    	//var dateTime = new Date();
-    	//dateTime.setDate(date.getDate());
-    	//dateTime.setMonth(date.getMonth());
-    	//dateTime.setFullYear(date.getFullYear());
-    	//dateTime.setHours($scope.time.getHours());
-    	//dateTime.setMinutes($scope.time.getMinutes());
-    	//dateTime.setSeconds($scope.time.getSeconds());
-    	//dateTime.setMilliseconds($scope.time.getMilliseconds());
     	
     	$scope.reservation = {"restaurant":$scope.restaurant, "dateAndTime":dateTime, "duration": duration};
     	
-    	
     	$http.post('http://localhost:8080/api/restaurant/tables',$scope.reservation)
     	.success(function(data) {
-    		$scope.tables = data;
+    		$scope.regions = data;
     		//alert(data);
+    		$scope.model = [];
+    		
+    		for (var i=0; i<$scope.regions.length;i++){
+    			alert($scope.regions[i].name);
+	  			var container = {'name':$scope.regions[i].name, 'items': []};
+	  			//items=[];
+	  			for (var j=0; j<$scope.regions[i].tables.length;j++){
+	  				//alert("da");
+	  			//	alert($scope.regions[i].tables[j].tableOfRestaurant.id);
+	  				var item= {
+		                        "label": $scope.regions[i].tables[j].tableOfRestaurant.number,
+		                         "id":$scope.regions[i].tables[j].tableOfRestaurant.id,
+	  	                         "numberOfChairs":$scope.regions[i].tables[j].tableOfRestaurant.numberOfChairs, 
+	  	                         "selected": false
+		                    };
+	  				container.items.push(item);
+	  			}
+	  			//container.items=items;
+	  			$scope.model.push([container]);
+	  		}
+    		
+    		
+    		
+    		
+    		
+    		
+    		
     		$scope.dateStr = $scope.reservation.dateAndTime.toDateString();
     		$scope.timeStr = $scope.reservation.dateAndTime.toLocaleTimeString();
+    		$scope.dateTimeStr = dateTime.toDateString() + " " + dateTime.toTimeString().slice(0,5);
     		$scope.list = [];
     		$scope.tableNum = [];
     		$scope.page ="reserve2";
@@ -353,6 +360,12 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 			}
 		); 
     }
+    
+    $scope.getSelectedItemsIncluding = function(list, item) {
+    	alert(item.number);
+        item.selected = true;
+      //  return list.items.filter(function(item) { return item.selected; });
+      }
     
     $scope.reserveNext2 = function(){   	   	
     	//alert($scope.tableNum);
@@ -363,7 +376,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
         		$scope.friends=[];	
         		$scope.list = [];
         		$scope.page ="reserve3";
-        		popover("You have successfully reserved a table at a restaurant " + $scope.reservation.restaurant.name+". \n\nNow you can invite friends to a restaurant. If you don't want to do this click Next.");
+        		popover("You have successfully reserved a table at a restaurant " + $scope.reservation.restaurant.name+".");
         				
         	//	alert("Reservation succesful");
         		
@@ -386,7 +399,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	
     }
     
-    $scope.reserveNext3 = function(){   	    	
+    $scope.reserveNext3 = function(){   	
+    	alert("da");
     	$ocLazyLoad.load('assets/js/common-scripts.js');
     	$http.post('http://localhost:8080/api/restaurant/friends',{"friends":$scope.list,"reservation":$scope.savedReservation, "guest":$scope.guest})
     	.success(function(data) {
@@ -401,7 +415,6 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 				
 			}
     		$scope.page = "reserve4";
-    		popover("Now you can order food or drinks.\n\nIf you don't want to do this click on Next.");
 		}).error(function(data){
 			//alert("error");
 			}
