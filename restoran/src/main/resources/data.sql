@@ -41,14 +41,31 @@ INSERT INTO restaurant (name, location,species) values ('Dva Stapica','Bla', 'Ki
 
 INSERT INTO restaurant_manager (restaurant_id, manager_id) values (1,1);
 
-INSERT INTO region (name, restaurant_id) values ('r1',1);
-INSERT INTO region (name, restaurant_id) values ('r2',1);
-
-
+INSERT INTO region (name, restaurant_id) values ('basta',1);
+INSERT INTO region (name, restaurant_id) values ('pusacki deo',1);
+INSERT INTO region (name, restaurant_id) values ('nepusacki deo',1);
+INSERT INTO region (name, restaurant_id) values ('terasa',1);
 
 INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (1,2,1,1);
 INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (2,2,1,1);
-INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (3,4,2,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (3,2,1,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (6,2,1,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (7,2,1,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (8,2,1,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (9,2,1,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (4,4,2,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (5,4,3,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (10,2,3,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (11,2,3,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (12,2,4,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (13,2,4,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (14,2,4,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (15,2,4,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (16,2,4,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (17,2,4,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (18,2,4,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (19,2,2,1);
+INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant_id) values (20,2,4,1);
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (1,2,2);
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (2,4,2);
 

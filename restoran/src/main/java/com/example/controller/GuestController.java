@@ -29,11 +29,13 @@ import com.example.domain.Guest;
 import com.example.domain.GuestReservation;
 import com.example.domain.MenuItem;
 import com.example.domain.MenuItemReservation;
+import com.example.domain.Region;
 import com.example.domain.Reservation;
 import com.example.domain.Restaurant;
 import com.example.domain.TableOfRestaurant;
 import com.example.domain.TableReservation;
 import com.example.domain.User;
+import com.example.domain.DTOs.Area;
 import com.example.domain.DTOs.ConfirmInvite;
 import com.example.domain.DTOs.FriendRequest;
 import com.example.domain.DTOs.GuestRegister;
@@ -44,6 +46,7 @@ import com.example.domain.DTOs.RestaurantReservation;
 import com.example.domain.DTOs.Table;
 import com.example.service.EmailService;
 import com.example.service.GuestService;
+import com.example.service.RegionService;
 import com.example.service.ReservationService;
 import com.example.service.RestaurantService;
 import com.example.service.TableOfRestaurantService;
@@ -61,6 +64,8 @@ public class GuestController {
 	private TableOfRestaurantService tableService;
 	@Autowired
 	private ReservationService reservationService;
+	@Autowired
+	private RegionService regionService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -289,7 +294,7 @@ public class GuestController {
 	/*** Return all tables ***/
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/api/restaurant/tables", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Table>> getAvaliableTables(@RequestBody RestaurantReservation reservation) {
+	public ResponseEntity<Collection<Area>> getAvaliableTables(@RequestBody RestaurantReservation reservation) {
 		logger.info("> getAvaliableTables");
 		System.out.println(reservation);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY HH:mm");
@@ -305,27 +310,52 @@ public class GuestController {
 		Collection<TableReservation> reservations = reservationService
 				.getAllReservationTable(reservation.getRestaurant().getId(), startTimeStr, endTimeStr);
 
-		HashMap<Long, Table> tableSS = new HashMap<Long, Table>();
+		HashMap<Long, TableOfRestaurant> tableMap = new HashMap<Long, TableOfRestaurant>();
+
+		HashMap<Long, Area> areas = new HashMap<Long, Area>();
 
 		for (TableReservation tableReservation : reservations) {
 			System.out.println(tableReservation);
-			tableSS.put(tableReservation.getTable().getId(), new Table(tableReservation.getTable(), true));
+			tableMap.put(tableReservation.getTable().getId(), tableReservation.getTable());
+			System.out.println(tableReservation.getTable().getId());
 		}
 
-		Collection<TableOfRestaurant> tables = tableService
-				.getAllTableOfRestaurant(reservation.getRestaurant().getId());
-		for (TableOfRestaurant tableOfRestaurant : tables) {
-			System.out.println(tableOfRestaurant);
-			if (!tableSS.containsKey(tableOfRestaurant.getId())) {
-				tableSS.put(tableOfRestaurant.getId(), new Table(tableOfRestaurant, false));
+		Collection<Region> regions = regionService.getRegion(reservation.getRestaurant());
+
+		for (Region region : regions) {
+			HashMap<Long, Table> tables = new HashMap<Long, Table>();
+			System.out.println(region.getName());
+			for (TableOfRestaurant table : region.getTables()) {
+				System.out.println(table);
+				if (tableMap.containsKey(table.getId())) {
+					tables.put(table.getId(), new Table(table, true));
+				} else {
+					tables.put(table.getId(), new Table(table, false));
+				}
 			}
+			areas.put(region.getId(), new Area(region.getName(), tables.values()));
+
 		}
 
-		for (Table tab : tableSS.values()) {
-			System.out.println(tab);
-		}
-
-		return new ResponseEntity<Collection<Table>>(tableSS.values(), HttpStatus.OK);
+		/*
+		 * HashMap<Long, Table> tableSS = new HashMap<Long, Table>();
+		 * 
+		 * for (TableReservation tableReservation : reservations) {
+		 * System.out.println(tableReservation);
+		 * tableSS.put(tableReservation.getTable().getId(), new
+		 * Table(tableReservation.getTable(), true)); }
+		 * 
+		 * Collection<TableOfRestaurant> tables = tableService
+		 * .getAllTableOfRestaurant(reservation.getRestaurant().getId()); for
+		 * (TableOfRestaurant tableOfRestaurant : tables) {
+		 * System.out.println(tableOfRestaurant); if
+		 * (!tableSS.containsKey(tableOfRestaurant.getId())) {
+		 * tableSS.put(tableOfRestaurant.getId(), new Table(tableOfRestaurant,
+		 * false)); } }
+		 * 
+		 * for (Table tab : tableSS.values()) { System.out.println(tab); }
+		 */
+		return new ResponseEntity<Collection<Area>>(areas.values(),HttpStatus.OK);
 	}
 
 	/*** Make reservation ***/
@@ -548,7 +578,7 @@ public class GuestController {
 		if (now.isBefore(startTimeD)) {
 			flag = true;
 			reservationService.deleteGuestReservation(details.getGuestReservationId());
-			return new ResponseEntity<ReservationDetails>(details,HttpStatus.OK);
+			return new ResponseEntity<ReservationDetails>(details, HttpStatus.OK);
 		}
 
 		details.setFlag(flag);

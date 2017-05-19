@@ -198,7 +198,8 @@
                   	  <hr>
                       <form class="form-inline"  ng-submit="searchUsers(search)" name="myForm">
                           <div class="form-group">
-                              <input type="text" ng-model="search" name="search"  class="form-control" style="width: 300px;"  placeholder="Enter first or last name" required="required">
+                              <input type="text" ng-model="search" name="search"  class="form-control" 
+                                     style="width: 300px;"  placeholder="Enter first or last name" required="required">
                           </div>
                           
                           <button type="submit" class="btn btn-theme" ng-disabled="myForm.$invalid" value="Search">Search</button>
@@ -462,38 +463,30 @@
 										</div>
 									</div>
 									<div class="form-group">
-
-										<label class="col-sm-2 col-sm-2 control-label">Date</label>
+										<label class="col-sm-2 col-sm-2 control-label">Date and time</label>
 										<div class="col-sm-10">
-											<ng-combo-date-picker  ng-model="date" ng-min-date="{{ min.toString() }}" ng-max-date="{{ max.toString() }}"></ng-combo-date-picker>
-										</div>
-										<br>
-										<br>
-										<br>
-										
-								          <label class="col-sm-2 col-sm-2 control-label">Time</label>
-										<div class="col-sm-10">
-											<md-input-container flex-gt-md="30">
-									          <label>Date/Time Picker</label>
-									          <input mdc-datetime-picker date="true" time="true" type="text" id="datetime"
-									                 placeholder="Date" show-todays-date
+											<input mdc-datetime-picker style="width: 30%;" class="form-control" date="true" time="true" 
+											         type="text" 
+											         id="datetime"
+									                 show-todays-date
 									                 min-date="date"
+									                 max-date="maxDate"
 									                 ng-model="dateTime">
-									        </md-input-container>
-											<input type="text"  dn-timepicker ng-model="time" max-time='12:00 pm' min-time='9:00 pm' time-format='h:mm a' step='60' required="required" />
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label"> Duration</label>
+										<label class="col-sm-2 col-sm-2 control-label"> Duration (hours)</label>
 										<div class="col-sm-10">
-											<input ng-model="duration" type="number" width="20px" min="1" max="12" required="required">  <span>   hour</span>
+											<input style="width: 15%;" ng-model="duration" type="number" class="form-control" 
+											       width="20px" min="1" max="12" required="required">  
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
 										<div class="col-sm-10">
 											<!--<button style="margin-left: 90%;" class="btn btn-theme" ng-disabled="(myForm.$pristine == true || myForm.$invalid == true)" type="button" ng-click="reserveNext(duration,date)">Next</button>-->
-										<input style="float: right; margin-right: 5%;"  class="btn btn-theme" type="submit" value="Next">
+											<input style="float: right; margin-right: 5%;" ng-disabled="myForm.$invalid"  
+											       class="btn btn-theme" type="submit" value="Next">
 										</div>
 									</div>
 								</form>
@@ -510,52 +503,99 @@
 							<div class="form-panel">
 								<h4 class="mb"><i class="fa fa-angle-right"></i> Restaurant reservations </h4>
 								<hr>
-								<form class="form-horizontal style-form" name="myForm" ng-submit="reserveNext2()">
+									<form class="form-horizontal style-form" name="myForm">
 									<div class="form-group">
 										<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
 										<div class="col-lg-10">
 											<p class="form-control-static">{{restaurant.name}}</p>
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label">Date</label>
+									
+									
+										<label class="col-sm-2 col-sm-2 control-label">Date and time</label>
 										<div class="col-lg-10">
-											<p class="form-control-static">{{dateStr}} </p>
+											<p class="form-control-static">{{dateTimeStr}} </p>
 										</div>
-										<br>
-										<br>
-										<br>
-										<label class="col-sm-2 col-sm-2 control-label">Time</label>
-										<div class="col-lg-10">
-											<p class="form-control-static">{{timeStr}}</p>
-										</div>
-									</div>
-									<div class="form-group">
+									
 										<label class="col-sm-2 col-sm-2 control-label"> Duration</label>
 										<div class="col-lg-10">
 											<p class="form-control-static">{{reservation.duration}}  &nbsp; hour</p>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label"> </label>
-										<div class="col-lg-10">
-											<ul>
-		           						<li ng-repeat="x in tables">
-		           						{{'Table number: ' + x.tableOfRestaurant.number + ', chairs: ' + x.tableOfRestaurant.numberOfChairs }} &nbsp;
-		           						<input type="checkbox" ng-click="klik(x.tableOfRestaurant)" ng-hide="x.reserved">
-		           						</li>
-		           					</ul>
-										</div>
-									</div>
-									<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
 										<div class="col-sm-10">
-											<input style="float: right; margin-right: 5%;"  class="btn btn-theme" type="submit" value="Reserve">
+											<input style="float: right; margin-right: 5%;"  class="btn btn-theme" type="button" value="Reserve" ng-click="reserveNext2()">
 										</div>
 									</div>
-									
-								</form>
+									</form>
 							</div>
+							<br>
+							<br><br>
+									
+							<div class="advancedDemo row">
+									<div ng-repeat="containers in model" class="col-md-6">
+											<div class="dropzone box box-yellow">
+													<ul dnd-list="containers"
+										    			dnd-allowed-types="['container']"
+										    			dnd-external-sources="true">
+										    			
+														<li ng-repeat="container in containers"
+															dnd-type="'container'">
+															<div class="white-panel pn donut-chart">
+															<div class="white-header">
+																<h3>{{container.name}}</h3>
+															</div>
+															<div class="container-element box box-blue" >
+															
+																
+																<ul dnd-list="container.items"
+										                			dnd-allowed-types="['item']"
+										               			    dnd-horizontal-list="true"
+										                			dnd-external-sources="true"
+										                			
+										                			
+										                			
+
+										                			class="itemlist">
+										                			<li  ng-repeat="item in container.items"
+										                			    
+										                    			dnd-draggable="item"
+										                    			dnd-type="'item'"
+										                    			
+										                    			dnd-draggable="getSelectedItemsIncluding(list, item)"
+										                    			dnd-dragstart="onDragstart(list, event)"
+										                    			dnd-selected="item.selected = !item.selected"
+										                    			ng-class="{'selected': item.selected}"
+										                    			ng-hide="list.dragging && item.selected"
+										                    			
+										                    			>
+										                    
+										                    
+										                  				{{item.label}}
+										                    			<p style="font-size:20px;">{{item.numberOfChairs}}</p>
+										               				 </li>
+										            			</ul>
+										            			
+															</div>
+															</div>
+										        		</li>
+													</ul>
+							        			</div>	  
+													
+													
+													
+													
+													
+													
+												
+												
+												</div>	  
+											</div>
+										
+									
+									
+								
+							
 						</div>
 					</div>    	
 				</div><!-- END RESERVATION RESTAURANT -->
@@ -663,23 +703,19 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-lg-10">
-											<table>
-												<tr>
-                          							<td>
-                          								<div class="input-group margin-bottom-sm">
-                          								<span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-
-                          							<input type="text" ng-model="search" name="search"  class="form-control"  placeholder="Enter first or last Name" required="required">
-                          							</div>
-                          							</td>
-                          						
-                          						</tr>
-                          					</table>
+										<label class="col-sm-2 col-sm-2 control-label"> Search friends</label>
+										<div class="col-lg-10">                          							
+											<div class="input-group margin-bottom-sm">
+												<span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+												<input style="width: 60%;" type="text" ng-model="search" 
+												       name="search" class="form-control"  
+													   placeholder="Enter first or last name" required="required">
+											</div>
                           				</div>
 									</div>
 									
-									<table style="width: 50%;" class="table table-striped table-advance table-hover" ng-hide="friends.length == 0">	
+									<table style="width: 50%;" class="table table-striped table-advance table-hover" 
+										   ng-hide="friends.length == 0">	
 										<thead>
 											<tr>
           										<th> Friend Name </th>
@@ -696,16 +732,15 @@
           							<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
 										<div class="col-sm-10">
-											<input style="float: right; margin-right: 5%;"  class="btn btn-theme" type="button" value="Next" ng-click="reserveNext3()">
-										</div>
-										
+											<input style="float: right; margin-right: 5%;"  class="btn btn-theme" 
+											       type="button" value="Next" ng-click="reserveNext3()">
+										</div>									
 									</div>
           						</form>
 							</div>
 						</div>
 					</div>
 					</div>
-					
 				</div><!-- END INVITE FRIENDS -->
 				
 				
