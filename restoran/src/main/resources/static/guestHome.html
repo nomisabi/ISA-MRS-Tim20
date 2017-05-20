@@ -622,12 +622,21 @@
 												<tr>
 													<th>Name</th>
 													<th>Price</th>
-													<th>Choose</th>
+													<th>Quantity</th>
+													<th>&nbsp;</th>
 												</tr>
-												<tr ng-repeat="x in restaurant.menu.items">
-													<td>{{ x.food.name}}</td>
-													<td>{{x.price}}</td>
-													<td><input type="checkbox" ng-click="addToMenuList(x)" ></td>
+												<tr ng-repeat="x in menuList">
+													<td>{{ x.item.food.name}}</td>
+													<td>{{ x.price }}</td>
+													<td>{{x.quality}}</td>
+													<td><a class="btn btn-default" ng-click="addMenu(x.item.id)">
+													<i class="fa fa-plus" aria-hidden="true"></i>
+													</a>
+													&nbsp;
+													<a class="btn btn-default" ng-click="deleteMenu(x.drink.id)" ng-hide="x.quality == 0">
+													<i class="fa fa-minus" aria-hidden="true"></i>
+													</a>
+													
 												</tr>
 											
 											</table>
@@ -643,12 +652,13 @@
 													<th>Name</th>
 													<th>Price</th>
 													<th>Quantity</th>
+													<th>&nbsp;</th>
 												</tr>
 												<tr ng-repeat="x in drinkList">
-													<td>{{ x.drink.name}}</td>
+													<td>{{ x.item.drink.name}}</td>
 													<td>{{ x.price }}</td>
 													<td>{{x.quality}}</td>
-													<td><a class="btn btn-default" ng-click="addDrink(x.drink.id)">
+													<td><a class="btn btn-default" ng-click="addDrink(x.item.id)">
 													<i class="fa fa-plus" aria-hidden="true"></i>
 													</a>
 													&nbsp;

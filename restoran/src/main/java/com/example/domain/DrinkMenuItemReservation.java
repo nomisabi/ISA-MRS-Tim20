@@ -26,6 +26,8 @@ public class DrinkMenuItemReservation implements Serializable {
 	@JoinColumn(name = "reservation_id")
 	private Reservation reservation;
 	@Column
+	private int quality;
+	@Column
 	private boolean prepared;
 
 	public DrinkMenuItemReservation() {
@@ -86,6 +88,14 @@ public class DrinkMenuItemReservation implements Serializable {
 
 	public void setPrepared(boolean prepared) {
 		this.prepared = prepared;
+	}
+
+	public int getQuality() {
+		return quality;
+	}
+
+	public void setQuality(int quality) {
+		this.quality = quality;
 	}
 
 	@Override

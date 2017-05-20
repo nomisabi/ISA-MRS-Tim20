@@ -2,84 +2,42 @@ package com.example.domain.DTOs;
 
 import java.util.Collection;
 
-import com.example.domain.DrinkMenuItem;
-import com.example.domain.Guest;
-import com.example.domain.MenuItem;
-import com.example.domain.Reservation;
+import com.example.domain.DrinkMenuItemReservation;
+import com.example.domain.MenuItemReservation;
 
 public class ItemsReservation {
-	private Collection<MenuItem> menuItems;
-	private Collection<DrinkMenuItem> drinkMenuItems;
-	private Reservation reservation;
-	private Guest guest;
-	private boolean prepared;
+	private Collection<MenuItemReservation> menuItems;
+	private Collection<DrinkMenuItemReservation> drinkMenuItems;
 
 	public ItemsReservation() {
 	}
 
-	public ItemsReservation(Collection<MenuItem> menuItems, Collection<DrinkMenuItem> drinkMenuItems,
-			Reservation reservation, Guest guest) {
+	public ItemsReservation(Collection<MenuItemReservation> menuItems,
+			Collection<DrinkMenuItemReservation> drinkMenuItems) {
 		super();
 		this.menuItems = menuItems;
 		this.drinkMenuItems = drinkMenuItems;
-		this.reservation = reservation;
-		this.guest = guest;
 	}
 
-	public ItemsReservation(Collection<MenuItem> menuItems, Collection<DrinkMenuItem> drinkMenuItems,
-			Reservation reservation, Guest guest, boolean prepared) {
-		super();
-		this.menuItems = menuItems;
-		this.drinkMenuItems = drinkMenuItems;
-		this.reservation = reservation;
-		this.guest = guest;
-		this.prepared = prepared;
-	}
-
-	public Collection<MenuItem> getMenuItems() {
+	public Collection<MenuItemReservation> getMenuItems() {
 		return menuItems;
 	}
 
-	public void setMenuItems(Collection<MenuItem> menuItems) {
+	public void setMenuItems(Collection<MenuItemReservation> menuItems) {
 		this.menuItems = menuItems;
 	}
 
-	public Collection<DrinkMenuItem> getDrinkMenuItems() {
+	public Collection<DrinkMenuItemReservation> getDrinkMenuItems() {
 		return drinkMenuItems;
 	}
 
-	public void setDrinkMenuItems(Collection<DrinkMenuItem> drinkMenuItems) {
+	public void setDrinkMenuItems(Collection<DrinkMenuItemReservation> drinkMenuItems) {
 		this.drinkMenuItems = drinkMenuItems;
-	}
-
-	public Reservation getReservation() {
-		return reservation;
-	}
-
-	public void setReservation(Reservation reservation) {
-		this.reservation = reservation;
-	}
-
-	public Guest getGuest() {
-		return guest;
-	}
-
-	public void setGuest(Guest guest) {
-		this.guest = guest;
-	}
-
-	public boolean isPrepared() {
-		return prepared;
-	}
-
-	public void setPrepared(boolean prepared) {
-		this.prepared = prepared;
 	}
 
 	@Override
 	public String toString() {
-		return "ItemsReservation [menuItems=" + menuItems + ", drinkMenuItems=" + drinkMenuItems + ", reservation="
-				+ reservation + ", guest=" + guest + ", prepared=" + prepared + "]";
+		return "ItemsReservation [menuItems=" + menuItems + ", drinkMenuItems=" + drinkMenuItems + "]";
 	}
 
 }
