@@ -1,6 +1,8 @@
 package com.example.service;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.domain.Guest;
 import com.example.domain.Manager;
+import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
+import com.example.respository.RestaurantRepository;
 import com.example.respository.SupllierRepository;
 
 @Service
@@ -18,6 +22,9 @@ public class SupplierServiceImp implements SupplierService {
 	
 	@Autowired
 	private SupllierRepository supRepository;
+	
+	@Autowired
+	private RestaurantRepository restRepository;
 
 
 	@Override
@@ -48,6 +55,21 @@ public class SupplierServiceImp implements SupplierService {
 		logger.info("> update ", s);
 		supRepository.updatePass(s.getId(),  s.getEmail(),s.getPassword(), s.getName(), s.isActive());
 		logger.info("< update :{}", s);
+	}
+
+	@Override
+	public Collection<Restaurant> getRest(Long id) {
+		//System.out.println("id: "+id);
+		Collection<Restaurant> restaurant= new HashSet();
+		//Restaurant restaurant= restRepository.getRest(id);
+		Collection<Restaurant> r=restRepository.getRest(id);
+		System.out.println("rest: "+r.size());
+		/*for (Long long1 : r) {
+			System.out.println("rest: "+long1);
+			Restaurant rest= restRepository.findOne(long1);
+			restaurant.add(rest);
+		}*/
+		return r;
 	}
 	
 

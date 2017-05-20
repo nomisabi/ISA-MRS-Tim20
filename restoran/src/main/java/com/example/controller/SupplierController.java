@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.Guest;
 import com.example.domain.Manager;
+import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.User;
 import com.example.domain.DTOs.GuestRegister;
@@ -136,6 +137,24 @@ public class SupplierController {
 				}		
 			}
 		return new ResponseEntity<Supplier>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/suppliers/restaurant", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Restaurant>> getRestaurants(@Valid @RequestBody  Supplier s) {
+		logger.info("> getRestaurants: "+s.toString());
+
+		Collection<Restaurant> restaurants = supService.getRest(s.getId());
+		System.out.println("restaurants: "+restaurants.size());
+		if (restaurants.isEmpty()) {
+			return new ResponseEntity<Collection<Restaurant>>(HttpStatus.NO_CONTENT);
+		}
+
+		logger.info("< getRestaurants");
+		return new ResponseEntity<Collection<Restaurant>>(restaurants, HttpStatus.OK);
 	}
 	
 

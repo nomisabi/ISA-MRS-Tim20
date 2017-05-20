@@ -187,7 +187,23 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	}
   	$scope.changeToCreateSupplier= function(){  
   		if ($scope.manager.active)
-    		$scope.page="create_supplier";   	
+    		$scope.page="create_supplier"; 
+  	}
+  	$scope.changeToProcurements= function(){  
+  		if ($scope.manager.active)
+    		$scope.page="supplies";
+  	}
+  	$scope.changeToCreateSupply= function(){  
+  		if ($scope.manager.active){
+  			$scope.date = new Date();
+  		    $scope.supply={"from_date" : new Date()};
+  		    $scope.supply.to_date= $scope.supply.from_date;
+  		    $scope.minDate = moment().subtract(1, 'month');
+  		    $scope.minDate2 = $scope.supply.from_date;
+  		    
+  		    $scope.maxDate = moment().add(1, 'month');
+    		$scope.page="create_supply";
+  		}
   	}
   	$scope.changeToEmployee= function(){
   		if ($scope.manager.active)

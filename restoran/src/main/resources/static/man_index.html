@@ -72,7 +72,8 @@
                           	<li><a ng-click="changeToEmployee()">Employees</a></li>  
                           	<li><a ng-click="changeToSchedule()">Schedule</a></li>  
                           	<li><a ng-click="changeToRegions()">Map</a></li>  
-                          	<li><a ng-click="changeToScores()">Scores</a></li>                      
+                          	<li><a ng-click="changeToScores()">Scores</a></li> 
+                          	<li><a ng-click="changeToProcurements()">Procurements</a></li>                        
                       	   </ul>
                       
                   </li>
@@ -889,7 +890,87 @@
 									
 					
 					
-		           	</div>
+		           		</div>
+		           		<div ng-switch-when="supplies">
+							<h3>Procurements</h3>
+							<a class="" ng-click="changeToCreateSupply()">
+				                   	New supply
+				                </a> 
+			           	</div>
+			           	<div ng-switch-when="create_supply" ng-controller="ManagerController">
+							<h3>New supply</h3>
+							<form name="myForm">
+							<table  class="prof">
+								<tr>
+				        			<td>Name:</td>
+				           			<td><input type="text" name="name" class="form-control" ng-model="supply.name" required></td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>
+										<div class="has-error" ng-show="myForm.name.$dirty">
+					                    	<span ng-show="myForm.name.$error.required">This is a required field.</span>
+					                     
+		                    			</div>
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Supply starts on:</td>
+				           			<td>
+				           			<input mdc-datetime-picker style="width: 60%;" class="form-control" date="true" time="true" 
+											         type="text" 
+											         id="datetime"
+									                 show-todays-date
+									                 min-date="date"
+									                 max-date="maxDate"
+									                 ng-model="supply.from_date">
+				           			</td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				        			<td>Supply ends on:</td>
+				           			<td>
+				           			<input mdc-datetime-picker style="width: 60%;" class="form-control" date="true" time="true" 
+											         type="text" 
+											         id="datetime"
+									                 show-todays-date
+									                 min-date="minDate2"
+									                 max-date="maxDate"
+									                 ng-model="supply.to_date">
+				           			</td>
+				           		</tr> 
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		
+				           		
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td>&nbsp;
+				           			</td>
+				           		</tr>
+				           		<tr>
+				           			<td>&nbsp;
+				           			</td>
+				           			<td><button class="btn btn-theme" ng-disabled="myForm.$invalid" ng-click="newSupply()" type="button">Save</button>
+				           			</td>
+				           		</tr>
+				           			 
+				            </table>
+				            </form>	
+			           	</div>
+			           	
+			           	
 					
                   </div><!-- /col-lg-9 END SECTION MIDDLE -->
                   

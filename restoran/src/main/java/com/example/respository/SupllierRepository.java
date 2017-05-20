@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Guest;
 import com.example.domain.Manager;
+import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.System_manager;
 
@@ -21,6 +22,5 @@ public interface SupllierRepository extends CrudRepository<Supplier, Long>{
     @Query("UPDATE Supplier s SET s.password = ?3, s.email=?2, s.name=?4, s.active=?5 WHERE s.id = ?1")
     int updatePass(Long id, String email, String password, String name, boolean active);
 
-	//@Query(value="SELECT r.id FROM restaurant r INNER JOIN restaurant_manager rm ON r.id=rm.restaurant_id WHERE rm.manager_id = ?1", nativeQuery=true)
-	//Long getRest(Long id);
+
 }

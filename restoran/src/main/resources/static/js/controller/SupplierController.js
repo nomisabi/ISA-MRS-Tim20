@@ -11,6 +11,10 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 							function(data){
 								$scope.supplier=data;
 								//alert(JSON.stringify(data));
+								$http.post("http://localhost:8080/api/suppliers/restaurant",data).then(
+										function(data){
+											$scope.restaurants=data.data;
+										});
 								if ($scope.supplier.active)
 									$scope.page="profile";
 							}).error(
@@ -66,6 +70,10 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     $scope.changeToRestaurants= function(){
     	if ($scope.supplier.active)
     		$scope.page="restaurant";   	
+    }
+    $scope.changeToOrders= function(){
+    	if ($scope.supplier.active)
+    		$scope.page="orders";   	
     }
     
   	$scope.changeToChangePass= function(){

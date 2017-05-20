@@ -19,7 +19,6 @@ public class Restaurant implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 	private long id;
 	@Column(nullable = false)
 	private String name;
@@ -41,6 +40,8 @@ public class Restaurant implements Serializable {
 	private Set<Supplier> suppliers;
 	@OneToMany(fetch=FetchType.LAZY, mappedBy= "restaurant")
 	private Set<Region> regions;
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="restaurant")
+	private Set<Supply> supplies;
 
 	public Restaurant() {
 	}
@@ -137,6 +138,7 @@ public class Restaurant implements Serializable {
 	public void setDrinkMenu(DrinkMenu drinkMenu) {
 		this.drinkMenu = drinkMenu;
 	}
+	
 
 	@Override
 	public String toString() {

@@ -5,6 +5,7 @@ INSERT INTO usert (email, password, type) VALUES ('mika@gmail.com','123456',2);
 INSERT INTO usert (email, password, type) VALUES ('zika@gmail.com','123456',2);
 INSERT INTO usert (email, password, type) VALUES ('nomisabi@gmail.com','nomisabi',2);
 INSERT INTO usert (email, password, type) VALUES ('a@a.a','a',1);
+INSERT INTO usert (email, password, type) VALUES ('b@b.b','b',4);
 
 INSERT INTO guest (email, password, first_name,last_name) VALUES ('nena@gmail.com','nenasw','Nena','Djeric');
 INSERT INTO guest (email, password, first_name,last_name) VALUES ('nomisabi@gmail.com','nomisabi','Noemi','Sabados');
@@ -13,6 +14,8 @@ INSERT INTO guest (email, password, first_name,last_name) VALUES ('mika@gmail.co
 INSERT INTO guest (email, password, first_name,last_name) VALUES ('zika@gmail.com','123456','Zika','Petrovic');
 INSERT INTO friendship (id_friend, guest_id, request_accepted) VALUES (1,2, TRUE);
 INSERT INTO friendship (id_friend, guest_id, request_accepted) VALUES (1,3, FALSE);
+
+INSERT INTO supplier (email, password, name, active) VALUES ('b@b.b','b','b',true);
 
 INSERT INTO sysman (email, password) VALUES ('admin@admin.com','admin') ;
 INSERT INTO manager (email, password, first_name, last_name, active) VALUES ('a@a.a','a','a','a',true) ;
@@ -40,6 +43,7 @@ INSERT INTO restaurant (name,location, menu_id,drink_menu_id) values ('Nasa Pric
 INSERT INTO restaurant (name, location,species) values ('Dva Stapica','Bla', 'Kineski');
 
 INSERT INTO restaurant_manager (restaurant_id, manager_id) values (1,1);
+INSERT INTO restaurant_suppliers (restaurant_id, suppliers_id) VALUES (1,1);
 
 INSERT INTO region (name, restaurant_id) values ('basta',1);
 INSERT INTO region (name, restaurant_id) values ('pusacki deo',1);
