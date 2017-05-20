@@ -1182,9 +1182,11 @@ PANELS CONFIGURATIONS
 
 /* Weather 1 */
 .weather {
-	background: url(../img/weather.jpg) no-repeat center top;
+	background: url(../img/download.jpg) no-repeat center top;
+	background-origin: inherit;
 	text-align: center;
 	background-position: center center;
+	background-size: cover;
 }
 .weather i {
 	color: white;

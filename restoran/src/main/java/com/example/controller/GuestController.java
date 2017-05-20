@@ -49,7 +49,6 @@ import com.example.service.GuestService;
 import com.example.service.RegionService;
 import com.example.service.ReservationService;
 import com.example.service.RestaurantService;
-import com.example.service.TableOfRestaurantService;
 import com.example.service.UserService;
 
 @RestController
@@ -60,8 +59,6 @@ public class GuestController {
 	private GuestService guestService;
 	@Autowired
 	private RestaurantService restaurantService;
-	@Autowired
-	private TableOfRestaurantService tableService;
 	@Autowired
 	private ReservationService reservationService;
 	@Autowired
@@ -337,25 +334,7 @@ public class GuestController {
 
 		}
 
-		/*
-		 * HashMap<Long, Table> tableSS = new HashMap<Long, Table>();
-		 * 
-		 * for (TableReservation tableReservation : reservations) {
-		 * System.out.println(tableReservation);
-		 * tableSS.put(tableReservation.getTable().getId(), new
-		 * Table(tableReservation.getTable(), true)); }
-		 * 
-		 * Collection<TableOfRestaurant> tables = tableService
-		 * .getAllTableOfRestaurant(reservation.getRestaurant().getId()); for
-		 * (TableOfRestaurant tableOfRestaurant : tables) {
-		 * System.out.println(tableOfRestaurant); if
-		 * (!tableSS.containsKey(tableOfRestaurant.getId())) {
-		 * tableSS.put(tableOfRestaurant.getId(), new Table(tableOfRestaurant,
-		 * false)); } }
-		 * 
-		 * for (Table tab : tableSS.values()) { System.out.println(tab); }
-		 */
-		return new ResponseEntity<Collection<Area>>(areas.values(),HttpStatus.OK);
+		return new ResponseEntity<Collection<Area>>(areas.values(), HttpStatus.OK);
 	}
 
 	/*** Make reservation ***/
@@ -435,18 +414,14 @@ public class GuestController {
 		logger.info("> orderingFoodAndDrink");
 		System.out.println(itemsReservation);
 
-		for (MenuItem menuItem : itemsReservation.getMenuItems()) {
+		for (MenuItemReservation menuItem : itemsReservation.getMenuItems()) {
 			System.out.println(menuItem);
-			MenuItemReservation menuItemReservation = new MenuItemReservation(menuItem, itemsReservation.getGuest(),
-					itemsReservation.getReservation(), itemsReservation.isPrepared());
-			reservationService.saveMenuItem(menuItemReservation);
+			reservationService.saveMenuItem(menuItem);
 		}
 
-		for (DrinkMenuItem drinkMenuItem : itemsReservation.getDrinkMenuItems()) {
+		for (DrinkMenuItemReservation drinkMenuItem : itemsReservation.getDrinkMenuItems()) {
 			System.out.println(drinkMenuItem);
-			DrinkMenuItemReservation drinkMenuItemReservation = new DrinkMenuItemReservation(drinkMenuItem,
-					itemsReservation.getGuest(), itemsReservation.getReservation(), itemsReservation.isPrepared());
-			reservationService.saveDrinkMenuItem(drinkMenuItemReservation);
+			reservationService.saveDrinkMenuItem(drinkMenuItem);
 		}
 
 		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
