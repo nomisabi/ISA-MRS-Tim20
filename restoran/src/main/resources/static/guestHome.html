@@ -537,7 +537,7 @@
 											<div class="dropzone box box-yellow">
 													<ul dnd-list="containers"
 										    			dnd-allowed-types="['container']"
-										    			dnd-external-sources="true">
+										    			>
 										    			
 														<li ng-repeat="container in containers"
 															dnd-type="'container'">
@@ -549,24 +549,25 @@
 															
 																
 																<ul dnd-list="container.items"
-										                			dnd-allowed-types="['item']"
-										               			    dnd-horizontal-list="true"
-										                			dnd-external-sources="true"
+										                			
+										               			   
+										                			
 										                			
 										                			
 										                			
 
 										                			class="itemlist">
 										                			<li  ng-repeat="item in container.items"
-										                			    
-										                    			dnd-draggable="item"
+										                			   class="blaa"
+										                    			
 										                    			dnd-type="'item'"
 										                    			
 										                    			dnd-draggable="getSelectedItemsIncluding(list, item)"
-										                    			dnd-dragstart="onDragstart(list, event)"
-										                    			dnd-selected="item.selected = !item.selected"
-										                    			ng-class="{'selected': item.selected}"
-										                    			ng-hide="list.dragging && item.selected"
+										                    			dnd-dragend="container.dragging = false"
+										                    			
+										                    			dnd-selected="klik(item)"
+										                    			ng-class="{'selected': item.selected, 'reserved':item.reserved}"
+										                    			
 										                    			
 										                    			>
 										                    
@@ -699,7 +700,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label"> Table</label>
 										<div class="col-lg-10">
-											<p class="form-control-static"> <span ng-repeat="table in tableNum">{{table.number +  "  "}}</span> </p>
+											<p class="form-control-static"> <span ng-repeat="table in tableNum">{{table.label +  "  "}}</span> </p>
 										</div>
 									</div>
 									<div class="form-group">

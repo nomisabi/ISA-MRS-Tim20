@@ -180,7 +180,11 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.changeToViewReservation = function (id){
-    	alert(id);
+    	//alert(id);
+    	$scope.tables = [];
+    	$scope.menuList = [];
+    	$scope.drinkList = [];
+    	$scope.friends = [];
     	$http.post('http://localhost:8080/api/reservation/' + id,$scope.guest)
     	.success(function(data) {
     		$scope.reservation = data.reservation;
@@ -325,7 +329,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		$scope.model = [];
     		
     		for (var i=0; i<$scope.regions.length;i++){
-    			alert($scope.regions[i].name);
+    			//alert($scope.regions[i].name);
 	  			var container = {'name':$scope.regions[i].name, 'items': []};
 	  			//items=[];
 	  			for (var j=0; j<$scope.regions[i].tables.length;j++){
@@ -335,6 +339,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		                        "label": $scope.regions[i].tables[j].tableOfRestaurant.number,
 		                         "id":$scope.regions[i].tables[j].tableOfRestaurant.id,
 	  	                         "numberOfChairs":$scope.regions[i].tables[j].tableOfRestaurant.numberOfChairs, 
+	  	                         "reserved": $scope.regions[i].tables[j].reserved,
 	  	                         "selected": false
 		                    };
 	  				container.items.push(item);
@@ -361,11 +366,6 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		); 
     }
     
-    $scope.getSelectedItemsIncluding = function(list, item) {
-    	alert(item.number);
-        item.selected = true;
-      //  return list.items.filter(function(item) { return item.selected; });
-      }
     
     $scope.reserveNext2 = function(){   	   	
     	//alert($scope.tableNum);
@@ -447,13 +447,17 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.klik = function(item) {
     	//alert(item.id);
-    	var idx = $scope.tableNum.indexOf(item);
-        if (idx > -1) {
-          $scope.tableNum.splice(idx, 1);
-        }
-        else {
-          $scope.tableNum.push(item);
-        }
+    	if (!item.reserved){
+    		item.selected = !item.selected;
+    		//alert(item.selected);
+    		var idx = $scope.tableNum.indexOf(item);
+    		if (idx > -1) {
+    			$scope.tableNum.splice(idx, 1);
+    		}
+    		else {
+    			$scope.tableNum.push(item);
+    		}
+    	}
 	}
     
     $scope.addToList = function(item) {

@@ -117,3 +117,18 @@
 .advancedDemo .trashcan .dndPlaceholder {
     display: none;
 }
+
+.advancedDemo .dropzone ul[dnd-list] li.blaa {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.advancedDemo .dropzone ul[dnd-list] li.selected {
+    background-color: #3c763d;
+    color:  #dff0d8;
+}
+
+.advancedDemo .dropzone ul[dnd-list] li.reserved {
+    background-color: red;
+    color: white;
+}
