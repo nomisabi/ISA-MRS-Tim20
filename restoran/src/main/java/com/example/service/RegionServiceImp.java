@@ -30,4 +30,16 @@ public class RegionServiceImp implements RegionService{
 		return (Collection<Region>) repository.getRequests(rest.getId());
 	}
 
+	@Override
+	public void updateName(Region r) {
+		System.out.println(r.getName()+", id:"+r.getId());
+		repository.updateName(r.getId(), r.getName());	
+	}
+
+	@Override
+	public void deleteRegion(Region r) {
+		repository.delete(r.getId());
+		
+	}
+
 }

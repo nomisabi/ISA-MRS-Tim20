@@ -91,6 +91,36 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
           $scope.status = 'You didn\'t name your dog.';
         });
       };
+      
+      $scope.updatePrompt = function(ev, container) {
+          // Appending dialog to document.body to cover sidenav in docs app
+          var confirm = $mdDialog.prompt()
+            .title('Update the name of region')
+            .textContent('')
+            .placeholder('New name of region')
+            .ariaLabel('Dog name')
+            .initialValue('')
+            .targetEvent(ev)
+            .ok('Change!')
+            .cancel('Cancel');
+
+          $mdDialog.show(confirm).then(function(result) {
+        	  for (var i=0; i<$scope.regions.length;i++){
+  	  			if ($scope.regions[i].name == result){
+  	  				alert("Region with this name is exist.");
+  	  				return;
+  	  				}
+  	  			}
+        	  container.name=result;
+        	  $http.post("http://localhost:8080/api/manager/updateRegion", container).then(function(data){
+    	  			//alert("ok");
+    			});
+            }, function() {
+              //$scope.status = 'You didn\'t name your dog.';
+            });
+        };
+      
+      
     
     $scope.logout=function(){
     	$http.get("http://localhost:8080/api/users/logout").success(function(data) {
@@ -401,6 +431,28 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 				$route.reload();
 			}).error(function(data) {
 				alert("error");
+			});
+		}
+			
+	}
+	
+	$scope.deleteRegion= function(reg){
+		//alert(JSON.stringify(reg));
+		var result = confirm("Want to delete?");
+		if (result) {
+			region=null;
+			for (var i=0; i<$scope.regions.length;i++){
+	  			if ($scope.regions[i].name==reg.name){
+	  	  				region= $scope.regions[i];
+	  			}
+	  		}	
+			
+			
+			$http.post("http://localhost:8080/api/manager/deleteRegion", region).success(function(data) {
+				$scope.model.delete(reg);
+				//$route.reload();
+			}).error(function(data) {
+				alert("Error! In the region, there are tables which are reservated.");
 			});
 		}
 			

@@ -493,4 +493,46 @@ public class ManagerController {
 		}
 		return new ResponseEntity<Region>(HttpStatus.NOT_FOUND);
 	}
+	
+	@RequestMapping(
+			value = "/api/manager/updateRegion", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Region> updateRegion(@Valid @RequestBody Region r) throws Exception {
+		logger.info("> updateRegion: "+r.toString());
+		regionService.updateName(r);;
+		logger.info("< updateRegion");
+		return new ResponseEntity<Region>( HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/deleteRegion", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Region> delTable(@Valid @RequestBody Region r) throws Exception {
+		logger.info("> delRegion: "+r.toString());
+		
+		Collection<TableOfRestaurant> t=  r.getTables();
+		
+		//ako postoji tabelu koji rezervisan, izadji
+		for (TableOfRestaurant tab : t) {
+			//logger.info("\t\t"+tab.toString());
+			TableOfRestaurant table=tableService.getByNumber(tab.getNumber(), tab.getRestaurant().getId());
+			if (reservationService.getbyTable(table.getId()).size()!=0)
+				return new ResponseEntity<Region>(HttpStatus.NOT_FOUND);
+		}
+		
+		//ako ne postoji tabelu koji rezervisan, izbrisi
+		for (TableOfRestaurant tab : t) {
+			//logger.info("\t\t\t"+tab.toString());
+			TableOfRestaurant table=tableService.getByNumber(tab.getNumber(), tab.getRestaurant().getId());
+			tableService.deleteTable(table.getId());
+		}
+		//izbrisi region
+		regionService.deleteRegion(r);
+		logger.info("< delTable: "+t.toString());
+		return new ResponseEntity<Region>(HttpStatus.OK);
+	}
 }
