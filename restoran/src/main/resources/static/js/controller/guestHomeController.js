@@ -157,6 +157,11 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	     });	
     }
     
+    $scope.changeToRestaurant= function(restaurant){
+    	$scope.restaurant = restaurant;
+    	$scope.page="restaurant";
+    }
+    
     $scope.changeToReserve= function(){
     	$scope.users = [];
     	$scope.page="reserve";
@@ -301,7 +306,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     				 function(data){
     					 //alert("error");
     				 }
-    		 );    
+    		 );   
+    	
     }
   
     $scope.confirmRequest= function(guest){   
