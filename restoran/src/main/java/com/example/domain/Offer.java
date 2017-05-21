@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 public class Offer implements Serializable{
@@ -27,6 +30,9 @@ public class Offer implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "supply_id")
 	private Supply supply;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "supplier_id")
+	private Supplier supplier;
 	
 	public Offer(long id, int quality, double price, Offer_status status) {
 		super();
@@ -72,5 +78,14 @@ public class Offer implements Serializable{
 		this.status = status;
 	}
 
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	
 	
 }

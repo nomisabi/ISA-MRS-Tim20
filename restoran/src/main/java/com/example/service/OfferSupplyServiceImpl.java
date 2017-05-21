@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.domain.Offer;
+import com.example.domain.Offer_status;
 import com.example.domain.Supply;
 import com.example.respository.MenuItemRepository;
 import com.example.respository.MenuRepository;
@@ -54,8 +55,10 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	}
 
 	@Override
-	public Offer createOffer(Offer offer) {
-		return offerRepository.save(offer);
+	public Offer createOffer(Offer offer, Long id) {
+		Offer o= offerRepository.save(offer);
+		offerRepository.updateName(o.getId(), id);
+		return o;
 	}
 
 	@Override
@@ -82,6 +85,23 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	@Override
 	public void deleteOffer(Long id) {
 		offerRepository.delete(id);
+		
+	}
+
+	@Override
+	public Collection<Supply> getSupplyByRest(Long id) {
+		return (Collection<Supply>) supplyRepository.getSupplyByRest(id);
+	}
+
+	@Override
+	public void update(Supply s, Offer o) {
+		for (Offer offer : s.getOffer()) {
+			if (o.getId()==offer.getId())
+				offerRepository.updateStatus(offer.getId(), 2);
+			else	
+				offerRepository.updateStatus(offer.getId(), 1);
+		}
+		supplyRepository.updateStatus(s.getId(), true);
 		
 	}
 

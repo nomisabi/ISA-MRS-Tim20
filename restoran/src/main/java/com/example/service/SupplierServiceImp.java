@@ -59,16 +59,9 @@ public class SupplierServiceImp implements SupplierService {
 
 	@Override
 	public Collection<Restaurant> getRest(Long id) {
-		//System.out.println("id: "+id);
-		Collection<Restaurant> restaurant= new HashSet();
-		//Restaurant restaurant= restRepository.getRest(id);
+
 		Collection<Restaurant> r=restRepository.getRest(id);
 		System.out.println("rest: "+r.size());
-		/*for (Long long1 : r) {
-			System.out.println("rest: "+long1);
-			Restaurant rest= restRepository.findOne(long1);
-			restaurant.add(rest);
-		}*/
 		return r;
 	}
 	

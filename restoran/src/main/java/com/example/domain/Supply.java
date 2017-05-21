@@ -24,9 +24,9 @@ public class Supply implements Serializable {
 	@Column(nullable = false)
 	private String name;
 	@Column(nullable = false)
-	private Date from_date;
+	private String from_date;
 	@Column(nullable = false)
-	private Date to_date;
+	private String to_date;
 	@Column(nullable = false)
 	private boolean chosed;
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -36,7 +36,7 @@ public class Supply implements Serializable {
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="supply")
 	private Set<Offer> offer;
 	
-	public Supply(long id, String name, Date from, Date to, boolean chosed) {
+	public Supply(long id, String name, String from, String to, boolean chosed) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -65,20 +65,20 @@ public class Supply implements Serializable {
 		this.name = name;
 	}
 
-	public Date getFrom() {
+	public String getFrom_date() {
 		return from_date;
 	}
 
-	public void setFrom(Date from) {
-		this.from_date = from;
+	public void setFrom_date(String from_date) {
+		this.from_date = from_date;
 	}
 
-	public Date getTo() {
+	public String getTo_date() {
 		return to_date;
 	}
 
-	public void setTo(Date to) {
-		this.to_date = to;
+	public void setTo_date(String to_date) {
+		this.to_date = to_date;
 	}
 
 	public boolean isChosed() {
@@ -103,6 +103,12 @@ public class Supply implements Serializable {
 
 	public void setChosed(boolean chosed) {
 		this.chosed = chosed;
+	}
+
+	@Override
+	public String toString() {
+		return "Supply [id=" + id + ", name=" + name + ", from_date=" + from_date + ", to_date=" + to_date + ", chosed="
+				+ chosed + ", restaurant=" + restaurant + ", offer=" + offer + "]";
 	}
 	
 	

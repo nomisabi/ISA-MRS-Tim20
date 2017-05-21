@@ -18,6 +18,7 @@ import com.example.domain.Food;
 import com.example.domain.Manager;
 import com.example.domain.Menu;
 import com.example.domain.MenuItem;
+import com.example.domain.Offer;
 import com.example.domain.Region;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
@@ -29,6 +30,7 @@ import com.example.domain.User;
 import com.example.domain.DTOs.DrinkRestaurant;
 import com.example.domain.DTOs.EmployeeRestaurant;
 import com.example.domain.DTOs.MenuRestaurant;
+import com.example.domain.DTOs.OfferSupply;
 import com.example.domain.DTOs.SupplierRestaurant;
 import com.example.domain.DTOs.TableRegion;
 import com.example.service.DrinkMenuService;
@@ -540,6 +542,21 @@ public class ManagerController {
 		return new ResponseEntity<Region>(HttpStatus.OK);
 	}
 	
+	
+	@RequestMapping(
+			value = "/api/manager/supply", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Supply>> getSupply(@Valid @RequestBody Restaurant r) throws Exception {
+		logger.info("> get Supply");
+		Collection<Supply> supply=(Collection<Supply>) osService.getSupplyByRest(r.getId());
+		if (supply.size()==0)
+			return new ResponseEntity<Collection<Supply>>(HttpStatus.NOT_FOUND);
+		logger.info("< get Supply");
+		return new ResponseEntity<Collection<Supply>>(supply,HttpStatus.OK);
+	}
+	
 	@RequestMapping(
 			value = "/api/manager/addSupply", 
 			method = RequestMethod.POST, 
@@ -547,13 +564,42 @@ public class ManagerController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Supply> supply(@Valid @RequestBody Supply s) throws Exception {
 		logger.info("> add Supply "+s.toString());
-		if (!osService.isSupplyExist(s.getId()))
-			return new ResponseEntity<Supply>(HttpStatus.NOT_FOUND);
 		Supply supply=osService.createSupply(s);
 		if (supply==null)
 			return new ResponseEntity<Supply>(HttpStatus.NOT_FOUND);
 		logger.info("< add Supply");
 		return new ResponseEntity<Supply>(supply,HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(
+			value = "/api/manager/createOffer", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Offer> addOffer(@Valid @RequestBody OfferSupply os) throws Exception {
+		logger.info("> addOffer: ");
+		Offer offer= osService.createOffer(os.getO(), os.getS().getId());
+		
+		if (offer!=null){
+			return new ResponseEntity<Offer>(offer, HttpStatus.OK);
+		}
+		return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/chooseOffer", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Offer> chooseOffer(@Valid @RequestBody OfferSupply os) throws Exception {
+		logger.info("> addOffer: ");
+		osService.update(os.getS(), os.getO());
+		
+		if (os.getO()!=null){
+			return new ResponseEntity<Offer>( HttpStatus.OK);
+		}
+		return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
 	}
 	
 }
