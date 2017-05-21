@@ -6,11 +6,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	
 	$scope.list_of_region=[{name:'1', list:['1','2']},{name:'2', list:['1']},{name:'3', list:['1','2','3']}];
 
-	 $scope.status = '  ';
-	  $scope.customFullscreen = false;
-	$scope.cont=['tables'];
+    $scope.status = '  ';
+    $scope.customFullscreen = false;
+    $scope.cont=['tables'];
 	
-	$scope.page="non-active";
+    $scope.page="non-active";
 	$scope.updateMenu=false;
 	$scope.typeOfEmployee = [{
 		    value: 'CHEF',
@@ -48,9 +48,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 								$window.location.href="/";
 							});
 				});
-		
-		
-
+		$ocLazyLoad.load('assets/js/common-scripts.js');
 	}
 	
     init();
@@ -144,6 +142,8 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.login.password=$scope.pw1;
     		$http.post("http://localhost:8080/api/manager/changePass",$scope.login).success(
 					function(data){
+						//$window.href.location="/#/";
+						//$window.href.location="/#/man/index/";
 						$route.reload();
 					});
     	} else {

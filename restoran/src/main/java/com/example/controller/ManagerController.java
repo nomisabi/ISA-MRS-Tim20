@@ -21,6 +21,7 @@ import com.example.domain.MenuItem;
 import com.example.domain.Region;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
+import com.example.domain.Supply;
 import com.example.domain.TableOfRestaurant;
 import com.example.domain.TableReservation;
 import com.example.domain.TypeOfUser;
@@ -33,6 +34,7 @@ import com.example.domain.DTOs.TableRegion;
 import com.example.service.DrinkMenuService;
 import com.example.service.ManagerService;
 import com.example.service.MenuService;
+import com.example.service.OfferSupplyService;
 import com.example.service.RegionService;
 import com.example.service.ReservationService;
 import com.example.service.RestaurantService;
@@ -74,6 +76,8 @@ public class ManagerController {
 	private TableOfRestaurantService tableService;
 	@Autowired
 	private ReservationService reservationService;
+	@Autowired
+	private OfferSupplyService osService;
 	
 	@RequestMapping(
 			value = "/api/manager/{id}", 
@@ -535,4 +539,21 @@ public class ManagerController {
 		logger.info("< delTable: "+t.toString());
 		return new ResponseEntity<Region>(HttpStatus.OK);
 	}
+	
+	@RequestMapping(
+			value = "/api/manager/addSupply", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Supply> supply(@Valid @RequestBody Supply s) throws Exception {
+		logger.info("> add Supply "+s.toString());
+		if (!osService.isSupplyExist(s.getId()))
+			return new ResponseEntity<Supply>(HttpStatus.NOT_FOUND);
+		Supply supply=osService.createSupply(s);
+		if (supply==null)
+			return new ResponseEntity<Supply>(HttpStatus.NOT_FOUND);
+		logger.info("< add Supply");
+		return new ResponseEntity<Supply>(supply,HttpStatus.OK);
+	}
+	
 }

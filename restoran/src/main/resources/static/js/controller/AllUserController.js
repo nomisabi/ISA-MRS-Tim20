@@ -1,5 +1,6 @@
 
-angular.module('myApp').controller('AllUserController',['$scope','$http','$window',function($scope,$http, $window) {
+angular.module('myApp').controller('AllUserController',['$scope','$http','$window', '$ocLazyLoad',function($scope,$http, $window, $ocLazyLoad) {
+	$ocLazyLoad.load('assets/js/common-scripts.js');
 	function init(){
 		$http.get("http://localhost:8080/api/users/sysman");
 		//$.backstretch("assets/img/login-bg.jpg", {speed: 500});
