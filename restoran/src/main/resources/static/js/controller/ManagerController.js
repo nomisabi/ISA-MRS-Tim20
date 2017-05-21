@@ -9,7 +9,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     $scope.status = '  ';
     $scope.customFullscreen = false;
     $scope.cont=['tables'];
-	
+    
     $scope.page="non-active";
 	$scope.updateMenu=false;
 	$scope.typeOfEmployee = [{
@@ -157,6 +157,14 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="profile";
     	
     }
+    
+    $scope.changeToOffers= function(i){
+    	$scope.supply=i;
+    	if ($scope.manager.active)
+    		$scope.page="offers";
+    	
+    }
+    
     $scope.changeToRestaurants= function(){
     	if ($scope.manager.active)
     		$scope.page="restaurant";   	
@@ -190,6 +198,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="create_supplier"; 
   	}
   	$scope.changeToProcurements= function(){  
+  		$http.post("http://localhost:8080/api/manager/supply", $scope.manager.restaurant).success(function(data) {
+    		$scope.supplies=data;
+    	}).error(function(data) {
+    		alert("error");	
+    	});
   		if ($scope.manager.active)
     		$scope.page="supplies";
   	}
@@ -649,7 +662,17 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
         $scope.modelAsJson = angular.toJson(model, true);
     }, true);
     
-  
+    $scope.newSupply=function(){
+    	$scope.supply.restaurant=$scope.manager.restaurant;
+    	$scope.supply.chosed=false;
+    	alert(JSON.stringify($scope.supply));
+    	$http.post("http://localhost:8080/api/manager/addSupply", $scope.supply).success(function(data) {
+			$route.reload();
+		}).error(function(data) {
+			alert("error");
+		});	
+    	
+    }
 
       function DialogController($scope, $mdDialog) {
         $scope.hide = function() {
@@ -663,6 +686,20 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
         $scope.answer = function(answer) {
           $mdDialog.hide(answer);
         };
+      }
+      
+      $scope.chooseOffer=function(o){
+    	  	alert(o);
+    	  	$http.post("http://localhost:8080/api/manager/chooseOffer",{"o":o, "s": $scope.supply}).success(
+    				function(data){
+    					$route.reload();
+    			}).error(
+    				function(data){
+    					alert("error");
+    			}).then(
+    				function(data){
+    					$route.reload();
+  				});
       }
     
     

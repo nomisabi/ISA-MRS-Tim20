@@ -1,12 +1,16 @@
 package com.example.domain;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -25,6 +29,8 @@ public class Supplier implements Serializable{
 	private String password;
 	@Column
 	private boolean active;
+	@OneToMany(fetch = FetchType.LAZY , mappedBy= "supplier")
+	private Set<Offer> offers;
 	
 	public Supplier(){
 		

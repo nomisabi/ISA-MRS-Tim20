@@ -4,18 +4,24 @@
   <script src="//cdn.jsdelivr.net/interact.js/1.2.6/interact.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/interact.js/1.2.6/interact.min.js"></script>
   <script src="js/interact.js" type="text/javascript"></script>
+  
   <head>  
     <title>Cupcake</title>  
     
     <!-- CSSS -->
     <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">   
+    <link href="css/ng-rating.css" rel="styletheet" type="text/css" /> 
     
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet" type="text/css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" rel="stylesheet">
@@ -62,6 +68,93 @@
           background-color: yellow;
       }
 
+/**
+ * Base
+ */
+/* line 6, ../sass/ng-rating.scss */
+.ng-rating {
+  position: relative;
+  display: inline-block;
+  font-size: 25px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+/* line 18, ../sass/ng-rating.scss */
+.ng-rating--editable .ng-rating-group {
+  cursor: pointer; }
+
+/**
+ * Grade
+ */
+/* line 26, ../sass/ng-rating.scss */
+.ng-rating-grade {
+  color: #999;
+  position: absolute;
+  right: -5px;
+  top: 8px;
+  font-size: 14px;
+  -moz-transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%); }
+
+/**
+ * Stars
+ */
+/**
+ * Colors
+ */
+/* line 44, ../sass/ng-rating.scss */
+.ng-rating--xlow .ng-rating-group--hover {
+  color: #e11e21; }
+
+/* line 49, ../sass/ng-rating.scss */
+.ng-rating--low .ng-rating-group--hover {
+  color: #ff5d10; }
+
+/* line 54, ../sass/ng-rating.scss */
+.ng-rating--medium .ng-rating-group--hover {
+  color: #e8800e; }
+
+/* line 59, ../sass/ng-rating.scss */
+.ng-rating--high .ng-rating-group--hover {
+  color: #f9b836; }
+
+/* line 64, ../sass/ng-rating.scss */
+.ng-rating--xhigh .ng-rating-group--hover {
+  color: #fdd119; }
+
+/**
+ * Groups
+ */
+/* line 72, ../sass/ng-rating.scss */
+.ng-rating-group,
+.ng-rating-group--hover {
+  color: #EEE;
+  display: inline-block; }
+  /* line 77, ../sass/ng-rating.scss */
+  .ng-rating-group > span,
+  .ng-rating-group--hover > span {
+    margin-right: 2px;
+    display: inline-block; }
+
+/* line 82, ../sass/ng-rating.scss */
+.ng-rating-group--hover {
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out; }
+
     </style>
      
   </head>
@@ -94,6 +187,7 @@
       <script src="js/angular-drag-and-drop-lists.js"></script>
       <script src="js/angular-drag-and-drop-lists.min.js"></script>
       <script src="js/drag_drop.js"></script>
+      <script src="js/ng-rating.js"></script>
     
       <script type="text/javascript" src="assets/js/jquery.backstretch.min.js"></script>
       <script src="assets/js/jquery-1.8.3.min.js"></script>
