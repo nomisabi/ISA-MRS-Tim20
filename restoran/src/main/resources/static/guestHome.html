@@ -302,7 +302,22 @@
           	<!-- RESTAURANTS -->
           	<div ng-switch-when="restaurants" >
           		<div class="col-lg-12">
-          			<h3><i class="fa fa-angle-right"></i> Restaurants</h3>
+          			<h3><i class="fa fa-angle-right"></i> Restaurants
+          				<div class="btn-group" style="float: right; margin-right: 8%;">
+						  <button style="height: 34px;" type="button" class="btn btn-theme03">Sort</button>
+						  <button style="height: 34px;" type="button" class="btn btn-theme03 dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						    <span class="sr-only">Toggle Dropdown</span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a> Name <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i> </a></li>
+						    <li><a> Name <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>  </a></li>
+						    <li class="divider"></li>
+						    <li><a> Species <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i> </a></li>
+						     <li><a>Species <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a></li>
+						  </ul>
+						</div>   
+          			</h3>
           			<hr>
           			<div class="col-md-4 col-sm-4 mb" ng-repeat="restaurant in restaurants| orderBy:myOrder:reverse" >
           				<div class="weather pn">
@@ -355,8 +370,12 @@
           	<!-- VISITED RESTAURANTS -->
           	<div ng-switch-when="home">
           		<div class="col-lg-12">
-          			<h3><i class="fa fa-angle-right"></i> My visits</h3>
-          	    	<hr>
+          			<h3><i class="fa fa-angle-right"></i> My visits
+          				
+          			</h3>
+          	    	<hr>   				
+      				
+      				
           			<div class="col-md-4 mb" ng-repeat="reservation in reservations| orderBy:myOrder:reverse">
 						<!-- WHITE PANEL - TOP USER -->
 						<div class="white-panel pn">
@@ -388,11 +407,18 @@
           			<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
 						<div class="form-panel">
 							<h4 class="mb"><i class="fa fa-angle-right"></i> Reservation 
-								<a style="float: right;" class="btn btn-danger"  
+								<span style="float: right;">
+								<a  class="btn btn-default"  
+									ng-click="reserveNext3()">
+          							<span> Change reservation</span>
+          						</a> 
+								
+								<a  class="btn btn-danger"  
 									ng-click="deleteReservation()" ng-show="flag">
           							<i class="fa fa-trash-o fa-lg"></i> 
           							<span> Delete</span>
           						</a> 
+          						</span>
           					</h4>
 							<hr>
 							<form class="form-horizontal style-form" name="myForm" ng-submit="reserveNext2()">
