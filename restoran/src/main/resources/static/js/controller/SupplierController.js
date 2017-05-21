@@ -115,6 +115,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
   	}
   	
   	$scope.createOffer= function(){
+  		alert($scope.price);
   		offer={"supplier":$scope.supplier, "status":"WAITING" , "price":$scope.price, "quality": $scope.rating.rating};
   		$http.post("http://localhost:8080/api/manager/createOffer",{"o":offer, "s": $scope.supply}).success(
 				function(data){

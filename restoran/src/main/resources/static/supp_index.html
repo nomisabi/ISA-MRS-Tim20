@@ -237,7 +237,7 @@
 				            </table>
 				            </form>	
 			           	</div>
-			           	<div ng-switch-when="show_supply">
+			           	<div ng-switch-when="show_supply" ng-controller="SupplierController">
 			           	<h3>Supply details</h3>
 				         	<table>
 				         	<tr>
@@ -303,7 +303,7 @@
 						           		</tr>
 						           		<tr>
 						        			<td>Price:</td>
-						           			<td><input type="number" min="0" class="form-control" value="0" name="price" ng-model="price" required></td>
+						           			<td><input type="number" min="0" class="form-control" name="price" ng-model="price" required></td>
 						           		</tr> 
 						           		
 						           		<tr>
