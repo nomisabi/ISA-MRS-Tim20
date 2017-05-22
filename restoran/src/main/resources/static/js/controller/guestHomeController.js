@@ -416,13 +416,13 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     					 for (var i = 0; i < data.drinkMenu.items.length; i++) {
     						 $scope.drinkList.push({"item": data.drinkMenu.items[i],
     							                    "price": data.drinkMenu.items[i].price,
-    							                     "quality": 0});
+    							                     "quantity": 0});
     					 }
     					 
     					 for (var i = 0; i < data.menu.items.length; i++) {
     						 $scope.menuList.push({"item": data.menu.items[i],
     							                   "price": data.menu.items[i].price,
-    							                   "quality": 0});
+    							                   "quantity": 0});
     					 }
     					 $scope.page = "reserve4";
     				 }
@@ -438,24 +438,23 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	var listReserveFood = [];
   
     	for (var i = 0; i < $scope.drinkList.length; i++) {	
-    		if ($scope.drinkList[i].quality > 0){
+    		if ($scope.drinkList[i].quantity > 0){
     			var drink = {"drinkMenuItem": $scope.drinkList[i].item, 
     					    "guest": $scope.guest,
     					    "reservation": $scope.savedReservation, 
     					    "prepared": $scope.prepared, 
-    					    "quality": $scope.drinkList[i].quality};
-    		
+    					    "quantity": $scope.drinkList[i].quantity};
     			listReserveDrink.push(drink);
     		}
 		}
     	
     	for (var i = 0; i < $scope.menuList.length; i++) {
-			if ($scope.menuList[i].quality > 0){	
+			if ($scope.menuList[i].quantity > 0){	
 				var menu = {"menuItem": $scope.menuList[i].item, 
 						   "guest": $scope.guest ,
 						   "reservation": $scope.savedReservation, 
 						   "prepared": $scope.prepared, 
-						   "quality": $scope.menuList[i].quality};
+						   "quantity": $scope.menuList[i].quantity};
 				listReserveFood.push(menu);
 			}
 		}
@@ -465,7 +464,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     			   {"drinkMenuItems":listReserveDrink, "menuItems": listReserveFood})
     	     .success(function(data) {
     	    	 $scope.reservation = data;
-    	    	 $scope.changeToHome();
+    	    	// $scope.changeToHome();
+    	    	 $scope.changeToViewReservation($scope.savedReservation.id);
     	     })
     	     .error(
     	    		 function(data){
@@ -505,7 +505,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.addDrink = function(id) {
     	for (var i = 0; i < $scope.drinkList.length; i++) {
 			if ( $scope.drinkList[i].item.id == id ){
-				$scope.drinkList[i].quality ++;
+				$scope.drinkList[i].quantity ++;
 				break;
 			}
 		}
@@ -514,7 +514,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.addMenu = function(id) {
     	for (var i = 0; i < $scope.menuList.length; i++) {
 			if ( $scope.menuList[i].item.id == id ){
-				$scope.menuList[i].quality ++;
+				$scope.menuList[i].quantity ++;
 				break;
 			}
 		}
@@ -522,8 +522,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.deleteDrink = function(id) {
     	for (var i = 0; i < $scope.drinkList.length; i++) {
-			if ( $scope.drinkList[i].drink.id == id ){
-				$scope.drinkList[i].quality --;
+			if ( $scope.drinkList[i].item.id == id ){
+				$scope.drinkList[i].quantity --;
 				break;
 			}
 		}
@@ -531,8 +531,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.deleteMenu = function(id) {
     	for (var i = 0; i < $scope.menuList.length; i++) {
-			if ( $scope.menuList[i].drink.id == id ){
-				$scope.menuList[i].quality --;
+			if ( $scope.menuList[i].item.id == id ){
+				$scope.menuList[i].quantity --;
 				break;
 			}
 		}
@@ -618,4 +618,23 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     				 }
     		 );     
     }
+    
+    $scope.changeOrder = function(){   	
+    	//alert("change");
+    	$http.post('http://localhost:8080/api/reservation/order/' + $scope.id, $scope.guest)
+		 .success(
+				 function(data) {
+					$scope.drinkList = data.drinkMenuItems;
+					$scope.menuList = data.menuItems;
+					$scope.page = "changeOrder";
+					
+				 }
+	     ).error(
+	    		 function(data){
+	    			 //alert("error");
+	    		 }
+	     ); 
+    	
+    }
+    	
 }])

@@ -482,7 +482,7 @@ public class GuestController {
 		return new ResponseEntity<ConfirmInvite>(confirm, HttpStatus.OK);
 	}
 
-	/*** Get guest with {id} ***/
+	/*** Get reservation with {id} ***/
 	@RequestMapping(value = "/api/reservation/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ReservationDetails> getReservation(@PathVariable("id") Long id, @RequestBody Guest guest) {
 		logger.info("> getReservation id:{}", id);
@@ -515,13 +515,14 @@ public class GuestController {
 		for (Guest guest2 : guests) {
 			System.out.println(guest2);
 		}
-		Collection<MenuItem> menuItems = reservationService.getAllMenuItemReservation(id, guest.getId());
-		for (MenuItem menuItem : menuItems) {
+		Collection<MenuItemReservation> menuItems = reservationService.getAllMenuItemReservation(id, guest.getId());
+		for (MenuItemReservation menuItem : menuItems) {
 			System.out.println(menuItem);
 		}
 
-		Collection<DrinkMenuItem> drinkMenuItems = reservationService.getAllDrinkMenuItemReservation(id, guest.getId());
-		for (DrinkMenuItem drinkMenuItem : drinkMenuItems) {
+		Collection<DrinkMenuItemReservation> drinkMenuItems = reservationService.getAllDrinkMenuItemReservation(id,
+				guest.getId());
+		for (DrinkMenuItemReservation drinkMenuItem : drinkMenuItems) {
 			System.out.println(drinkMenuItem);
 		}
 
@@ -559,6 +560,53 @@ public class GuestController {
 		details.setFlag(flag);
 
 		return new ResponseEntity<ReservationDetails>(details, HttpStatus.NOT_FOUND);
+	}
+
+	/*** Get order ***/
+	@RequestMapping(value = "/api/reservation/order/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ReservationDetails> getOrder(@PathVariable("id") Long id, @RequestBody Guest guest) {
+		logger.info("> orderingFoodAndDrink");
+		System.out.println(id);
+		System.out.println(guest);
+		Reservation reservation = reservationService.getReservationId(id);
+		System.out.println(reservation.getId());
+		HashMap<Long, MenuItemReservation> menuReservation = new HashMap<Long, MenuItemReservation>();
+
+		Collection<MenuItemReservation> menuItemReservation = reservationService
+				.getAllMenuItemReservation(reservation.getId(), guest.getId());
+		for (MenuItemReservation menuItemReservation2 : menuItemReservation) {
+			System.out.println(menuItemReservation2);
+			menuReservation.put(menuItemReservation2.getMenuItem().getId(), menuItemReservation2);
+		}
+
+		HashMap<Long, DrinkMenuItemReservation> drinkReservation = new HashMap<Long, DrinkMenuItemReservation>();
+		Collection<DrinkMenuItemReservation> drinkItemReservation = reservationService
+				.getAllDrinkMenuItemReservation(reservation.getId(), guest.getId());
+		for (DrinkMenuItemReservation drinkMenuItemReservation : drinkItemReservation) {
+			System.out.println(drinkMenuItemReservation);
+			drinkReservation.put(drinkMenuItemReservation.getDrinkMenuItem().getId(), drinkMenuItemReservation);
+		}
+
+		Restaurant restaurant = reservationService.getRestaurant(reservation.getId());
+		System.out.println(restaurant);
+
+		for (MenuItem item : restaurant.getMenu().getItems()) {
+			System.out.println(item);
+			if (!menuReservation.containsKey(item.getId())) {
+				menuReservation.put(item.getId(), new MenuItemReservation(item, guest, reservation));
+			}
+		}
+		
+		for (DrinkMenuItem item : restaurant.getDrinkMenu().getItems()) {
+			System.out.println(item);
+			if (!drinkReservation.containsKey(item.getId())){
+				drinkReservation.put(item.getId(), new DrinkMenuItemReservation(item, guest, reservation));
+			}
+		}
+		
+		ReservationDetails details = new ReservationDetails(menuReservation.values(), drinkReservation.values());
+
+		return new ResponseEntity<ReservationDetails>(details,HttpStatus.OK);
 	}
 
 }

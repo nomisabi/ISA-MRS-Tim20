@@ -2,13 +2,12 @@ package com.example.service;
 
 import java.util.Collection;
 
-import com.example.domain.DrinkMenuItem;
 import com.example.domain.DrinkMenuItemReservation;
 import com.example.domain.Guest;
 import com.example.domain.GuestReservation;
-import com.example.domain.MenuItem;
 import com.example.domain.MenuItemReservation;
 import com.example.domain.Reservation;
+import com.example.domain.Restaurant;
 import com.example.domain.TableOfRestaurant;
 import com.example.domain.TableReservation;
 
@@ -36,9 +35,9 @@ public interface ReservationService {
 
 	Collection<TableOfRestaurant> getAllTableOfReservation(Long idReservation);
 
-	Collection<MenuItem> getAllMenuItemReservation(Long idReservation, Long idGuest);
+	Collection<MenuItemReservation> getAllMenuItemReservation(Long idReservation, Long idGuest);
 
-	Collection<DrinkMenuItem> getAllDrinkMenuItemReservation(Long idReservation, Long idGuest);
+	Collection<DrinkMenuItemReservation> getAllDrinkMenuItemReservation(Long idReservation, Long idGuest);
 
 	Collection<Guest> getFriends(Long idReservation, Long idGuest);
 
@@ -59,5 +58,9 @@ public interface ReservationService {
 	void deleteGuestReservation(Long id);
 
 	Collection<TableReservation> getbyTable(Long id_table);
+	
+	Reservation getReservationId(Long guestReservationId);
+	
+	Restaurant getRestaurant(Long reservationId);
 
 }
