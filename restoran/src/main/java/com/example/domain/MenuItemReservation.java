@@ -28,7 +28,7 @@ public class MenuItemReservation implements Serializable {
 	@Column
 	private boolean prepared;
 	@Column
-	private int quality;
+	private int quantity;
 
 	public MenuItemReservation() {
 	}
@@ -38,6 +38,8 @@ public class MenuItemReservation implements Serializable {
 		this.menuItem = menuItem;
 		this.guest = guest;
 		this.reservation = reservation;
+		this.prepared = false;
+		this.quantity = 0;
 	}
 
 	public MenuItemReservation(MenuItem menuItem, Guest guest, Reservation reservation, boolean prepared) {
@@ -88,12 +90,12 @@ public class MenuItemReservation implements Serializable {
 		this.prepared = prepared;
 	}
 
-	public int getQuality() {
-		return quality;
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setQuality(int quality) {
-		this.quality = quality;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override

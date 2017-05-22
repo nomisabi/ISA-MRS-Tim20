@@ -10,13 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.example.domain.DrinkMenuItem;
 import com.example.domain.DrinkMenuItemReservation;
 import com.example.domain.Guest;
 import com.example.domain.GuestReservation;
-import com.example.domain.MenuItem;
 import com.example.domain.MenuItemReservation;
 import com.example.domain.Reservation;
+import com.example.domain.Restaurant;
 import com.example.domain.TableOfRestaurant;
 import com.example.domain.TableReservation;
 import com.example.respository.DrinkMenuItemReservationRepository;
@@ -119,12 +118,12 @@ public class ReservationServiceImp implements ReservationService {
 	}
 
 	@Override
-	public Collection<MenuItem> getAllMenuItemReservation(Long idReservation, Long idGuest) {
+	public Collection<MenuItemReservation> getAllMenuItemReservation(Long idReservation, Long idGuest) {
 		return menuReservationRepository.getMenuItems(idReservation, idGuest);
 	}
 
 	@Override
-	public Collection<DrinkMenuItem> getAllDrinkMenuItemReservation(Long idReservation, Long idGuest) {
+	public Collection<DrinkMenuItemReservation> getAllDrinkMenuItemReservation(Long idReservation, Long idGuest) {
 		return drinkMenuReservationRepository.getMenuItems(idReservation, idGuest);
 
 	}
@@ -167,7 +166,6 @@ public class ReservationServiceImp implements ReservationService {
 	@Override
 	@Transactional(readOnly = false)
 	public void deleteGuestReservation(Long id) {
-
 		guestReservationRepository.delete(id);
 	}
 
@@ -181,6 +179,16 @@ public class ReservationServiceImp implements ReservationService {
 	public Collection<TableReservation> getbyTable(Long id_table) {
 		// return null;
 		return tableReservationRepository.getByTable(id_table);
+	}
+
+	@Override
+	public Reservation getReservationId(Long guestReservationId) {
+		return guestReservationRepository.getReservationId(guestReservationId);
+	}
+
+	@Override
+	public Restaurant getRestaurant(Long reservationId) {
+		return reservationRepository.getRestaurant(reservationId);
 	}
 
 }
