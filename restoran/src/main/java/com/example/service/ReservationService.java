@@ -70,5 +70,7 @@ public interface ReservationService {
 	void deleteMenuItem(Long id);
 	
 	void deleteDrinkItem(Long id);
+	
+	void deleteTableReservation(Long id);
 
 }
