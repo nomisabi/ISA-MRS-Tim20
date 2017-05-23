@@ -1,6 +1,10 @@
 package com.example.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,7 +67,7 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 
 	@Override
 	public void updateOffer(Offer offer) {
-		// TODO Auto-generated method stub
+		offerRepository.updateStatus(offer.getId(), 3);
 		
 	}
 
@@ -90,6 +94,26 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 
 	@Override
 	public Collection<Supply> getSupplyByRest(Long id) {
+		/*String now="";
+		Date date = new Date();
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
+		int year = calendar.get(Calendar.YEAR);
+		//Add one to month {0 - 11}
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		int hours = calendar.get(Calendar.HOUR)-2;
+		if (month<10)
+			if (day<10)
+				now+=year+"-0"+month+"-0"+day+"T"+hours+":"+date.getMinutes()+":"+date.getSeconds();
+			else
+				now+=year+"-0"+month+"-"+day+"T"+hours+":"+date.getMinutes()+":"+date.getSeconds();
+		else
+			if (day<10)
+				now+=year+"-"+month+"-0"+day+"T"+hours+":"+date.getMinutes()+":"+date.getSeconds();
+			else
+				now+=year+"-"+month+"-"+day+"T"+dhours+":"+date.getMinutes()+":"+date.getSeconds();
+		System.out.println("Datum (2017-05-23T17:25:22.186Z):"+now);*/
 		return (Collection<Supply>) supplyRepository.getSupplyByRest(id);
 	}
 
@@ -103,6 +127,35 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 		}
 		supplyRepository.updateStatus(s.getId(), true);
 		
+	}
+
+	@Override
+	public Collection<Supply> getSupplyByRestChoosed(Long id) {
+		/*String now="";
+		Date date = new Date();
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
+		int year = calendar.get(Calendar.YEAR);
+		//Add one to month {0 - 11}
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		if (month<10)
+			if (day<10)
+				now+=year+"-0"+month+"-0"+day+"T"+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+			else
+				now+=year+"-0"+month+"-"+day+"T"+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+		else
+			if (day<10)
+				now+=year+"-"+month+"-0"+day+"T"+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+			else
+				now+=year+"-"+month+"-"+day+"T"+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+		System.out.println("Datum (2017-05-23T17:25:22.186Z):"+now);*/
+		return (Collection<Supply>) supplyRepository.getSupplyByRestChoosed(id);
+	}
+
+	@Override
+	public Collection<Supply> getWaitingSupply(Long id) {
+		return  (Collection<Supply>) supplyRepository.getWatingSupply(id);
 	}
 
 }

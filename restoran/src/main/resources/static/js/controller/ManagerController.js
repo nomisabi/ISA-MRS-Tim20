@@ -192,6 +192,16 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="new_drink_item";   
     	}
     }
+    
+    $scope.changeToHistorySupply=function(){
+    	$http.post("http://localhost:8080/api/manager/supply_hist", $scope.manager.restaurant).success(function(data) {
+    		$scope.supplies_hist=data;
+    	}).error(function(data) {
+    		alert("error");	
+    	});
+    	if ($scope.manager.active)
+    		$scope.page="history";  
+    }
   	$scope.changeToSupplier= function(){
   		//alert("supplier");
   		if ($scope.manager.active)

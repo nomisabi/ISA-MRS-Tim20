@@ -127,8 +127,42 @@
 			           	</div>
 			           	<div ng-switch-when="orders">
 							<div class="col-md-12">
-			                      <div class="content-panel">
-			                          <table class="table table-striped table-advance table-hover">
+			                      <div class="content-panel" style="padding:2%; " >
+			                      		<table class="table table-striped table-advance table-hover" style="width:95%;">
+				                  	  	  <h4><i class="fa fa-angle-right"></i> Waiting for sending</h4>
+				                  	  	  <hr>
+			                              <thead>		                            
+			                    
+			                              <tr >
+			                                  
+			                                  <th>Name</th>
+			                                  <th>From</th>
+			                                  <th>To</th><th></th>
+			          
+			                              </tr>
+			                              </thead>
+			                              <tbody>
+			                            <tr ng-repeat="s in rest.wait">
+			                            	
+			                          
+			                                 <td  ng-click="changeToPage(s)">{{s.name}}</td>
+			                                  <td  ng-click="changeToPage(s)">{{s.from_date | date:'yyyy-MM-dd HH:mm'}}</td>
+			                                  <td  ng-click="changeToPage(s)">{{s.to_date | date:'yyyy-MM-dd HH:mm'}}</td>
+			                                  <td >
+			                                    <a style="float: right;" class="btn btn-success" ng-click="sendOffer(s)">Send</a>
+			                                   
+			                                  </td>
+			                              </tr>	
+			                            
+			                              </tbody>
+			                              <thead>
+			                              </thead>
+			                          </table>
+			                      
+			                      <br>
+			                      <br>
+			                      <br>
+			                          <table class="table table-striped table-advance table-hover" style="width:95%;">
 				                  	  	  <h4><i class="fa fa-angle-right"></i> Orders</h4>
 				                  	  	  <hr>
 			                              <thead>
@@ -154,10 +188,64 @@
 			                                  <th></th>
 			                                  <th>Name</th>
 			                                  <th>From</th>
-			                                  <th>To</th><th>Choosed</th>
+			                                  <th>To</th><th>Finished</th>
 			          
 			                              </tr>
 			                            <tr ng-repeat="s in rest.supplies" ng-click="changeToPage(s)">
+			                            	<td></td>
+			                          
+			                                 <td>{{s.name}}</td>
+			                                  <td>{{s.from_date | date:'yyyy-MM-dd HH:mm'}}</td>
+			                                  <td>{{s.to_date | date:'yyyy-MM-dd HH:mm'}}</td>
+			                                  <td >
+			                                  	<span class="label label-success label-mini" ng-show="s.chosed">Yes</span>
+			                                  	<span class="label label-warning label-mini" ng-hide="s.chosed">No</span>
+			                                  </td>
+			                              </tr>	
+			                            
+			                              </tbody>
+			                          </table>
+			                          
+			                          <a class="" ng-click="changeToOrdersHistory()">
+						                   	History
+						                </a> 
+			                          
+			                      </div><!-- /content-panel -->
+			                  </div><!-- /col-md-12 -->
+			           	</div>
+			           	<div ng-switch-when="history">
+							<div class="col-md-12">
+			                      <div class="content-panel" style="padding:2%; " >
+			                          <table class="table table-striped table-advance table-hover" style="width:95%;">
+				                  	  	  <h4><i class="fa fa-angle-right"></i> History</h4>
+				                  	  	  <hr>
+			                              <thead>
+			                              <tr>
+			                                  <th> Name</th>
+			                                  <th>Species</th>
+			                                  <th> Location</th>
+			                                  <th></th>
+			                                  <th></th>
+			           
+			                              </tr>
+			                              </thead>
+			                              <tbody ng-repeat="r in rest">
+			                    
+			                              <tr >
+			                                  <td>{{r.name}}</td>
+			                                  <td>{{r.species}}</td>
+			                                  <td>{{r.location}}</td>
+			                                  <td></td><td></td>
+			          
+			                              </tr>
+			                              <tr >
+			                                  <th></th>
+			                                  <th>Name</th>
+			                                  <th>From</th>
+			                                  <th>To</th><th>Finished</th>
+			          
+			                              </tr>
+			                            <tr ng-repeat="s in rest.supplies_hist" ng-click="changeToPage(s)">
 			                            	<td></td>
 			                          
 			                                 <td>{{s.name}}</td>
@@ -238,6 +326,8 @@
 				            </form>	
 			           	</div>
 			           	<div ng-switch-when="show_supply" ng-controller="SupplierController">
+			           	<div class="col-md-12">
+			                      <div class="content-panel" style="padding:2%; " >
 			           	<h3>Supply details</h3>
 				         	<table>
 				         	<tr>
@@ -259,9 +349,12 @@
 				         		</td>
 				         	</tr>
 				         	<tr>
-				         		<td>Chosed:
+				         		<td>Finished:
 				         		</td>
-				         		<td>{{supply.chosed}}
+				         		<td>
+									<span style="float:left;" class="label label-success" ng-show="supply.chosed">Yes</span>
+			                        <span style="float:left;" class="label label-warning" ng-hide="supply.chosed">No</span>
+			                    </td>
 				         		</td>
 				         	</tr>
 				         	<tr>
@@ -270,12 +363,62 @@
 				         		<td>{{supply.restaurant.name}}
 				         		</td>
 				         	</tr>
+				         	</table >
+				         	<div ng-hide="finished">
+			         		<div class="form-panel" ng-show="have">
+			         			<h5 class="form-login-heading">My offer</h5>
+			         			<br>
+			         			<table style="width:95%;">
+				         	<tr>
+				         		<td> Price:
+				         		</td>
+				         		<td>{{mine.price}}
+				         		</td>
+				         	</tr>
+				         	<tr><td>&nbsp; </td><td>&nbsp;</td></tr>
+				         	<tr>
+				         		<td> Quality:
+				         		</td>
+				         		<td><ng-rating ng-model="mine.quality"
+													>
+												</ng-rating>
+				         		</td>
+				         	</tr>
+				         	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+				         	<tr>
+				         		<td> Status:
+				         		</td>
+				         		<td ng-switch="mine.status">
+				         		<a ng-switch-when="CHOOSED"  class="label label-warning">Choosen</a>
+			                    <a ng-switch-when="SEND" class="label label-success">Sended</a>
+			                    <a ng-switch-when="NOT_CHOOSED"  class="label label-error">Not choosen</a>
+			                    <a ng-switch-when="WAITING"  class="label label-info">Waiting</a>
+				         		
+				         		</td>
+				   
+				         	</tr>
+				         	<tr ng-switch="mine.status">
+				         		<td></td>
+				         		<td div ng-switch-when="CHOOSED"> <a style="float: right;" class="btn btn-success" ng-click="sendOffer(s)">Send</a></td>
+				         	</tr>
 				         	</table>
-			         		<div ng-show="have">{{mine}}
+			         			
+			         	
 			         		</div>
-			         		<div ng-hide="have" class="container" >
+			         		
+			         		
+			         		
+			         		
+			         		<div class="form-panel"  ng-hide="have"  >
+			         		<h5 class="form-login-heading">My offer</h5>
 			         		<br>
+			         		<div ng-show="supply.chosed">
 			         		<br>
+			         			The supply is ended. You can't send an offer.
+			         		</div>
+			         		<div ng-hide="supply.chosed">
+			         		
+			         		
 			         			You didn't send an offer for this supply. But you can:
 			         
 			         			<br>
@@ -334,7 +477,16 @@
 						            </table>
 						            </form>	
 			         		</div>
-			         	
+			         		</div>
+			         		</div>
+			         		<div  class="form-panel"  ng-show="finished">
+			         		<h5 class="form-login-heading">My offer</h5>
+			         		<br>
+			         		<br>
+			         			The deadline exceeded. You can't send an offer.
+			         			</div>
+			         		</div>
+			         		</div>
 			           	</div>
 						
 					

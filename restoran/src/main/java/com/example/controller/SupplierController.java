@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.Guest;
 import com.example.domain.Manager;
+import com.example.domain.Offer;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.User;
 import com.example.domain.DTOs.GuestRegister;
 import com.example.service.GuestService;
+import com.example.service.OfferSupplyService;
 import com.example.service.SupplierService;
 import com.example.service.UserService;
 
@@ -35,6 +37,9 @@ public class SupplierController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private OfferSupplyService osService;
 
 	@RequestMapping(
 			value = "/api/suppliers", 
@@ -155,6 +160,20 @@ public class SupplierController {
 
 		logger.info("< getRestaurants");
 		return new ResponseEntity<Collection<Restaurant>>(restaurants, HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/suppliers/sendOffer", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Offer> sendOffer(@Valid @RequestBody  Offer o) {
+		logger.info("> sendOffer");
+
+		osService.updateOffer(o);
+		
+		logger.info("< sendOffer");
+		return new ResponseEntity<Offer>(o,HttpStatus.OK);
 	}
 	
 

@@ -1963,6 +1963,20 @@ label {
 	text-transform: uppercase;
 	font-weight: 300;
 }
+ 
+h5.form-login-heading {
+	margin: 0;
+	padding: 10px 20px;
+	text-align: center;
+	background: #68dff0;
+	border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	color: #fff;
+	font-size: 12 px;
+	text-transform: uppercase;
+	font-weight: 50;
+	height:30px
+}
 .login-wrap {
 	padding: 20px;
 }

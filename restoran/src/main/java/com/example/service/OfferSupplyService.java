@@ -12,6 +12,10 @@ public interface OfferSupplyService {
 	
 	Collection<Supply> getSupplyByRest(Long id);
 	
+	Collection<Supply> getSupplyByRestChoosed(Long id);
+	
+	Collection<Supply> getWaitingSupply(Long id);
+	
 	void updateSupply(Supply supply);
 	
 	boolean isSupplyExist(Long id);
@@ -35,5 +39,6 @@ public interface OfferSupplyService {
 	void deleteOffer(Long id);
 	
 	void update(Supply s, Offer o);
+	
 	
 }

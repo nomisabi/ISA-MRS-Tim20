@@ -25,7 +25,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 								$http.post("http://localhost:8080/api/suppliers/restaurant",data).then(
 										function(data){
 											$scope.restaurants=data.data;
-											
+											$scope.rest=$scope.restaurants;
 										});
 								if ($scope.supplier.active)
 									$scope.page="profile";
@@ -34,9 +34,6 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 										$window.location.href="/";
 									});
 				});
-		
-		
-
 	}
 	
     init();
@@ -79,10 +76,38 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     		$scope.page="profile";   	
     }
     
+    function formatDate(date){
+    	var day = date.getDate();
+    	day= day > 10 ? day : "0"+day;
+        var monthIndex = date.getMonth()+1;
+        monthIndex= monthIndex > 10 ? monthIndex : "0"+monthIndex;
+        var year = date.getFullYear();
+        var hours = date.getHours()-2;
+        hours= hours > 10 ? hours : "0"+hours;
+        var minutes = date.getMinutes();
+        minutes= minutes > 10 ? minutes : "0"+minutes;
+        var sec= date.getSeconds(); 
+        sec= sec > 10 ? sec : "0"+sec;
+        
+    	return year+"-"+monthIndex+"-"+day+"T"+hours+":"+minutes+":"+sec;
+    }
+    
     $scope.changeToPage= function(s){
     	$scope.supply=s;
     	$scope.mine=null;
     	$scope.have=false;
+    	$scope.finished=false;
+
+    	
+    	var date =formatDate(new Date());
+		if (s.from_date>date){
+			alert("This supply is not started yet.");
+			return;
+		}
+		if (s.to_date<date ){
+			$scope.finished=true;
+		}
+			
     	for(var i=0; i< $scope.supply.offer.length;i++){
     		if ($scope.supply.offer[i].supplier.id==$scope.supplier.id){
     			$scope.mine=$scope.supply.offer[i];
@@ -98,15 +123,43 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     		$scope.page="restaurant";   	
     }
     $scope.changeToOrders= function(){
-    	$scope.rest=$scope.restaurants;
     	for (var i=0;i<$scope.rest.length;i++){
     		$http.post("http://localhost:8080/api/manager/supply",$scope.rest[i]).success(
 					function(data){
 						$scope.rest.supplies=data;
 					});
     	}
+    	$http.post("http://localhost:8080/api/manager/supply_choosed",$scope.supplier).success(
+				function(data){
+					$scope.rest.wait=data;
+				});
     	if ($scope.supplier.active)
     		$scope.page="orders";   	
+    }
+    
+    $scope.sendOffer=function(supply){
+    	mine=null;
+    	for(var i=0; i< supply.offer.length;i++){
+    		if (supply.offer[i].supplier.id==$scope.supplier.id){
+    			mine=supply.offer[i];
+    		}
+    	}
+    	$http.post("http://localhost:8080/api/suppliers/sendOffer",mine).success(
+				function(data){
+					$route.reload();
+				});
+    } 
+    
+    $scope.changeToOrdersHistory= function(){
+    	$scope.rest=$scope.restaurants;
+    	for (var i=0;i<$scope.rest.length;i++){
+    		$http.post("http://localhost:8080/api/manager/supply_hist",$scope.rest[i]).success(
+    				function(data){
+    					$scope.rest.supplies_hist=data;
+    				});
+    	}
+    	if ($scope.supplier.active)
+    		$scope.page="history";   	
     }
     
   	$scope.changeToChangePass= function(){
