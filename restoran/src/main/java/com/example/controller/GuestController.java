@@ -596,17 +596,79 @@ public class GuestController {
 				menuReservation.put(item.getId(), new MenuItemReservation(item, guest, reservation));
 			}
 		}
-		
+
 		for (DrinkMenuItem item : restaurant.getDrinkMenu().getItems()) {
 			System.out.println(item);
-			if (!drinkReservation.containsKey(item.getId())){
+			if (!drinkReservation.containsKey(item.getId())) {
 				drinkReservation.put(item.getId(), new DrinkMenuItemReservation(item, guest, reservation));
 			}
 		}
-		
+
 		ReservationDetails details = new ReservationDetails(menuReservation.values(), drinkReservation.values());
 
-		return new ResponseEntity<ReservationDetails>(details,HttpStatus.OK);
+		return new ResponseEntity<ReservationDetails>(details, HttpStatus.OK);
+	}
+
+	/*** Ordering food and drink ***/
+	@RequestMapping(value = "/api/reservation/changeOrder", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Reservation>> changeOrder(@RequestBody ItemsReservation itemsReservation) {
+		logger.info("> orderingFoodAndDrink");
+		System.out.println(itemsReservation);
+		System.out.println(itemsReservation.getGuest());
+		System.out.println(itemsReservation.getReservation());
+
+		Collection<MenuItemReservation> reservedItems = reservationService.getAllMenuItemReservation(
+				itemsReservation.getReservation().getId(), itemsReservation.getGuest().getId());
+		HashMap<Long, MenuItemReservation> hashReservedItems = new HashMap<>();
+
+		for (MenuItemReservation menuItemReservation : reservedItems) {
+			hashReservedItems.put(menuItemReservation.getId(), menuItemReservation);
+
+		}
+
+		Collection<DrinkMenuItemReservation> reservedDrink = reservationService.getAllDrinkMenuItemReservation(
+				itemsReservation.getReservation().getId(), itemsReservation.getGuest().getId());
+
+		HashMap<Long, DrinkMenuItemReservation> hashReservedDrink = new HashMap<>();
+
+		for (DrinkMenuItemReservation drinkMenuItemReservation : reservedDrink) {
+			hashReservedDrink.put(drinkMenuItemReservation.getId(), drinkMenuItemReservation);
+		}
+
+		for (MenuItemReservation menuItem : itemsReservation.getMenuItems()) {
+			System.out.println(menuItem);
+			if (menuItem.getId() == null) {
+				reservationService.saveMenuItem(menuItem);
+			} else {
+				reservationService.updateMenuItem(menuItem.getId(), menuItem.getQuantity());
+				if (hashReservedItems.containsKey(menuItem.getId())) {
+					hashReservedItems.remove(menuItem.getId());
+				}
+			}
+		}
+
+		for (DrinkMenuItemReservation drinkMenuItem : itemsReservation.getDrinkMenuItems()) {
+			System.out.println(drinkMenuItem);
+			if (drinkMenuItem.getId() == null) {
+				reservationService.saveDrinkMenuItem(drinkMenuItem);
+			} else {
+				reservationService.updateDrinkItem(drinkMenuItem.getId(), drinkMenuItem.getQuantity());
+				if (hashReservedDrink.containsKey(drinkMenuItem.getId())) {
+					hashReservedDrink.remove(drinkMenuItem.getId());
+				}
+			}
+		}
+
+		for (DrinkMenuItemReservation drinkMenuItemReservation : hashReservedDrink.values()) {
+			System.out.println(drinkMenuItemReservation);
+			reservationService.deleteDrinkItem(drinkMenuItemReservation.getId());
+		}
+
+		for (MenuItemReservation menuItemReservation : hashReservedItems.values()) {
+			System.out.println(menuItemReservation);
+			reservationService.deleteMenuItem(menuItemReservation.getId());
+		}
+		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
 	}
 
 }

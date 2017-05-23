@@ -713,7 +713,7 @@
 							<div class="form-panel">
 								<h4 class="mb"><i class="fa fa-angle-right"></i> Change order </h4>
 								<hr>
-								<form class="form-horizontal style-form" name="myForm" ng-submit="">
+								<form class="form-horizontal style-form" name="myForm" ng-submit="changeOrder2()">
 									<div class="form-group">
 										<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
 										<div class="col-lg-10">
@@ -734,11 +734,11 @@
 													<td>{{ x.menuItem.food.name}}</td>
 													<td>{{ x.menuItem.price }}</td>
 													<td>{{x.quantity}}</td>
-													<td><a class="btn btn-default" ng-click="addMenu(x.item.id)">
+													<td><a class="btn btn-default" ng-click="changeMenu(x.menuItem.id)">
 													<i class="fa fa-plus" aria-hidden="true"></i>
 													</a>
 													&nbsp;
-													<a class="btn btn-default" ng-click="deleteMenu(x.item.id)" ng-hide="x.quantity == 0">
+													<a class="btn btn-default" ng-click="changeMenud(x.menuItem.id)" ng-hide="x.quantity == 0">
 													<i class="fa fa-minus" aria-hidden="true"></i>
 													</a>
 												</tr>
@@ -759,11 +759,11 @@
 													<td>{{ x.drinkMenuItem.drink.name}}</td>
 													<td>{{ x.drinkMenuItem.price }}</td>
 													<td>{{x.quantity}}</td>
-													<td><a class="btn btn-default" ng-click="addDrink(x.item.id)">
+													<td><a class="btn btn-default" ng-click="changeDrink(x.drinkMenuItem.id)">
 													<i class="fa fa-plus" aria-hidden="true"></i>
 													</a>
 													&nbsp;
-													<a class="btn btn-default" ng-click="deleteDrink(x.item.id)" ng-hide="x.quantity == 0">
+													<a class="btn btn-default" ng-click="changeDrinkd(x.drinkMenuItem.id)" ng-hide="x.quantity == 0">
 													<i class="fa fa-minus" aria-hidden="true"></i>
 													</a>
 													

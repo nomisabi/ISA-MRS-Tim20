@@ -3,11 +3,15 @@ package com.example.domain.DTOs;
 import java.util.Collection;
 
 import com.example.domain.DrinkMenuItemReservation;
+import com.example.domain.Guest;
 import com.example.domain.MenuItemReservation;
+import com.example.domain.Reservation;
 
 public class ItemsReservation {
 	private Collection<MenuItemReservation> menuItems;
 	private Collection<DrinkMenuItemReservation> drinkMenuItems;
+	private Guest guest;
+	private Reservation reservation;
 
 	public ItemsReservation() {
 	}
@@ -33,6 +37,22 @@ public class ItemsReservation {
 
 	public void setDrinkMenuItems(Collection<DrinkMenuItemReservation> drinkMenuItems) {
 		this.drinkMenuItems = drinkMenuItems;
+	}
+
+	public Guest getGuest() {
+		return guest;
+	}
+
+	public void setGuest(Guest guest) {
+		this.guest = guest;
+	}
+
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
 	}
 
 	@Override

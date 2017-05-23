@@ -102,8 +102,10 @@ public class DrinkMenuItemReservation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DrinkMenuItemReservation [drinkMenuItem=" + drinkMenuItem + ", guest=" + guest + ", reservation="
-				+ reservation + "]";
+		return "DrinkMenuItemReservation [id=" + id + ", drinkMenuItem=" + drinkMenuItem + ", quantity=" + quantity
+				+ ", prepared=" + prepared + "]";
 	}
+
+	
 
 }
