@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Region;
+import com.example.domain.TableOfRestaurant;
 
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Long> {
@@ -20,4 +21,6 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
 	@Transactional
     @Query(value="UPDATE region SET name=?2 WHERE id=?1", nativeQuery=true)
     int updateName(Long id_reg, String name);
+	
+	
 }

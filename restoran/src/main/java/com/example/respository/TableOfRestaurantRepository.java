@@ -26,4 +26,7 @@ public interface TableOfRestaurantRepository extends JpaRepository<TableOfRestau
 	@Transactional
 	@Query(value="DELETE FROM table_of_restaurant t WHERE t.id = ?1", nativeQuery=true)
 	void deleteTable(Long id);
+	
+	@Query(value="SELECT Object(t) FROM TableOfRestaurant t WHERE t.region.id = ?1", nativeQuery=false)
+	public Collection<TableOfRestaurant> getTablesByRegion(Long id);
 }

@@ -7,13 +7,18 @@ import org.springframework.stereotype.Service;
 
 import com.example.domain.Region;
 import com.example.domain.Restaurant;
+import com.example.domain.TableOfRestaurant;
 import com.example.respository.RegionRepository;
+import com.example.respository.TableOfRestaurantRepository;
 
 @Service
 public class RegionServiceImp implements RegionService{
 	
 	@Autowired
 	private RegionRepository repository;
+	
+	@Autowired
+	private TableOfRestaurantRepository tableRepository;
 	
 	@Override
 	public Collection<Region> getAllRegion (){
@@ -40,6 +45,11 @@ public class RegionServiceImp implements RegionService{
 	public void deleteRegion(Region r) {
 		repository.delete(r.getId());
 		
+	}
+
+	@Override
+	public Collection<TableOfRestaurant> getTables(Long id) {
+		return tableRepository.getTablesByRegion(id);
 	}
 
 }

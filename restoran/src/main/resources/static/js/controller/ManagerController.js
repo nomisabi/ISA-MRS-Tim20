@@ -68,23 +68,27 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
         $mdDialog.show(confirm).then(function(result) {
           $scope.status = 'You decided to name your dog ' + result + '.';
           $http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
-  			$scope.regions=data.data;
   			for (var i=0; i<$scope.regions.length;i++){
+
 	  			if ($scope.regions[i].name == result){
 	  				alert("Region with this name is exist.");
 	  				return;
 	  				}
 	  			}
+ 
+  			$scope.regions=data.data;
+  			region={"name":result,"restaurant":$scope.manager.restaurant};
+    		  $http.post("http://localhost:8080/api/manager/newRegion",region).then(function(data){
+    			$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
+    	  			$scope.regions=data.data;
+    			});
+    			  var container = {name:result, id:data.data.id, items: [], effectAllowed: 'all', copying:true};
+    			  $scope.model.push([container]);
+    			  //alert(JSON.stringify($scope.model));
+    		  });
           });
-  		  region={"name":result,"restaurant":$scope.manager.restaurant};
-  		  $http.post("http://localhost:8080/api/manager/newRegion",region).then(function(data){
-  			$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
-  	  			$scope.regions=data.data;
-  			});
-  			  var container = {name:result, id:data.data.id, items: [], effectAllowed: 'all', copying:true};
-  			  $scope.model.push([container]);
-  			  //alert(JSON.stringify($scope.model));
-  		  });
+		
+  		  
         }, function() {
           $scope.status = 'You didn\'t name your dog.';
         });
@@ -477,11 +481,16 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	  		}	
 			
 			
-			$http.post("http://localhost:8080/api/manager/deleteRegion", region).success(function(data) {
-				$scope.model.delete(reg);
-				//$route.reload();
-			}).error(function(data) {
+			$http.post("http://localhost:8080/api/manager/deleteRegion", region).error(function(data) {
 				alert("Error! In the region, there are tables which are reservated.");
+			}).then(function(data) {
+				
+				for (var i=0; i< $scope.model.length;i++){
+					if ($scope.model[i][0].name==reg.name){
+						delete $scope.model[i];
+						$scope.changeToRegions(); 
+					}
+				}
 			});
 		}
 			

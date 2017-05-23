@@ -520,7 +520,8 @@ public class ManagerController {
 	public ResponseEntity<Region> delTable(@Valid @RequestBody Region r) throws Exception {
 		logger.info("> delRegion: "+r.toString());
 		
-		Collection<TableOfRestaurant> t=  r.getTables();
+		//Collection<TableOfRestaurant> t=  r.getTables();
+		Collection<TableOfRestaurant> t=  regionService.getTables(r.getId());
 		
 		//ako postoji tabelu koji rezervisan, izadji
 		for (TableOfRestaurant tab : t) {
