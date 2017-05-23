@@ -634,7 +634,80 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	    			 //alert("error");
 	    		 }
 	     ); 
-    	
     }
+    
+    $scope.changeOrder2 = function(){   	
+    	var listReserveDrink = [];
+    	var listReserveFood = [];
+    	
+    	for (var i = 0; i < $scope.drinkList.length; i++) {	
+    		if ($scope.drinkList[i].quantity > 0){
+    			$scope.drinkList[i].prepared = $scope.prepared;
+    			listReserveDrink.push($scope.drinkList[i]);
+    		}
+		}
+    	
+    	for (var i = 0; i < $scope.menuList.length; i++) {
+			if ($scope.menuList[i].quantity > 0){	
+				$scope.menuList[i].prepared = $scope.prepared;
+				listReserveFood.push($scope.menuList[i]);
+			}
+		}
+    	
+    	
+    	$http.post('http://localhost:8080/api/reservation/changeOrder',
+ 			   {"drinkMenuItems":listReserveDrink, 
+    			"menuItems": listReserveFood,
+    			"guest": $scope.guest,
+    			"reservation": $scope.savedReservation
+    			})
+ 			   
+		 .success(
+				 function(data) {
+					 $scope.changeToViewReservation($scope.savedReservation.id);
+					
+				 }
+	     ).error(
+	    		 function(data){
+	    			 //alert("error");
+	    		 }
+	     ); 
+    }
+    
+    $scope.changeDrink = function(id) {
+    	for (var i = 0; i < $scope.drinkList.length; i++) {
+			if ( $scope.drinkList[i].drinkMenuItem.id == id ){
+				$scope.drinkList[i].quantity ++;
+				break;
+			}
+		}
+	}
+    
+    $scope.changeMenu = function(id) {
+    	for (var i = 0; i < $scope.menuList.length; i++) {
+			if ( $scope.menuList[i].menuItem.id == id ){
+				$scope.menuList[i].quantity ++;
+				break;
+			}
+		}
+	}
+    
+    $scope.changeDrinkd = function(id) {
+    	for (var i = 0; i < $scope.drinkList.length; i++) {
+			if ( $scope.drinkList[i].drinkMenuItem.id == id ){
+				$scope.drinkList[i].quantity --;
+				break;
+			}
+		}
+	}
+    
+    $scope.changeMenud = function(id) {
+    	for (var i = 0; i < $scope.menuList.length; i++) {
+			if ( $scope.menuList[i].menuItem.id == id ){
+				$scope.menuList[i].quantity --;
+				break;
+			}
+		}
+	}
     	
 }])

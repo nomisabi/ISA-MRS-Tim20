@@ -191,4 +191,28 @@ public class ReservationServiceImp implements ReservationService {
 		return reservationRepository.getRestaurant(reservationId);
 	}
 
+	@Override
+	@Transactional(readOnly = false)
+	public void updateMenuItem(Long id, int quantity) {
+		menuReservationRepository.update(id, quantity);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void updateDrinkItem(Long id, int quantity) {
+		drinkMenuReservationRepository.update(id, quantity);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteMenuItem(Long id) {
+		menuReservationRepository.delete(id);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteDrinkItem(Long id) {
+		drinkMenuReservationRepository.delete(id);
+	}
+
 }
