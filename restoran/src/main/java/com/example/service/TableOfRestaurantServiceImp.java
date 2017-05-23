@@ -2,7 +2,10 @@ package com.example.service;
 
 import java.util.Collection;
 
+import javax.persistence.LockModeType;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,10 +34,10 @@ public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 
 	@Override
 	@Transactional(readOnly = false)
+	@Lock(LockModeType.PESSIMISTIC_READ)
 	public void deleteTable(Long id) {
 		repository.delete(id);
-		System.out.println("izbrisao: "+id);
-	}
+		}
 	
 	@Override
 	public TableOfRestaurant getByNumber(int num, Long id) {
