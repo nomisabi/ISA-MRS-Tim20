@@ -22,6 +22,7 @@ import com.example.respository.DrinkMenuItemReservationRepository;
 import com.example.respository.GuestReservationRepository;
 import com.example.respository.MenuItemReservationRepository;
 import com.example.respository.ReservationRepository;
+import com.example.respository.TableOfRestaurantRepository;
 import com.example.respository.TableReservationRepository;
 import com.example.respository.VerificationTokenRepository;
 
@@ -41,6 +42,8 @@ public class ReservationServiceImp implements ReservationService {
 	DrinkMenuItemReservationRepository drinkMenuReservationRepository;
 	@Autowired
 	VerificationTokenRepository verificationRepository;
+	@Autowired
+	TableOfRestaurantRepository tableOfReservationRepository;
 
 	@Override
 	public Reservation getReservation(Long id) {
@@ -64,15 +67,20 @@ public class ReservationServiceImp implements ReservationService {
 	@Lock(LockModeType.PESSIMISTIC_READ)
 	public TableReservation saveTable(TableReservation tableReservation) {
 		Assert.notNull(tableReservation, "TableReservation could not be null.");
-		// dobavi sve rezervisane stolove u zadato vreme
-		Collection<TableReservation> tableReservations = tableReservationRepository.get(
-				tableReservation.getTable().getId(), tableReservation.getStartTime(), tableReservation.getEndTime());
-		// ako ima rezervisanih stolova u ovo vreme vrati null
-		if (!tableReservations.isEmpty()) {
+		if (tableOfReservationRepository.exists(tableReservation.getTable().getId())) {
+			// dobavi sve rezervisane stolove u zadato vreme
+			Collection<TableReservation> tableReservations = tableReservationRepository.get(
+					tableReservation.getTable().getId(), tableReservation.getStartTime(),
+					tableReservation.getEndTime());
+			// ako ima rezervisanih stolova u ovo vreme vrati null
+			if (!tableReservations.isEmpty()) {
+				return null;
+			}
+			// ako nema rezervisanih stolova upisi rezervaciju stola
+			return tableReservationRepository.save(tableReservation);
+		}else{
 			return null;
 		}
-		// ako nema rezervisanih stolova upisi rezervaciju stola
-		return tableReservationRepository.save(tableReservation);
 	}
 
 	@Override
@@ -213,6 +221,12 @@ public class ReservationServiceImp implements ReservationService {
 	@Transactional(readOnly = false)
 	public void deleteDrinkItem(Long id) {
 		drinkMenuReservationRepository.delete(id);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteTableReservation(Long id) {
+		tableReservationRepository.delete(id);
 	}
 
 }

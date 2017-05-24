@@ -359,6 +359,9 @@ public class GuestController {
 			TableReservation tableReservation = new TableReservation(t, startTimeStr, endTimeStr);
 			tableReservation = reservationService.saveTable(tableReservation);
 			if (tableReservation == null) {
+				for (Long id : trs.keySet()) {
+					reservationService.deleteTableReservation(id);
+				}
 				return new ResponseEntity<Reservation>(HttpStatus.NOT_FOUND);
 			}
 			trs.put(tableReservation.getId(), tableReservation);
