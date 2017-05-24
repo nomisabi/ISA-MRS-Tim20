@@ -457,15 +457,10 @@ public class ManagerController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TableOfRestaurant> delTable(@Valid @RequestBody TableOfRestaurant t) throws Exception {
 		logger.info("> delTable: "+t.toString());
-		TableOfRestaurant table=tableService.getByNumber(t.getNumber(), t.getRestaurant().getId());
-		Collection<TableReservation> tables=reservationService.getbyTable(table.getId());
-		logger.info(""+tables.size());		
-		if (reservationService.getbyTable(table.getId()).size()!=0)
+		if (tableService.deleteTable(t))	
+			return new ResponseEntity<TableOfRestaurant>(HttpStatus.OK);
+		else
 			return new ResponseEntity<TableOfRestaurant>(HttpStatus.NOT_FOUND);
-		logger.info("\t\t table: "+table.toString());
-		tableService.deleteTable(table.getId());
-		logger.info("< delTable: "+t.toString());
-		return new ResponseEntity<TableOfRestaurant>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(
@@ -533,7 +528,7 @@ public class ManagerController {
 		for (TableOfRestaurant tab : t) {
 			//logger.info("\t\t\t"+tab.toString());
 			TableOfRestaurant table=tableService.getByNumber(tab.getNumber(), tab.getRestaurant().getId());
-			tableService.deleteTable(table.getId());
+			tableService.deleteTable(table);
 		}
 		//izbrisi region
 		regionService.deleteRegion(r);

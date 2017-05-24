@@ -10,7 +10,7 @@ public interface TableOfRestaurantService {
 	
 	TableOfRestaurant addTable(TableOfRestaurant table, Long id_reg);
 	
-	void deleteTable(Long id);
+	boolean deleteTable(TableOfRestaurant t);
 
 	TableOfRestaurant getByNumber(int num, Long id);
 	

@@ -6,11 +6,16 @@ import javax.persistence.LockModeType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.TableOfRestaurant;
+import com.example.domain.TableReservation;
+import com.example.respository.ReservationRepository;
 import com.example.respository.TableOfRestaurantRepository;
+import com.example.respository.TableReservationRepository;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,6 +23,9 @@ public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 	
 	@Autowired
 	private TableOfRestaurantRepository repository;
+	
+	@Autowired
+	private TableReservationRepository reservationRepository;
 	
 	@Override
 	public Collection<TableOfRestaurant> getAllTableOfRestaurant(Long id){
@@ -35,9 +43,16 @@ public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 	@Override
 	@Transactional(readOnly = false)
 	@Lock(LockModeType.PESSIMISTIC_READ)
-	public void deleteTable(Long id) {
-		repository.delete(id);
+	public boolean deleteTable(TableOfRestaurant t) {
+		TableOfRestaurant table=repository.getByNum(t.getNumber(), t.getRestaurant().getId());
+		Collection<TableReservation> tables=reservationRepository.getByTable(table.getId());
+		if (tables.size()!=0)
+			return false;
+		repository.delete(table.getId());
+		return true;
 		}
+	
+
 	
 	@Override
 	public TableOfRestaurant getByNumber(int num, Long id) {
