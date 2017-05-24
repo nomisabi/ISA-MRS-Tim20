@@ -1,11 +1,38 @@
 'use strict';
 
-angular.module('myApp').controller('SystemManagerController',['$scope','$http','$window','$route','$ocLazyLoad','SystemManagerFactory',function($scope, $http,$window,$route, $ocLazyLoad,SystemManagerFactory) {
+angular.module('myApp').controller('SystemManagerController',['$scope','$http','$window','$route','$ocLazyLoad','SystemManagerFactory', 'geocoder','NgMap', function($scope, $http,$window,$route, $ocLazyLoad,SystemManagerFactory, geocoder, NgMap) {
 
 	$scope.page="profile";
 	$scope.man_without_rest=[];
-	$ocLazyLoad.load('assets/js/common-scripts.js');
+	$scope.out=null;
+	$scope.my_place_id = "ChIJVTTpPWEQW0cRKP4kN2h9bws";
+	$scope.string="45.2671352,19.83354959999997";
 	
+	$scope.$watch("out", function(newValue, oldValue) {
+	        if ($scope.out.formatted_address.length > 3) {
+	            
+	            var s=JSON.stringify($scope.out.geometry.location);
+	            var str= s.split(',');
+	            var lat=str[0].split(':');
+	            var lng1=str[1].split(':');
+	            var lng=lng1[1].split('}');
+	            //alert(str[0]);
+	        	$scope.string=lat[1]+","+lng[0];
+	        	//alert($scope.string);
+	        }
+	      });
+	
+	//$scope.string2=""+$scope.out.location.lan+","+$scope.out.location.lng;
+	 NgMap.getMap().then(function(map) {
+		    console.log(map.getCenter());
+		    console.log('markers', map.markers);
+		    console.log('shapes', map.shapes);
+		  });
+	
+	 $scope.proba=function(){
+		 alert("haho");
+	 }
+	 
 	function init() {
 		$ocLazyLoad.load('assets/js/common-scripts.js');
 		$http.get("http://localhost:8080/api/users/login").success(
@@ -118,7 +145,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     }
     
     $scope.new_restaurant= function(){
-    	
+    	$scope.new_rest.location= $scope.out.formatted_address;
     	$http.post("http://localhost:8080/api/sysman/addRest",{"r":$scope.new_rest, "m":$scope.new_rest_manager})
     		.error(function(data){
 					alert('This restaurant name is exist.');
@@ -198,5 +225,6 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	$scope.page="new_pass";    	
     }
    
+  
 
 }]);

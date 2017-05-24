@@ -255,6 +255,7 @@
 									
 								</tr>
 						</table>
+						 
 						<br>
 						<br>
 						<a class="" ng-click="changeToCreateRestaurant()">
@@ -265,7 +266,7 @@
 		           			{{open}}
                      		<div ng-hide="open">
 								<h3>Creating a new restaurant</h3>
-								<h5>1/2</h5>
+								<!--  <h5>1/2</h5>-->
 								{{man_without_rest}}
 								<form name="myForm">
 									<table  class="prof" >
@@ -285,7 +286,19 @@
 						           		</tr>
 										<tr >
 											<td>Location:</td>
-											<td><input type="text" class="form-control" ng-model="new_rest.location"></td>
+											<!--  -<td><input type="text" class="form-control" ng-model="new_rest.location"></td>-->
+											<td><div class='container-fluid'>
+				            
+									            <div 
+									                angular-google-maps-geocoder placeid="{{ my_place_id }}"
+									                output="out"
+									                placeholder="Placeholder goes here..."
+									                min-length="3"
+									                wait-ms="100">
+									            </div>
+				            
+				        
+				        </div></td>
 										</tr>
 										<tr>
 						           			<td>&nbsp;
@@ -314,7 +327,11 @@
 											</td>
 										</tr>
 										<tr>
-						           			<td>&nbsp;
+						           			<td>
+
+
+										  
+						           			
 						           			</td>
 						           			<td>&nbsp;
 						           			</td>
@@ -330,6 +347,12 @@
 										</tr>
 										
 								</table>
+		
+								<!-- <ng-map center="45.2671352,19.83354959999997" zoom="5"> -->
+								<ng-map center={{string}} zoom="5">
+										    <marker position={{string}} title="Hello World!"></marker>
+										  </ng-map>
+	
 								</form>
 						</div> 
 							<div ng-show="open">
