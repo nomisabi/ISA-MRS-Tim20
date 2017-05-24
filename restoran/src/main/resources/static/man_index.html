@@ -49,7 +49,7 @@
               <ul class="sidebar-menu" id="nav-accordion">
               
               	  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
-              	  <h5 class="centered">{{manager.email}}</h5>
+              	  <h5 class="centered">{{manager.firstName}} {{manager.lastName}}</h5>
               	  
               	  	
                   <li class="mt" ng-click="changeToProfile()">
@@ -96,84 +96,95 @@
           <section class="wrapper">
 
               <div class="col">
-                  <div class="col-lg-9 bc" ng-switch="page">
-                  {{page}}
+                  <div class="col-lg-12 bc" ng-switch="page">
          			
 	                  <div ng-switch-when="non-active" ng-controller="ManagerController">
-	                  <form name="myForm">
-							<h3>Change password</h3>
-							<input type="password" name="pass" placeholder="Password" class="form-control" required ng-model="pw1" autofocus>
-							
-							<div class="has-error" ng-show="myForm.pass.$dirty">	
-								<span ng-show="myForm.pass.$error.required">This is a required field.</span>
+	                 <div class="row mt">
+								<div  class="col-lg-9">
+									<div  style="width: 90%; margin-left: 5%;" class="form-panel">
+										<h4 class="mb"><i class="fa fa-angle-right"></i> Change password </h4>
+										<hr>
+												<form class="form-horizontal style-form" name="myForm">
+									   <div class='form-group'>
+										<input style="width: 90%;  margin-left: 5%;" type="password" name="pass" placeholder="Password" class="form-control" ng-model="pw1" required autofocus>
+										<div class="has-error" ng-show="myForm.pass.$dirty">	
+											<span ng-show="myForm.pass.$error.required">This is a required field.</span>
+										</div>
+										<br>
+										<input style="width: 90%; margin-left: 5%;" type="password" placeholder="Password again" ng-model="pw2" class="form-control" >
+										</div>
+										<div class='form-group'>
+										<button class="btn btn-theme" type="button" style="float: right; margin-right:5%;" ng-disabled="myForm.$invalid || myForm.pass.$pristine" ng-click="changePass()">Save</button>
+										</div>
+									</form>
+			           			</div>				
 							</div>
-							<br>
-							<input type="password" placeholder="Password again" ng-model="pw2" class="form-control" >
-							<br>
-							<br>
-							<button class="btn btn-theme" type="button" ng-disabled="myForm.$invalid || myForm.pass.$pristine" ng-click="changePass()">Save</button>
-			           	</form>
+							</div>	
 			           	</div>
 			           	
 			           	<div ng-switch-when="restaurant">
-							<h3>Restaurant</h3>
-								<table  class="prof">
-								<tr>
-				        			<td>Name:</td>
-				           			<td><input type="text" class="form-control" ng-model="manager.restaurant.name"></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Location:</td>
-				           			<td><input type="text" class="form-control" ng-model="manager.restaurant.location"></td>
-				           		</tr> 
-				           		
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td><button class="btn btn-theme" type="button">Save</button>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>Managers:
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr ng-repeat="m in manager.restaurant.manager">
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>{{m.firstName}} {{m.lastName}}
-				           			</td>
-				           		</tr>
-				           		
-				            </table>
-				            <!-- manager name + add-->
-				           			<br>	
-								<a class="" ng-click=changeToEmployee()>
+							<div class="row mt">
+							<div class="col-lg-9" style="float:left;">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Restaurant </h4>
+									<hr>
+										<form class="form-horizontal style-form" name="myForm">
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">Name</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control" ng-model="manager.restaurant.name" name="name" required>
+														<div class="has-error" ng-show="myForm.name.$dirty">
+				                    									<span ng-show="myForm.name.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Location</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="manager.restaurant.name" class="form-control" name=“desc” required>
+														<div class="has-error" ng-show="myForm.desc.$dirty">
+				                    									<span ng-show="myForm.desc.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Type</label>						
+												<div class="col-sm-10">
+													<input type="number" min="0" name="price" class="form-control" ng-model="manager.restaurant.species" required>
+														<div class="has-error" ng-show="myForm.price.$dirty">
+				                    									<span ng-show="myForm.price.$error.required">This is a required field.</span>
+				                    									<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
+                    				</div>
+												</div>
+
+												<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+												<br>	<br>	<br>	
+												<div class="col-sm-10">
+													<button class="btn btn-theme" style="float: right; margin-right:5%;" type="button">Save</button>
+				           					
+												</div>
+												<label class="col-sm-2 col-sm-2 ">Manager</label>	
+												<br>
+												<br>						
+												<div>
+													<div ng-repeat="m in manager.restaurant.manager"> {{m.firstName}} {{m.lastName}} <br></div>
+													
+												</div>
+											</div>
+										</form>
+								</div>
+								
+							</div><!-- col-lg-12-->
+							 <div class="col-lg-3 ds">
+			                    <!--COMPLETED ACTIONS DONUTS CHART-->
+									<h3>MENU</h3>
+									
+									 &nbsp;
+									<br>
+			                     
+			                         <a class="" ng-click=changeToEmployee()>
 				                   	Employees
 				                </a>
 				                <br>
@@ -192,11 +203,30 @@
 				           		<a class="" ng-click="changeToRegions()">
 				                   	Map
 				                </a>
-				                
+				                <br>
+				                <a class="" ng-click="changeToProcurements()">
+				                   	Procurements
+				                </a>               
+			                      <br>
+			                      &nbsp;
+			                      
+						</div>
+				           
+			           	</div>
 			           	</div>
 			           	<div ng-switch-when="regions">
-			           
+			           	<div class="col-md-12">
 			           		<div class="advancedDemo row">
+			           		<div  class="md-padding dialogdemoBasicUsage" id="popupContainer" ng-cloak="" ng-app="MyApp">
+								   <div class="dialog-demo-content" layout="row" layout-wrap="" layout-margin="" layout-align="center">
+										    <md-button class=" md-raised " style="color : #337ab7;" ng-click="showPrompt($event)">
+										      New region
+										    </md-button>
+									</div>	
+							    </div>
+							    
+							    <div class="col-md-8 form-panel">
+							   
 							    <div ng-repeat="containers in model" class="col-md-6">
 							        <div class="dropzone box box-yellow">
 										<ul dnd-list="containers"
@@ -234,7 +264,30 @@
 										            <div class="clearfix"></div>
 										        </div>
 										        
+										      
+										    </li>
+										</ul>
+							        </div>	  
+							     
+							       
+							</div>
+				
+							</div>
+							<div class="col-md-3 ">
+								<div class="form-panel2">
+								<div ng-repeat="containers in model2" class="col-md-12">
+							        <div class="dropzone box box-yellow">
+										<ul dnd-list="containers"
+										    dnd-allowed-types="['container']"
+										    dnd-external-sources="true"
+										   >
+										    <li ng-repeat="container in containers"
+										    	dnd-type="'container'"
+										        >
+										        
+										        
 										        <div class="container-element box box-blue" ng-hide="container.copying">
+										        
 										        <h3>{{container.name}}</h3>
 										        
 										            <ul dnd-list="container.items"
@@ -260,6 +313,7 @@
 										                </li>
 										            </ul>
 										            <div class="clearfix"></div>
+										        
 										        </div>
 										    </li>
 										</ul>
@@ -267,37 +321,41 @@
 							     
 							       
 							</div>
-							   <div class="trashcan box box-grey box-padding" >
+							   <div class="trashcan box box-grey box-padding"   >
 							        <!-- If you use [] as referenced list, the dropped elements will be lost -->
-							        <h3 >Trashcan</h3>
+							        <h3 style="margin-left:10%;">Trashcan</h3>
 							        <ul dnd-list="[]"
 							         dnd-dragend="proba2()"
 							         >
 							            <li > <img  src="trashcan.jpg"></li>
 							        </ul>
 							    </div> 
-					
+							</div>
+							</div>
 						</div>
-								<div  class="md-padding dialogdemoBasicUsage" id="popupContainer" ng-cloak="" ng-app="MyApp">
-								   <div class="dialog-demo-content" layout="row" layout-wrap="" layout-margin="" layout-align="center">
-										    <md-button class=" md-raised " style="color : #337ab7;" ng-click="showPrompt($event)">
-										      New region
-										    </md-button>
-									</div>	
-							    </div>
+						<div>
+						
+						</div>
+						</div>		
 			           	</div>	
 			           				           	
 			           	<div ng-switch-when="menu">
-			           		
-							<h3>Menu</h3>
-							<table  class="prof">
-								<tr>
-		                     		<th>Name</th>
-		                     		<th>Description</th>
-		                     		<th>Price </th>	
-		                     		<th>&nbsp;</th>
-	                     		</tr>
-								<tr ng-repeat="m in manager.restaurant.menu.items">
+			           		<div class="col-md-9">
+			                      <div class="content-panel" style="padding:2%; " >
+			                          <table class="table table-striped table-advance table-hover" style="width:95%;">
+				                  	  	  <h4><i class="fa fa-angle-right"></i> Menu</h4>
+				                  	  	  <hr>
+			                              <thead>
+			                              <tr>
+			                                  <th>Name</th>
+		                     			  <th>Description</th>
+		                     		          <th>Price </th>	
+		                     		          <th>&nbsp;</th>
+			                              </tr>
+			                              </thead>
+			                              <tbody >
+			                    
+			                              <tr ng-repeat="m in manager.restaurant.menu.items">
 									<td >
 										{{m.food.name}}
 									</td>
@@ -311,157 +369,139 @@
 										<i class="fa fa-pencil" ng-click="changeToUpdateMenu(m)"></i>
 										<i class="fa fa-trash-o" ng-click="deleteMenuItem(m)"></i>
 									</td>						
-								</tr>
-							</table>
-							<a class="" ng-click=changeToNewItem()>
+								
+							</tr>			                             
+			                                  			                            
+			                              </tbody>
+			                          </table>
+			                           <a class="" ng-click=changeToNewItem()>
 				                   	New item
 				                </a> 	
-								    
+			                         </div><!-- /content-panel -->
+			                  </div><!-- /col-md-12 -->
+						
+						<br> <br>
 			           	</div>
 			           	
 			           	<div ng-switch-when="updateMenu">
-							<h3>Update menuitem</h3>
-							<form name="myForm">
-							<table  class="prof">
-								<tr>
-				        			<td>Name:</td>
-				           			<td><input type="text" name="name" class="form-control" ng-model="menuUpdate.food.name" required autofocus></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.name.$dirty">
-				                    	<span ng-show="myForm.name.$error.required">This is a required field.</span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Description:</td>
-				           			<td><input type="text" name="desc" class="form-control" ng-model="menuUpdate.food.description" required></td>
-				           		</tr> 
-				           		
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.desc.$dirty">
-				                    	<span ng-show="myForm.desc.$error.required">This is a required field.</span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Price:</td>
-				           			<td><input type="number" min="0" name="price" class="form-control" ng-model="menuUpdate.price" required></td>
-				           		</tr> 
-				           		
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.price.$dirty">
-				                    	<span ng-show="myForm.price.$error.required">This is a required field.</span>
-				                    	<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-
-				           			<button class="btn btn-theme" style="margin:5px;" ng-disabled="myForm.$invalid" ng-click="updateMenuItem()" type="button">Save</button>
-				           			<button class="btn btn-theme" style="margin:5px;" ng-click="changeToMenu()" type="button">Cancel</button>
-				         				           			
-				           			</td>
-				           		</tr>
-				           			 
-				            </table>		
-				            </form>    
+							<div class="row mt">
+							<div class="col-lg-9">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Update menu item </h4>
+									<hr>
+										<form class="form-horizontal style-form" name="myForm">
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">Name</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control" ng-model="menuUpdate.food.name" name="name" required>
+														<div class="has-error" ng-show="myForm.name.$dirty">
+				                    									<span ng-show="myForm.name.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Description</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="menuUpdate.food.description" class="form-control" name=“desc” required>
+														<div class="has-error" ng-show="myForm.desc.$dirty">
+				                    									<span ng-show="myForm.desc.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Price</label>						
+												<div class="col-sm-10">
+													<input type="number" min="0" name="price" class="form-control" ng-model="menuUpdate.price" required>
+														<div class="has-error" ng-show="myForm.price.$dirty">
+				                    									<span ng-show="myForm.price.$error.required">This is a required field.</span>
+				                    									<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
+                    												</div>
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+												<div class="col-sm-10">
+													<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-disabled="myForm.$invalid" ng-click="updateMenuItem()" type="button">Save</button>
+				           			<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-click="changeToMenu()" type="button">Cancel</button>				
+												</div>
+											</div>
+										</form>
+								</div>
+							</div><!-- col-lg-12-->      	
+						</div>  
 			           	</div>
 			           	<div ng-switch-when="new_item_menu" ng-controller="ManagerController">
-							<h3>New menuitem</h3>
-							<form name="myForm">
-							<table  class="prof">
-								<tr>
-				        			<td>Name:</td>
-				           			<td><input type="text" name="name" class="form-control" ng-model="menuitem.food.name" required autofocus></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.name.$dirty">
-				                    	<span ng-show="myForm.name.$error.required">This is a required field.</span>
+							<div class="row mt">
+							<div class="col-lg-9">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> New menu item </h4>
+									<hr>
+										<form class="form-horizontal style-form" name="myForm">
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">Name</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control" ng-model="menuitem.food.name" name="name" required>
+														<div class="has-error" ng-show="myForm.name.$dirty">
+				                    									<span ng-show="myForm.name.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Description</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="menuitem.food.description" class="form-control" name=“desc” required>
+														<div class="has-error" ng-show="myForm.desc.$dirty">
+				                    									<span ng-show="myForm.desc.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Price</label>						
+												<div class="col-sm-10">
+													<input type="number" min="0" name="price" class="form-control" ng-model="menuitem.price" required>
+														<div class="has-error" ng-show="myForm.price.$dirty">
+				                    									<span ng-show="myForm.price.$error.required">This is a required field.</span>
+				                    									<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
                     				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Description:</td>
-				           			<td><input type="text" name="desc" class="form-control" ng-model="menuitem.food.description" required></td>
-				           		</tr> 
-				           		
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.desc.$dirty">
-				                    	<span ng-show="myForm.desc.$error.required">This is a required field.</span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Price:</td>
-				           			<td><input type="number" min="0" name="price" class="form-control" ng-model="menuitem.price" required></td>
-				           		</tr> 
-				           		
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.price.$dirty">
-				                    	<span ng-show="myForm.price.$error.required">This is a required field.</span>
-				                    	<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			
-				           			<button class="btn btn-theme" ng-disabled="myForm.$invalid || myForm.name.$pristine || myForm.desc.$pristine || myForm.price.$pristine" ng-click="createNewItem()" type="button">Save</button>
-				           			</td>
-				           		</tr>
-				           			 
-				            </table>		
-				            </form>    
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+												<div class="col-sm-10">
+													<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-disabled="myForm.$invalid || myForm.name.$pristine || myForm.desc.$pristine || myForm.price.$pristine" ng-click="createNewItem()" type="button">Save</button>			
+												</div>
+											</div>
+										</form>
+								</div>
+							</div><!-- col-lg-12-->      	
+						</div>  
 			           	</div>
 			           	
 			           	
 			           	<div ng-switch-when="drinkmenu">
 			           		
-							<h3>Drink menu</h3>
-							<table  class="prof">
-								<tr>
-		                     		<th>Name</th>
-		                     		<th>Description</th>
-		                     		<th>Price </th>	
-		                     		<th>&nbsp;</th>
-	                     		</tr>
-								<tr ng-repeat="m in manager.restaurant.drinkMenu.items">
+							<div class="col-md-9">
+			                      <div class="content-panel" style="padding:2%; " >
+			                          <table class="table table-striped table-advance table-hover" style="width:95%;">
+				                  	  	  <h4><i class="fa fa-angle-right"></i> Drink menu</h4>
+				                  	  	  <hr>
+			                              <thead>
+			                              <tr>
+			                                  <th>Name</th>
+		                     			  	  <th>Description</th>
+		                     		          <th>Price </th>	
+		                     		          <th>&nbsp;</th>
+			                              </tr>
+			                              </thead>
+			                              <tbody >
+			                    
+			                              <tr ng-repeat="m in manager.restaurant.drinkMenu.items">
 									<td >
 										{{m.drink.name}}
 									</td>
@@ -475,150 +515,128 @@
 										<i class="fa fa-pencil" ng-click="changeToUpdateDrinkMenu(m)"></i>
 										<i class="fa fa-trash-o" ng-click="deleteDrinkMenuItem(m)"></i>
 									</td>						
-								</tr>
-							</table>
-							<a class="" ng-click=changeToNewDrinkItem()>
+								</tr>		                             
+			                                  			                            
+			                              </tbody>
+			                          </table>
+			                         <a class="" ng-click=changeToNewDrinkItem()>
 				                   	New item
 				                </a> 	
-								    
+			                         </div><!-- /content-panel -->
+			                  </div><!-- /col-md-12 -->
+						
+						<br> <br>
 			           	</div>
 			           	
 			           	<div ng-switch-when=updateDrinkMenu>
-							<h3>Update menu item</h3>
-							<form name="myForm">
-							<table  class="prof">
-								<tr>
-				        			<td>Name:</td>
-				           			<td><input type="text" name="name" class="form-control" ng-model="drinkMenuUpdate.drink.name" required autofocus></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.name.$dirty">
-				                    	<span ng-show="myForm.name.$error.required">This is a required field.</span>
+							<div class="row mt">
+							<div class="col-lg-9">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Update menu item </h4>
+									<hr>
+										<form class="form-horizontal style-form" name="myForm">
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">Name</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control" ng-model="drinkMenuUpdate.drink.name" name="name" required>
+														<div class="has-error" ng-show="myForm.name.$dirty">
+				                    									<span ng-show="myForm.name.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Description</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="drinkMenuUpdate.drink.description" class="form-control" name=“desc” required>
+														<div class="has-error" ng-show="myForm.desc.$dirty">
+				                    									<span ng-show="myForm.desc.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Price</label>						
+												<div class="col-sm-10">
+													<input type="number" min="0" name="price" class="form-control" ng-model="drinkMenuUpdate.price" required>
+														<div class="has-error" ng-show="myForm.price.$dirty">
+				                    									<span ng-show="myForm.price.$error.required">This is a required field.</span>
+				                    									<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
                     				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Description:</td>
-				           			<td><input type="text" name="desc" class="form-control" ng-model="drinkMenuUpdate.drink.description" required></td>
-				           		</tr> 
-				           		
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.desc.$dirty">
-				                    	<span ng-show="myForm.desc.$error.required">This is a required field.</span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Price:</td>
-				           			<td><input type="number" min="0" name="price" class="form-control" ng-model="drinkMenuUpdate.price" required></td>
-				           		</tr> 
-				           		
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.price.$dirty">
-				                    	<span ng-show="myForm.price.$error.required">This is a required field.</span>
-				                    	<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-
-				           			<button class="btn btn-theme" style="margin:5px;" ng-disabled="myForm.$invalid" ng-click="updateDrinkMenuItem()" type="button">Save</button>
-				           			<button class="btn btn-theme" style="margin:5px;" ng-click="changeToDrinkMenu()" type="button">Cancel</button>
-				         				           			
-				           			</td>
-				           		</tr>
-				           			 
-				            </table>		
-				            </form>    
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+												<div class="col-sm-10">
+													<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-disabled="myForm.$invalid" ng-click="updateDrinkMenuItem()" type="button">Save</button>
+				           			<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-click="changeToDrinkMenu()" type="button">Cancel</button>		
+												</div>
+											</div>
+										</form>
+								</div>
+							</div><!-- col-lg-12-->      	
+						</div>
 			           	</div>
 			           	<div ng-switch-when="new_drink_item" ng-controller="ManagerController">
-							<h3>New menu item</h3>
-							<form name="myForm">
-							<table  class="prof">
-								<tr>
-				        			<td>Name:</td>
-				           			<td><input type="text" name="name" class="form-control" ng-model="drinkmenuitem.drink.name" required autofocus></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.name.$dirty">
-				                    	<span ng-show="myForm.name.$error.required">This is a required field.</span>
+							<div class="row mt">
+							<div class="col-lg-9">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> New menu item </h4>
+									<hr>
+										<form class="form-horizontal style-form" name="myForm">
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">Name</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control" ng-model="drinkmenuitem.drink.name" name="name" required>
+														<div class="has-error" ng-show="myForm.name.$dirty">
+				                    									<span ng-show="myForm.name.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Description</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="drinkmenuitem.drink.description" class="form-control" name=“desc” required>
+														<div class="has-error" ng-show="myForm.desc.$dirty">
+				                    									<span ng-show="myForm.desc.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Price</label>						
+												<div class="col-sm-10">
+													<input type="number" min="0" name="price" class="form-control" ng-model="drinkmenuitem.price" required>
+														<div class="has-error" ng-show="myForm.price.$dirty">
+				                    									<span ng-show="myForm.price.$error.required">This is a required field.</span>
+				                    									<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
                     				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Description:</td>
-				           			<td><input type="text" name="desc" class="form-control" ng-model="drinkmenuitem.drink.description" required></td>
-				           		</tr> 
-				           		
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.desc.$dirty">
-				                    	<span ng-show="myForm.desc.$error.required">This is a required field.</span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Price:</td>
-				           			<td><input type="number" min="0" name="price" class="form-control" ng-model="drinkmenuitem.price" required></td>
-				           		</tr> 
-				           		
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.price.$dirty">
-				                    	<span ng-show="myForm.price.$error.required">This is a required field.</span>
-				                    	<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			
-				           			<button class="btn btn-theme" ng-disabled="myForm.$invalid || myForm.name.$pristine || myForm.desc.$pristine || myForm.price.$pristine" ng-click="createNewDrinkItem()" type="button">Save</button>
-				           			</td>
-				           		</tr>
-				           			 
-				            </table>		
-				            </form>    
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+												<div class="col-sm-10">
+													<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-disabled="myForm.$invalid || myForm.name.$pristine || myForm.desc.$pristine || myForm.price.$pristine" ng-click="createNewDrinkItem()" type="button">Save</button>			
+												</div>
+											</div>
+										</form>
+								</div>
+							</div><!-- col-lg-12-->      	
+						</div>
 			           	</div>
 			           	
 			           	<div ng-switch-when="employee">
-							<h3>Employees</h3>
-							<table  class="prof">
-								<tr>
-		                     		<th>Email</th>
+							<div class="col-md-9">
+			                      <div class="content-panel" style="padding:2%; " >
+			                          <table class="table table-striped table-advance table-hover" style="width:95%;">
+				                  	  	  <h4><i class="fa fa-angle-right"></i> Employees</h4>
+				                  	  	  <hr>
+			                              <thead>
+			                              <tr>
+			                                  <th>Email</th>
 		                     		<th>Password</th>
 		                     		<th>First name</th>
 		                     		<th>Last name</th>
@@ -626,264 +644,240 @@
 		                     		<th>Date</th>
 		                     		<th>NumbC</th>
 		                     		<th>NumbS</th>
-		                     		<th>Type</th>		
-	                     		</tr>
-								<tr width="20%" style="margin:5%;" ng-repeat="e in manager.restaurant.employee">
-									<td width="20%">{{e.email}}</td>
-									<td width="20%">{{e.password}}</td>
-									<td width="20%">{{e.firstName}}</td>
-									<td width="20%">{{e.lastName}}</td>
-									<td width="20%">{{e.active}}</td>
-									<td width="20%">{{e.date | date}}</td>
-									<td width="20%">{{e.numbC}}</td>
-									<td width="20%">{{e.numbS}}</td>	
-									<td width="20%">{{e.type}}</td>								
-								</tr>
-							</table>
-								
-								<a class="" ng-click=changeToCreateEmployee()>
+		                     		<th>Type</th>	
+			                              </tr>
+			                              </thead>
+			                              <tbody >
+			                    
+			                              <tr ng-repeat="e in manager.restaurant.employee">
+									<td >{{e.email}}</td>
+									<td >{{e.password}}</td>
+									<td>{{e.firstName}}</td>
+									<td >{{e.lastName}}</td>
+									<td >
+										<span class="label label-success label-mini" ng-show="e.active">Yes</span>
+			                                  			<span class="label label-error label-mini" ng-hide="e.active">No</span>
+									</td>
+									<td >{{e.date | date}}</td>
+									<td >{{e.numbC}}</td>
+									<td >{{e.numbS}}</td>	
+									<td ng-switch="e.type">
+						         			<a ng-switch-when="WAITER"  class="label label-warning">Waiter</a>
+					                    			<a ng-switch-when="BARTENDER" class="label label-info">Bartender</a>
+					                    			<a ng-switch-when="CHEF"  class="label label-primary">Chef</a>
+		
+				         			</td>						
+								</tr>		                             
+			                                  			                            
+			                              </tbody>
+			                          </table>
+			                         <a class="" ng-click=changeToCreateEmployee()>
 				                   	Adding new employee
-				                </a>
-				                
+				                </a> 	
+			                         </div><!-- /content-panel -->
+			                  </div><!-- /col-md-12 -->
+						
+						<br> <br>
 			           	</div>
 			           	<div ng-switch-when="create_employee" ng-controller="ManagerController">
-							<h3>Adding new employee</h3>
-							<form name="myForm">
-							<table  class="prof">
-								<tr>
-				        			<td>Email:</td>
-				           			<td><input type="email" name="mail" class="form-control" ng-model="employee.email" autofocus required></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td><div class="has-error" ng-show="myForm.mail.$dirty">
-				                    	<span ng-show="myForm.mail.$error.required">This is a required field.</span>
-				                        <span ng-show="myForm.mail.$invalid">This field is invalid </span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>First name:</td>
-				           			<td><input type="text" class="form-control" ng-model="employee.firstName"></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Last name:</td>
-				           			<td><input type="text" class="form-control" ng-model="employee.lastName"></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Birth date:</td>
-				        			<td><input type="date" class="form-control" ng-model="employee.date" /></td>
-				           			<!--  <td><input type="datetime-local"  class="form-control" ></td>-->
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Number of shoe:</td>
-				           			<td><input type="text" class="form-control" ng-model="employee.numbS"></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Number of clothes:</td>
-				           			<td><input type="text" class="form-control" ng-model="employee.numbC"></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Type:</td>
-				           			<td>
-				           				<select  class="form-control" ng-model="selected" ng-options="type.label for type in typeOfEmployee">
+							<div class="row mt">
+							<div class="col-lg-9">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> New employee </h4>
+									<hr>
+										<form class="form-horizontal style-form" name="myForm">
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">Email</label>
+												<div class="col-sm-10">
+													<input type="email" class="form-control" ng-model="employee.email" name="mail" required>
+														<div class="has-error" ng-show="myForm.mail.$dirty">
+															<span ng-show="myForm.mail.$error.required">This is a required field.</span>
+															<span ng-show="myForm.mail.$invalid">This field is invalid </span>		
+														</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">First Name</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="employee.firstName" class="form-control" name=“firstName”>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Last Name</label>						
+												<div class="col-sm-10">
+													<input type="text" ng-model="employee.lastName" class="form-control" name=“lastName”>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">Birthday</label>
+												<div class="col-sm-10">
+													<input mdc-datetime-picker style="width: 60%;" class="form-control" date="true" time="false" 
+											         	type="text" 
+											        	id="datetime"
+									                 		show-todays-date
+									                 		ng-model="employee.date">
+												</div>
+												<br>
+												<br>
+												<br>
+
+												<label class="col-sm-2 col-sm-2 control-label">Number of shoe</label>																	<div class="col-sm-10">
+													<input type="number" ng-model="employee.numbS" class="form-control" name=“numbS”>
+												</div>	
+												<br>
+												<br>
+												<br>
+
+												<label class="col-sm-2 col-sm-2 control-label">Number of clothes</label>																	<div class="col-sm-10">
+													<input type="number" ng-model="employee.numbC" class="form-control" name=“numbC”>
+												</div>
+												<br>
+												<br>
+												<br>
+
+												<label class="col-sm-2 col-sm-2 control-label">Type</label>																	<div class="col-sm-10">
+													<select  class="form-control" ng-model="selected" ng-options="type.label for type in typeOfEmployee">
 				           				</select>
-				           			</td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td><button class="btn btn-theme" ng-disabled="myForm.$invalid || myForm.mail.$pristine" ng-click="createEmployee()" type="button">Save</button>
-				           			</td>
-				           		</tr>
-				           			 
-				            </table>		
-				             </form>   
+												</div>			
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+												<div class="col-sm-10">
+													<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-click="createEmployee()"  ng-disabled="myForm.$invalid || myForm.mail.$pristine" type="button">Save</button>						
+												</div>
+											</div>
+										</form>
+								</div>
+							</div><!-- col-lg-12-->      	
+						</div> 
 			           	</div>
 			           	<div ng-switch-when="supplier">
-							<h3>Suppliers</h3>
-								<table  class="prof">
-								<tr>
-		                     		<th>Email</th>
-		                     		<th>Password</th>
-		                     		<th>Name</th>
-		                     		<th>Active</th>
-	                     		</tr>
-								<tr width="20%" style="margin:5%;" ng-repeat="s in manager.restaurant.suppliers">
-									<td width="20%">{{s.email}}</td>
-									<td width="20%">{{s.password}}</td>
-									<td width="20%">{{s.name}}</td>
-									<td width="20%">{{s.active}}</td>						
-								</tr>
-							</table>
-								<a class="" ng-click=changeToCreateSupplier()>
+							<div class="col-md-9">
+			                      <div class="content-panel" style="padding:2%; " >
+			                          <table class="table table-striped table-advance table-hover" style="width:95%;">
+				                  	  	  <h4><i class="fa fa-angle-right"></i> Suppliers</h4>
+				                  	  	  <hr>
+			                              <thead>
+			                              <tr>
+			                                  <th>Email</th>
+		                     			<th>Password</th>
+		                     			<th>Name</th>
+		                     			<th>Active</th>	
+			                              </tr>
+			                              </thead>
+			                              <tbody >
+			                    
+			                              <tr ng-repeat="s in manager.restaurant.suppliers">
+									<td >{{s.email}}</td>
+									<td >{{s.password}}</td>
+									<td >{{s.name}}</td>
+						
+									<td >
+										<span class="label label-success label-mini" ng-show="s.active">Yes</span>
+			                            <span class="label label-warning label-mini" ng-hide="s.active">No</span>
+									</td>
+														
+								</tr>		                             
+			                                  			                            
+			                              </tbody>
+			                          </table>
+			                         <a class="" ng-click=changeToCreateSupplier()>
 				                   	Adding new supplier
 				                </a>
+			                         </div><!-- /content-panel -->
+			                  </div><!-- /col-md-12 -->
+						
+						<br> <br>
 				                
 			           	</div>
 			           	<div ng-switch-when="create_supplier" ng-controller="ManagerController">
-							<h3>Adding new supplier</h3>
-							<form name="myForm">
-							<table  class="prof">
-								<tr>
-				        			<td>Email:</td>
-				           			<td><input type="email" name="mail" class="form-control" ng-model="supplier.email" required autofocus></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-				           			<div class="has-error" ng-show="myForm.mail.$dirty">
-				                    	<span ng-show="myForm.mail.$error.required">This is a required field.</span>
-				                        <span ng-show="myForm.mail.$invalid">This field is invalid </span>
-                    				</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Name:</td>
-				           			<td><input type="text" class="form-control" ng-model="supplier.name"></td>
-				           		</tr> 
-				           		
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td><button class="btn btn-theme" ng-disabled="myForm.$invalid || myForm.email.$pristine" ng-click="createSupplier()" type="button">Save</button>
-				           			</td>
-				           		</tr>
-				           			 
-				            </table>		
-				            </form>    
+							<div class="row mt">
+							<div class="col-lg-9">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> New supplier </h4>
+									<hr>
+										<form class="form-horizontal style-form" name="myForm">
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">Email</label>
+												<div class="col-sm-10">
+													<input type="email" class="form-control" ng-model="supplier.email" name="mail" required>
+														<div class="has-error" ng-show="myForm.mail.$dirty">
+															<span ng-show="myForm.mail.$error.required">This is a required field.</span>
+															<span ng-show="myForm.mail.$invalid">This field is invalid </span>		
+														</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">Name</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="supplier.name" class="form-control" name=“firstName” required>
+														<div class="has-error" ng-show="myForm.firstName.$dirty">
+															<span ng-show="myForm.firstName.$error.required">This is a required field.</span>	
+														</div>
+
+												</div>
+												
+												
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+												<div class="col-sm-10">
+													<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-click="createSupplier()"  ng-disabled="myForm.$invalid" type="button">Save</button>						
+												</div>
+											</div>
+										</form>
+								</div>
+							</div><!-- col-lg-12-->      	
+						</div>
 			           	</div>
 						<div ng-switch-when="profile">
-						<form name="myForm">
-							<table  class="prof">
-								<tr>
-				        			<td>Email:</td>
-				           			<td><input type="email" name="mail" class="form-control" ng-model="manager.email"required></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-										<div class="has-error" ng-show="myForm.mail.$dirty">
-					                    	<span ng-show="myForm.mail.$error.required">This is a required field.</span>
-					                        <span ng-show="myForm.mail.$invalid">This field is invalid </span>
-		                    			</div>
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>First name:</td>
-				           			<td><input type="text" class="form-control" ng-model="manager.firstName"></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				        			<td>Last name:</td>
-				           			<td><input type="text" class="form-control" ng-model="manager.lastName"></td>
-				           		</tr> 
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		
-				           		<tr>
-				           			<td>
-				           				<a class="" ng-click=changeToChangePass()>
-				                    	Change password
-				                		</a>
-				                	</td>
-				                	<td>&nbsp;
-				           			</td>
-				             
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td><button class="btn btn-theme" ng-disabled="myForm.$invalid" ng-click="update()" type="button">Save</button>
-				           			</td>
-				           		</tr>
-				           			 
-				            </table>
-				            </form>	
+						<div class="row mt">
+							<div class="col-lg-9">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Profile </h4>
+									<hr>
+										<form class="form-horizontal style-form" name="myForm">
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">Email</label>
+												<div class="col-sm-10">
+													<input type="email" class="form-control" ng-model="manager.email" name="mail" required>
+														<div class="has-error" ng-show="myForm.mail.$dirty">
+															<span ng-show="myForm.mail.$error.required">This is a required field.</span>
+															<span ng-show="myForm.mail.$invalid">This field is invalid </span>		
+														</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">First Name</label>
+												<div class="col-sm-10">
+													<input type="text" ng-model="manager.firstName" class="form-control" name=“firstName”>
+												</div>
+												<br>
+												<br>
+												<br>
+												<label class="col-sm-2 col-sm-2 control-label">Last Name</label>						
+												<div class="col-sm-10">
+													<input type="text" ng-model="manager.lastName" class="form-control" name=“firstName”>
+												</div>
+											</div>
+											<div class="form-group">
+												<a class="col-sm-10"   ng-click="changeToChangePass()">
+								                    	Change password
+								                		</a>
+																
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+												<div class="col-sm-10">
+													<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-click="update()"  ng-disabled="myForm.$invalid" type="button">Save</button>						
+												</div>
+											</div>
+										</form>
+								</div>
+							</div><!-- col-lg-12-->      	
+						</div>
 			           	</div>
 						
 						<div ng-switch-when="scores">
@@ -893,7 +887,7 @@
 		           		</div>
 		           		<div ng-switch-when="supplies">		           		
               				<div class="row mt"  >
-			                  <div   class="col-md-12">
+			                  <div   class="col-md-9">
 			                      <div class="content-panel" style="padding:2%; " >
 			                      
 			                      
@@ -936,7 +930,7 @@
 			           	</div>
 			           	<div ng-switch-when="offers">
 			           	<h3>Supply details</h3>
-			           	<div class="col-md-12">
+			           	<div class="col-md-9">
 			                <div class="content-panel" style="padding:2%; " >
 				         	<table>
 				         	<tr>
@@ -1083,7 +1077,7 @@
 			           	</div>
 			           <div ng-switch-when="history">		           		
               				<div class="row mt"  >
-			                  <div   class="col-md-12">
+			                  <div   class="col-md-9">
 			                      <div class="content-panel" style="padding:2%; " >
 			                          <table class="table table-striped table-advance table-hover" style="width:90%;">
 				                  	  	  <h4><i class="fa fa-angle-right"></i> History</h4>
@@ -1120,7 +1114,7 @@
 			           	
 					
                   </div><!-- /col-lg-9 END SECTION MIDDLE -->
-                  
+                  </div>
                   
       <!-- **********************************************************************************************************************************************************
       RIGHT SIDEBAR CONTENT

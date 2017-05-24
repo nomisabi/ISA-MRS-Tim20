@@ -120,7 +120,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     }	
     
     $scope.new_sysmanager= function(){   
-    	alert(JSON.stringify($scope.new_sysman));
+    	//alert(JSON.stringify($scope.new_sysman));
     	$http.post("http://localhost:8080/api/sysman/createSysman",JSON.stringify($scope.new_sysman))
     		.error(function(data){
 					alert('This email address is exist.');

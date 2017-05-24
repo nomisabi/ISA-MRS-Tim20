@@ -841,7 +841,8 @@ table button{
 }
 
 .ds a {
-	color: #68dff0;
+	text-align: center;
+	font-size:14px;
 }
 
 /* LINE ICONS CONFIGURATION */
@@ -1757,6 +1758,18 @@ background: #fffbcc !important;
 	background: #ffffff;
 	margin: 10px;
 	padding: 10px;
+	box-shadow: 0px 3px 2px #aab2bd;
+	text-align: left;
+}
+
+.form-panel2 {
+	background: #ffffff;
+	box-shadow: 0px 3px 2px #aab2bd;
+	text-align: left;
+}
+
+.col-md-7 .form-panel{
+	background: #ffffff;
 	box-shadow: 0px 3px 2px #aab2bd;
 	text-align: left;
 }

@@ -1,8 +1,7 @@
 
 angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad','$mdDialog', function($scope, $http,$window, $route, $ocLazyLoad, $mdDialog) {
 	$ocLazyLoad.load('assets/js/common-scripts.js');
-	$scope.list_of_region=[{name:'1', list:['1','2']},{name:'2', list:['1']},{name:'3', list:['1','2','3']}];
-
+	
     $scope.status = '  ';
     $scope.customFullscreen = false;
     $scope.cont=['tables'];
@@ -194,7 +193,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     	$http.post("http://localhost:8080/api/manager/supply_hist", $scope.manager.restaurant).success(function(data) {
     		$scope.supplies_hist=data;
     	}).error(function(data) {
-    		alert("error");	
+    		//alert("error");	
     	});
     	if ($scope.manager.active)
     		$scope.page="history";  
@@ -212,7 +211,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		$http.post("http://localhost:8080/api/manager/supply", $scope.manager.restaurant).success(function(data) {
     		$scope.supplies=data;
     	}).error(function(data) {
-    		alert("error");	
+    		//alert("error");	
     	});
   		if ($scope.manager.active)
     		$scope.page="supplies";
@@ -234,6 +233,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="employee"; 
   	}
   	$scope.changeToCreateEmployee= function(){
+  		//employee.date= new Date(employee.date);
   		if ($scope.manager.active)
     		$scope.page="create_employee"; 
   	}
@@ -244,40 +244,40 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	$scope.changeToRegions= function(){
   		$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
 			$scope.regions=data.data;	
-			$scope.model=[
-	  	                   [{
-	  	                	 "name":"New item",
-	  	                     "items": [
-	  	                       {
-	  	                         "label": "chair 2",
-	  	                         "effectAllowed": "copy",
-	  	                         "id":0,
-	  	                         "numberOfChairs":2
-	  	                       },
-	  	                       {
-	  	                         "label": "chair 4",
-	  	                         "effectAllowed": "copy"
-	  	                        , "id":0 ,
-	  	  	                    "numberOfChairs":4
-	  	                       },
-	  	                       {
-	  	                         "label": "chair 6",
-	  	                         "effectAllowed": "copy"
-	  	                        	, "id":0 ,
-	  	  	                         "numberOfChairs":6
-	  	                       },
-	  	                       {
-	  	                         "label": "chair 8",
-	  	                         "effectAllowed": "copy"
-	  	                        	, "id":0 ,
-	  	  	                         "numberOfChairs":8
-	  	                       }
-	  	                     ],
-	  	                     "effectAllowed": "all",
-	  	                   "copying": false
-	  	                   }
-	  	                   ]];
-	  		
+			$scope.model2=[
+	                   [{
+	                	 "name":"New item",
+	                     "items": [
+	                       {
+	                         "label": "chair 2",
+	                         "effectAllowed": "copy",
+	                         "id":0,
+	                         "numberOfChairs":2
+	                       },
+	                       {
+	                         "label": "chair 4",
+	                         "effectAllowed": "copy"
+	                        , "id":0 ,
+	  	                    "numberOfChairs":4
+	                       },
+	                       {
+	                         "label": "chair 6",
+	                         "effectAllowed": "copy"
+	                        	, "id":0 ,
+	  	                         "numberOfChairs":6
+	                       },
+	                       {
+	                         "label": "chair 8",
+	                         "effectAllowed": "copy"
+	                        	, "id":0 ,
+	  	                         "numberOfChairs":8
+	                       }
+	                     ],
+	                     "effectAllowed": "all",
+	                   "copying": false
+	                   }
+	                   ]];
+			$scope.model=[];
 	  		//alert(JSON.stringify($scope.regions));
 	  		
 	  		for (var i=0; i<$scope.regions.length;i++){
@@ -295,6 +295,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	  			}
 	  			container.items=items;
 	  			$scope.model.push([container]);
+	  			
 	  		}
 		});
   		
@@ -325,12 +326,12 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	
   	$scope.createEmployee= function(){
   		if ($scope.manager.restaurant!=null){
-  			alert($scope.selected);
+  			//alert($scope.selected);
   			$scope.employee.type=$scope.selected.value;
 	  		$scope.employee.password="pass";
 	  		$scope.employee.numbC= Number($scope.employee.numbC);
 			$scope.employee.numbS= Number($scope.employee.numbS);
-	  		alert(JSON.stringify($scope.employee));
+	  		//alert(JSON.stringify($scope.employee));
 	  		$http.post("http://localhost:8080/api/manager/createEmployee",{"e":$scope.employee, "r":$scope.manager.restaurant}).success(
 					function(data){
 						$route.reload();
@@ -344,7 +345,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	$scope.createSupplier= function(){
 		$scope.supplier.password="pass";
 		
-  		alert(JSON.stringify($scope.supplier));
+  		//alert(JSON.stringify($scope.supplier));
   		$http.post("http://localhost:8080/api/manager/createSupplier",{"s":$scope.supplier, "r":$scope.manager.restaurant}).success(
 				function(data){
 					$route.reload();
@@ -372,7 +373,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		$http.post("http://localhost:8080/api/manager/addMenuItem", {"m":menu, "r":$scope.manager.restaurant}).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
-			alert("error");
+			//alert("error");
 		});	
 	}
 	
@@ -395,7 +396,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		$http.post("http://localhost:8080/api/manager/addDrinkMenuItem", {"d":drinkmenu, "r":$scope.manager.restaurant}).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
-			alert("error");
+			//alert("error");
 		});	
 	}
 	
@@ -412,15 +413,15 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		}
 		menu= $scope.manager.restaurant.menu;
 		//delete menu.$$hashKey;
-		alert(JSON.stringify(menu));
+		//alert(JSON.stringify(menu));
 		menu.items= [$scope.menuUpdate];
 		
 		menu.dateUpdate=new Date();
-		alert(JSON.stringify(menu));
+		//alert(JSON.stringify(menu));
 		$http.post("http://localhost:8080/api/manager/updateMenu", menu).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
-			alert("error");
+			//alert("error");
 		});	
 	}
 	
@@ -436,28 +437,28 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 			alert("Drink with this name is exist.");
 			return;
 		}
-		alert(JSON.stringify($scope.manager.restaurant.drinkMenu));
+		//alert(JSON.stringify($scope.manager.restaurant.drinkMenu));
 		drink_menu= $scope.manager.restaurant.drinkMenu;
 		//delete menu.$$hashKey;
-		alert(JSON.stringify(drink_menu));
+		//alert(JSON.stringify(drink_menu));
 		drink_menu.items= [$scope.drinkMenuUpdate];
 		drink_menu.dateUpdate=new Date();
-		alert(JSON.stringify(drink_menu));
+		//alert(JSON.stringify(drink_menu));
 		$http.post("http://localhost:8080/api/manager/updateDrinkMenu", drink_menu).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
-			alert("error");
+			//alert("error");
 		});	
 	}
 	
 	$scope.deleteMenuItem= function(i){
 		var result = confirm("Want to delete?");
 		if (result) {
-			alert(JSON.stringify(i));
+			//alert(JSON.stringify(i));
 			$http.post("http://localhost:8080/api/manager/deleteMenuItem", i).success(function(data) {
 				$route.reload();
 			}).error(function(data) {
-				alert("error");
+				//alert("error");
 			});
 		}
 			
@@ -466,11 +467,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	$scope.deleteDrinkMenuItem= function(i){
 		var result = confirm("Want to delete?");
 		if (result) {
-			alert(JSON.stringify(i));
+			//alert(JSON.stringify(i));
 			$http.post("http://localhost:8080/api/manager/deleteDrinkMenuItem", i).success(function(data) {
 				$route.reload();
 			}).error(function(data) {
-				alert("error");
+				//alert("error");
 			});
 		}
 			
@@ -562,7 +563,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     }
     
     function move(label){
-    	alert("move table");
+    	//alert("move table");
     	region=null;
     	old_r=null;
     	new_r=null;    	
@@ -581,7 +582,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		new_r={"id":region[0].id,"name":region[0].name, "restaurant":$scope.manager.restaurant};
 		//alert(JSON.stringify(new_r));
 		$http.post("http://localhost:8080/api/manager/updateTable",{"t":table, "r":new_r}).error(function(data){
-			alert("error");
+			//alert("error");
 		});
 		$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
 			$scope.regions=data.data;		
@@ -681,11 +682,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     $scope.newSupply=function(){
     	$scope.supply.restaurant=$scope.manager.restaurant;
     	$scope.supply.chosed=false;
-    	alert(JSON.stringify($scope.supply));
+    	//alert(JSON.stringify($scope.supply));
     	$http.post("http://localhost:8080/api/manager/addSupply", $scope.supply).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
-			alert("error");
+			//alert("error");
 		});	
     	
     }
@@ -705,13 +706,13 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
       }
       
       $scope.chooseOffer=function(o){
-    	  	alert(o);
+    	  	//alert(o);
     	  	$http.post("http://localhost:8080/api/manager/chooseOffer",{"o":o, "s": $scope.supply}).success(
     				function(data){
     					$route.reload();
     			}).error(
     				function(data){
-    					alert("error");
+    					//alert("error");
     			}).then(
     				function(data){
     					$route.reload();
