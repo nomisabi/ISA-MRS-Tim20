@@ -158,4 +158,10 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 		return  (Collection<Supply>) supplyRepository.getWatingSupply(id);
 	}
 
+	@Override
+	public void updateOfferQualityAndPrice(Offer o) {
+		offerRepository.update(o.getId(), o.getQuality(), o.getPrice());  
+		
+	}
+
 }

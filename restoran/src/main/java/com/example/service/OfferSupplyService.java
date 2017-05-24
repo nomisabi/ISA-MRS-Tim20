@@ -40,5 +40,7 @@ public interface OfferSupplyService {
 	
 	void update(Supply s, Offer o);
 	
+	void updateOfferQualityAndPrice(Offer o);
+	
 	
 }

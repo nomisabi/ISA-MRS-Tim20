@@ -13,6 +13,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 		showGrade : true
 	};
 	$scope.price=1;
+	$scope.updateOff=false; 
 	
 	function init() {
 		$ocLazyLoad.load('assets/js/common-scripts.js');
@@ -76,6 +77,38 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     		$scope.page="profile";   	
     }
     
+    $scope.updateOffer=function(){
+		offer={"id":$scope.mine.id,"supplier":$scope.supplier, "status":"WAITING" , "price":$scope.updatePrice, "quality": $scope.updateRating.rating};
+  		//alert(JSON.stringify(offer));
+		$http.post("http://localhost:8080/api/suppliers/updateOffer",offer).success(
+				function(data){
+					$route.reload();
+				}).error(
+						function(data){
+							alert("error");
+						}).then(
+								function(data){
+									$route.reload();
+								});
+    	
+    }
+    
+    $scope.changeToUpdateOffer= function(){
+    	//alert("haho");
+    	$scope.updatePrice= $scope.mine.price;
+    	$scope.updateRating={
+    			title : 'Rating 3',
+    			description : 'I\'m editable...',
+    			rating : $scope.mine.quality,
+    			basedOn : 5,
+    			starsCount : 5,
+    			iconClass : 'fa fa-star',
+    			editableRating : true,
+    			showGrade : true
+    		};
+    	$scope.offer_status="update"; 	
+    }
+    
     function formatDate(date){
     	var day = date.getDate();
     	day= day > 10 ? day : "0"+day;
@@ -97,7 +130,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     	$scope.mine=null;
     	$scope.have=false;
     	$scope.finished=false;
-
+    	$scope.updatable=false;
     	
     	var date =formatDate(new Date());
 		if (s.from_date>date){
@@ -114,6 +147,23 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     			$scope.have=true;
     		}
     	}
+    	
+    	if ($scope.have==true){
+    		$scope.offer_status="show_mine";
+    		if (!s.chosed && !$scope.finished)
+    			$scope.updatable=true;
+    	}
+    	else
+    		{
+    			if (!s.chosed && !$scope.finished)
+    				$scope.offer_status="new";
+    			else if (s.chosed)
+    				$scope.offer_status="not_active";
+    			else if (!s.chosed && $scope.finished)
+    				$scope.offer_status="expired";
+    		
+    		}
+
     	if ($scope.supplier.active)
     		$scope.page="show_supply";   	
     }

@@ -176,5 +176,19 @@ public class SupplierController {
 		return new ResponseEntity<Offer>(o,HttpStatus.OK);
 	}
 	
+	@RequestMapping(
+			value = "/api/suppliers/updateOffer", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Offer> updateOffer(@Valid @RequestBody  Offer o) {
+		logger.info("> updateOffer: "+o.toString());
+
+		osService.updateOfferQualityAndPrice(o);
+		
+		logger.info("< updateOffer");
+		return new ResponseEntity<Offer>(o,HttpStatus.OK);
+	}
+	
 
 }

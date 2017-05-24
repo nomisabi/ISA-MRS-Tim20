@@ -321,6 +321,96 @@
 							</div><!-- col-lg-12-->      	
 						</div>
 			           	</div>
+			           	<div ng-switch-when="updateOffer">
+			           	<div class="col-md-12">
+							<div class="content-panel" style="padding:2%; " >
+							<h3>Supply details</h3>
+							<table>
+								<tr>
+									<td> Name </td>
+									<td>{{supply.name}}</td>
+								</tr>
+								<tr>
+									<td> From </td>
+									<td>{{supply.from_date | date:'yyyy-MM-dd HH:mm'}} </td>
+							        </tr>
+								<tr>
+									<td> To </td>
+									<td>{{supply.to_date | date:'yyyy-MM-dd HH:mm'}}</td>
+								</tr>
+								<tr>
+									<td>Finished </td>
+									<td>
+										<span style="float:left;" class="label label-success" ng-show="supply.chosed">Yes</span>
+									        <span style="float:left;" class="label label-warning" ng-hide="supply.chosed">No</span>
+									 </td>
+								</tr>
+								<tr>
+									<td>Restaurant </td>
+									<td>{{supply.restaurant.name}}</td>
+								</tr>
+							</table >
+										         
+									         		
+							<div class="form-panel"    >
+								<h5 class="form-login-heading">My offer</h5>
+								<br>	         		
+								<br>
+						
+								<form name="myForm">
+									<table>
+										<tr>
+											<td>Quality:</td>
+											<td  class="list-unstyled">
+												<ng-rating ng-model="updateRating.rating"
+													icon-class="rating.iconClass"
+													editable="rating.editableRating"
+													stars-count="rating.starsCount"
+													based-on="rating.basedOn"
+													show-grade=false>
+												</ng-rating>
+											</td>
+										</tr> 
+										<tr>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td>Price:</td>
+											<td><input type="number" min="1" class="form-control" name="price" ng-model="updatePrice" required></td>
+										</tr> 		           		
+										<tr>
+											<td>&nbsp;</td>
+											<td>
+												<div class="has-error" ng-show="myForm.price.$dirty">
+													 <span ng-show="myForm.price.$error.required">This is a required field.</span>
+													 <span ng-show="myForm.price.$invalid">This field is invalid </span>
+										         	</div>
+											</td>
+										</tr>
+												           		
+												           
+										<tr>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td><button class="btn btn-theme" ng-disabled="myForm.$invalid" ng-click="updateOffer()" type="button">Save</button></td>
+										</tr>
+												           			 
+									</table>
+								</form>	
+							</div>
+							</div>
+						
+						</div>
+
+
+			           	
+			           	
+			           	</div>
+			           	
 			           	<div ng-switch-when="show_supply" ng-controller="SupplierController">
 			           	<div class="col-md-12">
 			                      <div class="content-panel" style="padding:2%; " >
@@ -351,7 +441,6 @@
 									<span style="float:left;" class="label label-success" ng-show="supply.chosed">Yes</span>
 			                        <span style="float:left;" class="label label-warning" ng-hide="supply.chosed">No</span>
 			                    </td>
-				         		</td>
 				         	</tr>
 				         	<tr>
 				         		<td>Restaurant:
@@ -360,129 +449,168 @@
 				         		</td>
 				         	</tr>
 				         	</table >
-				         	<div ng-hide="finished">
-			         		<div class="form-panel" ng-show="have">
-			         			<h5 class="form-login-heading">My offer</h5>
-			         			<br>
-			         			<table style="width:95%;">
-				         	<tr>
-				         		<td> Price:
-				         		</td>
-				         		<td>{{mine.price}}
-				         		</td>
-				         	</tr>
-				         	<tr><td>&nbsp; </td><td>&nbsp;</td></tr>
-				         	<tr>
-				         		<td> Quality:
-				         		</td>
-				         		<td><ng-rating ng-model="mine.quality"
-													>
-												</ng-rating>
-				         		</td>
-				         	</tr>
-				         	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-				         	<tr>
-				         		<td> Status:
-				         		</td>
-				         		<td ng-switch="mine.status">
-				         		<a ng-switch-when="CHOOSED"  class="label label-warning">Choosen</a>
-			                    <a ng-switch-when="SEND" class="label label-success">Sended</a>
-			                    <a ng-switch-when="NOT_CHOOSED"  class="label label-error">Not choosen</a>
-			                    <a ng-switch-when="WAITING"  class="label label-info">Waiting</a>
-				         		
-				         		</td>
-				   
-				         	</tr>
-				         	<tr ng-switch="mine.status">
-				         		<td></td>
-				         		<td div ng-switch-when="CHOOSED"> <a style="float: right;" class="btn btn-success" ng-click="sendOffer(supply)">Send</a></td>
-				         	</tr>
-				         	</table>
-			         			
-			         	
-			         		</div>
-			         		
-			         		
-			         		<div class="form-panel"  ng-hide="have"  >
-			         		<h5 class="form-login-heading">My offer</h5>
-			         		<br>
-			         		<div ng-show="supply.chosed">
-			         		<br>
-			         			The supply is ended. You can't send an offer.
-			         		</div>
-			         		<div ng-hide="supply.chosed">
-			         		
-			         		
-			         			You didn't send an offer for this supply. But you can:
-			         
-			         			<br>
-			         			<br>
-			         			<form name="myForm">
-									<table>
-										<tr>
-						        			<td>Quality:</td>
-						           			<td  class="list-unstyled">
-						           				<ng-rating ng-model="rating.rating"
-													icon-class="rating.iconClass"
-													editable="rating.editableRating"
-													stars-count="rating.starsCount"
-													based-on="rating.basedOn"
-													show-grade=false>
-												</ng-rating>
-						           			</td>
-						           		</tr> 
-						           		<tr>
-						           			<td>&nbsp;
-						           			</td>
-						           			<td>
-												&nbsp;
-						           			</td>
-						           		</tr>
-						           		<tr>
-						        			<td>Price:</td>
-						           			<td><input type="number" min="1" class="form-control" name="price" ng-model="price" required></td>
-						           		</tr> 
-						           		
-						           		<tr>
-						           			<td>&nbsp;
-						           			</td>
-						           			<td>
-												<div class="has-error" ng-show="myForm.price.$dirty">
-							                    	<span ng-show="myForm.price.$error.required">This is a required field.</span>
-							                        <span ng-show="myForm.price.$invalid">This field is invalid </span>
-				                    			</div>
-						           			</td>
-						           		</tr>
-						           		
-						           
-						           		<tr>
-						           			<td>&nbsp;
-						           			</td>
-						           			<td>&nbsp;
-						           			</td>
-						           		</tr>
-						           		<tr>
-						           			<td>&nbsp;
-						           			</td>
-						           			<td><button class="btn btn-theme" ng-disabled="myForm.$invalid" ng-click="createOffer()" type="button">Save</button>
-						           			</td>
-						           		</tr>
-						           			 
-						            </table>
-						            </form>	
-			         		</div>
-			         		</div>
-			         		</div>
-			         		<div class="form-panel"  ng-show="finished">
-			         		<h5 class="form-login-heading">My offer</h5>
-			         		<br>
-			         		<br>
-			         			The deadline exceeded. You can't send an offer.
-			         			</div>
+				         				<div class="form-panel" ng-switch="offer_status">
+				         					<h5 class="form-login-heading">My offer</h5>
+				         					<br>
+				         					<div ng-switch-when="expired">
+				         						The deadline exceeded. You can't send an offer.
+				         					</div>
+				         					<div ng-switch-when="update" ng-controller="SupplierController">
+					         					<form name="myForm">
+														<table>
+															<tr>
+																<td>Quality:</td>
+																<td  class="list-unstyled">
+																	<ng-rating ng-model="updateRating.rating"
+																		icon-class="rating.iconClass"
+																		editable="rating.editableRating"
+																		stars-count="rating.starsCount"
+																		based-on="rating.basedOn"
+																		show-grade=false>
+																	</ng-rating>
+																</td>
+															</tr> 
+															<tr>
+																<td>&nbsp;</td>
+																<td>&nbsp;</td>
+															</tr>
+															<tr>
+																<td>Price:</td>
+																<td><input type="number" min="1" class="form-control" name="price" ng-model="updatePrice" required></td>
+															</tr> 		           		
+															<tr>
+																<td>&nbsp;</td>
+																<td>
+																	<div class="has-error" ng-show="myForm.price.$dirty">
+																		 <span ng-show="myForm.price.$error.required">This is a required field.</span>
+																		 <span ng-show="myForm.price.$invalid">This field is invalid </span>
+															         	</div>
+																</td>
+															</tr>
+																	           		
+																	           
+															<tr>
+																<td>&nbsp;</td>
+																<td>&nbsp;</td>
+															</tr>
+															<tr>
+																<td>&nbsp;</td>
+																<td><button class="btn btn-theme" ng-disabled="myForm.$invalid" ng-click="updateOffer()" type="button">Save</button></td>
+															</tr>
+																	           			 
+														</table>
+													</form>	
+				         					
+				         					</div>
+				         					<div ng-switch-when="show_mine">
+				         						<table style="width:95%;">
+													         	<tr >
+													         		<td> Price:
+													         		</td>
+													         		<td>{{mine.price}} <i class="fa fa-pencil" ng-show="updatable" style="float: right;  margin-right:2%;" ng-click="changeToUpdateOffer()"></i>
+													         		</td>
+													         	</tr>
+													         	<tr><td>&nbsp; </td><td>&nbsp;</td></tr>
+													         	<tr>
+													         		<td> Quality:
+													         		</td>
+													         		<td><ng-rating ng-model="mine.quality"
+																						>
+																					</ng-rating>
+													         		</td>
+													         	</tr>
+													         	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+													         	<tr>
+													         		<td> Status:
+													         		</td>
+													         		<td ng-switch="mine.status">
+													         		<a ng-switch-when="CHOOSED"  class="label label-warning">Choosen</a>
+												                    <a ng-switch-when="SEND" class="label label-success">Sended</a>
+												                    <a ng-switch-when="NOT_CHOOSED"  class="label label-error">Not choosen</a>
+												                    <a ng-switch-when="WAITING"  class="label label-info">Waiting</a>
+													         		
+													         		</td>
+													   
+													         	</tr>
+													         	<tr ng-switch="mine.status">
+													         		<td></td>
+													         		<td div ng-switch-when="CHOOSED"> <a style="float: right;" class="btn btn-success" ng-click="sendOffer(supply)">Send</a></td>
+													         	</tr>
+													         	</table>
+				         						
+				         					
+				         					</div>
+				         					<div ng-switch-when="not_active">
+				         						This supply is finished. You can't send an offer.
+				         					</div>
+				         					<div ng-switch-when="new">
+				         						You didn't send an offer for this supply. But you can:
+									         
+									         			<br>
+									         			<br>
+									         			<form name="myForm">
+															<table>
+																<tr>
+												        			<td>Quality:</td>
+												           			<td  class="list-unstyled">
+												           				<ng-rating ng-model="rating.rating"
+																			icon-class="rating.iconClass"
+																			editable="rating.editableRating"
+																			stars-count="rating.starsCount"
+																			based-on="rating.basedOn"
+																			show-grade=false>
+																		</ng-rating>
+												           			</td>
+												           		</tr> 
+												           		<tr>
+												           			<td>&nbsp;
+												           			</td>
+												           			<td>
+																		&nbsp;
+												           			</td>
+												           		</tr>
+												           		<tr>
+												        			<td>Price:</td>
+												           			<td><input type="number" min="1" class="form-control" name="price" ng-model="price" required></td>
+												           		</tr> 
+												           		
+												           		<tr>
+												           			<td>&nbsp;
+												           			</td>
+												           			<td>
+																		<div class="has-error" ng-show="myForm.price.$dirty">
+													                    	<span ng-show="myForm.price.$error.required">This is a required field.</span>
+													                        <span ng-show="myForm.price.$invalid">This field is invalid </span>
+										                    			</div>
+												           			</td>
+												           		</tr>
+												           		
+												           
+												           		<tr>
+												           			<td>&nbsp;
+												           			</td>
+												           			<td>&nbsp;
+												           			</td>
+												           		</tr>
+												           		<tr>
+												           			<td>&nbsp;
+												           			</td>
+												           			<td><button class="btn btn-theme" ng-disabled="myForm.$invalid" ng-click="createOffer()" type="button">Save</button>
+												           			</td>
+												           		</tr>
+												           			 
+												            </table>
+												            </form>	
+				         					</div>
+				         				
+			         					</div>
 			         		</div>
 			         		</div>
 			           	</div>
 						
+					
+					
+					<!-- end of page-->
 					
 		           	</div>
 					

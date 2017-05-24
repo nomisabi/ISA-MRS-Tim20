@@ -22,4 +22,9 @@ public interface OfferRepository extends CrudRepository<Offer, Long>{
 	@Transactional
     @Query(value="UPDATE Offer SET status = ?2 WHERE id = ?1",  nativeQuery=true)
     int updateStatus(Long id, int status);
+	
+	@Modifying
+	@Transactional
+    @Query(value="UPDATE Offer SET quality = ?2, price=?3 WHERE id = ?1",  nativeQuery=true)
+    int update(Long id, int quality, double price);
 }

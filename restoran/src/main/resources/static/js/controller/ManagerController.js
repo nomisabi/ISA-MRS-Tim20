@@ -85,7 +85,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		
   		  
         }, function() {
-          $scope.status = 'You didn\'t name your dog.';
+        //  $scope.status = 'You didn\'t name your dog.';
         });
       };
       
@@ -129,7 +129,8 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     $scope.update=function(){
     	$http.post("http://localhost:8080/api/manager/update", $scope.manager).success(function(data) {
     		$ocLazyLoad.load('assets/js/common-scripts.js')
-    		$route.reload();		
+    		init();
+    		//$route.reload();		
     	}).error(function(data) {
     		alert("This email address is in our system");	
     		$route.reload();
