@@ -16,9 +16,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	            var lat=str[0].split(':');
 	            var lng1=str[1].split(':');
 	            var lng=lng1[1].split('}');
-	            //alert(str[0]);
 	        	$scope.string=lat[1]+","+lng[0];
-	        	//alert($scope.string);
 	        }
 	      });
 	
@@ -29,10 +27,6 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 		    console.log('shapes', map.shapes);
 		  });
 	
-	 $scope.proba=function(){
-		 alert("haho");
-	 }
-	 
 	function init() {
 		$ocLazyLoad.load('assets/js/common-scripts.js');
 		$http.get("http://localhost:8080/api/users/login").success(
@@ -74,12 +68,6 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	    		});
 	    
 	    
-	  /*  for (m in $scope.managers){
-	    	if (m.restaurant==null)
-	    		$scope.man_without_rest.push(m);
-	    }*/
-	    
-	    
 	}
 	
 	//$ocLazyLoad.load('common-scripts.js');
@@ -110,6 +98,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     $scope.restaurants=[];
     $scope.proba="proba"
     init();
+    
     $scope.createManager= function (){   	
     	$scope.manager.restaurant=null;
     	$http.post("http://localhost:8080/api/sysman/createManager",JSON.stringify($scope.manager))
@@ -119,15 +108,12 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     
     $scope.new_manager= function(){
     	$scope.new_man.password="pass";
-    	//$scope.new_man.restaurant=null;
     	$scope.new_man.active=false;
-    	//alert("new man "+JSON.stringify($scope.new_man));
     	$http.post("http://localhost:8080/api/manager/addManager",JSON.stringify($scope.new_man))
     		.error(function(data){
 					alert('This email address is exist.');
 					return;
 				}).then(function(data){
-					alert('edef');
 			    	$window.location.reload();
 					$scope.page="manager";   
 				});		

@@ -106,8 +106,8 @@
                   <div class="col-lg-9 bc" ng-switch="page">
 					<div ng-switch-when="profile">
 						<div class="row mt">
-							<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
-								<div class="form-panel">
+							<div class="col-lg-12">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
 									<h4 class="mb"><i class="fa fa-angle-right"></i> Profile </h4>
 									<hr>
 										<form class="form-horizontal style-form" name="myForm">
@@ -180,59 +180,44 @@
 		                </a>
 						
 		           	</div>
-		           	<div ng-switch-when="new_manager">
-                     	
-						<h3>Creating new manager</h3>
-						<form name="myForm">
-						<table  class="prof" ng-controller="SystemManagerController">
-                     		
-								<tr >
-									<td>Email:</td>
-									<td><input type="email" name="mail" ng-model="new_man.email" class="form-control" required autofocus></td>
-								</tr>
-								<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>
-										<div class="has-error" ng-show="myForm.mail.$dirty">	
-											<span ng-show="myForm.mail.$error.required">This is a required field.</span>
-											<span ng-show="myForm.mail.$invalid">This field is invalid </span>
+		           	<div ng-switch-when="new_manager" ng-controller="SystemManagerController">
+                     	<div class="row mt">
+							<div  class="col-lg-12">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;">
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Creating new manager </h4>
+									<hr>
+									<form class="form-horizontal style-form" name="myForm">
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">Email</label>
+										<div class="col-sm-10">
+											<input type="email" class="form-control" ng-model="new_man.email" name="mail" required>
+											<div class="has-error" ng-show="myForm.mail.$dirty">
+												<span ng-show="myForm.mail.$error.required">This is a required field.</span>
+												<span ng-show="myForm.mail.$invalid">This field is invalid </span>					</div>
 										</div>
-				           			</td>
-				           		</tr>
-								<tr >
-									<td>First name:</td>
-									<td><input type="text" class="form-control" ng-model="new_man.firstName"></td>
-								</tr>
-								<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-								<tr >
-									<td>Last name:</td>
-									<td><input type="text" class="form-control"  ng-model="new_man.lastName"></td>
-								</tr>
-								<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-				           		<tr>
-				           			<td>&nbsp;
-				           			</td>
-				           			<td>&nbsp;
-				           			</td>
-				           		</tr>
-								
-								<tr >
-									<td>&nbsp;</td>
-									<td><button class="btn btn-theme" type="button" ng-disabled="myForm.$invalid || myForm.mail.$pristine" ng-click="new_manager()">Create new manager</button></td>
-								</tr>
-						</table>
-						</form>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">First Name</label>
+										<div class="col-sm-10">
+											<input type="text" ng-model="new_man.firstName" class="form-control" placeholder="Enter your First Name"  name=“firstName”>
+										</div>
+										<br>
+										<br>
+										<br>
+										<label class="col-sm-2 col-sm-2 control-label">Last Name</label>						<div class="col-sm-10">												<input type="text" ng-model="new_man.lastName" class="form-control" placeholder="Enter your First Name" name=“firstName”>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+										<div class="col-sm-10">
+											<button class="btn btn-theme" type="button" ng-disabled="myForm.$invalid || myForm.mail.$pristine"  style="float: right; margin-right:5%;" ng-click="new_manager()">Create new manager</button>			
+										</div>
+									</div>
+									</form>
+								</div>
+							</div><!-- col-lg-12-->      	
+						</div>
 		           	</div>	
 					<div ng-switch-when="restaurant">
 						<h3>Restaurants</h3>
@@ -263,97 +248,74 @@
 		                </a>
 		           	</div>
 		           		<div ng-switch-when="new_restaurant"  ng-controller="SystemManagerController">
-		           			{{open}}
-                     		<div ng-hide="open">
-								<h3>Creating a new restaurant</h3>
-								<!--  <h5>1/2</h5>-->
-								{{man_without_rest}}
-								<form name="myForm">
-									<table  class="prof" >
-		                     		
-										<tr >
-											<td>Name:</td>
-											<td><input type="text" name="name" ng-model="new_rest.name" class="form-control" required autofocus></td>
-										</tr>
-										<tr>
-						           			<td>&nbsp;
-						           			</td>
-						           			<td>
-												<div class="has-error" ng-show="myForm.name.$dirty">	
+                     		<div class="row mt">
+								<div  class="col-lg-12">
+									<div  style="width: 90%; margin-left: 5%;" class="form-panel">
+										<h4 class="mb"><i class="fa fa-angle-right"></i> Creating a new restaurant </h4>
+										<hr>
+										<form class="form-horizontal style-form" name="myForm">
+										<div class="form-group">
+											<label class="col-sm-2 col-sm-2 control-label">Name</label>
+											<div class="col-sm-10">
+												<input type="text" name="name" ng-model="new_rest.name" class="form-control" required autofocus>
+												<div class="has-error" ng-show="myForm.name.$dirty">
 													<span ng-show="myForm.name.$error.required">This is a required field.</span>
-												</div>
-						           			</td>
-						           		</tr>
-										<tr >
-											<td>Location:</td>
-											<!--  -<td><input type="text" class="form-control" ng-model="new_rest.location"></td>-->
-											<td><div class='container-fluid'>
-				            
-									            <div 
-									                angular-google-maps-geocoder placeid="{{ my_place_id }}"
-									                output="out"
-									                placeholder="Placeholder goes here..."
-									                min-length="3"
-									                wait-ms="100">
-									            </div>
-				            
-				        
-				        </div></td>
-										</tr>
-										<tr>
-						           			<td>&nbsp;
-						           			</td>
-						           			<td>&nbsp;
-						           			</td>
-						           		</tr>
-						           		<tr >
-											<td>Description:</td>
-											<td><input type="text" class="form-control" ng-model="new_rest.description"></td>
-										</tr>
-										<tr>
-						           			<td>&nbsp;
-						           			</td>
-						           			<td>&nbsp;
-						           			</td>
-						           		</tr>
-										<tr >
-											<td>Manager:</td>
-											<td> 
+											</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 col-sm-2 control-label">Location</label>
+											<div class="col-sm-10">
 												
+							<div class='container-fluid' style="width:106%; margin-left:-3%;">
+											            
+																            <div 
+																                angular-google-maps-geocoder placeid="{{ my_place_id }}"
+																                output="out"
+																                placeholder="Placeholder goes here..."
+																                min-length="3"
+																                wait-ms="100">
+																            </div>
+											            
+											        
+											        </div></div>
+											        <br>
+											<br>
+											<br>
+											       <div style="height:40%; width: 90%; float:center; margin-left:5%;" > 
+											        <ng-map center={{string}} zoom="5">
+																	    <marker position={{string}} title="Hello World!"></marker>
+																	  </ng-map>
+																	  </div>
+											<br>
+											<label class="col-sm-2 col-sm-2 control-label">Type</label>						<div class="col-sm-10">	
+																						<input type="text" ng-model="new_rest.species" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 col-sm-2 control-label">Manager</label>
+											<div class="col-sm-10">
 												<select class="form-control"  ng-model="new_rest_manager" ng-options=" (m.firstName+ ' '+ m.lastName)  for m in man_without_rest">
+																			
+									      										<option value="">-- choose manager --</option>
+																			</select>
 												
-		      										<option value="">-- choose manager --</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
-						           			<td>
-
-
-										  
-						           			
-						           			</td>
-						           			<td>&nbsp;
-						           			</td>
-						           		</tr>
-						           		
-										
-										<tr >
-											<td>&nbsp;</td>
-											<td>
-											<!-- <button class="btn btn-theme" type="button" ng-disable="myForm.$invalid || myForm.name.$pristine" ng-click="opening_days()">Next</button> -->
-											<button class="btn btn-theme" type="button" ng-disabled="myForm.$invalid || myForm.name.$pristine" ng-click="new_restaurant()">Create</button> 
-											</td>
-										</tr>
-										
-								</table>
-		
-								<!-- <ng-map center="45.2671352,19.83354959999997" zoom="5"> -->
-								<ng-map center={{string}} zoom="5">
-										    <marker position={{string}} title="Hello World!"></marker>
-										  </ng-map>
-	
-								</form>
+											</div>
+										</div>
+							
+										<div class="form-group">
+											<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+											<div class="col-sm-10">
+												<button class="btn btn-theme" type="button" ng-disabled="myForm.$invalid || myForm.name.$pristine" style="float: right; margin-right:5%;" ng-click="new_restaurant()">Create</button>			
+											</div>
+										</div>
+										<!-- <ng-map center="45.2671352,19.83354959999997" zoom="5"> -->
+															
+							
+										</form>
+									</div>
+								</div><!-- col-lg-12-->      	
+							</div>
 						</div> 
 							<div ng-show="open">
 								<h3>Creating a new restaurant</h3>

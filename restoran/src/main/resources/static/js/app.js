@@ -1,6 +1,7 @@
-var app = angular.module("myApp", ['oc.lazyLoad','ngMap', 'ngRoute', 'ngComboDatePicker','dnTimepicker','dndLists','ngMaterial','ngMessages','ngMaterialDatePicker','ngAnimate', 'ngRating', 'angular-google-maps-geocoder']);
+var app = angular.module("myApp", ['oc.lazyLoad','ngMap','ngRoute', 'ngComboDatePicker','dnTimepicker','dndLists','ngMaterial','ngMessages','ngMaterialDatePicker','ngAnimate', 'ngRating', 'angular-google-maps-geocoder']);
 
-app.config(function($routeProvider) {
+
+app.config(function($routeProvider, $ocLazyLoadProvider) {
     $routeProvider
     .when("/", {
         templateUrl : "login.html",
@@ -68,5 +69,7 @@ app.config(function($routeProvider) {
     	templateUrl : "guestHome.html",
    	 	controller: "GuestHomeController"
     })
-    .otherwise({ redirectTo: '/404' });
+    .otherwise({ redirectTo: '/404' 
+    });
+   
 });

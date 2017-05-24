@@ -1,9 +1,6 @@
 
 angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad','$mdDialog', function($scope, $http,$window, $route, $ocLazyLoad, $mdDialog) {
-	
-	$ocLazyLoad.load('js/drag_drop.js');	
 	$ocLazyLoad.load('assets/js/common-scripts.js');
-	
 	$scope.list_of_region=[{name:'1', list:['1','2']},{name:'2', list:['1']},{name:'3', list:['1','2','3']}];
 
     $scope.status = '  ';
@@ -26,7 +23,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	
 
 	function init() {
-		$ocLazyLoad.load('assets/js/common-scripts.js');
+		
 		$http.get("http://localhost:8080/api/users/login").success(
 				function(data){	
 					$http.post("http://localhost:8080/api/manager/login",data).success(
@@ -48,7 +45,6 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 								$window.location.href="/";
 							});
 				});
-		$ocLazyLoad.load('assets/js/common-scripts.js');
 	}
 	
     init();
@@ -133,7 +129,8 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     
     $scope.update=function(){
     	$http.post("http://localhost:8080/api/manager/update", $scope.manager).success(function(data) {
-    		$route.reload();
+    		$ocLazyLoad.load('assets/js/common-scripts.js')
+    		$route.reload();		
     	}).error(function(data) {
     		alert("This email address is in our system");	
     		$route.reload();
@@ -720,7 +717,6 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     					$route.reload();
   				});
       }
-    
     
 }]);
 
