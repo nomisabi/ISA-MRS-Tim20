@@ -459,9 +459,7 @@ public class ManagerController {
 		logger.info("> delTable: "+t.toString());
 		TableOfRestaurant table=tableService.getByNumber(t.getNumber(), t.getRestaurant().getId());
 		Collection<TableReservation> tables=reservationService.getbyTable(table.getId());
-
-			logger.info(""+tables.size());
-		
+		logger.info(""+tables.size());		
 		if (reservationService.getbyTable(table.getId()).size()!=0)
 			return new ResponseEntity<TableOfRestaurant>(HttpStatus.NOT_FOUND);
 		logger.info("\t\t table: "+table.toString());

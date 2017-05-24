@@ -394,7 +394,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     		     ).error(
     		    		 function(data){
     		    			 $scope.reserveNext($scope.duration, $scope.dateTime);
-    		    			 popover("The tables can't be reserved. Please, select the other tables.");
+    		    			 popover("The table can't be reserved. Please, select other table.");
     		    		 }
     		     );    		
     	}else{
