@@ -22,6 +22,8 @@ public interface OfferSupplyService {
 	
 	Supply findSupply(Long id);
 	
+	Collection<Supply> getSupplyWithMyOffer(Long id);
+	
 	Collection<Supply> findAllSupply();
 	
 	void deleteSupply(Long id);

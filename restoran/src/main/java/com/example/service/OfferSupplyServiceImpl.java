@@ -164,4 +164,10 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 		
 	}
 
+	@Override
+	public Collection<Supply> getSupplyWithMyOffer(Long id) {
+		// TODO Auto-generated method stub
+		return supplyRepository.getSupplyWithMyOffer(id);
+	}
+
 }

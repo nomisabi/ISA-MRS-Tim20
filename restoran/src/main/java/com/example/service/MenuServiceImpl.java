@@ -12,6 +12,7 @@ import com.example.domain.Menu;
 import com.example.domain.MenuItem;
 import com.example.respository.FoodRepository;
 import com.example.respository.MenuItemRepository;
+import com.example.respository.MenuItemReservationRepository;
 import com.example.respository.MenuRepository;
 
 @Service
@@ -27,6 +28,9 @@ public class MenuServiceImpl implements MenuService{
     
     @Autowired
     private FoodRepository foodRepository;
+    
+    @Autowired
+    private MenuItemReservationRepository reservationRepository;
     
 	@Override
 	public Menu createMenu(Menu menu) {
@@ -86,9 +90,12 @@ public class MenuServiceImpl implements MenuService{
 	}
 
 	@Override
-	public void deleteMenuItem(Long id) {
+	public boolean deleteMenuItem(Long id) {
+		if (reservationRepository.getMenuItemsByMenuitem(id)!=0)
+			return false;
 		menuRepository.deleteItem(id);
 		menuItemRepository.delete(id);
+		return true;
 	}
 
 	@Override

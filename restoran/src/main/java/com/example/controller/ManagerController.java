@@ -347,7 +347,9 @@ public class ManagerController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MenuItem> updateMenu(@Valid @RequestBody MenuItem m) throws Exception {
 		logger.info("> delete menu item: "+m.toString());
-		menuService.deleteMenuItem(m.getId());
+		
+		if (!menuService.deleteMenuItem(m.getId()))
+			return new ResponseEntity<MenuItem>(HttpStatus.NOT_FOUND);
 		menuService.deleteFood(m.getFood().getId());
 		logger.info("< deletet menu item");
 		return new ResponseEntity<MenuItem>(m,HttpStatus.OK);
@@ -410,7 +412,9 @@ public class ManagerController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DrinkMenuItem> updateDrinkMenu(@Valid @RequestBody DrinkMenuItem m) throws Exception {
 		logger.info("> delete Drink menu item: "+m.toString());
-		drinkMenuService.deleteDrinkMenuItem(m.getId());
+		if (!drinkMenuService.deleteDrinkMenuItem(m.getId()))
+			return new ResponseEntity<DrinkMenuItem>(HttpStatus.NOT_FOUND);
+		
 		drinkMenuService.deleteDrink(m.getDrink().getId());
 		logger.info("< deletet Drink menu item");
 		return new ResponseEntity<DrinkMenuItem>(m,HttpStatus.OK);

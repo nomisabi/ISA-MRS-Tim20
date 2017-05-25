@@ -11,10 +11,12 @@ import com.example.domain.DrinkMenu;
 import com.example.domain.DrinkMenuItem;
 import com.example.domain.Drink;
 import com.example.respository.DrinkItemRepository;
+import com.example.respository.DrinkMenuItemReservationRepository;
 import com.example.respository.DrinkMenuRepository;
 import com.example.respository.DrinkRepository;
 import com.example.respository.FoodRepository;
 import com.example.respository.MenuItemRepository;
+import com.example.respository.MenuItemReservationRepository;
 import com.example.respository.MenuRepository;
 
 @Service
@@ -30,6 +32,11 @@ public class DrinkMenuServiceImpl implements DrinkMenuService{
     
     @Autowired
     private DrinkRepository drinkRepository;
+    
+    
+    @Autowired
+    private DrinkMenuItemReservationRepository reservationRepository;
+    
     
 	@Override
 	public DrinkMenu createDrinkMenu(DrinkMenu menu) {
@@ -89,9 +96,12 @@ public class DrinkMenuServiceImpl implements DrinkMenuService{
 	}
 
 	@Override
-	public void deleteDrinkMenuItem(Long id) {
+	public boolean deleteDrinkMenuItem(Long id) {
+		if (reservationRepository.getMenuItemsByMenuitem(id)!=0)
+			return false;
 		menuRepository.deleteItem(id);
 		itemRepository.delete(id);
+		return true;
 	}
 
 	@Override

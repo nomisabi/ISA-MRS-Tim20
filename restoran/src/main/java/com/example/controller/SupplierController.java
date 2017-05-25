@@ -21,6 +21,7 @@ import com.example.domain.Manager;
 import com.example.domain.Offer;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
+import com.example.domain.Supply;
 import com.example.domain.User;
 import com.example.domain.DTOs.GuestRegister;
 import com.example.service.GuestService;
@@ -188,6 +189,21 @@ public class SupplierController {
 		
 		logger.info("< updateOffer");
 		return new ResponseEntity<Offer>(o,HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(
+			value = "/api/suppliers/getSuppliesWitMyOffer", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Supply>> getSupplyOffer(@Valid @RequestBody  Supplier s) {
+		logger.info("> getSupplyOffer ");
+
+		Collection<Supply> supp=osService.getSupplyWithMyOffer(s.getId());
+		
+		logger.info("< getSupplyOffer");
+		return new ResponseEntity<Collection<Supply>>(supp,HttpStatus.OK);
 	}
 	
 

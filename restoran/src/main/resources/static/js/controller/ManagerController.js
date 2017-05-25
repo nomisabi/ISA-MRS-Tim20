@@ -459,7 +459,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 			$http.post("http://localhost:8080/api/manager/deleteMenuItem", i).success(function(data) {
 				$route.reload();
 			}).error(function(data) {
-				//alert("error");
+				alert("This item is reservated. You can't delete it.");
 			});
 		}
 			
@@ -472,7 +472,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 			$http.post("http://localhost:8080/api/manager/deleteDrinkMenuItem", i).success(function(data) {
 				$route.reload();
 			}).error(function(data) {
-				//alert("error");
+				alert("This item is reservated. You can't delete it.");
 			});
 		}
 			

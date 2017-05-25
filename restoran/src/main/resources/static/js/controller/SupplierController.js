@@ -109,6 +109,15 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     	$scope.offer_status="update"; 	
     }
     
+    $scope.changeToMyOffer= function(){
+    	$http.post("http://localhost:8080/api/suppliers/getSuppliesWitMyOffer",$scope.supplier).success(
+				function(data){
+					$scope.myoffer=data;
+				});
+    	$scope.page="myOffer"; 	
+    }
+    
+    
     function formatDate(date){
     	var day = date.getDate();
     	day= day > 10 ? day : "0"+day;

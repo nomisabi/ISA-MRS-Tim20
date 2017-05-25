@@ -32,7 +32,7 @@ public interface MenuService {
 	
 	Collection<MenuItem> findAllMenuItem();
 	
-	void deleteMenuItem(Long id);
+	boolean deleteMenuItem(Long id);
 	
 	Food createFood(Food f);
 	
