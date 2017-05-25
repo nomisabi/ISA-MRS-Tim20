@@ -36,6 +36,28 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.drinkReserve = [];
 	$scope.regions = [];
 	$scope.model = [];
+	
+	$scope.rateFood={
+			title : 'Rating 3',
+			description : 'I\'m editable...',
+			rating : 1,
+			basedOn : 5,
+			starsCount : 5,
+			iconClass : 'fa fa-star',
+			editableRating : true,
+			showGrade : true
+		};
+	$scope.rating={
+			title : 'Rating 3',
+			description : 'I\'m editable...',
+			rating : 1,
+			basedOn : 5,
+			starsCount : 5,
+			iconClass : 'fa fa-star',
+			editableRating : true,
+			showGrade : true
+		};
+	
 	init();
 	
 	
@@ -551,8 +573,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		return false;
 	}
     
-    $scope.orderByMe = function(x) {
-    	$scope.reverse = ($scope.myOrder === x) ? !$scope.reverse : false;
+    $scope.orderByMe = function(x, reverse) {
+    	$scope.reverse = reverse;
         $scope.myOrder = x;
     }
     
@@ -709,5 +731,36 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 			}
 		}
 	}
+    
+    $scope.rate = function() {
+    	$scope.page = "rate";
+        
+    }
+    
+    $scope.rateRestaurant = function() {
+    	alert($scope.rateFood.rating);
+    	alert($scope.rating.rating);
+    	
+    	var restaurantRate = {"guest": $scope.guest, "restaurant": $scope.reservation.restaurant, "reservation": $scope.reservation,"rate": $scope.rating.rating};
+    	
+    	$http.post('http://localhost:8080/api/restaurant/rate',
+  			   {"rateRestaurant": restaurantRate 
+     			})
+  			   
+ 		 .success(
+ 				 function(data) {
+ 					//alert("daa");
+ 					$scope.changeToViewReservation($scope.reservation.id);
+ 					
+ 				 }
+ 	     ).error(
+ 	    		 function(data){
+ 	    			 //alert("error");
+ 	    		 }
+ 	     ); 
+    	
+        
+    }
+    	
     	
 }])

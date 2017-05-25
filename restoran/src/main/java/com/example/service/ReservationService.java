@@ -6,6 +6,7 @@ import com.example.domain.DrinkMenuItemReservation;
 import com.example.domain.Guest;
 import com.example.domain.GuestReservation;
 import com.example.domain.MenuItemReservation;
+import com.example.domain.RateRestaurant;
 import com.example.domain.Reservation;
 import com.example.domain.Restaurant;
 import com.example.domain.TableOfRestaurant;
@@ -72,5 +73,7 @@ public interface ReservationService {
 	void deleteDrinkItem(Long id);
 	
 	void deleteTableReservation(Long id);
+	
+	RateRestaurant saveRateRestaurant(RateRestaurant rateRestaurant);
 
 }

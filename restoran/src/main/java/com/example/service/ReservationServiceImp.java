@@ -14,6 +14,7 @@ import com.example.domain.DrinkMenuItemReservation;
 import com.example.domain.Guest;
 import com.example.domain.GuestReservation;
 import com.example.domain.MenuItemReservation;
+import com.example.domain.RateRestaurant;
 import com.example.domain.Reservation;
 import com.example.domain.Restaurant;
 import com.example.domain.TableOfRestaurant;
@@ -21,6 +22,7 @@ import com.example.domain.TableReservation;
 import com.example.respository.DrinkMenuItemReservationRepository;
 import com.example.respository.GuestReservationRepository;
 import com.example.respository.MenuItemReservationRepository;
+import com.example.respository.RateRestaurantRepository;
 import com.example.respository.ReservationRepository;
 import com.example.respository.TableOfRestaurantRepository;
 import com.example.respository.TableReservationRepository;
@@ -44,6 +46,8 @@ public class ReservationServiceImp implements ReservationService {
 	VerificationTokenRepository verificationRepository;
 	@Autowired
 	TableOfRestaurantRepository tableOfReservationRepository;
+	@Autowired
+	RateRestaurantRepository rateRestaurantRepository;
 
 	@Override
 	public Reservation getReservation(Long id) {
@@ -78,7 +82,7 @@ public class ReservationServiceImp implements ReservationService {
 			}
 			// ako nema rezervisanih stolova upisi rezervaciju stola
 			return tableReservationRepository.save(tableReservation);
-		}else{
+		} else {
 			return null;
 		}
 	}
@@ -227,6 +231,12 @@ public class ReservationServiceImp implements ReservationService {
 	@Transactional(readOnly = false)
 	public void deleteTableReservation(Long id) {
 		tableReservationRepository.delete(id);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public RateRestaurant saveRateRestaurant(RateRestaurant rateRestaurant) {
+		return rateRestaurantRepository.save(rateRestaurant);
 	}
 
 }
