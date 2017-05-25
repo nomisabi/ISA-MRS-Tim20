@@ -225,7 +225,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		    $scope.minDate = moment().subtract(1, 'month');
   		    $scope.minDate2 = $scope.supply.from_date;
   		    
-  		    $scope.maxDate = moment().add(1, 'month');
+  		   // $scope.maxDate = moment().add(1, 'month');
     		$scope.page="create_supply";
   		}
   	}
@@ -683,6 +683,12 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     $scope.newSupply=function(){
     	$scope.supply.restaurant=$scope.manager.restaurant;
     	$scope.supply.chosed=false;
+
+    	
+    	if ($scope.supply.from_date>$scope.supply.to_date ){
+    		alert("Finish date is before start date.");
+    		return;
+    	}
     	//alert(JSON.stringify($scope.supply));
     	$http.post("http://localhost:8080/api/manager/addSupply", $scope.supply).success(function(data) {
 			$route.reload();

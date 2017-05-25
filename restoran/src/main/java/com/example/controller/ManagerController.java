@@ -229,7 +229,7 @@ public class ManagerController {
 		empl.add(e);
 		er.getR().setEmployee(empl);
 		userService.addUser(user);
-		smService.update(er.getR());
+		restService.insertEmpl(er.getR().getId(), er.getE().getId());
 		
 		logger.info("< createEmployee");	
 		return new ResponseEntity<Employee>(er.getE(), HttpStatus.OK);
@@ -532,6 +532,7 @@ public class ManagerController {
 		}
 		//izbrisi region
 		regionService.deleteRegion(r);
+		
 		logger.info("< delTable: "+t.toString());
 		return new ResponseEntity<Region>(HttpStatus.OK);
 	}
