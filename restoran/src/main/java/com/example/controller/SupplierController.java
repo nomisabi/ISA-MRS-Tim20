@@ -24,6 +24,7 @@ import com.example.domain.Supplier;
 import com.example.domain.Supply;
 import com.example.domain.User;
 import com.example.domain.DTOs.GuestRegister;
+import com.example.domain.DTOs.OfferSupply;
 import com.example.service.GuestService;
 import com.example.service.OfferSupplyService;
 import com.example.service.SupplierService;
@@ -182,13 +183,14 @@ public class SupplierController {
 			method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Offer> updateOffer(@Valid @RequestBody  Offer o) {
-		logger.info("> updateOffer: "+o.toString());
+	public ResponseEntity<Offer> updateOffer(@Valid @RequestBody  OfferSupply os) {
+		logger.info("> updateOffer: ");
 
-		osService.updateOfferQualityAndPrice(o);
+		if (osService.updateOfferQualityAndPrice(os.getO(), os.getS())==null)
+			return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
 		
 		logger.info("< updateOffer");
-		return new ResponseEntity<Offer>(o,HttpStatus.OK);
+		return new ResponseEntity<Offer>(os.getO(),HttpStatus.OK);
 	}
 	
 	
@@ -206,5 +208,17 @@ public class SupplierController {
 		return new ResponseEntity<Collection<Supply>>(supp,HttpStatus.OK);
 	}
 	
+	@RequestMapping(
+			value = "/api/suppliers/getSuppliersRest", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Supplier>> getSuppliersRest(@Valid @RequestBody  Restaurant r) {
+		logger.info("> getSuppliersRest ");
 
+		Collection<Supplier> supp=supService.getSupp(r.getId());
+		
+		logger.info("< getSuppliersRest");
+		return new ResponseEntity<Collection<Supplier>>(supp,HttpStatus.OK);
+	}
 }

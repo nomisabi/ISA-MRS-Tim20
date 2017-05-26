@@ -784,7 +784,16 @@
 			                          </table>
 			                         <a class="" ng-click=changeToCreateSupplier()>
 				                   	Adding new supplier
+				                </a><br>
+				                <a class="" ng-click=changeToAddExistin()>
+				                   	Adding existing supplier
 				                </a>
+				                
+				                <md-select placeholder="Assign to manager" ng-model="user1" md-on-open="loadUsers()" ng-show="supp">
+      <md-option ng-value="user1" ng-repeat="user1 in users1">{{user1.name}}</md-option>
+    </md-select></td><td>
+    <button ng-show="supp" class="btn btn-success btn-xs" ng-click="addSupToRest(user1, r)">Add</button>
+				                
 			                         </div><!-- /content-panel -->
 			                  </div><!-- /col-md-12 -->
 						

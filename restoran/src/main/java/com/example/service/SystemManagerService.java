@@ -29,6 +29,7 @@ public interface SystemManagerService {
 	
 	void update(System_manager man);
 	
+	void insertManager(Long id_r, Long id_m);
 
 
 }

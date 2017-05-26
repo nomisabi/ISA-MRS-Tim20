@@ -247,5 +247,18 @@ public class SystemManagerContoller {
 		return new ResponseEntity<System_manager>(HttpStatus.NOT_FOUND);
 	}
 	
+
+	@RequestMapping(
+			value = "/api/sysman/addManToRest", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Restaurant> addManToRest(@Valid @RequestBody ManagerRestaurant rm) throws Exception {
+		logger.info("\n> $$$$ addManToRest :"+rm.toString());
+		Collection<Restaurant> rests = smService.findAllRest();
+		
+		smService.insertManager(rm.getR().getId(), rm.getM().getId());
+		return new ResponseEntity<Restaurant>(rm.getR(),HttpStatus.OK);
+	}
 	
 }

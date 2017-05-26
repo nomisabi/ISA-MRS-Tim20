@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 public class Supply implements Serializable {
@@ -22,6 +23,9 @@ public class Supply implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="Id")
 	private long id;
+	@Version
+	@Column(name="version")
+	private Long version;
 	@Column(nullable = false)
 	private String name;
 	@Column(nullable = false)
@@ -37,9 +41,8 @@ public class Supply implements Serializable {
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="supply")
 	private Set<Offer> offer;
 	
-	public Supply(long id, String name, String from, String to, boolean chosed) {
+	public Supply( String name, String from, String to, boolean chosed) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.from_date = from;
 		this.to_date = to;

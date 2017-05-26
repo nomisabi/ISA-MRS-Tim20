@@ -29,6 +29,10 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
     @Query(value="INSERT INTO restaurant_employee (restaurant_id, employee_id) VALUES (?1,?2)", nativeQuery=true)
     int insertEmpl(Long id_rest, Long id_emp);
 
+	@Modifying
+	@Transactional
+    @Query(value="INSERT INTO restaurant_manager (restaurant_id, manager_id) VALUES (?1,?2)", nativeQuery=true)
+    int insertMan(Long id_rest, Long id_man);
 
 	@Modifying
 	@Transactional

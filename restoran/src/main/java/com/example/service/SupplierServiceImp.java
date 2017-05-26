@@ -64,6 +64,11 @@ public class SupplierServiceImp implements SupplierService {
 		System.out.println("rest: "+r.size());
 		return r;
 	}
+
+	@Override
+	public Collection<Supplier> getSupp(Long id) {
+		return supRepository.getSuppByRest(id);
+	}
 	
 
 

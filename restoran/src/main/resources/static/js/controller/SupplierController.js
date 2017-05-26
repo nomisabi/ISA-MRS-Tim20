@@ -80,7 +80,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     $scope.updateOffer=function(){
 		offer={"id":$scope.mine.id,"supplier":$scope.supplier, "status":"WAITING" , "price":$scope.updatePrice, "quality": $scope.updateRating.rating};
   		//alert(JSON.stringify(offer));
-		$http.post("http://localhost:8080/api/suppliers/updateOffer",offer).success(
+		$http.post("http://localhost:8080/api/suppliers/updateOffer",{"o":offer,"s":$scope.supply}).success(
 				function(data){
 					$route.reload();
 				}).error(
@@ -181,13 +181,23 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     	if ($scope.supplier.active)
     		$scope.page="restaurant";   	
     }
+    
+    $scope.equals=function(s,r){
+    	if (s.restaurant.id==r.id)
+    		return true;
+    	return false;
+    }
     $scope.changeToOrders= function(){
+    	$scope.supp=[];
     	for (var i=0;i<$scope.rest.length;i++){
     		$http.post("http://localhost:8080/api/manager/supply",$scope.rest[i]).success(
 					function(data){
-						$scope.rest.supplies=data;
+						for (var j=0;j<data.length;j++){
+							$scope.supp.push(data[j]);}
+						//alert("size"+data.length);
 					});
     	}
+    	//alert(JSON.stringify($scope.rest));
     	$http.post("http://localhost:8080/api/manager/supply_choosed",$scope.supplier).success(
 				function(data){
 					$scope.rest.wait=data;
@@ -214,7 +224,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     	for (var i=0;i<$scope.rest.length;i++){
     		$http.post("http://localhost:8080/api/manager/supply_hist",$scope.rest[i]).success(
     				function(data){
-    					$scope.rest.supplies_hist=data;
+    					$scope.rest[i].supplies_hist=data;
     				});
     	}
     	if ($scope.supplier.active)

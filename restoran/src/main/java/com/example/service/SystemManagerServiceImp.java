@@ -123,6 +123,12 @@ public class SystemManagerServiceImp implements SystemManagerService{
 		logger.info("< update :{}", man);
 		
 	}
+
+	@Override
+	public void insertManager(Long id_r, Long id_m) {
+		rRepository.insertMan(id_r,id_m);
+		
+	}
 	
 	
 }

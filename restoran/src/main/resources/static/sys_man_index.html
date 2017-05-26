@@ -190,6 +190,8 @@
 			                          <a class="" ng-click="changeToCreateManager()">
 		                    			Create a new manager
 		                				</a>
+           				
+		                				                				
 			                          
 			                      </div><!-- /content-panel -->
 			                  </div><!-- /col-md-12 -->
@@ -246,7 +248,9 @@
 			                                 <th>Name</th>
 	                     					<th>Location</th>
 	                     					<th>Managers</th>
-	                     				<th>&nbsp;</th>
+	                     					<th>&nbsp;</th>
+	                     					<th>&nbsp;</th>
+	                     					<th>&nbsp;</th>
 			           
 			                              </tr>
 			                              </thead>
@@ -259,10 +263,15 @@
 									
 									
 									<td >{{r.manager[0].firstName}} {{r.manager[0].lastName}}</td>
-									<td><i class="fa fa-plus"></i> </td>
+									<td><i class="fa fa-plus" ng-click="addMoreMan(r)"></i> </td>
+									<td  >
+										 
+										 
+    <md-select placeholder="Assign to manager" ng-model="user1" md-on-open="loadUsers()" ng-show="r.add">
+      <md-option ng-value="user1" ng-repeat="user1 in users1">{{user1.firstName}} {{user1.lastName}}</md-option>
+    </md-select></td><td> <button ng-show="r.add" class="btn btn-success btn-xs" ng-click="addManToRest(user1, r)"><i class="fa fa-check"></i></button>
+    </td>
 									
-			          
-			                              </tr>
 			                             
 			                                			                              </tbody>
 			                          </table>

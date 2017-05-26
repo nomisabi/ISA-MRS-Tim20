@@ -8,6 +8,8 @@ import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Offer;
 import com.example.domain.Offer_status;
@@ -18,6 +20,7 @@ import com.example.respository.OfferRepository;
 import com.example.respository.SupplyRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class OfferSupplyServiceImpl  implements OfferSupplyService{
 
     @Autowired
@@ -27,11 +30,13 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
     private SupplyRepository supplyRepository;
     
 	@Override
+	@Transactional(readOnly = false)
 	public Supply createSupply(Supply supply) {
 		return supplyRepository.save(supply);
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void updateSupply(Supply supply) {
 		// TODO Auto-generated method stub
 		
@@ -53,19 +58,27 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void deleteSupply(Long id) {
 		supplyRepository.delete(id);
 		
 	}
 
+	
+	/*    EY KELL - PLUSZ LEELLENORIZNI A SUPPLY,AKTIVE-E   */
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public Offer createOffer(Offer offer, Long id) {
+		Supply s= supplyRepository.findOne(id);
+		if (s.isChosed())
+			return null;
 		Offer o= offerRepository.save(offer);
 		offerRepository.updateName(o.getId(), id);
 		return o;
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void updateOffer(Offer offer) {
 		offerRepository.updateStatus(offer.getId(), 3);
 		
@@ -87,6 +100,7 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void deleteOffer(Long id) {
 		offerRepository.delete(id);
 		
@@ -94,30 +108,15 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 
 	@Override
 	public Collection<Supply> getSupplyByRest(Long id) {
-		/*String now="";
-		Date date = new Date();
-		Calendar calendar = new GregorianCalendar();
-		calendar.setTime(date);
-		int year = calendar.get(Calendar.YEAR);
-		//Add one to month {0 - 11}
-		int month = calendar.get(Calendar.MONTH) + 1;
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		int hours = calendar.get(Calendar.HOUR)-2;
-		if (month<10)
-			if (day<10)
-				now+=year+"-0"+month+"-0"+day+"T"+hours+":"+date.getMinutes()+":"+date.getSeconds();
-			else
-				now+=year+"-0"+month+"-"+day+"T"+hours+":"+date.getMinutes()+":"+date.getSeconds();
-		else
-			if (day<10)
-				now+=year+"-"+month+"-0"+day+"T"+hours+":"+date.getMinutes()+":"+date.getSeconds();
-			else
-				now+=year+"-"+month+"-"+day+"T"+dhours+":"+date.getMinutes()+":"+date.getSeconds();
-		System.out.println("Datum (2017-05-23T17:25:22.186Z):"+now);*/
+		
 		return (Collection<Supply>) supplyRepository.getSupplyByRest(id);
 	}
 
+	
+	
+	
 	@Override
+	@Transactional(readOnly = false)
 	public void update(Supply s, Offer o) {
 		for (Offer offer : s.getOffer()) {
 			if (o.getId()==offer.getId())
@@ -131,25 +130,7 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 
 	@Override
 	public Collection<Supply> getSupplyByRestChoosed(Long id) {
-		/*String now="";
-		Date date = new Date();
-		Calendar calendar = new GregorianCalendar();
-		calendar.setTime(date);
-		int year = calendar.get(Calendar.YEAR);
-		//Add one to month {0 - 11}
-		int month = calendar.get(Calendar.MONTH) + 1;
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		if (month<10)
-			if (day<10)
-				now+=year+"-0"+month+"-0"+day+"T"+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
-			else
-				now+=year+"-0"+month+"-"+day+"T"+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
-		else
-			if (day<10)
-				now+=year+"-"+month+"-0"+day+"T"+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
-			else
-				now+=year+"-"+month+"-"+day+"T"+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
-		System.out.println("Datum (2017-05-23T17:25:22.186Z):"+now);*/
+	
 		return (Collection<Supply>) supplyRepository.getSupplyByRestChoosed(id);
 	}
 
@@ -158,10 +139,18 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 		return  (Collection<Supply>) supplyRepository.getWatingSupply(id);
 	}
 
+	
+	
+	/*    EY KELL - PLUSZ LEELLENORIZNI A SUPPLY,AKTIVE-E   */
 	@Override
-	public void updateOfferQualityAndPrice(Offer o) {
-		offerRepository.update(o.getId(), o.getQuality(), o.getPrice());  
-		
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public Offer updateOfferQualityAndPrice(Offer o, Supply sup) {
+		//System.out.println(o.toString());
+		Supply s= supplyRepository.findOne(sup.getId());
+		if (s.isChosed())
+			return null;
+		offerRepository.update(o.getId(), o.getQuality(), o.getPrice());
+		return o;
 	}
 
 	@Override

@@ -21,6 +21,10 @@ public interface SupllierRepository extends CrudRepository<Supplier, Long>{
 	@Transactional
     @Query("UPDATE Supplier s SET s.password = ?3, s.email=?2, s.name=?4, s.active=?5 WHERE s.id = ?1")
     int updatePass(Long id, String email, String password, String name, boolean active);
+	
+    @Query(value="select s.id, s.email, s.password, s.name, s.active from supplier s inner join restaurant_suppliers rs on rs.suppliers_id=s.id where rs.restaurant_id!=?1 " +
+     " and s NOT IN (select s from supplier s inner join restaurant_suppliers rs on rs.suppliers_id=s.id where rs.Restaurant_id=?1)", nativeQuery=true)
+    Collection<Supplier> getSuppByRest(Long id_r);
 
 
 }

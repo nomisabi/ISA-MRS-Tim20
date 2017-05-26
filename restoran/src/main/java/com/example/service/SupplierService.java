@@ -19,4 +19,5 @@ public interface SupplierService {
 	
 	Collection<Restaurant> getRest(Long id);
 
+	Collection<Supplier> getSupp(Long id);
 }

@@ -629,4 +629,15 @@ public class ManagerController {
 		return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
 	}
 	
+	
+	@RequestMapping(value = "/api/manager/addSuppToRest", 
+	method = RequestMethod.POST, 
+	produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Supplier>  addSupplier(@Valid @RequestBody SupplierRestaurant sr) throws Exception {
+		logger.info("> addSupplier: ");
+		mService.updateRest(sr.getR().getId(), sr.getS().getId());
+		logger.info("< addSupplier");
+		
+		return new ResponseEntity<Supplier>(sr.getS(), HttpStatus.OK);
+	}
 }

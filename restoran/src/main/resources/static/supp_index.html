@@ -178,6 +178,7 @@
 			                      
 			                      <br>
 			                      <br>
+			                      
 			                      <br>
 			                          <table class="table table-striped table-advance table-hover" style="width:95%;">
 				                  	  	  <h4><i class="fa fa-angle-right"></i> Orders</h4>
@@ -194,7 +195,7 @@
 			                              </thead>
 			                              <tbody ng-repeat="r in rest">
 			                    
-			                              <tr >
+			                              <tr style="background-color: #778899 !important;">
 			                                  <td>{{r.name}}</td>
 			                                  <td>{{r.species}}</td>
 			                                  <td>{{r.location}}</td>
@@ -208,7 +209,7 @@
 			                                  <th>To</th><th>Finished</th>
 			          
 			                              </tr>
-			                            <tr ng-repeat="s in rest.supplies" ng-click="changeToPage(s)">
+			                            <tr ng-repeat="s in supp" ng-click="changeToPage(s)" ng-show="equals(s,r)">
 			                            	<td></td>
 			                          
 			                                 <td>{{s.name}}</td>
@@ -266,7 +267,7 @@
 			                                  <th>To</th><th>Finished</th>
 			          
 			                              </tr>
-			                            <tr ng-repeat="s in rest.supplies_hist" ng-click="changeToPage(s)">
+			                            <tr ng-repeat="s in r.supplies_hist" ng-click="changeToPage(s)">
 			                            	<td></td>
 			                          
 			                                 <td>{{s.name}}</td>

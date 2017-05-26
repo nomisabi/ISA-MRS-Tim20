@@ -34,9 +34,8 @@ public class Offer implements Serializable{
 	@JoinColumn(name = "supplier_id")
 	private Supplier supplier;
 	
-	public Offer(long id, int quality, double price, Offer_status status) {
+	public Offer(int quality, double price, Offer_status status) {
 		super();
-		this.id = id;
 		this.quality = quality;
 		this.price = price;
 		this.status = status;
@@ -84,6 +83,12 @@ public class Offer implements Serializable{
 
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
+	}
+
+	@Override
+	public String toString() {
+		return "Offer [id=" + id + ", quality=" + quality + ", price=" + price + ", status=" + status + ", supply="
+				+ supply + ", supplier=" + supplier + "]";
 	}
 
 	

@@ -1,12 +1,33 @@
 'use strict';
 
-angular.module('myApp').controller('SystemManagerController',['$scope','$http','$window','$route','$ocLazyLoad','SystemManagerFactory', 'geocoder','NgMap', function($scope, $http,$window,$route, $ocLazyLoad,SystemManagerFactory, geocoder, NgMap) {
+angular.module('myApp').controller('SystemManagerController',['$scope','$http','$window','$route','$ocLazyLoad','SystemManagerFactory', 'geocoder','NgMap','$mdDialog','$timeout', function( $scope, $http,$window,$route, $ocLazyLoad,SystemManagerFactory, geocoder, NgMap, $mdDialog, $timeout) {
 
 	$scope.page="profile";
 	$scope.man_without_rest=[];
 	$scope.out=null;
 	$scope.my_place_id = "ChIJVTTpPWEQW0cRKP4kN2h9bws";
 	$scope.string="45.2671352,19.83354959999997";
+	
+	$scope.user1 = null;
+	  $scope.users1 = null;
+
+	  $scope.loadUsers = function() {
+		  $scope.users1 =  $scope.users1  || [
+	  		                          	        { id: 1, name: 'Scooby Doo' },
+	  		                          	        { id: 2, name: 'Shaggy Rodgers' },
+	  		                          	        { id: 3, name: 'Fred Jones' },
+	  		                          	        { id: 4, name: 'Daphne Blake' },
+	  		                          	        { id: 5, name: 'Velma Dinkley' }
+	  		                          	      ]; 
+		  
+		  //alert(JSON.stringify( $scope.users1));
+		  //alert(JSON.stringify( $scope.man_without_rest));
+	    // Use timeout to simulate a 650ms request.
+	    return $timeout(function() {
+	    	$scope.users1 = $scope.man_without_rest || null;
+
+	    }, 650);
+	  }; 
 	
 	$scope.$watch("out", function(newValue, oldValue) {
 	        if ($scope.out.formatted_address.length > 3) {
@@ -68,6 +89,20 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	    		});
 	    
 	    
+	}
+	
+	$scope.addManToRest=function(user1, r){
+		$http.post("http://localhost:8080/api/sysman/addManToRest",{"r":r, "m":user1}).success(
+	    		function(data){
+	    			$route.reload();
+	    		});
+	}
+	
+	$scope.addMoreMan=function(r){
+		if (r.add==false || r.add==null)
+			r.add=true;
+		else
+			r.add=false;
 	}
 	
 	//$ocLazyLoad.load('common-scripts.js');
@@ -210,7 +245,8 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     $scope.changeToChangePassword= function(){
     	$scope.page="new_pass";    	
     }
+
    
-  
 
 }]);
+

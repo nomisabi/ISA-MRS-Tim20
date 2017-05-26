@@ -1,5 +1,5 @@
 
-angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad','$mdDialog', function($scope, $http,$window, $route, $ocLazyLoad, $mdDialog) {
+angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad','$mdDialog','$timeout', function($scope, $http,$window, $route, $ocLazyLoad, $mdDialog, $timeout) {
 	$ocLazyLoad.load('assets/js/common-scripts.js');
 	
     $scope.status = '  ';
@@ -20,6 +20,23 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		  }]; 
 	$scope.selected = $scope.typeOfEmployee[0];
 	
+	$scope.user1 = null;
+	  $scope.users1 = null;
+
+	  $scope.loadUsers = function() {
+		  $scope.users1 =  $scope.users1  || [
+	  		                          	        { id: 1, name: 'Scooby Doo' },
+	  		                          	        { id: 2, name: 'Shaggy Rodgers' },
+	  		                          	        { id: 3, name: 'Fred Jones' },
+	  		                          	        { id: 4, name: 'Daphne Blake' },
+	  		                          	        { id: 5, name: 'Velma Dinkley' }
+	  		                          	      ]; 
+	    // Use timeout to simulate a 650ms request.
+
+	    return $timeout(function() {
+	    	$scope.users1 = $scope.existing_suppliers || null;
+	    }, 650);
+	  }; 
 
 	function init() {
 		
@@ -152,10 +169,25 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		}
     }
 
-
+    $scope.addSupToRest=function(user1){
+    	$http.post("http://localhost:8080/api/manager/addSuppToRest",{"r":$scope.manager.restaurant, "s":user1}).success(
+	    		function(data){
+	    			$route.reload();
+	    		});
+    	
+    }
+    
     $scope.changeToProfile= function(){
     	if ($scope.manager.active)
     		$scope.page="profile";
+    	
+    }
+    
+    $scope.changeToAddExistin= function(){
+    	if ($scope.supp==true)
+    		$scope.supp=false;
+    	else
+    		$scope.supp=true;
     	
     }
     
@@ -200,7 +232,12 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="history";  
     }
   	$scope.changeToSupplier= function(){
-  		//alert("supplier");
+  		$http.post("http://localhost:8080/api/suppliers/getSuppliersRest", $scope.manager.restaurant).success(function(data) {
+    		$scope.existing_suppliers=data;
+    		//alert(JSON.stringify($scope.existing_suppliers));
+    	}).error(function(data) {
+    		//alert("error");	
+    	});
   		if ($scope.manager.active)
     		$scope.page="supplier";   	
   	}

@@ -20,6 +20,7 @@ public class Supplier implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="Id")
 	private long id;
 	@Column
 	private String name;
