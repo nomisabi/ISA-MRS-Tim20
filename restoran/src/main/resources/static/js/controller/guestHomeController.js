@@ -733,18 +733,19 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	}
     
     $scope.rate = function() {
+    	$scope.rateFood.rating = 1;
+    	$scope.rating.rating = 1;
     	$scope.page = "rate";
         
     }
     
-    $scope.rateRestaurant = function() {
-    	alert($scope.rateFood.rating);
-    	alert($scope.rating.rating);
-    	
-    	var restaurantRate = {"guest": $scope.guest, "restaurant": $scope.reservation.restaurant, "reservation": $scope.reservation,"rate": $scope.rating.rating};
+    $scope.rateRestaurant = function() {    	
     	
     	$http.post('http://localhost:8080/api/restaurant/rate',
-  			   {"rateRestaurant": restaurantRate 
+  			   {"guest" : $scope.guest,
+    		    "reservation" : $scope.reservation,
+    			"rateMenu": $scope.rateFood.rating,
+    			"rateRestaurant": $scope.rating.rating
      			})
   			   
  		 .success(
