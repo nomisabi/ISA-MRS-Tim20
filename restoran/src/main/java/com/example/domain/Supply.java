@@ -13,8 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Version;
+
+import org.springframework.data.annotation.Version;
+
 
 @Entity
 public class Supply implements Serializable {
@@ -24,7 +25,6 @@ public class Supply implements Serializable {
 	@Column(name="Id")
 	private long id;
 	@Version
-	@Column(name="version")
 	private Long version;
 	@Column(nullable = false)
 	private String name;
@@ -114,6 +114,15 @@ public class Supply implements Serializable {
 		return "Supply [id=" + id + ", name=" + name + ", from_date=" + from_date + ", to_date=" + to_date + ", chosed="
 				+ chosed + ", restaurant=" + restaurant + ", offer=" + offer + "]";
 	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+	
 	
 	
 }

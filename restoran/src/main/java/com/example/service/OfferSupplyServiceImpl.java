@@ -32,6 +32,7 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	@Override
 	@Transactional(readOnly = false)
 	public Supply createSupply(Supply supply) {
+		supply.setVersion((long) 0);
 		return supplyRepository.save(supply);
 	}
 
@@ -68,12 +69,16 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	/*    EY KELL - PLUSZ LEELLENORIZNI A SUPPLY,AKTIVE-E   */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-	public Offer createOffer(Offer offer, Long id) {
-		Supply s= supplyRepository.findOne(id);
+	public Offer createOffer(Offer offer, Supply sup) {
+		
+		Supply s= supplyRepository.findOne(sup.getId());
+		if (sup.getVersion()!=s.getVersion())
+			return null;
+		
 		if (s.isChosed())
 			return null;
 		Offer o= offerRepository.save(offer);
-		offerRepository.updateName(o.getId(), id);
+		offerRepository.updateName(o.getId(), sup.getId());
 		return o;
 	}
 
@@ -124,7 +129,8 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 			else	
 				offerRepository.updateStatus(offer.getId(), 1);
 		}
-		supplyRepository.updateStatus(s.getId(), true);
+		long ver= s.getVersion()+1;
+		supplyRepository.updateStatus(s.getId(), true, ver);
 		
 	}
 
@@ -145,8 +151,12 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public Offer updateOfferQualityAndPrice(Offer o, Supply sup) {
-		//System.out.println(o.toString());
+		//System.out.println("\n\nold: "+sup.getVersion());
 		Supply s= supplyRepository.findOne(sup.getId());
+		//System.out.println("new: "+s.getVersion());
+		if (sup.getVersion()!=s.getVersion())
+			return null;
+			
 		if (s.isChosed())
 			return null;
 		offerRepository.update(o.getId(), o.getQuality(), o.getPrice());

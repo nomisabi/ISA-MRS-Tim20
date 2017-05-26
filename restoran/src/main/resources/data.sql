@@ -91,11 +91,11 @@ INSERT INTO guest_reservation (guest_id, reservation_id, accepted) VALUES (1, 1,
 INSERT INTO drink_menu_item_reservation (reservation_id, guest_id, drink_menu_item_id, prepared, quantity) VALUES (1,1,1,FALSE,1);
 INSERT INTO menu_item_reservation (reservation_id, guest_id, menu_item_id, prepared, quantity) VALUES (1,1,1,FALSE,1);
 
-INSERT INTO supply (chosed, from_date, name, to_date, rest_id) values (FALSE, '2017-05-29T23:30:00.000Z', 'Coca Cola (not stated)', '2017-05-30T23:30:00.000Z',1);
-INSERT INTO supply (chosed, from_date, name, to_date, rest_id) values (FALSE, '2017-05-24T23:30:00.000Z', 'ananas (deadline exceeded)', '2017-05-24T23:30:00.000Z',1);
-INSERT INTO supply (chosed, from_date, name, to_date, rest_id) values (FALSE, '2017-05-24T23:30:00.000Z', 'jabuka (no offer)', '2017-05-30T23:30:00.000Z',1);
-INSERT INTO supply (chosed, from_date, name, to_date, rest_id) values (FALSE, '2017-05-24T23:30:00.000Z', 'jagoda (sended offer)', '2017-05-30T23:30:00.000Z',1);
-INSERT INTO supply (chosed, from_date, name, to_date, rest_id) values (TRUE, '2017-05-24T23:30:00.000Z', 'Sprite (chosen offer)', '2017-05-30T23:30:00.000Z',1);
+INSERT INTO supply (chosed, from_date, name, to_date, rest_id, version) values (FALSE, '2017-05-29T23:30:00.000Z', 'Coca Cola (not stated)', '2017-05-30T23:30:00.000Z',1,0);
+INSERT INTO supply (chosed, from_date, name, to_date, rest_id, version) values (FALSE, '2017-05-24T23:30:00.000Z', 'ananas (deadline exceeded)', '2017-05-24T23:30:00.000Z',1,0);
+INSERT INTO supply (chosed, from_date, name, to_date, rest_id, version) values (FALSE, '2017-05-24T23:30:00.000Z', 'jabuka (no offer)', '2017-05-30T23:30:00.000Z',1,0);
+INSERT INTO supply (chosed, from_date, name, to_date, rest_id, version) values (FALSE, '2017-05-24T23:30:00.000Z', 'jagoda (sended offer)', '2017-05-30T23:30:00.000Z',1,0);
+INSERT INTO supply (chosed, from_date, name, to_date, rest_id, version) values (TRUE, '2017-05-24T23:30:00.000Z', 'Sprite (chosen offer)', '2017-05-30T23:30:00.000Z',1,0);
 
 INSERT INTO offer (price, quality, status, supplier_id, supply_id) values (100,4,0,1,4);
 INSERT INTO offer (price, quality, status, supplier_id, supply_id) values (100,5,2,1,5);

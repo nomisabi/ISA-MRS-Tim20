@@ -28,7 +28,7 @@ public interface OfferSupplyService {
 	
 	void deleteSupply(Long id);
 	
-	Offer createOffer(Offer offer, Long id);
+	Offer createOffer(Offer offer, Supply sup);
 	
 	void updateOffer(Offer offer);
 	

@@ -77,10 +77,10 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     		$scope.page="profile";   	
     }
     
-    $scope.updateOffer=function(){
+    $scope.updateOffer=function(s){
 		offer={"id":$scope.mine.id,"supplier":$scope.supplier, "status":"WAITING" , "price":$scope.updatePrice, "quality": $scope.updateRating.rating};
-  		//alert(JSON.stringify(offer));
-		$http.post("http://localhost:8080/api/suppliers/updateOffer",{"o":offer,"s":$scope.supply}).success(
+  		//alert(JSON.stringify(s));
+		$http.post("http://localhost:8080/api/suppliers/updateOffer",{"o":offer,"s":s}).success(
 				function(data){
 					$route.reload();
 				}).error(

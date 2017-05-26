@@ -26,8 +26,8 @@ public interface SupplyRepository extends CrudRepository<Supply, Long> {
 	
 	@Modifying
 	@Transactional
-    @Query("UPDATE Supply s SET s.chosed = ?2 WHERE s.id = ?1")
-    int updateStatus(Long id, boolean choosed);
+    @Query("UPDATE Supply s SET s.chosed = ?2, s.version=?3 WHERE s.id = ?1")
+    int updateStatus(Long id, boolean choosed, long v);
 	
 	@Query(value="SELECT s.id, s.chosed, s.from_date, s.name, s.to_date, s.rest_id, s.version FROM Supply s INNER JOIN Offer o ON o.supply_id=s.id  WHERE  o.supplier_id= ?1 ", nativeQuery=true)
 	public Collection<Supply> getSupplyWithMyOffer(Long id);

@@ -184,7 +184,7 @@ public class SupplierController {
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Offer> updateOffer(@Valid @RequestBody  OfferSupply os) {
-		logger.info("> updateOffer: ");
+		logger.info("> updateOffer: "+os.getS().toString());
 
 		if (osService.updateOfferQualityAndPrice(os.getO(), os.getS())==null)
 			return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);

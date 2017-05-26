@@ -606,7 +606,7 @@ public class ManagerController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Offer> addOffer(@Valid @RequestBody OfferSupply os) throws Exception {
 		logger.info("> addOffer: ");
-		Offer offer= osService.createOffer(os.getO(), os.getS().getId());
+		Offer offer= osService.createOffer(os.getO(), os.getS());
 		
 		if (offer!=null){
 			return new ResponseEntity<Offer>(offer, HttpStatus.OK);
