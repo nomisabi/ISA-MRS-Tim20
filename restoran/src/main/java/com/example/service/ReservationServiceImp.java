@@ -14,6 +14,7 @@ import com.example.domain.DrinkMenuItemReservation;
 import com.example.domain.Guest;
 import com.example.domain.GuestReservation;
 import com.example.domain.MenuItemReservation;
+import com.example.domain.RateMenuItem;
 import com.example.domain.RateRestaurant;
 import com.example.domain.Reservation;
 import com.example.domain.Restaurant;
@@ -22,6 +23,7 @@ import com.example.domain.TableReservation;
 import com.example.respository.DrinkMenuItemReservationRepository;
 import com.example.respository.GuestReservationRepository;
 import com.example.respository.MenuItemReservationRepository;
+import com.example.respository.RateMenuItemRepository;
 import com.example.respository.RateRestaurantRepository;
 import com.example.respository.ReservationRepository;
 import com.example.respository.TableOfRestaurantRepository;
@@ -48,6 +50,8 @@ public class ReservationServiceImp implements ReservationService {
 	TableOfRestaurantRepository tableOfReservationRepository;
 	@Autowired
 	RateRestaurantRepository rateRestaurantRepository;
+	@Autowired
+	RateMenuItemRepository rateMenuItemRepostory;
 
 	@Override
 	public Reservation getReservation(Long id) {
@@ -237,6 +241,18 @@ public class ReservationServiceImp implements ReservationService {
 	@Transactional(readOnly = false)
 	public RateRestaurant saveRateRestaurant(RateRestaurant rateRestaurant) {
 		return rateRestaurantRepository.save(rateRestaurant);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public RateMenuItem saveRateMenuItem(RateMenuItem rateMenuItem) {
+		return rateMenuItemRepostory.save(rateMenuItem);
+	}
+	@Override
+	@Transactional(readOnly = false)
+	public void setRate(Long id){
+		reservationRepository.setRate(id);
+		
 	}
 
 }

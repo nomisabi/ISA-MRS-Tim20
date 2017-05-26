@@ -85,7 +85,7 @@ INSERT INTO table_of_restaurant (number, number_of_chairs, region_id, restaurant
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (1,2,2);
 INSERT INTO table_of_restaurant (number, number_of_chairs, restaurant_id) values (2,4,2);
 
-INSERT INTO reservation (restaurant_id, start_time, end_time) VALUES (1,'24/05/2017 15:00','24/05/2017 16:00');
+INSERT INTO reservation (restaurant_id, start_time, end_time, rate) VALUES (1,'24/05/2017 15:00','24/05/2017 16:00',false);
 INSERT INTO table_reservation (reservation_id, table_id, start_time, end_time) VALUES (1,19,'24/05/2017 15:00','24/05/2017 16:00');
 INSERT INTO guest_reservation (guest_id, reservation_id, accepted) VALUES (1, 1, TRUE);
 INSERT INTO drink_menu_item_reservation (reservation_id, guest_id, drink_menu_item_id, prepared, quantity) VALUES (1,1,1,FALSE,1);

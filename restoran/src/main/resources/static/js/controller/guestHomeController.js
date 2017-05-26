@@ -33,6 +33,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.prepared = false;
 	$scope.id = null;
 	$scope.flag = false;
+	$scope.flagRate = false;
 	$scope.drinkReserve = [];
 	$scope.regions = [];
 	$scope.model = [];
@@ -219,8 +220,10 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     					 $scope.menuList = data.menuItems;
     					 $scope.drinkList = data.drinkMenuItems;
     					 $scope.flag = data.flag;
+    					 $scope.flagRate = data.flagRate;
     					 $scope.id = data.guestReservationId;
     					 $scope.page = "view";
+    					 
     				 }
     	     ).error(
     	    		 function(data){
@@ -733,18 +736,19 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	}
     
     $scope.rate = function() {
+    	$scope.rateFood.rating = 1;
+    	$scope.rating.rating = 1;
     	$scope.page = "rate";
         
     }
     
-    $scope.rateRestaurant = function() {
-    	alert($scope.rateFood.rating);
-    	alert($scope.rating.rating);
-    	
-    	var restaurantRate = {"guest": $scope.guest, "restaurant": $scope.reservation.restaurant, "reservation": $scope.reservation,"rate": $scope.rating.rating};
+    $scope.rateRestaurant = function() {    	
     	
     	$http.post('http://localhost:8080/api/restaurant/rate',
-  			   {"rateRestaurant": restaurantRate 
+  			   {"guest" : $scope.guest,
+    		    "reservation" : $scope.reservation,
+    			"rateMenu": $scope.rateFood.rating,
+    			"rateRestaurant": $scope.rating.rating
      			})
   			   
  		 .success(

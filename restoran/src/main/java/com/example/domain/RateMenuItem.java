@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class RateRestaurant implements Serializable {
+public class RateMenuItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -20,19 +20,20 @@ public class RateRestaurant implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Guest guest;
 	@ManyToOne(fetch = FetchType.EAGER)
-	private Restaurant restaurant;
+	private MenuItem menuItem;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Reservation reservation;
 	@Column
 	private int rate;
 
-	public RateRestaurant() {
+	public RateMenuItem() {
+
 	}
 
-	public RateRestaurant(Guest guest, Restaurant restaurant, Reservation reservation, int rate) {
+	public RateMenuItem(Guest guest, MenuItem menuItem, Reservation reservation, int rate) {
 		super();
 		this.guest = guest;
-		this.restaurant = restaurant;
+		this.menuItem = menuItem;
 		this.reservation = reservation;
 		this.rate = rate;
 	}
@@ -53,12 +54,12 @@ public class RateRestaurant implements Serializable {
 		this.guest = guest;
 	}
 
-	public Restaurant getRestaurant() {
-		return restaurant;
+	public MenuItem getMenuItem() {
+		return menuItem;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
+	public void setMenuItem(MenuItem menuItem) {
+		this.menuItem = menuItem;
 	}
 
 	public Reservation getReservation() {
@@ -79,8 +80,8 @@ public class RateRestaurant implements Serializable {
 
 	@Override
 	public String toString() {
-		return "RateRestaurant [guest=" + guest + ", restaurant=" + restaurant + ", reservation=" + reservation
-				+ ", rate=" + rate + "]";
+		return "RateMenuItem [guest=" + guest + ", menuItem=" + menuItem + ", reservation=" + reservation + ", rate="
+				+ rate + "]";
 	}
 
 }

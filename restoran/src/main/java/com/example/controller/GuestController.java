@@ -29,6 +29,8 @@ import com.example.domain.Guest;
 import com.example.domain.GuestReservation;
 import com.example.domain.MenuItem;
 import com.example.domain.MenuItemReservation;
+import com.example.domain.RateMenuItem;
+import com.example.domain.RateRestaurant;
 import com.example.domain.Region;
 import com.example.domain.Reservation;
 import com.example.domain.Restaurant;
@@ -496,10 +498,18 @@ public class GuestController {
 		System.out.println(guest);
 		Reservation reservation = reservationService.getReservation(id);
 		String startTime = reservation.getStartTime();
+		String endTime = reservation.getEndTime();
 		boolean flag = false;
+		boolean flagRate = false;
 
 		LocalDateTime startTimeD = LocalDateTime.parse(startTime, sdf);
+		LocalDateTime endTimeD = LocalDateTime.parse(endTime, sdf);
 		System.out.println(startTimeD);
+		if (now.isAfter(endTimeD)) {
+			if (!reservation.isRate()) {
+				flagRate = true;
+			}
+		}
 
 		System.out.println(now);
 
@@ -532,7 +542,7 @@ public class GuestController {
 
 		Long guestReservationId = reservationService.getGuestReservationId(id, guest.getId());
 		ReservationDetails details = new ReservationDetails(reservation, guestReservationId, tables, guests, menuItems,
-				drinkMenuItems, flag);
+				drinkMenuItems, flag, flagRate);
 
 		return new ResponseEntity<ReservationDetails>(details, HttpStatus.OK);
 	}
@@ -677,10 +687,23 @@ public class GuestController {
 
 	/*** Rate restaurant and food ***/
 	@RequestMapping(value = "/api/restaurant/rate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Reservation>> rate(@RequestBody Rate rate) {
+	public ResponseEntity<Collection<Reservation>> rateReservation(@RequestBody Rate rate) {
 		logger.info("> rateRestaurant");
 		System.out.println(rate);
-		reservationService.saveRateRestaurant(rate.getRateRestaurant());
+
+		RateRestaurant rateRestaurant = new RateRestaurant(rate.getGuest(), rate.getReservation().getRestaurant(),
+				rate.getReservation(), rate.getRateRestaurant());
+		reservationService.saveRateRestaurant(rateRestaurant);
+
+		Collection<MenuItemReservation> menuItems = reservationService
+				.getAllMenuItemReservation(rate.getReservation().getId(), rate.getGuest().getId());
+		for (MenuItemReservation menuItemReservation : menuItems) {
+			RateMenuItem rateMenuItem = new RateMenuItem(rate.getGuest(), menuItemReservation.getMenuItem(),
+					rate.getReservation(), rate.getRateMenu());
+			reservationService.saveRateMenuItem(rateMenuItem);
+		}
+
+		reservationService.setRate(rate.getReservation().getId());
 
 		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
 	}
