@@ -41,6 +41,7 @@ import com.example.domain.DTOs.FriendRequest;
 import com.example.domain.DTOs.GuestRegister;
 import com.example.domain.DTOs.InviteFriends;
 import com.example.domain.DTOs.ItemsReservation;
+import com.example.domain.DTOs.Rate;
 import com.example.domain.DTOs.ReservationDetails;
 import com.example.domain.DTOs.RestaurantReservation;
 import com.example.domain.DTOs.Table;
@@ -671,6 +672,16 @@ public class GuestController {
 			System.out.println(menuItemReservation);
 			reservationService.deleteMenuItem(menuItemReservation.getId());
 		}
+		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
+	}
+
+	/*** Rate restaurant and food ***/
+	@RequestMapping(value = "/api/restaurant/rate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Reservation>> rate(@RequestBody Rate rate) {
+		logger.info("> rateRestaurant");
+		System.out.println(rate);
+		reservationService.saveRateRestaurant(rate.getRateRestaurant());
+
 		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
 	}
 
