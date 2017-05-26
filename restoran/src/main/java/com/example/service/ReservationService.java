@@ -78,5 +78,7 @@ public interface ReservationService {
 	RateRestaurant saveRateRestaurant(RateRestaurant rateRestaurant);
 	
 	RateMenuItem saveRateMenuItem(RateMenuItem rateMenuItem);
+	
+	void setRate(Long id);
 
 }

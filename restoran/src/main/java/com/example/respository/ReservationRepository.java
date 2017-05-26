@@ -4,7 +4,9 @@ package com.example.respository;
 import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Guest;
 import com.example.domain.Reservation;
@@ -33,5 +35,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	
 	@Query("SELECT r.restaurant FROM Reservation r WHERE r.id = ?1")
 	public Restaurant getRestaurant(Long idReservation);
+	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Reservation r SET r.rate = true WHERE r.id = ?1")
+	int setRate(Long id);
 
 }

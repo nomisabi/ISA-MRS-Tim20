@@ -33,6 +33,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.prepared = false;
 	$scope.id = null;
 	$scope.flag = false;
+	$scope.flagRate = false;
 	$scope.drinkReserve = [];
 	$scope.regions = [];
 	$scope.model = [];
@@ -219,8 +220,10 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     					 $scope.menuList = data.menuItems;
     					 $scope.drinkList = data.drinkMenuItems;
     					 $scope.flag = data.flag;
+    					 $scope.flagRate = data.flagRate;
     					 $scope.id = data.guestReservationId;
     					 $scope.page = "view";
+    					 
     				 }
     	     ).error(
     	    		 function(data){
