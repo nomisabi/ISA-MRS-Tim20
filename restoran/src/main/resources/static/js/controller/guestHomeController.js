@@ -38,6 +38,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.regions = [];
 	$scope.model = [];
 	
+	
 	$scope.rateFood={
 			title : 'Rating 3',
 			description : 'I\'m editable...',
@@ -222,6 +223,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     					 $scope.flag = data.flag;
     					 $scope.flagRate = data.flagRate;
     					 $scope.id = data.guestReservationId;
+    					 $scope.rating.rating = data.rateRestaurant;
+    					 $scope.rating.editableRating = false;
     					 $scope.page = "view";
     					 
     				 }
@@ -738,6 +741,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.rate = function() {
     	$scope.rateFood.rating = 1;
     	$scope.rating.rating = 1;
+    	$scope.rating.editableRating = true;
     	$scope.page = "rate";
         
     }

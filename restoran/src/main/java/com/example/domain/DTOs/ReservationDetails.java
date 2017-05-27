@@ -17,6 +17,8 @@ public class ReservationDetails {
 	private Collection<DrinkMenuItemReservation> drinkMenuItems;
 	private boolean flag;
 	private boolean flagRate;
+	private int rateRestaurant;
+	private int rateFood;
 
 	public ReservationDetails() {
 
@@ -31,7 +33,7 @@ public class ReservationDetails {
 
 	public ReservationDetails(Reservation reservation, Long guestReservationId, Collection<TableOfRestaurant> tables,
 			Collection<Guest> guests, Collection<MenuItemReservation> menuItems,
-			Collection<DrinkMenuItemReservation> drinkMenuItems, boolean flag, boolean flagRate) {
+			Collection<DrinkMenuItemReservation> drinkMenuItems, boolean flag, boolean flagRate, int rateRestaurant, int rateFood) {
 		super();
 		this.reservation = reservation;
 		this.guestReservationId = guestReservationId;
@@ -41,6 +43,8 @@ public class ReservationDetails {
 		this.drinkMenuItems = drinkMenuItems;
 		this.flag = flag;
 		this.flagRate = flagRate;
+		this.rateRestaurant = rateRestaurant;
+		this.rateFood = rateFood;
 	}
 
 	public Reservation getReservation() {
@@ -105,6 +109,22 @@ public class ReservationDetails {
 
 	public void setFlagRate(boolean flagRate) {
 		this.flagRate = flagRate;
+	}
+
+	public int getRateRestaurant() {
+		return rateRestaurant;
+	}
+
+	public void setRateRestaurant(int rateRestaurant) {
+		this.rateRestaurant = rateRestaurant;
+	}
+
+	public int getRateFood() {
+		return rateFood;
+	}
+
+	public void setRateFood(int rateFood) {
+		this.rateFood = rateFood;
 	}
 
 }
