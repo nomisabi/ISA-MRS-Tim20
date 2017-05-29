@@ -59,5 +59,26 @@ public class GuestReservationRepositoryIntegrationTests {
 		GuestReservation updated = repository.findOne(guestReservation.getId());
 		assertEquals(true, updated.isAccepted());
 	}
+	
+	@Test
+	public void getGuestOfReservation() {
+		Long idGR = repository.getGuestOfReservation(reservation.getId(), guest.getId());
+		assertEquals(guestReservation.getId(), idGR);
+	}
+	
+	@Test
+	public void getReservation() {
+		Reservation findReservation = repository.getReservationId(guestReservation.getId());
+		assertEquals(reservation.getId(), findReservation.getId());
+	}
+	
+	@Test
+	public void confirmRequest() {
+		repository.confirmReservation(guestReservation.getId());
+		GuestReservation findGuestReservation = repository.findOne(guestReservation.getId());
+		assertEquals(true, findGuestReservation.isAccepted());
+	}
+	
+	
 
 }

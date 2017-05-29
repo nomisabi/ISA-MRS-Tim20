@@ -1,5 +1,6 @@
 package com.example.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
@@ -31,10 +32,11 @@ public class ReservationRepositoryIntegrationTests {
 	GuestRepository guestRepository;
 
 	Reservation reservation;
+	Restaurant restaurant;
 
 	@Before
 	public void setUp() {
-		Restaurant restaurant = new Restaurant("proba", "proba");
+		restaurant = new Restaurant("proba", "proba");
 		restaurant = restaurantRepository.save(restaurant);
 		TableOfRestaurant table = new TableOfRestaurant(1, 5, restaurant);
 		table = tableRepository.save(table);
@@ -47,5 +49,24 @@ public class ReservationRepositoryIntegrationTests {
 		Reservation findReservation = repository.findOne(reservation.getId());
 		assertNotNull(findReservation);
 	}
+	
+
+	@Test
+	public void getRestaurat() {
+		Restaurant findReservation = repository.getRestaurant(reservation.getId());
+		assertEquals(restaurant.getId(), findReservation.getId());
+		assertEquals(restaurant.getName(), findReservation.getName());
+	}
+	
+	@Test
+	public void setrate() {
+		repository.setRate(reservation.getId());
+		Reservation findReservation = repository.findOne(reservation.getId());
+		
+		assertEquals(true, findReservation.isRate());
+		
+	}
+	
+	
 
 }

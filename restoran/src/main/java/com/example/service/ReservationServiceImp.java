@@ -257,7 +257,7 @@ public class ReservationServiceImp implements ReservationService {
 	}
 
 	@Override
-	public int getrate(Long idReservation, Long idGuest) {
+	public RateRestaurant getrate(Long idReservation, Long idGuest) {
 		return rateRestaurantRepository.getRate(idReservation, idGuest);
 	}
 

@@ -113,7 +113,16 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 			);
 	}
 	
+	function showPosition(position) {
+	   $scope.latitude = position.coords.latitude; 
+	   $scope.longitude = position.coords.longitude; 
+	  // alert($scope.latitude);
+	  // alert($scope.longitude);
+	    
+	}
+	
 	function init() {
+		navigator.geolocation.getCurrentPosition(showPosition);
 		$ocLazyLoad.load('assets/js/common-scripts.js');
 		
 		if ($scope.message === undefined){
@@ -225,6 +234,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     					 $scope.id = data.guestReservationId;
     					 $scope.rating.rating = data.rateRestaurant;
     					 $scope.rating.editableRating = false;
+    					 $scope.rateFood.rating = data.rateFood;
+    					 $scope.rateFood.editableRating = false;
     					 $scope.page = "view";
     					 
     				 }
@@ -687,7 +698,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
  			   {"drinkMenuItems":listReserveDrink, 
     			"menuItems": listReserveFood,
     			"guest": $scope.guest,
-    			"reservation": $scope.savedReservation
+    			"reservation": $scope.reservation
     			})
  			   
 		 .success(
@@ -742,6 +753,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$scope.rateFood.rating = 1;
     	$scope.rating.rating = 1;
     	$scope.rating.editableRating = true;
+    	$scope.rateFood.editableRating = true;
     	$scope.page = "rate";
         
     }
