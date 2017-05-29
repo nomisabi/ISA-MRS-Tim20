@@ -502,12 +502,18 @@ public class GuestController {
 		boolean flag = false;
 		boolean flagRate = false;
 
+		int rateRestaurant = 0;
+		int rateFood = 0;
+
 		LocalDateTime startTimeD = LocalDateTime.parse(startTime, sdf);
 		LocalDateTime endTimeD = LocalDateTime.parse(endTime, sdf);
 		System.out.println(startTimeD);
 		if (now.isAfter(endTimeD)) {
 			if (!reservation.isRate()) {
 				flagRate = true;
+			} else {
+				rateRestaurant = reservationService.getrate(reservation.getId(), guest.getId());
+
 			}
 		}
 
@@ -542,7 +548,7 @@ public class GuestController {
 
 		Long guestReservationId = reservationService.getGuestReservationId(id, guest.getId());
 		ReservationDetails details = new ReservationDetails(reservation, guestReservationId, tables, guests, menuItems,
-				drinkMenuItems, flag, flagRate);
+				drinkMenuItems, flag, flagRate, rateRestaurant, rateFood);
 
 		return new ResponseEntity<ReservationDetails>(details, HttpStatus.OK);
 	}

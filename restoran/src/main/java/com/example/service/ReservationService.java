@@ -80,5 +80,7 @@ public interface ReservationService {
 	RateMenuItem saveRateMenuItem(RateMenuItem rateMenuItem);
 	
 	void setRate(Long id);
+	
+	int getrate(Long idReservation, Long idGuest);
 
 }

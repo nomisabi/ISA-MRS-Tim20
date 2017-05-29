@@ -248,11 +248,17 @@ public class ReservationServiceImp implements ReservationService {
 	public RateMenuItem saveRateMenuItem(RateMenuItem rateMenuItem) {
 		return rateMenuItemRepostory.save(rateMenuItem);
 	}
+
 	@Override
 	@Transactional(readOnly = false)
-	public void setRate(Long id){
+	public void setRate(Long id) {
 		reservationRepository.setRate(id);
-		
+
+	}
+
+	@Override
+	public int getrate(Long idReservation, Long idGuest) {
+		return rateRestaurantRepository.getRate(idReservation, idGuest);
 	}
 
 }

@@ -509,6 +509,24 @@
 										</table>
 									</div>
 								</div>
+								<div class="form-group" ng-hide="flagRate">
+									<label class="col-sm-2 col-sm-2 control-label"> Rate restaurant </label>
+									<div class="col-lg-10">
+										<p class="form-control-static"> 
+											<span  class="list-unstyled">
+												<ng-rating ng-model="rating.rating"
+														   icon-class="rating.iconClass"
+														   editable="rating.editableRating"
+														   stars-count="rating.starsCount"
+														   based-on="rating.basedOn"
+														   show-grade=false>
+																		
+												</ng-rating>
+											</span>
+											
+										</p>
+									</div>
+								</div>
 							</form>
 						</div>
 					</div>
