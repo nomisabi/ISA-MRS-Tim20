@@ -221,4 +221,33 @@ public class SupplierController {
 		logger.info("< getSuppliersRest");
 		return new ResponseEntity<Collection<Supplier>>(supp,HttpStatus.OK);
 	}
+	
+	@RequestMapping(
+			value = "/api/suppliers/supply_not_choosed", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Supply>> getSupplyChoosed(@Valid @RequestBody Supplier s) throws Exception {
+		logger.info("> get Supply");
+		Collection<Supply> supply=(Collection<Supply>) osService.getNotChosedSupply(s.getId());
+		if (supply.size()==0)
+			return new ResponseEntity<Collection<Supply>>(HttpStatus.NOT_FOUND);
+		logger.info("< get Supply");
+		return new ResponseEntity<Collection<Supply>>(supply,HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "/api/suppliers/endOffer", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Offer> endOffer(@Valid @RequestBody  Offer o) {
+		logger.info("> endOffer");
+
+		osService.updateOfferToEnd(o);
+		
+		logger.info("< endOffer");
+		return new ResponseEntity<Offer>(o,HttpStatus.OK);
+	}
+	
 }

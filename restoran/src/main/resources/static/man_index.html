@@ -847,7 +847,10 @@
 									<h4 class="mb"><i class="fa fa-angle-right"></i> Profile </h4>
 									<hr>
 										<scheduler style="height:50%; width:100%"></scheduler>
-										
+									
+									
+									<div>
+
 										
 								</div>
 							</section>
@@ -1012,7 +1015,7 @@
 			                                  <td>{{o.supplier.name}}</td>
 			                                  <td ng-switch="o.status">
 			                                  	<a ng-switch-when="WAITING" style="float: right;" class="btn btn-info" ng-click="chooseOffer(o)">Choose</a>
-			                                  	<a ng-switch-when="CHOOSED" style="float: right;" class="label label-info">Choosed</a>
+			                                  	<a ng-switch-when="CHOOSED" style="float: right;" class="label label-info">Chosen</a>
 			                                  	<a ng-switch-when="SEND" style="float: right;" class="label label-success">Sended</a>
 			                                  </td>
 			          

@@ -1,7 +1,7 @@
 
-angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad','$mdDialog','$timeout', function($scope, $http,$window, $route, $ocLazyLoad, $mdDialog, $timeout) {
+angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad','$mdDialog','$timeout', 'calendarConfig', function($scope, $http,$window, $route, $ocLazyLoad, $mdDialog, $timeout,calendarConfig) {
 	$ocLazyLoad.load('assets/js/common-scripts.js');
-
+	//alert
 	
     $scope.status = '  ';
     $scope.customFullscreen = false;
@@ -256,15 +256,24 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="supplies";
   	}
   	$scope.changeToCreateSupply= function(){  
+  		
   		if ($scope.manager.active){
+  			
   			$scope.date = new Date();
-  		    $scope.supply={"from_date" : new Date()};
+  			
+  		    $scope.supply={};
+  		  
+  		   $scope.supply.from_date= new Date();
+  		   
   		    $scope.supply.to_date= $scope.supply.from_date;
+  		    
   		    $scope.minDate = moment().subtract(1, 'month');
+  		  alert("123");
   		    $scope.minDate2 = $scope.supply.from_date;
   		    
   		   // $scope.maxDate = moment().add(1, 'month');
     		$scope.page="create_supply";
+    		alert("123")
   		}
   	}
   	$scope.changeToEmployee= function(){
@@ -857,7 +866,104 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
    	console.log(event);
    	alert('Opening event "' + event.title +'"');
       });
+      /*
+      //These variables MUST be set as a minimum for the calendar to work
+      $scope.calendarView = 'month';
+      $scope.viewDate = new Date();
+      var actions = [{
+        label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
+        onClick: function(args) {
+          alert.show('Edited', args.calendarEvent);
+        }
+      }, {
+        label: '<i class=\'glyphicon glyphicon-remove\'></i>',
+        onClick: function(args) {
+          alert.show('Deleted', args.calendarEvent);
+        }
+      }];
+      $scope.events = [
+        {
+          title: 'An event',
+          color: calendarConfig.colorTypes.warning,
+          startsAt: moment().startOf('week').subtract(2, 'days').add(8, 'hours').toDate(),
+          endsAt: moment().startOf('week').add(1, 'week').add(9, 'hours').toDate(),
+          draggable: true,
+          resizable: true,
+          actions: actions
+        }, {
+          title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
+          color: calendarConfig.colorTypes.info,
+          startsAt: moment().subtract(1, 'day').toDate(),
+          endsAt: moment().add(5, 'days').toDate(),
+          draggable: true,
+          resizable: true,
+          actions: actions
+        }, {
+          title: 'This is a really long event title that occurs on every year',
+          color: calendarConfig.colorTypes.important,
+          startsAt: moment().startOf('day').add(7, 'hours').toDate(),
+          endsAt: moment().startOf('day').add(19, 'hours').toDate(),
+          recursOn: 'year',
+          draggable: true,
+          resizable: true,
+          actions: actions
+        }
+      ];
 
+      $scope.cellIsOpen = true;
+
+      $scope.addEvent = function() {
+        vm.events.push({
+          title: 'New event',
+          startsAt: moment().startOf('day').toDate(),
+          endsAt: moment().endOf('day').toDate(),
+          color: calendarConfig.colorTypes.important,
+          draggable: true,
+          resizable: true
+        });
+      };
+
+      $scope.eventClicked = function(event) {
+        alert.show('Clicked', event);
+      };
+
+      $scope.eventEdited = function(event) {
+        alert.show('Edited', event);
+      };
+
+      $scope.eventDeleted = function(event) {
+        alert.show('Deleted', event);
+      };
+
+      $scope.eventTimesChanged = function(event) {
+        alert.show('Dropped or resized', event);
+      };
+
+      $scope.toggle = function($event, field, event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        event[field] = !event[field];
+      };
+
+      $scope.timespanClicked = function(date, cell) {
+
+        if (vm.calendarView === 'month') {
+          if ((vm.cellIsOpen && moment(date).startOf('day').isSame(moment(vm.viewDate).startOf('day'))) || cell.events.length === 0 || !cell.inMonth) {
+            vm.cellIsOpen = false;
+          } else {
+            vm.cellIsOpen = true;
+            vm.viewDate = date;
+          }
+        } else if (vm.calendarView === 'year') {
+          if ((vm.cellIsOpen && moment(date).startOf('month').isSame(moment(vm.viewDate).startOf('month'))) || cell.events.length === 0) {
+            vm.cellIsOpen = false;
+          } else {
+            vm.cellIsOpen = true;
+            vm.viewDate = date;
+          }
+        }
+
+      };*/
+      
 }]);
-
 

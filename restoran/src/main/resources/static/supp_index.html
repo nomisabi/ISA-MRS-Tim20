@@ -18,12 +18,42 @@
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                             <i class="fa fa-tasks"></i>
-                            <span class="badge bg-theme">0</span>
+                            <span class="badge bg-theme">{{rest.wait.length + rest.not.length}}</span>
                         </a>
                         <ul class="dropdown-menu extended tasks-bar">
-                          <!--    <div class="notify-arrow notify-arrow-green"></div> -->
+                            <div class="notify-arrow notify-arrow-green"></div>
+                            <li>
+                                <p class="green">You have {{rest.wait.length + rest.not.length}} notification.</p>
+                            </li>
                            
-                            
+                            <li ng-repeat="x in rest.wait">
+                                    <div class="task-info">
+                                    Chosen offers:
+                                    <br>
+                                        <div class="desc"> &nbsp; &nbsp;{{x.name}}</div>
+                                    </div>
+                                    <div style="float:right; margin:5px;">
+                   						<input type="button" ng-click="sendOffer(x)" value="Send" class="btn btn btn-info btn-xs"> 
+                                    		                                    
+                                    </div>
+                                    <br>
+                            </li>
+                            <li ng-repeat="x in rest.not">
+                                    <div class="task-info">
+                                    Not chosen offers:
+                                    <br>
+                                        <div class="desc"> &nbsp; &nbsp;{{x.name}}</div>
+                                    </div>
+                                    <div style="float:right; margin:5px;">
+                   
+                                    		<input type="button" ng-click="endOffer(x)" value="OK" class="btn btn btn-info btn-xs"> 
+                                  
+                                        
+                                    
+                                    </div>
+                                    <br>
+                                
+                            </li>
                         </ul>
                     </li>
                    
@@ -593,10 +623,10 @@
 													         		<td> Status:
 													         		</td>
 													         		<td ng-switch="mine.status">
-													         		<a ng-switch-when="CHOOSED"  class="label label-warning">Choosen</a>
+													         		<a ng-switch-when="CHOOSED"  class="label label-warning">Chosen</a>
 												                    <a ng-switch-when="SEND" class="label label-success">Sended</a>
-												                    <a ng-switch-when="NOT_CHOOSED"  class="label label-error">Not choosen</a>
 												                    <a ng-switch-when="WAITING"  class="label label-info">Waiting</a>
+												                    <a ng-switch-default  class="label label-error">Not chosen</a>
 													         		
 													         		</td>
 													   
