@@ -27,6 +27,14 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 										function(data){
 											$scope.restaurants=data.data;
 											$scope.rest=$scope.restaurants;
+											$http.post("http://localhost:8080/api/manager/supply_choosed",$scope.supplier).success(
+													function(data){
+														$scope.rest.wait=data;
+													});
+											$http.post("http://localhost:8080/api/suppliers/supply_not_choosed",$scope.supplier).success(
+													function(data){
+														$scope.rest.not=data;
+													});
 										});
 								if ($scope.supplier.active)
 									$scope.page="profile";
@@ -35,6 +43,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 										$window.location.href="/";
 									});
 				});
+		
 	}
 	
     init();
@@ -198,10 +207,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 					});
     	}
     	//alert(JSON.stringify($scope.rest));
-    	$http.post("http://localhost:8080/api/manager/supply_choosed",$scope.supplier).success(
-				function(data){
-					$scope.rest.wait=data;
-				});
+    	
     	if ($scope.supplier.active)
     		$scope.page="orders";   	
     }
@@ -214,6 +220,19 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     		}
     	}
     	$http.post("http://localhost:8080/api/suppliers/sendOffer",mine).success(
+				function(data){
+					$route.reload();
+				});
+    } 
+    
+    $scope.endOffer=function(supply){
+    	mine=null;
+    	for(var i=0; i< supply.offer.length;i++){
+    		if (supply.offer[i].supplier.id==$scope.supplier.id){
+    			mine=supply.offer[i];
+    		}
+    	}
+    	$http.post("http://localhost:8080/api/suppliers/endOffer",mine).success(
 				function(data){
 					$route.reload();
 				});

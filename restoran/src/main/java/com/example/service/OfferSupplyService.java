@@ -7,6 +7,8 @@ import com.example.domain.Offer;
 import com.example.domain.Supply;
 
 public interface OfferSupplyService {
+	
+	void updateSupp(Supply s) ;
 
 	Supply createSupply(Supply supply);
 	
@@ -15,6 +17,8 @@ public interface OfferSupplyService {
 	Collection<Supply> getSupplyByRestChoosed(Long id);
 	
 	Collection<Supply> getWaitingSupply(Long id);
+	
+	Collection<Supply> getNotChosedSupply(Long id);
 	
 	void updateSupply(Supply supply);
 	
@@ -44,5 +48,5 @@ public interface OfferSupplyService {
 	
 	Offer updateOfferQualityAndPrice(Offer o, Supply s);
 	
-	
+	void updateOfferToEnd(Offer o) ;
 }

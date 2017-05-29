@@ -13,8 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import org.springframework.data.annotation.Version;
+import javax.persistence.Version;
 
 
 @Entity
@@ -25,6 +24,7 @@ public class Supply implements Serializable {
 	@Column(name="Id")
 	private long id;
 	@Version
+	@Column(name="version")
 	private Long version;
 	@Column(nullable = false)
 	private String name;

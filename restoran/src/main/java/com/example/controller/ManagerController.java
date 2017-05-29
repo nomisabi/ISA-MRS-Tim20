@@ -47,6 +47,7 @@ import com.example.service.UserService;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -591,11 +592,16 @@ public class ManagerController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Supply> supply(@Valid @RequestBody Supply s) throws Exception {
 		logger.info("> add Supply "+s.toString());
-		Supply supply=osService.createSupply(s);
-		if (supply==null)
-			return new ResponseEntity<Supply>(HttpStatus.NOT_FOUND);
-		logger.info("< add Supply");
-		return new ResponseEntity<Supply>(supply,HttpStatus.OK);
+		try{
+			Supply supply=osService.createSupply(s);
+			if (supply==null)
+				return new ResponseEntity<Supply>(HttpStatus.NOT_FOUND);
+			logger.info("< add Supply");
+			return new ResponseEntity<Supply>(supply,HttpStatus.OK);
+		}
+		catch(NoSuchElementException e) {
+		return new ResponseEntity<Supply>(HttpStatus.I_AM_A_TEAPOT);
+		}
 	}
 	
 	

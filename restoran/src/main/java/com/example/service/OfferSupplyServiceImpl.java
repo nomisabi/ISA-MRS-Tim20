@@ -6,7 +6,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.persistence.LockModeType;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +35,7 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	@Override
 	@Transactional(readOnly = false)
 	public Supply createSupply(Supply supply) {
-		supply.setVersion((long) 0);
+		//supply.setVersion((long) 0);
 		return supplyRepository.save(supply);
 	}
 
@@ -118,19 +121,33 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	}
 
 	
+	@Transactional(readOnly = false, propagation= Propagation.REQUIRES_NEW)
+	public void updateSupp(Supply s) {
+		Supply sup= supplyRepository.findOne(s.getId());
+		sup.setChosed(true);
+		supplyRepository.save(sup);	
+	}
 	
+	
+	@Transactional(readOnly = false)
+	public void updateOfferToEnd(Offer o) {
+		Offer of= offerRepository.findOne(o.getId());
+		of.setStatus(Offer_status.END);
+		offerRepository.save(of);	
+	}
 	
 	@Override
 	@Transactional(readOnly = false)
 	public void update(Supply s, Offer o) {
+		Supply sup= supplyRepository.findOne(s.getId());
 		for (Offer offer : s.getOffer()) {
 			if (o.getId()==offer.getId())
 				offerRepository.updateStatus(offer.getId(), 2);
 			else	
 				offerRepository.updateStatus(offer.getId(), 1);
 		}
-		long ver= s.getVersion()+1;
-		supplyRepository.updateStatus(s.getId(), true, ver);
+		sup.setChosed(true);
+		supplyRepository.save(sup);
 		
 	}
 
@@ -149,13 +166,14 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	
 	/*    EY KELL - PLUSZ LEELLENORIZNI A SUPPLY,AKTIVE-E   */
 	@Override
+	@Lock(LockModeType.OPTIMISTIC)
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public Offer updateOfferQualityAndPrice(Offer o, Supply sup) {
 		//System.out.println("\n\nold: "+sup.getVersion());
 		Supply s= supplyRepository.findOne(sup.getId());
 		//System.out.println("new: "+s.getVersion());
-		if (sup.getVersion()!=s.getVersion())
-			return null;
+		//if (sup.getVersion()!=s.getVersion())
+			//return null;
 			
 		if (s.isChosed())
 			return null;
@@ -167,6 +185,11 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	public Collection<Supply> getSupplyWithMyOffer(Long id) {
 		// TODO Auto-generated method stub
 		return supplyRepository.getSupplyWithMyOffer(id);
+	}
+
+	@Override
+	public Collection<Supply> getNotChosedSupply(Long id) {
+		return supplyRepository.getNotChosedSupply(id);
 	}
 
 }
