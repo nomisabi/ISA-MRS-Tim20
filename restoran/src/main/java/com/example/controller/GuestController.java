@@ -512,7 +512,11 @@ public class GuestController {
 			if (!reservation.isRate()) {
 				flagRate = true;
 			} else {
-				rateRestaurant = reservationService.getrate(reservation.getId(), guest.getId());
+				RateRestaurant rateR = reservationService.getrate(reservation.getId(), guest.getId());
+				if (rateR != null) {
+					rateRestaurant = rateR.getRate();
+					rateFood = rateR.getRateFood();
+				}
 
 			}
 		}
@@ -698,7 +702,7 @@ public class GuestController {
 		System.out.println(rate);
 
 		RateRestaurant rateRestaurant = new RateRestaurant(rate.getGuest(), rate.getReservation().getRestaurant(),
-				rate.getReservation(), rate.getRateRestaurant());
+				rate.getReservation(), rate.getRateRestaurant(), rate.getRateMenu());
 		reservationService.saveRateRestaurant(rateRestaurant);
 
 		Collection<MenuItemReservation> menuItems = reservationService

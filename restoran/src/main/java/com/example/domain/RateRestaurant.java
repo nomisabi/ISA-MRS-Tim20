@@ -25,16 +25,19 @@ public class RateRestaurant implements Serializable {
 	private Reservation reservation;
 	@Column
 	private int rate;
+	@Column
+	private int rateFood;
 
 	public RateRestaurant() {
 	}
 
-	public RateRestaurant(Guest guest, Restaurant restaurant, Reservation reservation, int rate) {
+	public RateRestaurant(Guest guest, Restaurant restaurant, Reservation reservation, int rate, int rateFood) {
 		super();
 		this.guest = guest;
 		this.restaurant = restaurant;
 		this.reservation = reservation;
 		this.rate = rate;
+		this.rateFood = rateFood;
 	}
 
 	public Long getId() {
@@ -75,6 +78,14 @@ public class RateRestaurant implements Serializable {
 
 	public void setRate(int rate) {
 		this.rate = rate;
+	}
+
+	public int getRateFood() {
+		return rateFood;
+	}
+
+	public void setRateFood(int rateFood) {
+		this.rateFood = rateFood;
 	}
 
 	@Override
