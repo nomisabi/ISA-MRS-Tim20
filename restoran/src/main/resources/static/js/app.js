@@ -1,4 +1,4 @@
-var app = angular.module("myApp", ['oc.lazyLoad','plantt.module','ngMap','ngRoute', 'ngComboDatePicker','dnTimepicker','dndLists','ngMaterial','ngMessages','ngMaterialDatePicker','ngAnimate', 'ngRating', 'angular-google-maps-geocoder','mwl.calendar', 'ui.bootstrap']);
+var app = angular.module("myApp", ['oc.lazyLoad','plantt.module','ngMap','ngRoute', 'ngComboDatePicker','dnTimepicker','dndLists','ngMaterial','ngMessages','ngMaterialDatePicker','ngAnimate', 'ngRating', 'angular-google-maps-geocoder','mwl.calendar', 'ui.bootstrap', 'colorpicker.module']);
 
 
 app.config(function($routeProvider, $ocLazyLoadProvider) {

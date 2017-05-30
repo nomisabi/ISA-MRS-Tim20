@@ -14,6 +14,7 @@ import com.example.domain.Drink;
 import com.example.domain.DrinkMenu;
 import com.example.domain.DrinkMenuItem;
 import com.example.domain.Employee;
+import com.example.domain.EmployeeSchedule;
 import com.example.domain.Food;
 import com.example.domain.Manager;
 import com.example.domain.Menu;
@@ -34,6 +35,7 @@ import com.example.domain.DTOs.OfferSupply;
 import com.example.domain.DTOs.SupplierRestaurant;
 import com.example.domain.DTOs.TableRegion;
 import com.example.service.DrinkMenuService;
+import com.example.service.EmployeeScheduleService;
 import com.example.service.ManagerService;
 import com.example.service.MenuService;
 import com.example.service.OfferSupplyService;
@@ -81,6 +83,8 @@ public class ManagerController {
 	private ReservationService reservationService;
 	@Autowired
 	private OfferSupplyService osService;
+	@Autowired
+	private EmployeeScheduleService esService;
 	
 	@RequestMapping(
 			value = "/api/manager/{id}", 
@@ -645,5 +649,16 @@ public class ManagerController {
 		logger.info("< addSupplier");
 		
 		return new ResponseEntity<Supplier>(sr.getS(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/api/manager/addEmployeeSchedule", 
+	method = RequestMethod.POST, 
+	produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EmployeeSchedule>  addEmployeeSchedule(@Valid @RequestBody EmployeeSchedule es) throws Exception {
+		logger.info("> addEmployeeSchedule: ");
+		esService.addEmployeeSchedule(es);
+		logger.info("< addEmployeeSchedule");
+		
+		return new ResponseEntity<EmployeeSchedule>(es, HttpStatus.OK);
 	}
 }

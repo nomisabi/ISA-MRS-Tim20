@@ -5,11 +5,14 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Employee implements Serializable{
@@ -37,6 +40,8 @@ public class Employee implements Serializable{
 	private TypeEmployee type;
 	@Column
 	private boolean active;
+	@OneToMany(fetch=FetchType.LAZY, mappedBy= "employee")
+	private Set<EmployeeSchedule> schedule;
 	
 	public Employee(){
 		
