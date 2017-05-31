@@ -123,9 +123,9 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	
 	@Transactional(readOnly = false, propagation= Propagation.REQUIRES_NEW)
 	public void updateSupp(Supply s) {
-		Supply sup= supplyRepository.findOne(s.getId());
-		sup.setChosed(true);
-		supplyRepository.save(sup);	
+		//Supply sup= supplyRepository.findOne(s.getId());
+		s.setChosed(true);
+		supplyRepository.save(s);	
 	}
 	
 	
@@ -139,15 +139,15 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	@Override
 	@Transactional(readOnly = false)
 	public void update(Supply s, Offer o) {
-		Supply sup= supplyRepository.findOne(s.getId());
+		//Supply sup= supplyRepository.findOne(s.getId());
 		for (Offer offer : s.getOffer()) {
 			if (o.getId()==offer.getId())
 				offerRepository.updateStatus(offer.getId(), 2);
 			else	
 				offerRepository.updateStatus(offer.getId(), 1);
 		}
-		sup.setChosed(true);
-		supplyRepository.save(sup);
+		s.setChosed(true);
+		supplyRepository.save(s);
 		
 	}
 

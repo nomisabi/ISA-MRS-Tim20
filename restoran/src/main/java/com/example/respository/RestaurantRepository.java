@@ -15,7 +15,7 @@ import com.example.domain.Restaurant;
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
 	
-	@Query(value="SELECT r.id, r.description, r.location, r.name, r.species, r.drink_menu_id, r.menu_id FROM restaurant r INNER JOIN restaurant_suppliers rs ON rs.restaurant_id=r.id WHERE rs.suppliers_id=?1", nativeQuery=true)
+	@Query(value="SELECT r.id, r.description, r.location, r.lng, r.lat, r.name, r.species, r.drink_menu_id, r.menu_id FROM restaurant r INNER JOIN restaurant_suppliers rs ON rs.restaurant_id=r.id WHERE rs.suppliers_id=?1", nativeQuery=true)
 	public Collection<Restaurant> getRest(Long id);
 	
 	@Modifying

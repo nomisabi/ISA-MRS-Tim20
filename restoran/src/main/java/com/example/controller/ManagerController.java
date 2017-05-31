@@ -30,10 +30,16 @@ import com.example.domain.TypeOfUser;
 import com.example.domain.User;
 import com.example.domain.DTOs.DrinkRestaurant;
 import com.example.domain.DTOs.EmployeeRestaurant;
+import com.example.domain.DTOs.FoodRate;
+import com.example.domain.DTOs.IncomesByDay;
+import com.example.domain.DTOs.IncomesByWaiters;
+import com.example.domain.DTOs.InputTime;
 import com.example.domain.DTOs.MenuRestaurant;
 import com.example.domain.DTOs.OfferSupply;
+import com.example.domain.DTOs.RateWaiter;
 import com.example.domain.DTOs.SupplierRestaurant;
 import com.example.domain.DTOs.TableRegion;
+import com.example.domain.DTOs.Visits;
 import com.example.service.DrinkMenuService;
 import com.example.service.EmployeeScheduleService;
 import com.example.service.ManagerService;
@@ -660,5 +666,88 @@ public class ManagerController {
 		logger.info("< addEmployeeSchedule");
 		
 		return new ResponseEntity<EmployeeSchedule>(es, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(
+			value = "/api/manager/getAvgRest", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public double getAvgRest(@Valid @RequestBody Restaurant r) throws Exception {
+		logger.info(">  getAvgRest");
+		return restService.getAvg(r.getId());
+		
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/getAvgFood", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<FoodRate>> getAvgFood(@Valid @RequestBody Restaurant r) throws Exception {
+		logger.info(">  getAvgRest");
+		Collection<FoodRate> fr= restService.getAvgByFood(r.getId());
+		if (fr==null)
+			return new ResponseEntity<Collection<FoodRate>>( HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Collection<FoodRate>>( fr, HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/getAvgWaiter", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<RateWaiter>> getAvgWaiter(@Valid @RequestBody Restaurant r) throws Exception {
+		logger.info(">  getAvgRest");
+		Collection<RateWaiter> fr= restService.getAvgByWaiter(r.getId());
+		if (fr==null)
+			return new ResponseEntity<Collection<RateWaiter>>( HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Collection<RateWaiter>>( fr, HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/getVisits", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Visits>> getAvgVisits(@Valid @RequestBody Restaurant r) throws Exception {
+		logger.info(">  getVisits");
+		Collection<Visits> fr= restService.getVisits(r.getId());
+		if (fr==null)
+			return new ResponseEntity<Collection<Visits>>( HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Collection<Visits>>( fr, HttpStatus.OK);
+		
+	}
+	
+	
+	@RequestMapping(
+			value = "/api/manager/getIncomesByWaiter", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<IncomesByWaiters>> getIncomesByWaiter(@Valid @RequestBody Restaurant r) throws Exception {
+		logger.info(">  getVisits");
+		Collection<IncomesByWaiters> fr= restService.getIncomes(r.getId());
+		if (fr==null)
+			return new ResponseEntity<Collection<IncomesByWaiters>>( HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Collection<IncomesByWaiters>>( fr, HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(
+			value = "/api/manager/getIncomes", 
+			method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<IncomesByDay>> getIncomes(@Valid @RequestBody InputTime it) throws Exception {
+		logger.info(">  IncomesByDay");
+		Collection<IncomesByDay> fr= restService.getIncomes(it.getBegin(), it.getEnd(), it.getR().getId());
+		if (fr==null)
+			return new ResponseEntity<Collection<IncomesByDay>>( HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Collection<IncomesByDay>>( fr, HttpStatus.OK);
+		
 	}
 }

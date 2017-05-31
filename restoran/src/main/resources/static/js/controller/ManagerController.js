@@ -273,7 +273,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		    
   		   // $scope.maxDate = moment().add(1, 'month');
     		$scope.page="create_supply";
-    		alert("123")
+    		//alert("123")
   		}
   	}
   	$scope.changeToEmployee= function(){
@@ -352,9 +352,92 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="regions"; 
   	}
   	$scope.changeToScores= function(){
+  		$http.post("http://localhost:8080/api/manager/getAvgRest",$scope.manager.restaurant).success(
+	    		function(data){
+	    			$scope.avg=data;
+	    		});
   		if ($scope.manager.active)
     		$scope.page="scores"; 
   	}
+  	
+  	$scope.changeToFoodScores= function(){
+  		$http.post("http://localhost:8080/api/manager/getAvgFood",$scope.manager.restaurant).success(
+	    		function(data){
+	    			$scope.food_rate=data;
+	    		});
+  		if ($scope.manager.active)
+    		$scope.page="scores_food"; 
+  		
+  	}
+  	
+  	$scope.changeToWaiterScores= function(){
+  		$http.post("http://localhost:8080/api/manager/getAvgWaiter",$scope.manager.restaurant).success(
+	    		function(data){
+	    			$scope.waiter_rate=data;
+	    		});
+  		if ($scope.manager.active)
+    		$scope.page="scores_waiter"; 
+  	}
+  	
+  	$scope.changeToVisits=function(){
+  		$http.post("http://localhost:8080/api/manager/getVisits",$scope.manager.restaurant).success(
+	    		function(data){
+	    			$scope.visits=data;
+	    		});
+  		if ($scope.manager.active)
+    		$scope.page="visits"; 
+  	}
+	$scope.changeToIncomes=function(){
+		$scope.incomes_show=false;
+		$scope.income={from_date:""};
+		//$scope.income.from_date="";
+		$scope.income.to_date= "";
+		if ($scope.manager.active)
+    		$scope.page="incomes"; 		
+	}
+	
+	
+	  function formatDate(date){
+	    	var day = date.getDate();
+	    	day= day > 10 ? day : "0"+day;
+	        var monthIndex = date.getMonth()+1;
+	        monthIndex= monthIndex > 10 ? monthIndex : "0"+monthIndex;
+	        var year = date.getFullYear();
+	        
+	        
+	    	return day+"/"+monthIndex+"/"+year;
+	    }
+	
+	$scope.getIncomes=function(){
+		//alert("234");
+		
+		maxDate = new Date("9999-12-31");
+		minDate = new Date("1000-01-01");
+		if ($scope.income.to_date=="")
+			$scope.income.to_date=maxDate;
+		if ($scope.income.from_date=="")
+			$scope.income.from_date=minDate;
+		begin=formatDate($scope.income.from_date);
+		end = formatDate($scope.income.to_date);
+		seend={"begin":begin, "end":end,"r":$scope.manager.restaurant};
+		//alert(typeof begin);
+		$http.post("http://localhost:8080/api/manager/getIncomes",seend).success(
+	    		function(data){
+	    			$scope.incomes=data;
+	    			$scope.incomes_show=true;
+	    		});
+		$scope.incomes_show=true;
+	}
+	
+	$scope.changeToIncomesWaiters=function(){
+		$http.post("http://localhost:8080/api/manager/getIncomesByWaiter",$scope.manager.restaurant).success(
+	    		function(data){
+	    			$scope.income_waiter=data;
+	    		});
+  		if ($scope.manager.active)
+    		$scope.page="income_waiter"; 
+	}
+	
   	$scope.changeToChangePass= function(){
   		if ($scope.manager.active)
     		$scope.page="non-active"; 
@@ -424,6 +507,8 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 			//alert("error");
 		});	
 	}
+	
+
 	
 	$scope.createNewDrinkItem= function(){
 		//alert("drink");

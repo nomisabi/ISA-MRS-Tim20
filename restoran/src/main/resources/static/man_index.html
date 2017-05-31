@@ -214,6 +214,414 @@
 				           
 			           	</div>
 			           	</div>
+			           	<div ng-switch-when="scores">
+							<div class="row mt">
+							<div class="col-lg-9" style="float:left;">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Score of restaurant </h4>
+									<hr>
+									<div class="form-panel"><p style="font-size:50px; text-align:center;">{{avg}}</p></div>
+								</div>
+								
+							</div><!-- col-lg-12-->
+							 <div class="col-lg-3 ds">
+			                    <!--COMPLETED ACTIONS DONUTS CHART-->
+									<h3>MENU</h3>
+									
+									 &nbsp;
+									<br>
+			                     
+			                     <a class="" ng-click=changeToFoodScores()>
+				                   	Food scores
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToWaiterScores()>
+				                   	Waiter scores
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToVisits()>
+				                   	Visits
+				                </a>
+				                <br>
+				           		<a class="" ng-click=changeToIncomes()>
+				                   	Incomes
+				                </a>
+				                 <br>
+				           		<a class="" ng-click="changeToIncomesWaiters()">
+				                   	Incomes by waiters
+				                </a>
+				                <br>
+				                             
+			                      <br>
+			                      &nbsp;
+			                      
+						</div>
+				           
+			           	</div>
+			           	</div>
+			           	<div ng-switch-when="scores_food">
+							<div class="row mt">
+							<div class="col-lg-9" style="float:left;">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Scores of food </h4>
+									<hr>
+									<table class="table table-striped table-advance table-hover" style="width:90%;">
+				                  	  	  <hr>
+			                              <thead>
+			                              <tr>
+			                                  <th> Food</th>
+			                                  <th>Rating</th>
+			                                  
+			                    
+			           
+			                              </tr>
+			                              </thead>
+			                              <tbody >
+			                    
+			                              <tr ng-repeat="f in food_rate" >
+			                                  <td>{{f.name}}</td>
+			                                  <td>
+			                                  <ng-rating ng-model="f.rate" 
+													>
+												</ng-rating>
+			                                  
+			                                  </td>
+			                                  
+			          
+			                              </tr>
+			                              
+			                            
+			                              </tbody>
+			                          </table>
+								</div>
+								
+							</div><!-- col-lg-12-->
+							 <div class="col-lg-3 ds">
+			                    <!--COMPLETED ACTIONS DONUTS CHART-->
+									<h3>MENU</h3>
+									
+									 &nbsp;
+									<br>
+			                     
+			                     <a class="" ng-click=changeToScores()>
+				                   	Restaurant score
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToWaiterScores()>
+				                   	Waiter scores
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToVisits()>
+				                   	Visits
+				                </a>
+				                <br>
+				           		<a class="" ng-click=changeToIncomes()>
+				                   	Incomes
+				                </a>
+				                 <br>
+				           		<a class="" ng-click="changeToIncomesWaiters()">
+				                   	Incomes by waiters
+				                </a>
+				                <br>
+				                             
+			                      <br>
+			                      &nbsp;
+			                      
+						</div>
+				           
+			           	</div>
+			           	</div>
+			           	<div ng-switch-when="scores_waiter">
+							<div class="row mt">
+							<div class="col-lg-9" style="float:left;">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Scores of waiters </h4>
+									<hr>
+									<table class="table table-striped table-advance table-hover" style="width:90%;">
+				                  	  	  <hr>
+			                              <thead>
+			                              <tr>
+			                                  <th>Waiter</th>
+			                                  <th>Rating</th>
+			                                  
+			                    
+			           
+			                              </tr>
+			                              </thead>
+			                              <tbody >
+			                    
+			                              <tr ng-repeat="w in waiter_rate" >
+			                                  <td>{{w.firstName}} {{w.lastName}}</td>
+			                                  <td>
+			                                  <ng-rating ng-model="w.rate" 
+													>
+												</ng-rating>
+			                                  
+			                                  </td>
+			                                  
+			          
+			                              </tr>
+			                              
+			                            
+			                              </tbody>
+			                          </table>
+								</div>
+								
+							</div><!-- col-lg-12-->
+							 <div class="col-lg-3 ds">
+			                    <!--COMPLETED ACTIONS DONUTS CHART-->
+									<h3>MENU</h3>
+									
+									 &nbsp;
+									<br>
+			                     
+			                     <a class="" ng-click=changeToScores()>
+				                   	Restaurant score
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToFoodScores()>
+				                   	Food scores
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToVisits()>
+				                   	Visits
+				                </a>
+				                <br>
+				           		<a class="" ng-click=changeToIncomes()>
+				                   	Incomes
+				                </a>
+				                 <br>
+				           		<a class="" ng-click="changeToIncomesWaiters()">
+				                   	Incomes by waiters
+				                </a>
+				                <br>
+				                             
+			                      <br>
+			                      &nbsp;
+			                      
+						</div>
+				           
+			           	</div>
+			           	</div>
+			           	<div ng-switch-when="visits">
+							<div class="row mt">
+							<div class="col-lg-9" style="float:left;">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Visits</h4>
+									<hr>
+									<table class="table table-striped table-advance table-hover" style="width:90%;">
+				                  	  	  <hr>
+			                              <thead>
+			                              <tr>
+			                                  <th>Day</th>
+			                                  <th>Visitor</th>
+			                                  
+			                    
+			           
+			                              </tr>
+			                              </thead>
+			                              <tbody >
+			                    
+			                              <tr ng-repeat="v in visits" >
+			                                  <td>{{v.day}} </td>
+			                                  <td>{{v.numb}}</td>
+			                              </tr>
+			                              
+			                            
+			                              </tbody>
+			                          </table>
+								</div>
+								
+							</div><!-- col-lg-12-->
+							 <div class="col-lg-3 ds">
+			                    <!--COMPLETED ACTIONS DONUTS CHART-->
+									<h3>MENU</h3>
+									
+									 &nbsp;
+									<br>
+			                     
+			                     <a class="" ng-click=changeToScores()>
+				                   	Restaurant score
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToFoodScores()>
+				                   	Food scores
+				                </a>
+				                <br>
+				                <a class="" ng-click="changetToWaiterScores()">
+				                   	Waiter score
+				                </a>
+				                <br>
+				           		<a class="" ng-click=changeToIncomes()>
+				                   	Incomes
+				                </a>
+				                 <br>
+				           		<a class="" ng-click="changeToIncomesWaiters()">
+				                   	Incomes by waiters
+				                </a>
+				                <br>
+				                             
+			                      <br>
+			                      &nbsp;
+			                      
+						</div>
+				           
+			           	</div>
+			           	</div>
+			           	<div ng-switch-when="incomes">
+							<div class="row mt">
+							<div class="col-lg-9" style="float:left;">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Incomes</h4>
+									<hr>
+									<div class="form-group">
+									<div style="float:left; margin-left: 20%;">From: <input mdc-datetime-picker style="width: 70%;" class="form-control" date="true" time="false" 
+											         type="text" 
+											         id="datetime"
+									                 show-todays-date
+									                 ng-model="income.from_date"></div>
+									                 
+									<div style="float:right;  margin-right: 20%;">To: <input mdc-datetime-picker style="width: 70%;" class="form-control" date="true" time="false" 
+											         type="text" 
+											         id="datetime"
+									                 show-todays-date
+									                 ng-model="income.to_date">		</div>	
+									                 <br>
+									<br><br>
+									
+									<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-click="getIncomes()" type="button">Search</button>
+									
+				           		                 						                 
+									                 </div>
+									
+									<br>
+									
+									<table ng-show="incomes_show" class="table table-striped table-advance table-hover" style="width:90%;">
+				                  	  	  <hr>
+			                              <thead>
+			                              <tr>
+			                                  <th>Day</th>
+			                                  <th>Income</th>
+			                                  
+			                    
+			           
+			                              </tr>
+			                              </thead>
+			                              <tbody >
+			                    
+			                              <tr ng-repeat="v in incomes" >
+			                                  <td>{{v.day}}</td>
+			                                  <td>{{v.price}}</td>
+			                              </tr>
+			                              
+			                            
+			                              </tbody>
+			                          </table>
+								</div>
+								
+							</div><!-- col-lg-12-->
+							 <div class="col-lg-3 ds">
+			                    <!--COMPLETED ACTIONS DONUTS CHART-->
+									<h3>MENU</h3>
+									
+									 &nbsp;
+									<br>
+			                     
+			                     <a class="" ng-click=changeToScores()>
+				                   	Restaurant score
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToFoodScores()>
+				                   	Food scores
+				                </a>
+				                <br>
+				           		<a class="" ng-click=changeToWaiterScores()>
+				                   	Waiter scores
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToVisits()>
+				                   	Visits
+				                </a>
+				                <br>
+				           		<a class="" ng-click=changeToIncomesWaiters()>
+				                   	Incomes by waiters
+				                </a>
+				                 <br>
+				           		
+				                             
+			                      <br>
+			                      &nbsp;
+			                      
+						</div>
+				           
+			           	</div>
+			           	</div>
+			           	<div ng-switch-when="income_waiter">
+							<div class="row mt">
+							<div class="col-lg-9" style="float:left;">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Incomes by waiters</h4>
+									<hr>
+									<table class="table table-striped table-advance table-hover" style="width:90%;">
+				                  	  	  <hr>
+			                              <thead>
+			                              <tr>
+			                                  <th>Waiter</th>
+			                                  <th>Income</th>
+			                                  
+			                    
+			           
+			                              </tr>
+			                              </thead>
+			                              <tbody >
+			                    
+			                              <tr ng-repeat="v in income_waiter" >
+			                                  <td>{{v.firstName}} {{v.lastName}}</td>
+			                                  <td>{{v.price}}</td>
+			                              </tr>
+			                              
+			                            
+			                              </tbody>
+			                          </table>
+								</div>
+								
+							</div><!-- col-lg-12-->
+							 <div class="col-lg-3 ds">
+			                    <!--COMPLETED ACTIONS DONUTS CHART-->
+									<h3>MENU</h3>
+									
+									 &nbsp;
+									<br>
+			                     
+			                     <a class="" ng-click=changeToScores()>
+				                   	Restaurant score
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToFoodScores()>
+				                   	Food scores
+				                </a>
+				                <br>
+				           		<a class="" ng-click=changeToWaiterScores()>
+				                   	Waiter scores
+				                </a>
+				                <br>
+				                <a class="" ng-click=changeToVisits()>
+				                   	Visits
+				                </a>
+				                <br>
+				           		<a class="" ng-click=changeToIncomes()>
+				                   	Incomes
+				                </a>
+				                 <br>
+				           		
+				                             
+			                      <br>
+			                      &nbsp;
+			                      
+						</div>
+				           
+			           	</div>
+			           	</div>
 			           	<div ng-switch-when="regions">
 			           	<div class="col-md-12">
 			           		<div class="advancedDemo row">

@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.example.domain.Offer;
 import com.example.domain.Offer_status;
 import com.example.domain.Supply;
+import com.example.respository.SupplyRepository;
 
 
 @RunWith(SpringRunner.class)
@@ -22,6 +23,10 @@ public class TxExampleApplicationTests {
 	
 	@Autowired
 	private OfferSupplyService osService;
+	
+	@Autowired
+	private SupplyRepository srep;
+
 
 	@Before
 	public void setUp() throws Exception {
@@ -49,6 +54,8 @@ public class TxExampleApplicationTests {
 		//osService.update(productForUserOne, productForUserTwo);
 		Supply productForUserTree = osService.findSupply(1L);
 		assertEquals(1, productForUserTree.getVersion().intValue());
+		
+		//srep.save(old);
 		osService.updateSupp(old);
 		//assertEquals(1, productForUserOne.getVersion().intValue());
 		//pokusaj cuvanja drugog objekta - Exception!

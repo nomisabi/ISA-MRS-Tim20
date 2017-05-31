@@ -100,3 +100,22 @@ INSERT INTO supply (chosed, from_date, name, to_date, rest_id, version) values (
 INSERT INTO offer (price, quality, status, supplier_id, supply_id) values (100,4,0,1,4);
 INSERT INTO offer (price, quality, status, supplier_id, supply_id) values (100,5,2,1,5);
 
+INSERT INTO rate_menu_item (rate, guest_id, menu_item_id, reservation_id) values (2,1,1,1);
+INSERT INTO rate_menu_item (rate, guest_id, menu_item_id, reservation_id) values (3,1,1,1);
+INSERT INTO rate_menu_item (rate, guest_id, menu_item_id, reservation_id) values (3,1,1,1);
+
+INSERT INTO employee(first_name, last_name, email, password, active, numbC, numbS,type, date ) values ('f', 'ln', 'fn.ln@gmail.com','123', false, 32, 32, 1, '04/11/1995');
+INSERT INTO employee(first_name, last_name, email, password, active, numbC, numbS,type, date) values ('emp2', 'emp2', 'fn.ln@gmail.com','123', false, 32, 32, 1, '04/11/1995');
+
+INSERT INTO restaurant_employee(restaurant_id, employee_id) values (1,1);
+INSERT INTO restaurant_employee(restaurant_id, employee_id) values (1,2);
+
+INSERT INTO rate_waiter(employee_id, restaurant_id, rate) values (1,1,1);
+INSERT INTO rate_waiter(employee_id, restaurant_id, rate) values (1,1,3);
+INSERT INTO rate_waiter(employee_id, restaurant_id, rate) values (2,1,4);
+
+INSERT INTO bill(employee_id, restaurant_id, price, date) values (1,1,1010, '24/05/2017 15:00');
+INSERT INTO bill(employee_id, restaurant_id, price, date) values (1,1, 710, '24/05/2017 16:00');
+INSERT INTO bill(employee_id, restaurant_id, price, date) values (1,1,1010, '25/05/2017 15:00');
+INSERT INTO bill(employee_id, restaurant_id, price, date) values (1,1,343.43, '22/04/2017 15:00');
+INSERT INTO bill(employee_id, restaurant_id, price, date) values (2,1,283, '24/05/2017 15:00');
