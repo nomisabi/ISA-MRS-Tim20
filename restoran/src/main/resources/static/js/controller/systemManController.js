@@ -7,6 +7,8 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	$scope.out=null;
 	$scope.my_place_id = "ChIJVTTpPWEQW0cRKP4kN2h9bws";
 	$scope.string="45.2671352,19.83354959999997";
+	$scope.lng='0';
+	$scope.lan='0';
 	
 	$scope.user1 = null;
 	  $scope.users1 = null;
@@ -38,6 +40,9 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	            var lng1=str[1].split(':');
 	            var lng=lng1[1].split('}');
 	        	$scope.string=lat[1]+","+lng[0];
+	        	//alert("12");
+	        	$scope.lat=lat[1];
+	        	$scope.lng=lng[0];
 	        }
 	      });
 	
@@ -167,6 +172,10 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     
     $scope.new_restaurant= function(){
     	$scope.new_rest.location= $scope.out.formatted_address;
+    	$scope.new_rest.lng=$scope.lng;
+    	$scope.new_rest.lat=$scope.lat;
+    	
+    	//alert(JSON.stringify($scope.new_rest));
     	$http.post("http://localhost:8080/api/sysman/addRest",{"r":$scope.new_rest, "m":$scope.new_rest_manager})
     		.error(function(data){
 					alert('This restaurant name is exist.');

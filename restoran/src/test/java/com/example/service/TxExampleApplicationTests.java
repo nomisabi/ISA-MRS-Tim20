@@ -46,7 +46,10 @@ public class TxExampleApplicationTests {
 
 		//pokusaj cuvanja prvog objekta
 		osService.updateSupp(productForUserOne);
-		//osService.updateSupp(productForUserOne);
+		//osService.update(productForUserOne, productForUserTwo);
+		Supply productForUserTree = osService.findSupply(1L);
+		assertEquals(1, productForUserTree.getVersion().intValue());
+		osService.updateSupp(old);
 		//assertEquals(1, productForUserOne.getVersion().intValue());
 		//pokusaj cuvanja drugog objekta - Exception!
 		//osService.updateOfferQualityAndPrice(productForUserTwo, old);

@@ -25,6 +25,10 @@ public class Restaurant implements Serializable {
 	@Column
 	private String location;
 	@Column
+	private String lng;
+	@Column
+	private String lat;
+	@Column
 	private String description;
 	@Column
 	private String species;
@@ -140,9 +144,26 @@ public class Restaurant implements Serializable {
 	}
 	
 
+	
+	public String getLng() {
+		return lng;
+	}
+
+	public void setLng(String lng) {
+		this.lng = lng;
+	}
+
+	public String getLat() {
+		return lat;
+	}
+
+	public void setLat(String lat) {
+		this.lat = lat;
+	}
+
 	@Override
 	public String toString() {
-		return "Restaurant [name=" + name + ", location=" + location + ", description=" + description + ", menu=" + menu
+		return "Restaurant [name=" + name + ", location=" + location + " (" +lng +","+ lat+"), description=" + description + ", menu=" + menu
 				+ ", drinkMenu=" + drinkMenu + "]";
 	}
 

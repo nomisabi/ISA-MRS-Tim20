@@ -47,11 +47,11 @@ INSERT INTO menu_items (menu_id, items_id) VALUES (1,2);
 INSERT INTO drink_menu_items (drink_menu_id, items_id) VALUES (1,1);
 INSERT INTO drink_menu_items (drink_menu_id, items_id) VALUES (1,2);
 
-INSERT INTO restaurant (name,location,species, menu_id,drink_menu_id) values ('Minuta','Novi Sad', 'Brza hrana',1,1);
-INSERT INTO restaurant (name,location,species) values ('Ciao','Novi Sad', 'Italijanska kuhinja');
-INSERT INTO restaurant (name, location,species) values ('Dva Stapica','Novi Sad', 'Kineski');
-INSERT INTO restaurant (name, location,species) values ('Paprika','Novi Sad', 'Rositlj');
-INSERT INTO restaurant (name, location,species) values ('Burrito Madre','Beograd', 'Meksikan');
+INSERT INTO restaurant (name,location, lng, lat,species, menu_id,drink_menu_id) values ('Minuta','Novi Sad','1','1', 'Brza hrana',1,1);
+INSERT INTO restaurant (name,location,lng, lat, species) values ('Ciao','Novi Sad', '2','2','Italijanska kuhinja');
+INSERT INTO restaurant (name, location, lng, lat,species) values ('Dva Stapica','Novi Sad', '2','2','Kineski');
+INSERT INTO restaurant (name, location,lng, lat,species) values ('Paprika','Novi Sad','3','4', 'Rositlj');
+INSERT INTO restaurant (name, location,lng, lat,species) values ('Burrito Madre','Beograd','3','2', 'Meksikan');
 
 
 INSERT INTO restaurant_manager (restaurant_id, manager_id) values (1,1);
