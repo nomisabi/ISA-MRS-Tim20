@@ -38,6 +38,10 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.regions = [];
 	$scope.model = [];
 	
+	$scope.oldPass = '';
+	$scope.newPass = '';
+	$scope.repeatPass = '';
+	
 	
 	$scope.rateFood={
 			title : 'Rating 3',
@@ -781,6 +785,57 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	
         
     }
-    	
+    
+    $scope.changeToChangePass= function(){
+    		$scope.page="pass"; 
+  	}
+    
+    $scope.changePass = function (newPass, repeatPass, oldPass) {
+    	$http.post('http://localhost:8080/api/guest/changePass',
+   			   {"id": $scope.guest.id,
+     		    "password" : newPass,
+     			"password2": repeatPass,
+     			"oldPassword": oldPass,
+     			"email": $scope.guest.email
+      			})
+   			   
+  		 .success(
+  				 function(data) {
+  					$window.location.href="/#/";
+					 popover("Profile changes successfully saved. Please, log in with a new password.");
+  					
+  					
+  					
+  				 }
+  	     ).error(
+  	    		 function(data){
+  	    			 //alert("error");
+  	    		 }
+  	     ); 
+		
+	}
+    
     	
 }])
+
+angular.module('myApp').directive("compareTo", function ()  
+{  
+    return {  
+        require: "ngModel",  
+        scope:  
+        {  
+            confirmPassword: "=compareTo"  
+        },  
+        link: function (scope, element, attributes, modelVal)  
+        {  
+            modelVal.$validators.compareTo = function (val)  
+            {  
+                return val == scope.confirmPassword;  
+            };  
+            scope.$watch("confirmPassword", function ()  
+            {  
+                modelVal.$validate();  
+            });  
+        }  
+    };  
+});  

@@ -23,4 +23,6 @@ public interface UserService {
 	void logout();
 	
 	int updateEmail(Long id,String email);
+	
+	void changePassword(Long id, String password);
 }

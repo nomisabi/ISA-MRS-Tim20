@@ -40,5 +40,10 @@ public interface GuestRepository extends JpaRepository<Guest, Long> {
 	@Query("SELECT Object(g) FROM Guest g, Friendship f WHERE f.idFriend = ?1 AND"
 			+ " f.guest.id = g.id AND f.requestAccepted = false")
 	public Collection<Guest> getRequests(Long id);
+	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Guest g SET g.password = ?2 WHERE g.id = ?1")
+	int setPassword(Long id, String password);
 
 }

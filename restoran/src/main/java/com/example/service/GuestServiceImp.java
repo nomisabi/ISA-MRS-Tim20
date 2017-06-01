@@ -112,4 +112,10 @@ public class GuestServiceImp implements GuestService {
 	public Collection<Guest> searchFriends(Long id, String name) {
 		return guestRepository.searchFriends(id, name);
 	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void setPassword(Long id, String password){
+		guestRepository.setPassword(id, password);
+	}
 }

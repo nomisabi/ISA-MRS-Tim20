@@ -717,5 +717,28 @@ public class GuestController {
 
 		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
 	}
+	
+	/*** Guest registration ***/
+	@RequestMapping(value = "/api/guest/changePass", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Guest> changePassword(@Valid @RequestBody GuestRegister guest) throws Exception {
+		logger.info("> createGuest");
+		System.out.println(guest);
+		Guest findGuest = guestService.getGuest(guest.getId());
+		
+		if (!findGuest.getPassword().equals(guest.getOldPassword())){
+			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
+		}
+		
+		if (!guest.getPassword().equals(guest.getPassword2())){
+			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
+		}
+		
+		guestService.setPassword(guest.getId(), guest.getPassword());
+		
+		User u = userService.getLogin();
+		userService.changePassword(u.getId(), guest.getPassword());
+		
+		return new ResponseEntity<Guest>(HttpStatus.OK);
+	}
 
 }

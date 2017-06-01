@@ -9,6 +9,8 @@ public class GuestRegister {
 	private String password2;
 	private String firstName;
 	private String lastName;
+	private String oldPassword;
+	private Long id;
 
 	public GuestRegister() {
 	}
@@ -62,10 +64,26 @@ public class GuestRegister {
 		this.lastName = lastName;
 	}
 
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
 		return "GuestRegister [email=" + email + ", password=" + password + ", password2=" + password2 + ", firstName="
-				+ firstName + ", lastName=" + lastName + "]";
+				+ firstName + ", lastName=" + lastName + ", oldPassword=" + oldPassword + ", id=" + id + "]";
 	}
 
 }

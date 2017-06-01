@@ -33,5 +33,7 @@ public interface GuestService {
 	Collection<Guest> getRequests(Long id);
 	
 	Collection<Guest> searchFriends(Long id,String name);
+	
+	void setPassword(Long id, String password);
 
 }

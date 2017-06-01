@@ -1,8 +1,8 @@
       <!-- **********************************************************************************************************************************************************
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
-	  <div id="login-page" ng-controller="UserController as ctrl">
-	  	<div class="container">
+	  <div id="login-page">
+	  	<div class="container" ng-controller="UserController as ctrl">
 	  	
 		      <form ng-submit="ctrl.submit()" name="myForm" class="form-login">
 		        <h2 class="form-login-heading"> Create an account</h2>
@@ -17,14 +17,14 @@
                     <div class="has-error" ng-show="myForm.password.$dirty">
                     	<span ng-show="myForm.password.$error.required">This is a required field</span>
                         <span ng-show="myForm.password.$error.minlength">Minimum length required is 6</span>
-                        <span ng-show="myForm.password.$invalid">This field is invalid </span>
+                        
                     </div>
 		            <br>
-		            <input type="password" ng-model="ctrl.user.password2" name="password2" class="pass form-control input-sm" placeholder="Enter your password again" required ng-minlength="6"/>
+		            <input type="password" ng-model="ctrl.user.password2" name="password2" class="pass form-control input-sm" placeholder="Enter your password again" required ng-minlength="6" compare-to="ctrl.user.password"/>
                     <div class="has-error" ng-show="myForm.password2.$dirty">
                     	<span ng-show="myForm.password2.$error.required">This is a required field</span>
                         <span ng-show="myForm.password2.$error.minlength">Minimum length required is 6</span>
-                        <span ng-show="myForm.password2.$invalid">This field is invalid </span>
+                        <span ng-show="myForm.password2.$error.compareTo && !myForm.password2.$error.minlength">Passwords don't match</span>
                     </div>
                     <br>
 		            <input type="text" ng-model="ctrl.user.firstName" name="firstName" class="form-control" placeholder="Enter your first name" required="required"/>

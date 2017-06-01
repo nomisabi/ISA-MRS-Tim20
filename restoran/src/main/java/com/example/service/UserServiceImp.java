@@ -83,5 +83,10 @@ public class UserServiceImp implements UserService {
 	public int updateEmail(Long id, String email) {
 		return userRepository.updateGuest(id, email);
 	}
+	
+	@Override
+	public void changePassword(Long id, String password){
+		userRepository.setPassword(id, password);
+	}
 
 }
