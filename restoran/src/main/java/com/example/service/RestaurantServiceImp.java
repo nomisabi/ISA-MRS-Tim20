@@ -172,7 +172,10 @@ public class RestaurantServiceImp implements RestaurantService {
 		}
 	    return incomes;
 	}
-	
+	@Override
+	public Collection<Restaurant> searchRestaurants(String search){
+		return restaurantRepository.searchRestaurants(search);
+	}
 	
 	
 

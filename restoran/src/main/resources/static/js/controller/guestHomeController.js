@@ -815,7 +815,24 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		
 	}
     
-    	
+    $scope.searchRestaurants = function(search){   	
+    	$scope.restaurants = [];
+    	//alert(search);
+    	$http.post('http://localhost:8080/api/restaurant/searchRestaurants',
+    			   {"name":search})
+    		 .success(
+    				 function(data) {
+    					 $scope.restaurants = data;
+    					
+    				 }
+    		 ).error(
+    				 function(data){
+    					 //alert("error");
+    				 }
+    		 );         	
+    }
+    
+   
 }])
 
 angular.module('myApp').directive("compareTo", function ()  

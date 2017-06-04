@@ -740,5 +740,19 @@ public class GuestController {
 		
 		return new ResponseEntity<Guest>(HttpStatus.OK);
 	}
+	
+	/***
+	 * Return all friends of guest with firstName or lastName that match the
+	 * search criteria
+	 ***/
+	@RequestMapping(value = "/api/restaurant/searchRestaurants", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Restaurant>> searchRestaurants(@RequestBody Restaurant restaurant) {
+		logger.info("> getRestaurants");
+		System.out.println(restaurant);
+		
+		Collection<Restaurant> restaurants = restaurantService.searchRestaurants(restaurant.getName());
+
+		return new ResponseEntity<Collection<Restaurant>>(restaurants,HttpStatus.OK);
+	}
 
 }

@@ -44,6 +44,9 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
     @Query(value="UPDATE Restaurant SET drink_menu_id=?2 WHERE id = ?1", nativeQuery=true)
     int updateDrinkMenu(Long id, Long man_id);
 
+	@Query("SELECT Object(r) FROM Restaurant r WHERE LOWER(r.name) LIKE LOWER(CONCAT('%',?1,'%')) "
+			+ "OR LOWER(r.species) LIKE LOWER(CONCAT('%',?1,'%'))")
+	public Collection<Restaurant> searchRestaurants(String search);
 
 
 }

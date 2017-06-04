@@ -36,5 +36,7 @@ public interface RestaurantService {
 	
 	public Collection<IncomesByDay> getIncomes(String begin, String end, Long id) throws ParseException;
 	
+	Collection<Restaurant> searchRestaurants(String search);
+	
 	
 }
