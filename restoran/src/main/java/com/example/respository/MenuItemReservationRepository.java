@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.domain.DrinkMenuItemReservation;
 import com.example.domain.MenuItemReservation;
 
 public interface MenuItemReservationRepository extends JpaRepository<MenuItemReservation, Long> {

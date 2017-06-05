@@ -1,7 +1,10 @@
 package com.example.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,5 +43,12 @@ public class RestaurantRepositoryIntegritationTests {
 		Restaurant savedRestaurant = repository.save(restaurant);
 		assertEquals(restaurant, savedRestaurant);
 	}
+	
+	@Test
+	public void searchRestaurant() {
+		Collection<Restaurant> restaurants = repository.searchRestaurants(restaurant.getName());
+		assertNotEquals(0, restaurants.size());
+	}
 
+	
 }

@@ -1,5 +1,6 @@
 package com.example.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
@@ -58,5 +59,14 @@ public class DrinkMenuItemReservationRepositoryInterationTests {
 		DrinkMenuItemReservation find = menuItemReservationRepository.findOne(menuItemReservation.getId());
 		assertNotNull(find);
 	}
+	
+	@Test
+	public void update() {
+		menuItemReservationRepository.update(menuItemReservation.getId(), 8);
+		DrinkMenuItemReservation find = menuItemReservationRepository.findOne(menuItemReservation.getId());
+		assertEquals(8, find.getQuantity());
+	}
+	
+	
 
 }

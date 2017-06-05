@@ -122,4 +122,13 @@ public class GuestRepositoryIntegrationTests {
 		}
 
 	}
+	
+	@Test
+	public void setPass() {
+		repository.setPassword(guest.getId(), "noviPass");
+		Guest find = repository.findOne(guest.getId());
+		assertEquals("noviPass", find.getPassword());
+
+	}
+	
 }
