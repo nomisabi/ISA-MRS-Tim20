@@ -19,7 +19,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.reservations = [];
 	$scope.tables = [];
 	$scope.search = ""; 
-	$scope.restaurant ={id:null, name:'', location:''};
+	$scope.restaurant ={id:null, name:'', location:'', lat:'', lng:''};
 	$scope.duration = 1;
 	$scope.reservation = {id:null,"restaurant":null, "dateAndTime":'', "duration": ''};
 	$scope.table = {id:null, number:null, numberOfChairs: null, restaurant: $scope.restaurant};
@@ -42,6 +42,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.newPass = '';
 	$scope.repeatPass = '';
 	
+	$scope.string="45.2671352,19.83354959999997";
 	
 	$scope.rateFood={
 			title : 'Rating 3',
@@ -196,6 +197,9 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.changeToRestaurant= function(restaurant){
     	$scope.restaurant = restaurant;
+    	//alert($scope.restaurant.lng);
+    	$scope.string = $scope.restaurant.lat + "," + $scope.restaurant.lng;
+    	//alert($scope.string);
     	$scope.page="restaurant";
     }
     
