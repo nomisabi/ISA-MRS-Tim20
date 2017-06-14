@@ -403,11 +403,14 @@
 						    <span class="sr-only">Toggle Dropdown</span>
 						  </button>
 						  <ul class="dropdown-menu" role="menu">
+						    <li><a ng-click="orderByMe('distance',false)"> <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>  Distance  </a></li>
+						    <li class="divider"></li>
 						    <li><a ng-click="orderByMe('name',false)"> <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>  Name  </a></li>
 						    <li ng-click="orderByMe('name',true)"><a> <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>  Name   </a></li>
 						    <li class="divider"></li>
 						    <li><a ng-click="orderByMe('species',false)"> <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>  Species  </a></li>
-						     <li><a ng-click="orderByMe('species',true)"> <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>  Species </a></li>
+						    <li><a ng-click="orderByMe('species',true)"> <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>  Species </a></li>
+						     
 						  </ul>
 						</div>   
           			</h3>
@@ -434,6 +437,15 @@
 								<h2 style="color: #c6cad5;">{{restaurant.name}}</h2>
 							</a>
 							<span class="badge bg-important">{{restaurant.species}}</span>
+							<div class="row">
+								<div class="col-md-6">
+									<p class="small mt" style="color: white;">DISTANCE</p>
+									<p style="color: white;">{{restaurant.distance + "km"}}</p>
+								</div>
+								<div class="col-md-6">
+									
+								</div>
+							</div>
 						</div>
 					</div><!-- /col-md-4-->
           		</div>      	  	
@@ -473,9 +485,9 @@
 								
 							</form>
 							<ng-map center={{string}} zoom="8">
-																	    <marker position={{string}} title="Hello World!"></marker>
-																	  </ng-map>
-																	  </div>
+								<marker position={{string}} title="Hello World!"></marker>
+							</ng-map>
+																	 
 						</div>
 					</div>
 				</div>    	

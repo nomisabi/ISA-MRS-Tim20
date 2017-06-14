@@ -48,10 +48,11 @@ INSERT INTO drink_menu_items (drink_menu_id, items_id) VALUES (1,1);
 INSERT INTO drink_menu_items (drink_menu_id, items_id) VALUES (1,2);
 
 INSERT INTO restaurant (name,location, lng, lat,species, menu_id,drink_menu_id) values ('Minuta','Novi Sad','19.83354959999997','45.2671352', 'Brza hrana',1,1);
-INSERT INTO restaurant (name,location,lng, lat, species) values ('Ciao','Novi Sad', '2','2','Italijanska kuhinja');
-INSERT INTO restaurant (name, location, lng, lat,species) values ('Dva Stapica','Novi Sad', '2','2','Kineski');
-INSERT INTO restaurant (name, location,lng, lat,species) values ('Paprika','Novi Sad','3','4', 'Rositlj');
-INSERT INTO restaurant (name, location,lng, lat,species) values ('Burrito Madre','Beograd','3','2', 'Meksikan');
+INSERT INTO restaurant (name,location,lng, lat, species) values ('Ciao','Novi Sad', '19.83354959999997','45.2671352','Italijanska kuhinja');
+INSERT INTO restaurant (name, location, lng, lat,species) values ('Dva Stapica','Novi Sad', '19.83354959999997','45.2671352','Kineski');
+INSERT INTO restaurant (name, location,lng, lat,species) values ('Paprika','Novi Sad','19.83354959999997','45.2671352', 'Rositlj');
+INSERT INTO restaurant (name, location,lng, lat,species) values ('Moja reka','Uzice','19.842093699999964','43.8554024', 'Srpska kuhinja');
+INSERT INTO restaurant (name, location,lng, lat,species) values ('Burrito Madre','Beograd','20.44892159999995','44.786568', 'Meksikan');
 
 
 INSERT INTO restaurant_manager (restaurant_id, manager_id) values (1,1);

@@ -19,7 +19,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.reservations = [];
 	$scope.tables = [];
 	$scope.search = ""; 
-	$scope.restaurant ={id:null, name:'', location:'', lat:'', lng:''};
+	$scope.restaurant ={id:null, name:'', location:'', lat:'', lng:'', distance:''};
 	$scope.duration = 1;
 	$scope.reservation = {id:null,"restaurant":null, "dateAndTime":'', "duration": ''};
 	$scope.table = {id:null, number:null, numberOfChairs: null, restaurant: $scope.restaurant};
@@ -123,11 +123,14 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	   $scope.longitude = position.coords.longitude; 
 	  // alert($scope.latitude);
 	  // alert($scope.longitude);
+	  // alert($scope.latitude);
+	//	alert($scope.longitude);
 	    
 	}
 	
 	function init() {
 		navigator.geolocation.getCurrentPosition(showPosition);
+		
 		$ocLazyLoad.load('assets/js/common-scripts.js');
 		
 		if ($scope.message === undefined){
@@ -187,13 +190,48 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$scope.users = [];
     	$scope.restaurants = [];
     	$scope.reservations = [];
+    	// alert($scope.latitude);
+ 		//alert($scope.longitude);
     	$http.get("http://localhost:8080/api/restaurants")
     	     .success(
     	    		 function(data){
-    	    			 $scope.restaurants=data;
-    	    			 $scope.page="restaurants";
+    	    			var rest = data;
+    	    			for (var i = 0; i < rest.length; i++) {
+							//alert(rest[i].lat);
+							var d = getDistanceFromLatLonInKm(
+									parseFloat(rest[i].lat), parseFloat(rest[i].lng), 
+									parseFloat($scope.latitude),parseFloat( $scope.longitude));
+							//alert(d);
+							rest[i].distance = Math.round(d * 100) / 100;
+							//alert(rest[i].distance);
+						}
+    	    			 
+    	    			$scope.restaurants= rest ;
+    	    			$scope.orderByMe('distance', false);
+    	    			 
+    	    			 
+    	    			$scope.page="restaurants";
     	     });	
     }
+    
+   
+    function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+    	  var R = 6371; // Radius of the earth in km
+    	  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    	  var dLon = deg2rad(lon2-lon1); 
+    	  var a = 
+    	    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    	    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    	    Math.sin(dLon/2) * Math.sin(dLon/2)
+    	    ; 
+    	  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    	  var d = R * c; // Distance in km
+    	  return d;
+    	}
+
+    	function deg2rad(deg) {
+    	  return deg * (Math.PI/180)
+    	}
     
     $scope.changeToRestaurant= function(restaurant){
     	$scope.restaurant = restaurant;
