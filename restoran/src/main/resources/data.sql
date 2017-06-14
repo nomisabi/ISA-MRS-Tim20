@@ -7,12 +7,12 @@ INSERT INTO usert (email, password, type) VALUES ('nomisabi@gmail.com','nomisabi
 INSERT INTO usert (email, password, type) VALUES ('a@a.a','a',1);
 INSERT INTO usert (email, password, type) VALUES ('b@b.b','b',4);
 
-INSERT INTO guest (email, password, first_name,last_name) VALUES ('nena@gmail.com','nenasw','Nena','Djeric');
-INSERT INTO guest (email, password, first_name,last_name) VALUES ('nomisabi@gmail.com','nomisabi','Noemi','Sabados');
-INSERT INTO guest (email, password, first_name,last_name) VALUES ('nevena5695@gmail.com','123456','Pera','Petrovic');
-INSERT INTO guest (email, password, first_name,last_name) VALUES ('mika@gmail.com','123456','Mika','Mikic');
-INSERT INTO guest (email, password, first_name,last_name) VALUES ('zika@gmail.com','123456','Zika','Petrovic');
-INSERT INTO guest (email, password, first_name,last_name) VALUES ('luka@gmail.com','123456','Luka','Petrovic');
+INSERT INTO guest (email, password, first_name,last_name,accepted) VALUES ('nena@gmail.com','nenasw','Nena','Djeric',true);
+INSERT INTO guest (email, password, first_name,last_name,accepted) VALUES ('nomisabi@gmail.com','nomisabi','Noemi','Sabados',true);
+INSERT INTO guest (email, password, first_name,last_name,accepted) VALUES ('pera@gmail.com','123456','Pera','Petrovic',true);
+INSERT INTO guest (email, password, first_name,last_name,accepted) VALUES ('mika@gmail.com','123456','Mika','Mikic',true);
+INSERT INTO guest (email, password, first_name,last_name,accepted) VALUES ('zika@gmail.com','123456','Zika','Petrovic',true);
+INSERT INTO guest (email, password, first_name,last_name,accepted) VALUES ('luka@gmail.com','123456','Luka','Petrovic',true);
 INSERT INTO friendship (id_friend, guest_id, request_accepted) VALUES (1,2, TRUE);
 INSERT INTO friendship (id_friend, guest_id, request_accepted) VALUES (1,3, FALSE);
 INSERT INTO friendship (id_friend, guest_id, request_accepted) VALUES (1,4, TRUE);

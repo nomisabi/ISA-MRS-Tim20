@@ -45,5 +45,10 @@ public interface GuestRepository extends JpaRepository<Guest, Long> {
 	@Transactional
 	@Query("UPDATE Guest g SET g.password = ?2 WHERE g.id = ?1")
 	int setPassword(Long id, String password);
+	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Guest g SET g.accepted = true WHERE g.id = ?1")
+	int setRegistrationAccept(Long id);
 
 }

@@ -11,6 +11,7 @@ public class GuestRegister {
 	private String lastName;
 	private String oldPassword;
 	private Long id;
+	private String token;
 
 	public GuestRegister() {
 	}
@@ -80,10 +81,19 @@ public class GuestRegister {
 		this.id = id;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	@Override
 	public String toString() {
 		return "GuestRegister [email=" + email + ", password=" + password + ", password2=" + password2 + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", oldPassword=" + oldPassword + ", id=" + id + "]";
+				+ firstName + ", lastName=" + lastName + ", oldPassword=" + oldPassword + ", id=" + id + ", token="
+				+ token + "]";
 	}
 
 }

@@ -35,5 +35,11 @@ public interface GuestService {
 	Collection<Guest> searchFriends(Long id,String name);
 	
 	void setPassword(Long id, String password);
+	
+	Guest getGuestId(String token);
+	
+	void setRegistrationAccept(Long id);
+	
+	void deleteToken(String token);
 
 }

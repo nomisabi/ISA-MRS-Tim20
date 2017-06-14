@@ -6,12 +6,13 @@ import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Reservation;
 import com.example.domain.TableOfRestaurant;
 import com.example.domain.TableReservation;
-
+@Repository
 public interface TableReservationRepository extends JpaRepository<TableReservation, Long> {
 	@Query("SELECT Object(t) FROM TableReservation t WHERE t.table.id = ?1 AND "
 			+ "((t.startTime>=?2 AND t.startTime < ?3) OR (t.endTime > ?2 AND t.endTime <= ?3)) ")

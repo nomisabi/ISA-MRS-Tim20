@@ -69,11 +69,11 @@ public class ConfirmInvite {
 		this.friends = friends;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "ConfirmInvite [id=" + id + ", guest=" + guest + ", reservation=" + reservation + ", friends=" + friends
-				+ "]";
+		return "ConfirmInvite [id=" + id + ", token=" + token + ", guest=" + guest + ", reservation=" + reservation
+				+ ", friends=" + friends + "]";
 	}
 
 }
-

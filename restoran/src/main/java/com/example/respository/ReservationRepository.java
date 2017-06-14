@@ -6,13 +6,14 @@ import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Guest;
 import com.example.domain.Reservation;
 import com.example.domain.Restaurant;
 import com.example.domain.TableReservation;
-
+@Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
 	@Query("SELECT Object(t) FROM Reservation r, TableReservation t WHERE "
