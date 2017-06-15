@@ -1252,9 +1252,162 @@
 			           	<div ng-switch-when="schedule" class="container-fluid">
 						<section class="row">
      							<div class="col-md-12">
-									<h4 class="mb"><i class="fa fa-angle-right"></i> Profile </h4>
+									<h4 class="mb"><i class="fa fa-angle-right"></i> Schedule </h4>
 									<hr>
 									  <div ng-controller="KitchenSinkCtrl as vm">
+									    <h3 id="event-editor">
+    <button
+      class="btn btn-primary pull-right"
+      ng-click="vm.changeToAddEvent()">
+     <!--  ng-click="vm.addEvent(employee, regions)">--> 
+      Add new
+    </button>
+    <div class="clearfix"></div>
+  </h3>
+
+<div>
+  <div ng-show="vm.show">
+<div class="row mt">
+							<div class="col-lg-10">
+								<div class="form-panel" style="width: 90%; margin-left: 5%;" >
+									<h4 class="mb"><i class="fa fa-angle-right"></i> New event</h4>
+									<hr>
+										<form class="form-horizontal style-form" name="myForm">
+											<div class="form-group">
+											<div class="col-lg-6">
+												<label class="col-sm-2 col-sm-2 control-label"><br>Employee</label>
+												<div class="col-sm-10">
+													 <md-select ng-model="vm.event.employee" md-on-open="vm.loadUsers()">
+      													<md-option ng-value="user1" ng-repeat="user1 in vm.users1">{{user1.firstName}} {{user1.lastName}}</md-option>
+    												</md-select>
+														<div class="has-error" ng-show="myForm.name.$dirty">
+				                    									<span ng-show="myForm.name.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												
+												<br>
+												<br>
+												</div>
+												<div class="col-lg-6">
+												<label class="col-sm-2 col-sm-2 control-label">Region</label>
+												<div class="col-sm-10">
+													<fieldset class="standard" >
+          												<div layout="row" layout-wrap flex>
+            												<div flex="50" ng-repeat="item in vm.regions">
+              													<md-checkbox ng-checked="vm.exists(item, vm.selected)" ng-click="vm.toggle2(item, vm.selected)">
+                													{{ item.name }} <span ng-if="exists(item, vm.selected)">selected</span>
+             													 </md-checkbox>
+            												</div>
+          												</div>
+        											</fieldset>
+													
+														<div class="has-error" ng-show="myForm.desc.$dirty">
+				                    									<span ng-show="myForm.desc.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												
+												<br>
+												<br>
+												<br>
+												</div>
+											</div>
+											<div class="form-group">
+											<div class="col-lg-6">
+												<label class="col-sm-2 col-sm-2 control-label">Primary color:</label>
+												<div class="col-sm-10">
+													<input class="form-control" colorpicker type="text" ng-model="vm.event.color.primary" required>	<div class="has-error" ng-show="myForm.name.$dirty">
+				                    									<span ng-show="myForm.name.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												</div>
+												<div class="col-lg-6">
+												<label class="col-sm-2 col-sm-2 control-label">Secondary color</label>
+												<div class="col-sm-10">
+													<input class="form-control" colorpicker type="text" ng-model="vm.event.color.secondary">
+														<div class="has-error" ng-show="myForm.desc.$dirty">
+				                    									<span ng-show="myForm.desc.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												</div>
+											</div>
+											<div class="form-group">
+											<div class="col-lg-4">
+												<label class="col-sm-2 col-sm-2 control-label">Day:</label>
+												<div class="col-sm-10">
+													<input mdc-datetime-picker style="width: 60%;" class="form-control" date="true" time="false" 
+											         type="text" 
+											         id="datetime"
+									                 show-todays-date
+									                 ng-model="vm.event.day" required>
+													
+														<div class="has-error" ng-show="myForm.name.$dirty">
+				                    									<span ng-show="myForm.name.$error.required">This is a required field.</span>
+                    									</div>
+                    												</div>
+												
+												<br>
+												<br>
+												<br>
+												</div>
+												<div class="col-lg-4">
+												<label class="col-sm-2 col-sm-2 control-label">Starts:</label>
+												<div class="col-sm-10">
+													<input mdc-datetime-picker style="width: 60%;" class="form-control" date="false" time="true" 
+											         type="text" 
+											         id="datetime"
+									                 show-todays-date
+									                 ng-model="vm.event.start" required>
+													
+													
+														<div class="has-error" ng-show="myForm.desc.$dirty">
+				                    									<span ng-show="myForm.desc.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												</div>
+												<div class="col-lg-4">
+												<label class="col-sm-2 col-sm-2 control-label">Ends:</label>
+												<div class="col-sm-10">
+													<input mdc-datetime-picker style="width: 60%;" class="form-control" date="false" time="true" 
+											         type="text" 
+											         id="datetime"
+									                 show-todays-date
+									                 ng-model="vm.event.end" required>
+													
+														<div class="has-error" ng-show="myForm.desc.$dirty">
+				                    									<span ng-show="myForm.desc.$error.required">This is a required field.</span>
+                    												</div>
+												</div>
+												<br>
+												<br>
+												<br>
+												</div>
+											</div>
+												
+												
+											<div class="form-group">
+												<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+												<div class="col-sm-10">
+													<button class="btn btn-theme" style="float: right; margin-right:5%;" ng-disabled="myForm.$invalid" ng-click="vm.addEvent(vm.event)" type="button">Save</button>
+												</div>
+											</div>
+										</form>
+								</div>
+							</div><!-- col-lg-12-->      	
+						</div>
+
+  </div>
+</div>
+									  
   <h2 class="text-center">{{ vm.calendarTitle }}</h2>
 									
 										  <div class="row">
@@ -1321,108 +1474,7 @@
 
   <br><br><br>
 
-  <h3 id="event-editor">
-    Edit events
-    <button
-      class="btn btn-primary pull-right"
-      ng-click="vm.addEvent(employee, regions)">
-      Add new
-    </button>
-    <div class="clearfix"></div>
-  </h3>
 
-  <table class="table table-bordered">
-
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Primary color</th>
-        <th>Secondary color</th>
-        <th>Starts at</th>
-        <th>Ends at</th>
-        <th>Remove</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr ng-repeat="event in vm.events track by $index">
-        <td>
-          <input
-            type="text"
-            class="form-control"
-            ng-model="event.title">
-        </td>
-        <td>
-          <input class="form-control" colorpicker type="text" ng-model="event.color.primary">
-        </td>
-        <td>
-          <input class="form-control" colorpicker type="text" ng-model="event.color.secondary">
-        </td>
-        <td>
-          <p class="input-group" style="max-width: 250px">
-            <input
-              type="text"
-              class="form-control"
-              readonly
-              uib-datepicker-popup="dd MMMM yyyy"
-              ng-model="event.startsAt"
-              is-open="event.startOpen"
-              close-text="Close" >
-            <span class="input-group-btn">
-              <button
-                type="button"
-                class="btn btn-default"
-                ng-click="vm.toggle($event, 'startOpen', event)">
-                <i class="glyphicon glyphicon-calendar"></i>
-              </button>
-            </span>
-          </p>
-          <div
-            uib-timepicker
-            ng-model="event.startsAt"
-            hour-step="1"
-            minute-step="15"
-            show-meridian="true">
-          </div>
-        </td>
-        <td>
-          <p class="input-group" style="max-width: 250px">
-            <input
-              type="text"
-              class="form-control"
-              readonly
-              uib-datepicker-popup="dd MMMM yyyy"
-              ng-model="event.endsAt"
-              is-open="event.endOpen"
-              close-text="Close">
-            <span class="input-group-btn">
-              <button
-                type="button"
-                class="btn btn-default"
-                ng-click="vm.toggle($event, 'endOpen', event)">
-                <i class="glyphicon glyphicon-calendar"></i>
-              </button>
-            </span>
-          </p>
-          <div
-            uib-timepicker
-            ng-model="event.endsAt"
-            hour-step="1"
-            minute-step="15"
-            show-meridian="true">
-          </div>
-        </td>
-        <td>
-          <button
-            class="btn btn-danger"
-            ng-click="vm.events.splice($index, 1)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-
-  </table>
 </div>
 									
 									<div>

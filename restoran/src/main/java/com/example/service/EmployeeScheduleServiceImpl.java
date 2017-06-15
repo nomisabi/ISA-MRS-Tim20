@@ -42,4 +42,17 @@ public class EmployeeScheduleServiceImpl implements EmployeeScheduleService{
 		
 	}
 
+	@Override
+	public EmployeeSchedule updateEmployeeSchedule(EmployeeSchedule es) {
+		EmployeeSchedule e= findOne(es.getId());
+		e.setC1(es.getC1());
+		e.setC2(es.getC2());
+		e.setDay(es.getDay());
+		e.setEmployee(e.getEmployee());
+		e.setEndTime(es.getEndTime());
+		e.setStartTime(es.getStartTime());
+		esRepository.save(e);
+		return e;
+	}
+
 }

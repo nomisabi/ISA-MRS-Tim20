@@ -14,5 +14,7 @@ public interface EmployeeScheduleService {
 	
 	EmployeeSchedule addEmployeeSchedule(EmployeeSchedule es);
 	
+	EmployeeSchedule updateEmployeeSchedule(EmployeeSchedule es);
+	
 	void deleteEmployeeSchedule(Long id);
 }

@@ -657,17 +657,55 @@ public class ManagerController {
 		return new ResponseEntity<Supplier>(sr.getS(), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/api/manager/updateEmployeeSchedule", 
+	method = RequestMethod.POST, 
+	produces = MediaType.APPLICATION_JSON_VALUE,
+	consumes= MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EmployeeSchedule>  updateEmployeeSchedule(@Valid @RequestBody EmployeeSchedule es) throws Exception {
+		logger.info("> updateEmployeeSchedule: ");
+		if (esService.updateEmployeeSchedule(es)==null)
+			return new ResponseEntity<EmployeeSchedule>(es, HttpStatus.NO_CONTENT);
+		//esService.addEmployeeSchedule(es);
+		logger.info("< updateEmployeeSchedule");
+		
+		return new ResponseEntity<EmployeeSchedule>(es, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/api/manager/deleteEmployeeSchedule", 
+	method = RequestMethod.POST, 
+	produces = MediaType.APPLICATION_JSON_VALUE,
+	consumes= MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EmployeeSchedule>  deleteEmployeeSchedule(@Valid @RequestBody EmployeeSchedule es) throws Exception {
+		logger.info("> deleteEmployeeSchedule: ");
+		esService.deleteEmployeeSchedule(es.getId());
+		logger.info("< deleteEmployeeSchedule");
+		
+		return new ResponseEntity<EmployeeSchedule>(es, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/api/manager/addEmployeeSchedule", 
 	method = RequestMethod.POST, 
-	produces = MediaType.APPLICATION_JSON_VALUE)
+	produces = MediaType.APPLICATION_JSON_VALUE,
+	consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EmployeeSchedule>  addEmployeeSchedule(@Valid @RequestBody EmployeeSchedule es) throws Exception {
-		logger.info("> addEmployeeSchedule: ");
+		logger.info("> addEmployeeSchedule: "+ es.toString());
 		esService.addEmployeeSchedule(es);
 		logger.info("< addEmployeeSchedule");
 		
 		return new ResponseEntity<EmployeeSchedule>(es, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/api/manager/employeeSchedule", 
+	method = RequestMethod.POST, 
+	produces= MediaType.APPLICATION_JSON_VALUE,
+	consumes= MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<EmployeeSchedule>>  getEmployeeSchedule(@Valid @RequestBody EmployeeSchedule e) throws Exception {
+		logger.info("> EmployeeSchedule: ");
+		Collection<EmployeeSchedule> es= esService.findAll();
+		logger.info("< EmployeeSchedule");
+		
+		return new ResponseEntity<Collection<EmployeeSchedule>>(es, HttpStatus.OK);
+	}
 	
 	@RequestMapping(
 			value = "/api/manager/getAvgRest", 

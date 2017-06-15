@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -11,17 +12,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class EmployeeSchedule {
+public class EmployeeSchedule implements Serializable{
 
-private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private static final long serialVersionUID =  1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
@@ -29,16 +31,16 @@ private static final long serialVersionUID = 1L;
 	private Date day;
 	
 	@Column
-	private String start_time;
+	private String startTime;
 	@Column
-	private String end_time;
+	private String endTime;
 	
 	@Column
 	private String c1;
 	@Column
 	private String c2;
 	
-	@OneToMany(cascade = { CascadeType.MERGE })
+	@ManyToMany(fetch=FetchType.EAGER, mappedBy= "schedule")
 	private Set<Region> region;
 
 	public long getId() {
@@ -65,20 +67,20 @@ private static final long serialVersionUID = 1L;
 		this.day = day;
 	}
 
-	public String getStart() {
-		return start_time;
+	public String getStartTime() {
+		return startTime;
 	}
 
-	public void setStart(String start) {
-		this.start_time = start;
+	public void setStartTime(String start_time) {
+		this.startTime = start_time;
 	}
 
-	public String getEnd() {
-		return end_time;
+	public String getEndTime() {
+		return endTime;
 	}
 
-	public void setEnd(String end) {
-		this.end_time = end;
+	public void setEndTime(String end_time) {
+		this.endTime = end_time;
 	}
 
 	public String getC1() {
@@ -107,18 +109,18 @@ private static final long serialVersionUID = 1L;
 
 	@Override
 	public String toString() {
-		return "EmployeeSchedule [id=" + id + ", employee=" + employee + ", day=" + day + ", start=" + start_time + ", end="
-				+ end_time + ", c1=" + c1 + ", c2=" + c2 + ", region=" + region + "]";
+		return "EmployeeSchedule [id=" + id + ", employee=" + employee + ", day=" + day + ", start=" + startTime + ", end="
+				+ endTime + ", c1=" + c1 + ", c2=" + c2 + ", region=" + region + "]";
 	}
 
-	public EmployeeSchedule(long id, Employee employee, Date day, String start, String end, String c1, String c2,
+	public EmployeeSchedule(long id, Employee employee, Date day, String startTime, String endTime, String c1, String c2,
 			Set<Region> region) {
 		super();
 		this.id = id;
 		this.employee = employee;
 		this.day = day;
-		this.start_time = start;
-		this.end_time = end;
+		this.startTime = startTime;
+		this.endTime = endTime;
 		this.c1 = c1;
 		this.c2 = c2;
 		this.region = region;
