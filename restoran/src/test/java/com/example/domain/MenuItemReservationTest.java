@@ -41,6 +41,49 @@ public class MenuItemReservationTest {
 	}
 
 	@Test
+	public void testIsPrepared() {
+		assertEquals(false, menuItemReservation.isPrepared());
+	}
+
+	@Test
+	public void testGetQuality() {
+		assertEquals(0, menuItemReservation.getQuantity());
+	}
+
+	@Test
+	public void testSetDrinkMenuItem() {
+		MenuItem d = new MenuItem();
+		menuItemReservation.setMenuItem(d);
+		assertEquals(d, menuItemReservation.getMenuItem());
+	}
+
+	@Test
+	public void testSetReservation() {
+		Reservation r = new Reservation();
+		menuItemReservation.setReservation(r);
+		assertEquals(r, menuItemReservation.getReservation());
+	}
+
+	@Test
+	public void testSetGuest() {
+		Guest g = new Guest();
+		menuItemReservation.setGuest(g);
+		assertEquals(g, menuItemReservation.getGuest());
+	}
+
+	@Test
+	public void testSetPrepared() {
+		menuItemReservation.setPrepared(true);
+		assertEquals(true, menuItemReservation.isPrepared());
+	}
+
+	@Test
+	public void testSetQuality() {
+		menuItemReservation.setQuantity(2);
+		assertEquals(2, menuItemReservation.getQuantity());
+	}
+
+	@Test
 	public void testNotNull() {
 		assertNotNull(menuItemReservation);
 	}

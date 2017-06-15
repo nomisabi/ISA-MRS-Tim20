@@ -26,7 +26,7 @@ public class TableOfRestaurant implements Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Restaurant restaurant;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "region_id")
 	private Region region;
@@ -73,17 +73,14 @@ public class TableOfRestaurant implements Serializable {
 		this.restaurant = restaurant;
 	}
 
-	/*public Region getRegion() {
-		return region;
-	}
-
-	public void setRegion(Region region) {
-		this.region = region;
-	}
-*/
+	/*
+	 * public Region getRegion() { return region; }
+	 * 
+	 * public void setRegion(Region region) { this.region = region; }
+	 */
 	@Override
 	public String toString() {
-		return "TableOfRestaurant [number=" + number + ", numberOfChairs=" + numberOfChairs +", id="+id+"]";
+		return "TableOfRestaurant [number=" + number + ", numberOfChairs=" + numberOfChairs + ", id=" + id + "]";
 	}
 
 }

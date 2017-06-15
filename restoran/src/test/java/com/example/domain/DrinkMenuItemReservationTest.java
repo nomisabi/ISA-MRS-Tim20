@@ -39,6 +39,48 @@ public class DrinkMenuItemReservationTest {
 	public void testGetGuest() {
 		assertEquals(guest, drinkMenuItemReservation.getGuest());
 	}
+	@Test
+	public void testIsPrepared() {
+		assertEquals(false, drinkMenuItemReservation.isPrepared());
+	}
+	
+	@Test
+	public void testGetQuality() {
+		assertEquals(0, drinkMenuItemReservation.getQuantity());
+	}
+	
+	@Test
+	public void testSetDrinkMenuItem() {
+		DrinkMenuItem d = new DrinkMenuItem();
+		drinkMenuItemReservation.setDrinkMenuItem(d);
+		assertEquals(d, drinkMenuItemReservation.getDrinkMenuItem());
+	}
+
+	@Test
+	public void testSetReservation() {
+		Reservation r = new Reservation();
+		drinkMenuItemReservation.setReservation(r);
+		assertEquals(r, drinkMenuItemReservation.getReservation());
+	}
+
+	@Test
+	public void testSetGuest() {
+		Guest g = new Guest();
+		drinkMenuItemReservation.setGuest(g);
+		assertEquals(g, drinkMenuItemReservation.getGuest());
+	}
+	@Test
+	public void testSetPrepared() {
+		drinkMenuItemReservation.setPrepared(true);
+		assertEquals(true, drinkMenuItemReservation.isPrepared());
+	}
+	
+	@Test
+	public void testSetQuality() {
+		drinkMenuItemReservation.setQuantity(2);
+		assertEquals(2, drinkMenuItemReservation.getQuantity());
+	}
+
 
 	@Test
 	public void testNotNull() {

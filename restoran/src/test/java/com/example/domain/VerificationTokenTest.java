@@ -30,18 +30,32 @@ public class VerificationTokenTest {
 	}
 
 	@Test
-	public void testGuestReservation() {
+	public void testGetGuestReservation() {
 		assertEquals(guestReservation, verificationToken.getGuestReservation());
 	}
 
 	@Test
-	public void testToken() {
+	public void testGetToken() {
 		assertEquals(token, verificationToken.getToken());
+	}
+	
+	@Test
+	public void testSetGuestReservation() {
+		GuestReservation g = new GuestReservation();
+		verificationToken.setGuestReservation(g);
+		assertEquals(g, verificationToken.getGuestReservation());
+	}
+
+	@Test
+	public void testSetToken() {
+		String t = UUID.randomUUID().toString();
+		verificationToken.setToken(t);
+		assertEquals(t, verificationToken.getToken());
 	}
 
 	@Test
 	public void testNotNull() {
-		assertNotNull(token);
+		assertNotNull(verificationToken);
 	}
 
 }
