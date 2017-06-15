@@ -37,6 +37,7 @@ public class GuestReservation implements Serializable {
 		super();
 		this.guest = guest;
 		this.reservation = reservation;
+		this.accepted = false;
 	}
 
 	public GuestReservation(Guest guest, Reservation reservation, boolean accepted) {

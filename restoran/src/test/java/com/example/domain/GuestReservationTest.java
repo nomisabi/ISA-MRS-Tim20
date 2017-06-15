@@ -23,15 +23,39 @@ public class GuestReservationTest {
 	}
 
 	@Test
-	public void testGuest() {
+	public void testGetGuest() {
 		assertEquals(guest, guestReservation.getGuest());
 	}
 
 	@Test
-	public void testReservation() {
+	public void testGetReservation() {
 		assertEquals(reservation, guestReservation.getReservation());
 	}
+	
+	@Test
+	public void testIsAccepted() {
+		assertEquals(false, guestReservation.isAccepted());
+	}
+	
+	@Test
+	public void testSetGuest() {
+		Guest g = new Guest();
+		guestReservation.setGuest(g);
+		assertEquals(g, guestReservation.getGuest());
+	}
 
+	@Test
+	public void testSetReservation() {
+		Reservation r = new Reservation();
+		guestReservation.setReservation(r);
+		assertEquals(r, guestReservation.getReservation());
+	}
+
+	@Test
+	public void testSetAccepted() {
+		guestReservation.setAccepted(true);
+		assertEquals(true, guestReservation.isAccepted());
+	}
 	@Test
 	public void testGuestReservationNotNull() {
 		assertNotNull(guestReservation);

@@ -93,6 +93,9 @@ public class GuestController {
 
 		Guest guest = guestService.findByEmailAndPass(user.getEmail(), user.getPassword());
 		System.out.println("Guest from base: " + guest);
+		if (!guest.isAccepted()){
+			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
+		}
 		session.setAttribute("guest", guest);
 
 		logger.info("< Guest log in");
@@ -119,6 +122,7 @@ public class GuestController {
 		if (guest.getPassword().equals(guest.getPassword2())) {
 			Guest g = new Guest(guest.getEmail(), guest.getPassword(), guest.getFirstName(), guest.getLastName());
 			Guest savedGuest = guestService.addGuest(g);
+			emailService.sendMail(savedGuest);
 			logger.info("< createGuest");
 			return new ResponseEntity<Guest>(savedGuest, HttpStatus.CREATED);
 		}
@@ -440,6 +444,9 @@ public class GuestController {
 		System.out.println(confirm);
 
 		Long id = reservationService.getGuestReservationId(confirm.getToken());
+		if (id == null){
+			return new ResponseEntity<ConfirmInvite>(HttpStatus.NOT_FOUND);
+		}
 		confirm.setId(id);
 
 		Reservation reservation = reservationService.getReservationOfGuest(id);
@@ -450,14 +457,20 @@ public class GuestController {
 
 		session.setAttribute("guest", guest);
 
+		User u = userService.findByEmail(guest.getEmail());
+		userService.login(u);
 		System.out.println(guest);
 		confirm.setGuest(guest);
+		
 		Collection<Guest> guests = reservationService.getFriends(reservation.getId(), guest.getId());
-
+			
 		for (Guest guest2 : guests) {
 			System.out.println(guest2);
 		}
 		confirm.setFriends(guests);
+	
+
+		
 
 		return new ResponseEntity<ConfirmInvite>(confirm, HttpStatus.OK);
 	}
@@ -753,6 +766,32 @@ public class GuestController {
 		Collection<Restaurant> restaurants = restaurantService.searchRestaurants(restaurant.getName());
 
 		return new ResponseEntity<Collection<Restaurant>>(restaurants,HttpStatus.OK);
+	}
+	
+	/*** Guest log in****/
+	@RequestMapping(value = "/api/guest/accept", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Guest> registrationAccept(@RequestBody GuestRegister guestRegister) {
+		logger.info("> Guest log in");
+		System.out.println(guestRegister);
+		
+		Guest guest = guestService.getGuestId(guestRegister.getToken());
+		System.out.println(guest);
+		if (guest == null){
+			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
+		}
+		
+		guestService.setRegistrationAccept(guest.getId());
+		
+		User u = userService.findByEmail(guest.getEmail());
+		
+		userService.login(u);
+		
+		session.setAttribute("guest", guest);
+		
+		guestService.deleteToken(guestRegister.getToken());
+		
+		return new ResponseEntity<Guest>(guest, HttpStatus.OK);
+		
 	}
 
 }

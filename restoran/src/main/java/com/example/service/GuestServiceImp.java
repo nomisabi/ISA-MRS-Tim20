@@ -13,6 +13,7 @@ import com.example.domain.TypeOfUser;
 import com.example.domain.User;
 import com.example.respository.FriendshipRepository;
 import com.example.respository.GuestRepository;
+import com.example.respository.RegistrationTokenRepository;
 import com.example.respository.UserRepository;
 
 @Service
@@ -25,6 +26,8 @@ public class GuestServiceImp implements GuestService {
 	private UserRepository userRepository;
 	@Autowired
 	private FriendshipRepository friendshipRepository;
+	@Autowired
+	private RegistrationTokenRepository registrationRepository;
 
 	@Override
 	public Guest getGuest(Long id) {
@@ -117,5 +120,23 @@ public class GuestServiceImp implements GuestService {
 	@Transactional(readOnly = false)
 	public void setPassword(Long id, String password){
 		guestRepository.setPassword(id, password);
+	}
+	
+	@Override
+	public Guest getGuestId(String token){
+		return registrationRepository.getGuest(token);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void setRegistrationAccept(Long id){
+		guestRepository.setRegistrationAccept(id);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteToken(String token){
+		Long id = registrationRepository.getId(token);
+		registrationRepository.delete(id);
 	}
 }

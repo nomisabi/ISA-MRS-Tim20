@@ -68,6 +68,9 @@ app.config(function($routeProvider, $ocLazyLoadProvider) {
     }).when("/guest/index/:id",{
     	templateUrl : "guestHome.html",
    	 	controller: "GuestHomeController"
+    }).when("/guest/registration/:token",{
+    	templateUrl : "guestHome.html",
+   	 	controller: "GuestHomeController"
     })
     .otherwise({ redirectTo: '/404' 
     });

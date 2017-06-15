@@ -3,6 +3,7 @@
 angular.module('myApp').controller('GuestHomeController',['$scope','$http','$window', '$ocLazyLoad','GuestHomeFactory','$routeParams',function($scope, $http,$window,$ocLazyLoad, GuestHomeFactory,$route$routeParams) {
 	$ocLazyLoad.load('assets/js/common-scripts.js');
 	$scope.message = $route$routeParams.id;
+	$scope.reg = $route$routeParams.token;
 	$scope.date = new Date();
     $scope.time = new Date();
     $scope.dateTime = new Date();
@@ -133,7 +134,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		
 		$ocLazyLoad.load('assets/js/common-scripts.js');
 		
-		if ($scope.message === undefined){
+		if ($scope.message === undefined && $scope.reg === undefined){
 			$http.get("http://localhost:8080/api/users/login")
 			.success(
 				function(data){
@@ -146,9 +147,12 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 				}
 			);	    
 		}else{
-			$scope.page = "invite";
-			$http.post("http://localhost:8080/api/reservation",{"token":$scope.message})
-			.success(
+			//alert($route$routeParams.token);
+			//alert($route$routeParams.id);
+			if ( $scope.reg === undefined ){
+				$scope.page = "invite";
+				$http.post("http://localhost:8080/api/reservation",{"token":$scope.message})
+				.success(
 					function(data){
 						$scope.reservation = data.reservation;
 						$scope.friends = data.friends;
@@ -156,11 +160,31 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 						$scope.id = data.id;
 						
 					}
-			).error(
+				).error(
 					function(data){
-						$window.location.href="/#/";
+						$window.location.href="/#/guest/index";
 					}
-			);
+				);
+			}else{
+			
+				
+						$http.post("http://localhost:8080/api/guest/accept",
+								{"token":$scope.reg})
+						 .success(
+								 function(data){
+									$scope.page = "profile";
+									$scope.guest=data;
+									$scope.getNotifications();
+						})
+						.error(
+								function(data){
+									$window.location.href="/#/";
+								}
+						);
+						
+					
+					    
+			}
 		}
 	}
 	

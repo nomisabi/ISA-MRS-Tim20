@@ -29,11 +29,12 @@ public class Guest implements Serializable {
 	private String lastName;
 	@Column
 	private String address;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="guest")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
 	private Set<Friendship> friends;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
 	private Set<GuestReservation> guestReservations;
-	
+	@Column
+	private boolean accepted;
 
 	public Guest() {
 	}
@@ -50,6 +51,7 @@ public class Guest implements Serializable {
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.accepted = false;
 	}
 
 	public Long getId() {
@@ -100,6 +102,13 @@ public class Guest implements Serializable {
 		this.address = address;
 	}
 
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
 
 	@Override
 	public String toString() {
