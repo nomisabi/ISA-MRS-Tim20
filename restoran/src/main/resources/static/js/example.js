@@ -96,12 +96,18 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
     vm.cellIsOpen = true;
 
     vm.changeToAddEvent = function(){
+    	if (!vm.show){
     	vm.show=true;
     	$http.post("http://localhost:8080/api/manager/regions", {"id":vm.manager.restaurant.id}).then(function(data){
 			vm.regions=data.data;	
 			//alert.show("Regions",vm.regions);
 			}
     	);
+    	} else{
+    		vm.show=false;
+    		vm.selected=[];
+    		vm.event=null;
+    	}
     }
     
     vm.addEvent = function(event) {

@@ -268,7 +268,6 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		    $scope.supply.to_date= $scope.supply.from_date;
   		    
   		    $scope.minDate = moment().subtract(1, 'month');
-  		  alert("123");
   		    $scope.minDate2 = $scope.supply.from_date;
   		    
   		   // $scope.maxDate = moment().add(1, 'month');

@@ -106,7 +106,7 @@ INSERT INTO rate_menu_item (rate, guest_id, menu_item_id, reservation_id) values
 INSERT INTO rate_menu_item (rate, guest_id, menu_item_id, reservation_id) values (3,1,1,1);
 
 INSERT INTO employee(first_name, last_name, email, password, active, numbC, numbS,type, date ) values ('f', 'ln', 'fn.ln@gmail.com','123', false, 32, 32, 1, '04/11/1995');
-INSERT INTO employee(first_name, last_name, email, password, active, numbC, numbS,type, date) values ('emp2', 'emp2', 'fn.ln@gmail.com','123', false, 32, 32, 1, '04/11/1995');
+INSERT INTO employee(first_name, last_name, email, password, active, numbC, numbS,type, date) values ('emp2', 'emp2', 'emp.emp@gmail.com','emp', false, 32, 32, 1, '04/11/1995');
 
 INSERT INTO restaurant_employee(restaurant_id, employee_id) values (1,1);
 INSERT INTO restaurant_employee(restaurant_id, employee_id) values (1,2);
