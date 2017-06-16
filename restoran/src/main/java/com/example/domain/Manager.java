@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +20,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity
-public class Manager {
+public class Manager implements Serializable {
 	
     private static final long serialVersionUID =  1L;
     @Id

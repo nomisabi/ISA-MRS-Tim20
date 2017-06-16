@@ -5,18 +5,26 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
     var vm = this;
     vm.users1=null;
     vm.event=null;
+    vm.events = [];
     
-    var actions = [{
+    var actions = [/*{
         label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
         onClick: function(args) {
           alert.show('Edited', args.calendarEvent);
         }
-      }, {
+      },*/ {
         label: '<i class=\'glyphicon glyphicon-remove\'></i>',
         onClick: function(args) {
-          alert.show('Deleted', args.calendarEvent);
+         // alert.show('Deleted', args.calendarEvent);
+          vm.events.splice(args.calendarEvent.calendarEventId,1);
+          $http.post("http://localhost:8080/api/manager/deleteEmployeeSchedule",args.calendarEvent).success(
+  				function(data){							
+  					//vm.manager.restaurant=data;	
+  			});	
         }
       }];
+    
+
     
     function init() {
 		$http.get("http://localhost:8080/api/users/login").success(
@@ -33,9 +41,35 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
 							});
 				});
 		
-		$http.post("http://localhost:8080/api/manager/employeeSchedule",{}).then(
+		$http.post("http://localhost:8080/api/manager/employeeSchedule",{}).success(
 				function(data){							
-					alert.show("show", data);
+					for (var i=0; i<data.length; i++){
+						
+						var asd="";
+						for (var u=0; u<data[i].schedule.regions.length;u++){
+				        	if (u==data[i].schedule.regions.length-1)
+				        		asd+=data[i].schedule.regions[u].name;
+				        	else
+				        		asd+=data[i].schedule.regions[u].name+", ";
+						}
+						
+				       	vm.events.push({
+					            title: data[i].employee.firstName+' '+data[i].employee.lastName+" - "+asd,
+					            id:data[i].id,
+					            employee: data[i].employee,
+					            regions: data[i].schedule.regions,
+					            startsAt: new Date(data[i].startTime),
+					            endsAt: new Date(data[i].endTime),
+					            color:{
+					            	primary: data[i].c1,
+					                secondary:data[i].c2	
+					            },
+					            draggable: true,
+					            resizable: false,
+					            actions: actions
+						});
+					}
+					
 			});
 	}
 	init();
@@ -57,34 +91,7 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
     vm.viewDate = new Date();
     //document.write(vm.viewDate);
    
-    vm.events = [
-                 {
-                     title: 'An event',
-                     color: calendarConfig.colorTypes.warning,
-                     startsAt: moment().startOf('week').subtract(2, 'days').add(8, 'hours').toDate(),
-                     endsAt: moment().startOf('week').add(1, 'week').add(9, 'hours').toDate(),
-                     draggable: true,
-                     resizable: true,
-                     actions: actions
-                   }, {
-                     title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
-                     color: calendarConfig.colorTypes.info,
-                     startsAt: moment().subtract(1, 'day').toDate(),
-                     endsAt: moment().add(5, 'days').toDate(),
-                     draggable: true,
-                     resizable: true,
-                     actions: actions
-                   }, {
-                     title: 'This is a really long event title that occurs on every year',
-                     color: calendarConfig.colorTypes.important,
-                     startsAt: moment().startOf('day').add(7, 'hours').toDate(),
-                     endsAt: moment().startOf('day').add(19, 'hours').toDate(),
-                     recursOn: 'year',
-                     draggable: true,
-                     resizable: true,
-                     actions: actions
-                   }
-    ];
+   
 
     vm.cellIsOpen = true;
 
@@ -112,7 +119,7 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
     	var start_time=date1+" "+date3;
     	var end_time =date1+" "+date2;
     	//alert.show("3",{});
-        var employeeschedule={"employee":event.employee, "c1":event.color.primary,"c2":event.color.secondary,"day":event.day, "endTime":end_time,"startTime":start_time,"region":vm.selected}
+        var employeeschedule={"employee":event.employee, "c1":event.color.primary,"c2":event.color.secondary,"day":event.day, "endTime":end_time,"startTime":start_time,"schedule":{"regions":vm.selected}}
     	var id=null;
         
     	//alert.show("Send", employeeschedule);
@@ -141,7 +148,7 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
                 secondary:event.color.secondary   	
             },
             draggable: true,
-            resizable: true,
+            resizable: false,
             actions: actions
           });
     	vm.event=null;
@@ -152,27 +159,31 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
     };
 
     vm.eventEdited = function(event) {
-      alert.show('Edited', event);
-      var employeeschedule={"employee":event.title, "end_time":"","start_time":"","region":[]}
-      $http.post("http://localhost:8080/api/manager/updateEmployeeSchedule",employeeschedule).success(
+     // alert.show('Edited', event);
+      
+      $http.post("http://localhost:8080/api/manager/updateEmployeeSchedule",event).success(
 				function(data){							
 					//vm.manager.restaurant=data;	
 			});	
     };
 
-    vm.eventDeleted = function(event) {
-      	
-      alert.show('Deleted', event);
-      var employeeschedule={"employee":event.title, "end_time":"","start_time":"","region":[]}
-      $http.post("http://localhost:8080/api/manager/deleteEmployeeSchedule",employeeschedule).success(
+    vm.eventDeleted = function(event) {  	
+     // alert.show('Deleted', event);
+      $http.post("http://localhost:8080/api/manager/deleteEmployeeSchedule",event).success(
 				function(data){							
 					//vm.manager.restaurant=data;	
 			});	
     };
 
     vm.eventTimesChanged = function(event) {
-      alert.show('Dropped or resized', event);
-      var employeeschedule={"employee":event.title, "end_time":"","start_time":"","region":[]}
+    	//var new_event=event;
+//    	alert.show("edit",new_event.startsAt);
+
+    	//alert.show("3",{});
+        var employeeschedule={"id":event.id,"employee":event.employee, "c1":event.color.primary,"c2":event.color.secondary,"day":event.startsAt, "endTime":event.endsAt,"startTime":event.startsAt,"schedule":{"regions":event.regions}}
+    	//alert.show("edit", employeeschedule);
+        
+    	
       $http.post("http://localhost:8080/api/manager/updateEmployeeSchedule",employeeschedule).success(
 				function(data){							
 					//vm.manager.restaurant=data;	

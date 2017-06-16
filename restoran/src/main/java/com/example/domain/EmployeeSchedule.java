@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -40,8 +41,7 @@ public class EmployeeSchedule implements Serializable{
 	@Column
 	private String c2;
 	
-	@ManyToMany(fetch=FetchType.EAGER, mappedBy= "schedule")
-	private Set<Region> region;
+	private Schedule schedule;
 
 	public long getId() {
 		return id;
@@ -99,22 +99,8 @@ public class EmployeeSchedule implements Serializable{
 		this.c2 = c2;
 	}
 
-	public Set<Region> getRegion() {
-		return region;
-	}
-
-	public void setRegion(Set<Region> region) {
-		this.region = region;
-	}
-
-	@Override
-	public String toString() {
-		return "EmployeeSchedule [id=" + id + ", employee=" + employee + ", day=" + day + ", start=" + startTime + ", end="
-				+ endTime + ", c1=" + c1 + ", c2=" + c2 + ", region=" + region + "]";
-	}
-
-	public EmployeeSchedule(long id, Employee employee, Date day, String startTime, String endTime, String c1, String c2,
-			Set<Region> region) {
+	public EmployeeSchedule(long id, Employee employee, Date day, String startTime, String endTime, String c1,
+			String c2, Schedule schedule) {
 		super();
 		this.id = id;
 		this.employee = employee;
@@ -123,8 +109,23 @@ public class EmployeeSchedule implements Serializable{
 		this.endTime = endTime;
 		this.c1 = c1;
 		this.c2 = c2;
-		this.region = region;
+		this.schedule = schedule;
 	}
+
+	@Override
+	public String toString() {
+		return "EmployeeSchedule [id=" + id + ", employee=" + employee + ", day=" + day + ", startTime=" + startTime
+				+ ", endTime=" + endTime + ", c1=" + c1 + ", c2=" + c2 + ", schedule=" + schedule + "]";
+	}
+
+	public Schedule getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(Schedule schedule) {
+		this.schedule = schedule;
+	}
+
 	public EmployeeSchedule() {
 		super();
 		

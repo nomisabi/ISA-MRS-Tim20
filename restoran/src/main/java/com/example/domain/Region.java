@@ -30,11 +30,6 @@ public class Region implements Serializable {
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="region")
 	private Set<TableOfRestaurant> tables;
 	
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name = "schedule_id")
-	private Set<EmployeeSchedule> schedule;
-	
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "restaurant_id", nullable = false)
 	private Restaurant restaurant;
