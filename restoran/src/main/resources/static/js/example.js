@@ -155,7 +155,7 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
     };
 
     vm.eventClicked = function(event) {
-      alert.show('Clicked', event);
+     // alert.show('Clicked', event);
     };
 
     vm.eventEdited = function(event) {
@@ -176,11 +176,13 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
     };
 
     vm.eventTimesChanged = function(event) {
-    	//var new_event=event;
-//    	alert.show("edit",new_event.startsAt);
+    	var new_event=JSON.stringify(event);
+    	var start= ""+event.startsAt;
+    	var end= ""+event.endsAt;
+    	alert.show("edit",start);
 
     	//alert.show("3",{});
-        var employeeschedule={"id":event.id,"employee":event.employee, "c1":event.color.primary,"c2":event.color.secondary,"day":event.startsAt, "endTime":event.endsAt,"startTime":event.startsAt,"schedule":{"regions":event.regions}}
+        var employeeschedule={"id":event.id,"employee":event.employee, "c1":event.color.primary,"c2":event.color.secondary,"day":start, "endTime":end,"startTime":event.startsAt,"schedule":{"regions":event.regions}}
     	//alert.show("edit", employeeschedule);
         
     	

@@ -384,6 +384,14 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	    		function(data){
 	    			$scope.visits=data;
 	    		});
+  		$scope.labels2 = [];
+		$scope.data2 = [[]];
+		$scope.series2 = [''];
+		for (var i=0; i<$scope.visits.length;i++){
+			$scope.labels2.push($scope.visits[i].day);
+			$scope.data2[0].push($scope.visits[i].numb);
+		}
+  		
   		if ($scope.manager.active)
     		$scope.page="visits"; 
   	}
@@ -421,12 +429,22 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		end = formatDate($scope.income.to_date);
 		seend={"begin":begin, "end":end,"r":$scope.manager.restaurant};
 		//alert(typeof begin);
+
+		
+		
 		$http.post("http://localhost:8080/api/manager/getIncomes",seend).success(
 	    		function(data){
 	    			$scope.incomes=data;
+	    			$scope.labels3 = [];
+	    			$scope.data3 = [[]];
+	    			$scope.series3 = [''];
+	    			for (var i=0; i<$scope.incomes.length;i++){
+	    				$scope.labels3.push($scope.incomes[i].day);
+	    				$scope.data3[0].push($scope.incomes[i].price);
+	    			}
 	    			$scope.incomes_show=true;
 	    		});
-		$scope.incomes_show=true;
+		//alert("mit syorakozik?");	
 	}
 	
 	$scope.changeToIncomesWaiters=function(){
@@ -434,6 +452,12 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	    		function(data){
 	    			$scope.income_waiter=data;
 	    		});
+		$scope.labels =[];
+		$scope.data =[];
+		for (var i=0; i<$scope.income_waiter.length; i++){
+			$scope.labels.push($scope.income_waiter[i].firstName+" "+$scope.income_waiter[i].lastName);
+			$scope.data.push($scope.income_waiter[i].price);
+		}
   		if ($scope.manager.active)
     		$scope.page="income_waiter"; 
 	}
