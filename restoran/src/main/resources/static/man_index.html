@@ -208,7 +208,16 @@
 				                   	Procurements
 				                </a>               
 			                      <br>
+			                      <a class="" ng-click="changeToSchedule()">
+				                   	Schedule
+				                </a>               
+			                      <br>
+			                      <a class="" ng-click="changeToScores()">
+				                   	Scores
+				                </a>               
+			                      <br>
 			                      &nbsp;
+
 			                      
 						</div>
 				           
@@ -660,7 +669,7 @@
 										    	dnd-type="'container'"
 										        >
 										        <div class="container-element box box-blue" ng-show="container.copying">
-										        <h3>{{container.name}} <i class="fa fa-trash-o" style="float: right;" ng-click="deleteRegion(container)"></i><i class="fa fa-pencil" style="float: right;  margin-right:2%;" ng-click="updatePrompt($event, container)"></i></h3>
+										        <h3>{{container.name}} <i class="fa fa-trash-o" style="float: right;"  ng-click="deleteRegion(container)"></i><i class="fa fa-pencil" style="float: right;  margin-right:2%;" ng-click="updatePrompt($event, container)"></i></h3>
 										        
 										            <ul dnd-list="container.items"
 										                dnd-allowed-types="['item']"

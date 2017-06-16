@@ -64,7 +64,7 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
 					            	primary: data[i].c1,
 					                secondary:data[i].c2	
 					            },
-					            draggable: true,
+					            draggable: false,
 					            resizable: false,
 					            actions: actions
 						});
@@ -153,7 +153,7 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
             	primary: event.color.primary,
                 secondary:event.color.secondary   	
             },
-            draggable: true,
+            draggable: false,
             resizable: false,
             actions: actions
           });

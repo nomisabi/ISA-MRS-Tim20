@@ -10,6 +10,29 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	$scope.lng='0';
 	$scope.lan='0';
 	
+	function popover(tekst) {
+		var unique_id = $.gritter.add({
+            // (string | mandatory) the heading of the notification
+            title: 'Notification',
+            // (string | mandatory) the text inside the notification
+            text: tekst,
+            // (string | optional) the image to display on the left
+            image: 'assets/img/ui-sam.jpg',
+            // (bool | optional) if you want it to fade out on its own or just sit there
+            sticky: false,
+            // (int | optional) the time you want it to be alive for before fading out
+            time: 5000,
+            // (string | optional) the class name you want to apply to that specific message
+            class_name: 'my-sticky-class'
+        });
+		$("#date-popover").popover({html: true, trigger: "manual"});
+        $("#date-popover").hide();
+        $("#date-popover").click(function (e) {
+            $(this).hide();
+        });
+		
+	}
+	
 	$scope.user1 = null;
 	  $scope.users1 = null;
 
@@ -22,8 +45,8 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	  		                          	        { id: 5, name: 'Velma Dinkley' }
 	  		                          	      ]; 
 		  
-		  //alert(JSON.stringify( $scope.users1));
-		  //alert(JSON.stringify( $scope.man_without_rest));
+		  //popover(JSON.stringify( $scope.users1));
+		  //popover(JSON.stringify( $scope.man_without_rest));
 	    // Use timeout to simulate a 650ms request.
 	    return $timeout(function() {
 	    	$scope.users1 = $scope.man_without_rest || null;
@@ -40,7 +63,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	            var lng1=str[1].split(':');
 	            var lng=lng1[1].split('}');
 	        	$scope.string=lat[1]+","+lng[0];
-	        	//alert("12");
+	        	//popover("12");
 	        	$scope.lat=lat[1];
 	        	$scope.lng=lng[0];
 	        }
@@ -142,7 +165,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     $scope.createManager= function (){   	
     	$scope.manager.restaurant=null;
     	$http.post("http://localhost:8080/api/sysman/createManager",JSON.stringify($scope.manager))
-        .then(function (response) { if (response.data!="") $scope.managers.push(response.data); else alert("this email address in in our system"); });    	
+        .then(function (response) { if (response.data!="") $scope.managers.push(response.data); else popover("this email address in in our system"); });    	
     }
     
     
@@ -151,7 +174,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	$scope.new_man.active=false;
     	$http.post("http://localhost:8080/api/manager/addManager",JSON.stringify($scope.new_man))
     		.error(function(data){
-					alert('This email address is exist.');
+					popover('This email address is exist.');
 					return;
 				}).then(function(data){
 			    	$window.location.reload();
@@ -160,10 +183,10 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     }	
     
     $scope.new_sysmanager= function(){   
-    	//alert(JSON.stringify($scope.new_sysman));
+    	//popover(JSON.stringify($scope.new_sysman));
     	$http.post("http://localhost:8080/api/sysman/createSysman",JSON.stringify($scope.new_sysman))
     		.error(function(data){
-					alert('This email address is exist.');
+					popover('This email address is exist.');
 					//$window.location.reload();
 				}).then(function(data){
 			    	$window.location.reload();
@@ -175,10 +198,10 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	$scope.new_rest.lng=$scope.lng;
     	$scope.new_rest.lat=$scope.lat;
     	
-    	//alert(JSON.stringify($scope.new_rest));
+    	//popover(JSON.stringify($scope.new_rest));
     	$http.post("http://localhost:8080/api/sysman/addRest",{"r":$scope.new_rest, "m":$scope.new_rest_manager})
     		.error(function(data){
-					alert('This restaurant name is exist.');
+					popover('This restaurant name is exist.');
 					return;
 			}).success(function(data){
 					$window.location.reload();
@@ -199,7 +222,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	$http.post("http://localhost:8080/api/sysman/update", $scope.sm).success(function(data) {
     		$window.location.reload();
     	}).error(function(data) {
-    		alert("This email address is in our system");	
+    		popover("This email address is in our system");	
     		$window.location.reload();
     	});
     }
@@ -208,15 +231,15 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	if ($scope.pw1==$scope.pw2){
     		$scope.login= $scope.sm;
     		$scope.login.password=$scope.pw1;
-    		//alert("iit vok");
-    		//alert(JSON.stringify($scope.login));
+    		//popover("iit vok");
+    		//popover(JSON.stringify($scope.login));
     		$http.post("http://localhost:8080/api/sysman/updatePass",$scope.login).success(
 					function(data){
-						//alert("mar megint szorakozik");
+						//popover("mar megint szorakozik");
 						$window.location.reload();
 					});
     	} else {
-    		alert("Passwords don't equals");
+    		popover("Passwords don't equals");
     		}
     }
 

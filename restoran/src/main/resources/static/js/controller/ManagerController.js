@@ -1,7 +1,7 @@
 
 angular.module('myApp').controller('ManagerController',['$scope','$http','$window','$route','$ocLazyLoad','$mdDialog','$timeout', 'calendarConfig', function($scope, $http,$window, $route, $ocLazyLoad, $mdDialog, $timeout,calendarConfig) {
 	$ocLazyLoad.load('assets/js/common-scripts.js');
-	//alert
+	//popover
 	
     $scope.status = '  ';
     $scope.customFullscreen = false;
@@ -20,6 +20,28 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 			label: 'Bartender'
 		  }]; 
 	$scope.selected = $scope.typeOfEmployee[0];
+	function popover(tekst) {
+		var unique_id = $.gritter.add({
+            // (string | mandatory) the heading of the notification
+            title: 'Notification',
+            // (string | mandatory) the text inside the notification
+            text: tekst,
+            // (string | optional) the image to display on the left
+            image: 'assets/img/ui-sam.jpg',
+            // (bool | optional) if you want it to fade out on its own or just sit there
+            sticky: false,
+            // (int | optional) the time you want it to be alive for before fading out
+            time: 5000,
+            // (string | optional) the class name you want to apply to that specific message
+            class_name: 'my-sticky-class'
+        });
+		$("#date-popover").popover({html: true, trigger: "manual"});
+        $("#date-popover").hide();
+        $("#date-popover").click(function (e) {
+            $(this).hide();
+        });
+		
+	}
 	
 	$scope.user1 = null;
 	  $scope.users1 = null;
@@ -50,7 +72,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 										function(data){
 											if (data==null)
 												$window.location.href="/";
-											//alert(JSON.stringify(data));
+											//popover(JSON.stringify(data));
 											$scope.manager.restaurant=data;
 											
 											
@@ -84,7 +106,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   			for (var i=0; i<$scope.regions.length;i++){
 
 	  			if ($scope.regions[i].name == result){
-	  				alert("Region with this name is exist.");
+	  				popover("Region with this name is exist.");
 	  				return;
 	  				}
 	  			}
@@ -97,7 +119,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     			});
     			  var container = {name:result, id:data.data.id, items: [], effectAllowed: 'all', copying:true};
     			  $scope.model.push([container]);
-    			  //alert(JSON.stringify($scope.model));
+    			  //popover(JSON.stringify($scope.model));
     		  });
           });
 		
@@ -122,13 +144,13 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
           $mdDialog.show(confirm).then(function(result) {
         	  for (var i=0; i<$scope.regions.length;i++){
   	  			if ($scope.regions[i].name == result){
-  	  				alert("Region with this name is exist.");
+  	  				popover("Region with this name is exist.");
   	  				return;
   	  				}
   	  			}
         	  container.name=result;
         	  $http.post("http://localhost:8080/api/manager/updateRegion", container).then(function(data){
-    	  			//alert("ok");
+    	  			//popover("ok");
     			});
             }, function() {
               //$scope.status = 'You didn\'t name your dog.';
@@ -150,7 +172,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		init();
     		//$route.reload();		
     	}).error(function(data) {
-    		alert("This email address is in our system");	
+    		popover("This email address is in our system");	
     		$route.reload();
     	});
     }
@@ -166,7 +188,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 						$route.reload();
 					});
     	} else {
-    		alert("Passwords don't equals");
+    		popover("Passwords don't equals");
     		}
     }
 
@@ -227,7 +249,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     	$http.post("http://localhost:8080/api/manager/supply_hist", $scope.manager.restaurant).success(function(data) {
     		$scope.supplies_hist=data;
     	}).error(function(data) {
-    		//alert("error");	
+    		//popover("error");	
     	});
     	if ($scope.manager.active)
     		$scope.page="history";  
@@ -235,9 +257,9 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	$scope.changeToSupplier= function(){
   		$http.post("http://localhost:8080/api/suppliers/getSuppliersRest", $scope.manager.restaurant).success(function(data) {
     		$scope.existing_suppliers=data;
-    		//alert(JSON.stringify($scope.existing_suppliers));
+    		//popover(JSON.stringify($scope.existing_suppliers));
     	}).error(function(data) {
-    		//alert("error");	
+    		//popover("error");	
     	});
   		if ($scope.manager.active)
     		$scope.page="supplier";   	
@@ -250,7 +272,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		$http.post("http://localhost:8080/api/manager/supply", $scope.manager.restaurant).success(function(data) {
     		$scope.supplies=data;
     	}).error(function(data) {
-    		//alert("error");	
+    		//popover("error");	
     	});
   		if ($scope.manager.active)
     		$scope.page="supplies";
@@ -272,7 +294,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		    
   		   // $scope.maxDate = moment().add(1, 'month');
     		$scope.page="create_supply";
-    		//alert("123")
+    		//popover("123")
   		}
   	}
   	$scope.changeToEmployee= function(){
@@ -325,7 +347,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	                   }
 	                   ]];
 			$scope.model=[];
-	  		//alert(JSON.stringify($scope.regions));
+	  		//popover(JSON.stringify($scope.regions));
 	  		
 	  		for (var i=0; i<$scope.regions.length;i++){
 	  			var container = {name:$scope.regions[i].name, id:$scope.regions[i].id, items: [], effectAllowed: 'all', copying:true};
@@ -416,7 +438,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	    }
 	
 	$scope.getIncomes=function(){
-		//alert("234");
+		//popover("234");
 		
 		maxDate = new Date("9999-12-31");
 		minDate = new Date("1000-01-01");
@@ -427,7 +449,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		begin=formatDate($scope.income.from_date);
 		end = formatDate($scope.income.to_date);
 		seend={"begin":begin, "end":end,"r":$scope.manager.restaurant};
-		//alert(typeof begin);
+		//popover(typeof begin);
 
 		
 		
@@ -443,7 +465,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	    			}
 	    			$scope.incomes_show=true;
 	    		});
-		//alert("mit syorakozik?");	
+		//popover("mit syorakozik?");	
 	}
 	
 	$scope.changeToIncomesWaiters=function(){
@@ -480,18 +502,18 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	
   	$scope.createEmployee= function(){
   		if ($scope.manager.restaurant!=null){
-  			//alert($scope.selected);
+  			//popover($scope.selected);
   			$scope.employee.type=$scope.selected.value;
 	  		$scope.employee.password="pass";
 	  		$scope.employee.numbC= Number($scope.employee.numbC);
 			$scope.employee.numbS= Number($scope.employee.numbS);
-	  		//alert(JSON.stringify($scope.employee));
+	  		//popover(JSON.stringify($scope.employee));
 	  		$http.post("http://localhost:8080/api/manager/createEmployee",{"e":$scope.employee, "r":$scope.manager.restaurant}).success(
 					function(data){
 						$route.reload();
 					}).error(
 							function(data){
-								alert("Email address is used.");
+								popover("Email address is used.");
 							});
   		}
   	}
@@ -499,13 +521,13 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	$scope.createSupplier= function(){
 		$scope.supplier.password="pass";
 		
-  		//alert(JSON.stringify($scope.supplier));
+  		//popover(JSON.stringify($scope.supplier));
   		$http.post("http://localhost:8080/api/manager/createSupplier",{"s":$scope.supplier, "r":$scope.manager.restaurant}).success(
 				function(data){
 					$route.reload();
 				}).error(
 					function(data){
-						alert("Email address is used.");
+						popover("Email address is used.");
 					});
   	}
 	
@@ -513,7 +535,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		if ($scope.manager.restaurant.menu!=null){
 			for (var i=0; i<$scope.manager.restaurant.menu.items.length;i++){
 				if ($scope.manager.restaurant.menu.items[i].food.name==$scope.menuitem.food.name){
-					alert("Food with this name is exist.");
+					popover("Food with this name is exist.");
 					return;
 				}
 			}
@@ -527,18 +549,18 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		$http.post("http://localhost:8080/api/manager/addMenuItem", {"m":menu, "r":$scope.manager.restaurant}).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
-			//alert("error");
+			//popover("error");
 		});	
 	}
 	
 
 	
 	$scope.createNewDrinkItem= function(){
-		//alert("drink");
+		//popover("drink");
 		if ($scope.manager.restaurant.drinkMenu!=null){
 			for (var i=0; i<$scope.manager.restaurant.drinkMenu.items.length;i++){
 				if ($scope.manager.restaurant.drinkMenu.items[i].drink.name==$scope.drinkmenuitem.drink.name){
-					alert("Drink with this name is exist.");
+					popover("Drink with this name is exist.");
 					return;
 				}
 			}
@@ -552,7 +574,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		$http.post("http://localhost:8080/api/manager/addDrinkMenuItem", {"d":drinkmenu, "r":$scope.manager.restaurant}).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
-			//alert("error");
+			//popover("error");
 		});	
 	}
 	
@@ -564,20 +586,20 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 			}
 		}
 		if (x>1){
-			alert("Food with this name is exist.");
+			popover("Food with this name is exist.");
 			return;
 		}
 		menu= $scope.manager.restaurant.menu;
 		//delete menu.$$hashKey;
-		//alert(JSON.stringify(menu));
+		//popover(JSON.stringify(menu));
 		menu.items= [$scope.menuUpdate];
 		
 		menu.dateUpdate=new Date();
-		//alert(JSON.stringify(menu));
+		//popover(JSON.stringify(menu));
 		$http.post("http://localhost:8080/api/manager/updateMenu", menu).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
-			//alert("error");
+			//popover("error");
 		});	
 	}
 	
@@ -590,31 +612,31 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 			}
 		}
 		if (x>1){
-			alert("Drink with this name is exist.");
+			popover("Drink with this name is exist.");
 			return;
 		}
-		//alert(JSON.stringify($scope.manager.restaurant.drinkMenu));
+		//popover(JSON.stringify($scope.manager.restaurant.drinkMenu));
 		drink_menu= $scope.manager.restaurant.drinkMenu;
 		//delete menu.$$hashKey;
-		//alert(JSON.stringify(drink_menu));
+		//popover(JSON.stringify(drink_menu));
 		drink_menu.items= [$scope.drinkMenuUpdate];
 		drink_menu.dateUpdate=new Date();
-		//alert(JSON.stringify(drink_menu));
+		//popover(JSON.stringify(drink_menu));
 		$http.post("http://localhost:8080/api/manager/updateDrinkMenu", drink_menu).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
-			//alert("error");
+			//popover("error");
 		});	
 	}
 	
 	$scope.deleteMenuItem= function(i){
 		var result = confirm("Want to delete?");
 		if (result) {
-			//alert(JSON.stringify(i));
+			//popover(JSON.stringify(i));
 			$http.post("http://localhost:8080/api/manager/deleteMenuItem", i).success(function(data) {
 				$route.reload();
 			}).error(function(data) {
-				alert("This item is reservated. You can't delete it.");
+				popover("This item is reservated. You can't delete it.");
 			});
 		}
 			
@@ -623,18 +645,18 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	$scope.deleteDrinkMenuItem= function(i){
 		var result = confirm("Want to delete?");
 		if (result) {
-			//alert(JSON.stringify(i));
+			//popover(JSON.stringify(i));
 			$http.post("http://localhost:8080/api/manager/deleteDrinkMenuItem", i).success(function(data) {
 				$route.reload();
 			}).error(function(data) {
-				alert("This item is reservated. You can't delete it.");
+				popover("This item is reservated. You can't delete it.");
 			});
 		}
 			
 	}
 	
 	$scope.deleteRegion= function(reg){
-		//alert(JSON.stringify(reg));
+		//popover(JSON.stringify(reg));
 		var result = confirm("Want to delete?");
 		if (result) {
 			region=null;
@@ -646,7 +668,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 			
 			
 			$http.post("http://localhost:8080/api/manager/deleteRegion", region).error(function(data) {
-				alert("Error! In the region, there are tables which are reservated.");
+				popover("Error! In the region, there are tables which are reservated.");
 			}).then(function(data) {
 				
 				for (var i=0; i< $scope.model.length;i++){
@@ -700,26 +722,26 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   				}
   			}
   		}
-		//alert(region[0].name);
+		//popover(region[0].name);
 		
-		//alert(JSON.stringify($scope.regions));
+		//popover(JSON.stringify($scope.regions));
 		for (var i=0; i<$scope.regions.length;i++){
-			//alert($scope.regions[i].name);
+			//popover($scope.regions[i].name);
   			if ($scope.regions[i].name == region[0].name){
-  					//alert("Mi a francot szorakozik???");
+  					//popover("Mi a francot szorakozik???");
   	  				region_send= $scope.regions[i];
   			}
   		}
-		//alert("r2: "+JSON.stringify(region_send));
+		//popover("r2: "+JSON.stringify(region_send));
 		table={"number":label,"numberOfChairs": numb, "restaurant":$scope.manager.restaurant, "region":region_send};
 		$http.post("http://localhost:8080/api/manager/newTable", {"t":table, "r":region_send}).then(function(data){
-			//alert("atment");											
+			//popover("atment");											
 		});
 		
     }
     
     function move(label){
-    	//alert("move table");
+    	//popover("move table");
     	region=null;
     	old_r=null;
     	new_r=null;    	
@@ -733,16 +755,16 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   				}
   			}
   		}
-		//alert(JSON.stringify(region));
+		//popover(JSON.stringify(region));
 		table={"number":label,"numberOfChairs": numb, "restaurant":$scope.manager.restaurant};
 		new_r={"id":region[0].id,"name":region[0].name, "restaurant":$scope.manager.restaurant};
-		//alert(JSON.stringify(new_r));
+		//popover(JSON.stringify(new_r));
 		$http.post("http://localhost:8080/api/manager/updateTable",{"t":table, "r":new_r}).error(function(data){
-			//alert("error");
+			//popover("error");
 		});
 		$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
 			$scope.regions=data.data;		
-			//alert("ds");
+			//popover("ds");
 		});
     }
     
@@ -782,16 +804,16 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	  				}
 	  			}
 	  		}	
-			//alert(JSON.stringify(region.name));
+			//popover(JSON.stringify(region.name));
 			for (var i=0; i<$scope.model.length;i++){
 	  			if ($scope.model[i][0].name== region.name){
 	  				$scope.model[i][0].items.push(item);
 	  			}
 	  		}
-			alert("This table is reserved.");
+			popover("This table is reserved.");
 			
 		}).then(function(data){
-			//alert("success");											
+			//popover("success");											
 		});
     }
     
@@ -804,7 +826,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     	for (var i=0; i<$scope.model.length;i++){
   			for (var j=0; j<$scope.model[i][0].items.length;j++){
   				if (typeof $scope.model[i][0].items[j].label === "number"){
-  					//alert("ah");
+  					//popover("ah");
   					l.push($scope.model[i][0].items[j].label);
   				}
   			}
@@ -841,14 +863,14 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 
     	
     	if ($scope.supply.from_date>$scope.supply.to_date ){
-    		alert("Finish date is before start date.");
+    		popover("Finish date is before start date.");
     		return;
     	}
-    	//alert(JSON.stringify($scope.supply));
+    	//popover(JSON.stringify($scope.supply));
     	$http.post("http://localhost:8080/api/manager/addSupply", $scope.supply).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
-			//alert("error");
+			//popover("error");
 		});	
     	
     }
@@ -868,13 +890,13 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
       }
       
       $scope.chooseOffer=function(o){
-    	  	//alert(o);
+    	  	//popover(o);
     	  	$http.post("http://localhost:8080/api/manager/chooseOffer",{"o":o, "s": $scope.supply}).success(
     				function(data){
     					$route.reload();
     			}).error(
     				function(data){
-    					//alert("error");
+    					//popover("error");
     			}).then(
     				function(data){
     					$route.reload();

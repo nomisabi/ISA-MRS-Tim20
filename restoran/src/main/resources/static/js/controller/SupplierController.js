@@ -15,6 +15,29 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 	$scope.price=1;
 	$scope.updateOff=false; 
 	
+	function popover(tekst) {
+		var unique_id = $.gritter.add({
+            // (string | mandatory) the heading of the notification
+            title: 'Notification',
+            // (string | mandatory) the text inside the notification
+            text: tekst,
+            // (string | optional) the image to display on the left
+            image: 'assets/img/ui-sam.jpg',
+            // (bool | optional) if you want it to fade out on its own or just sit there
+            sticky: false,
+            // (int | optional) the time you want it to be alive for before fading out
+            time: 5000,
+            // (string | optional) the class name you want to apply to that specific message
+            class_name: 'my-sticky-class'
+        });
+		$("#date-popover").popover({html: true, trigger: "manual"});
+        $("#date-popover").hide();
+        $("#date-popover").click(function (e) {
+            $(this).hide();
+        });
+		
+	}
+	
 	function init() {
 		$ocLazyLoad.load('assets/js/common-scripts.js');
 		$http.get("http://localhost:8080/api/users/login").success(
@@ -22,7 +45,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 					$http.post("http://localhost:8080/api/suppliers/login",data).success(
 							function(data){
 								$scope.supplier=data;
-								//alert(JSON.stringify(data));
+								//popover(JSON.stringify(data));
 								$http.post("http://localhost:8080/api/suppliers/restaurant",data).then(
 										function(data){
 											$scope.restaurants=data.data;
@@ -59,7 +82,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     	$http.post("http://localhost:8080/api/suppliers/update", $scope.supplier).success(function(data) {
     		$route.reload();
     	}).error(function(data) {
-    		alert("This email address is in our system");	
+    		popover("This email address is in our system");	
     		$route.reload();
     	});
     }
@@ -68,15 +91,15 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     	if ($scope.pw1==$scope.pw2){
     		$scope.login= $scope.supplier;
     		$scope.login.password=$scope.pw1;
-    		//alert("iit vok");
-    		//alert(JSON.stringify($scope.login));
+    		//popover("iit vok");
+    		//popover(JSON.stringify($scope.login));
     		$http.post("http://localhost:8080/api/suppliers/changePass",$scope.login).success(
 					function(data){
-						//alert("success");
+						//popover("success");
 						$route.reload();
 					});
     	} else {
-    		alert("Passwords don't equals");
+    		popover("Passwords don't equals");
     		}
     }
 
@@ -88,13 +111,13 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     
     $scope.updateOffer=function(s){
 		offer={"id":$scope.mine.id,"supplier":$scope.supplier, "status":"WAITING" , "price":$scope.updatePrice, "quality": $scope.updateRating.rating};
-  		//alert(JSON.stringify(s));
+  		//popover(JSON.stringify(s));
 		$http.post("http://localhost:8080/api/suppliers/updateOffer",{"o":offer,"s":s}).success(
 				function(data){
 					$route.reload();
 				}).error(
 						function(data){
-							alert("error");
+							popover("error");
 						}).then(
 								function(data){
 									$route.reload();
@@ -103,7 +126,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     }
     
     $scope.changeToUpdateOffer= function(){
-    	//alert("haho");
+    	//popover("haho");
     	$scope.updatePrice= $scope.mine.price;
     	$scope.updateRating={
     			title : 'Rating 3',
@@ -152,7 +175,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     	
     	var date =formatDate(new Date());
 		if (s.from_date>date){
-			alert("This supply is not started yet.");
+			popover("This supply is not started yet.");
 			return;
 		}
 		if (s.to_date<date ){
@@ -203,10 +226,10 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 					function(data){
 						for (var j=0;j<data.length;j++){
 							$scope.supp.push(data[j]);}
-						//alert("size"+data.length);
+						//popover("size"+data.length);
 					});
     	}
-    	//alert(JSON.stringify($scope.rest));
+    	//popover(JSON.stringify($scope.rest));
     	
     	if ($scope.supplier.active)
     		$scope.page="orders";   	
@@ -256,14 +279,14 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
   	}
   	
   	$scope.createOffer= function(){
-  		//alert($scope.price);
+  		//popover($scope.price);
   		offer={"supplier":$scope.supplier, "status":"WAITING" , "price":$scope.price, "quality": $scope.rating.rating};
   		$http.post("http://localhost:8080/api/manager/createOffer",{"o":offer, "s": $scope.supply}).success(
 				function(data){
 					$route.reload();
 				}).error(
 						function(data){
-							alert("error");
+							popover("error");
 						}).then(
 								function(data){
 									$route.reload();
