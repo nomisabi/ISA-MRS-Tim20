@@ -131,4 +131,27 @@ public class GuestRepositoryIntegrationTests {
 
 	}
 	
+	@Test
+	public void setRegistrationAccept() {
+		repository.setRegistrationAccept(guest.getId());
+		Guest find = repository.findOne(guest.getId());
+		assertEquals(true, find.isAccepted());
+
+	}
+	
+	@Test
+	public void findByGuestAndFriendId() {
+		Friendship find = friendshipRepository.findByGuestAndFriendId(guest.getId(), friend.getId());
+		assertNotNull(find);
+
+	}
+	
+	@Test
+	public void confirmFriendship() {
+		friendshipRepository.confirmFriendship(guest.getId(), friend.getId());
+		Friendship find = friendshipRepository.findByGuestAndFriendId(guest.getId(), friend.getId());
+		assertEquals(true, find.isRequestAccepted());
+
+	}
+	
 }

@@ -29,7 +29,7 @@ public class TableOfRestaurantServiceImp implements TableOfRestaurantService {
 	
 	@Override
 	public Collection<TableOfRestaurant> getAllTableOfRestaurant(Long id){
-		return repository.getRequests(id);
+		return repository.getTableOfRestaurant(id);
 	}
 	
 	@Override

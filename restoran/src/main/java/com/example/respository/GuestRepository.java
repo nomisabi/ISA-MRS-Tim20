@@ -21,6 +21,9 @@ public interface GuestRepository extends JpaRepository<Guest, Long> {
 
 	@Query("SELECT Object(g) FROM Guest g WHERE g.email = ?1 AND g.password = ?2")
 	public Guest findByEmailAndPass(String email, String password);
+	
+	@Query("SELECT Object(g) FROM Guest g WHERE g.email = ?1")
+	public Guest findByEmail(String email);
 
 	@Query("SELECT Object(g) FROM Guest g WHERE g.id != ?1 AND "
 			+ "g.id NOT IN (SELECT f.guest.id FROM Friendship f WHERE f.idFriend = ?1) AND "

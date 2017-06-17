@@ -119,6 +119,11 @@ public class GuestController {
 	public ResponseEntity<Guest> createGuest(@Valid @RequestBody GuestRegister guest) throws Exception {
 		logger.info("> createGuest");
 		System.out.println(guest);
+		
+		if (guestService.findByEmail(guest.getEmail()) != null){
+			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
+		}
+		
 		if (guest.getPassword().equals(guest.getPassword2())) {
 			Guest g = new Guest(guest.getEmail(), guest.getPassword(), guest.getFirstName(), guest.getLastName());
 			Guest savedGuest = guestService.addGuest(g);

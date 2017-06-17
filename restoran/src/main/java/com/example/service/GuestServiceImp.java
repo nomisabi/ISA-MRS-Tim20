@@ -95,6 +95,11 @@ public class GuestServiceImp implements GuestService {
 	public Guest findByEmailAndPass(String email, String password) {
 		return guestRepository.findByEmailAndPass(email, password);
 	}
+	
+	@Override
+	public Guest findByEmail(String email) {
+		return guestRepository.findByEmail(email);
+	}
 
 	@Override
 	public Collection<Guest> searchGuest(Long id, String search) {
