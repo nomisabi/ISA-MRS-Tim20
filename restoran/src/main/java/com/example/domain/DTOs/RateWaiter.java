@@ -5,6 +5,7 @@ public class RateWaiter {
 	private String firstName;
 	private String lastName;
 	private double rate;
+	
 	public String getFirstName() {
 		return firstName;
 	}
