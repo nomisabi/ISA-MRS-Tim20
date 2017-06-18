@@ -780,7 +780,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 				 }
 	     ).error(
 	    		 function(data){
-	    			 //alert("error");
+	    			 $scope.changeToViewReservation($scope.savedReservation.id);
+	    			 popover("There is less than 30 minutes to the reservation. You can't change order.");
 	    		 }
 	     ); 
     }

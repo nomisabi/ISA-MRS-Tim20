@@ -129,7 +129,8 @@
       <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
-          	<div class="row" ng-switch="page">
+          	<div class="row mt" ng-switch="page">
+          	
           		
           		<!-- PROFILE -->
           		<div ng-switch-when="profile">
@@ -139,7 +140,7 @@
 					<div class="row mt">
 						<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
 							<div class="form-panel">
-								<h4 class="mb"><i class="fa fa-angle-right"></i> Profile </h4>
+								<h4 class="mb"><i class="fa fa-angle-right"></i> Profile  </h4>
 								<hr>
 								<form class="form-horizontal style-form" name="myForm">
 									<div class="form-group">
@@ -178,6 +179,12 @@
 										</div>
 									</div>
 									<div class="form-group">
+												<a style="margin-left: 2%;" class="col-sm-10"   ng-click="changeToChangePass()">
+								                    	Change password
+								                		</a>
+																
+											</div>
+									<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
 										<div class="col-sm-10">
 											<button style="float: right; margin-right: 5%;" class="btn btn-theme" ng-disabled="(myForm.$pristine == true || myForm.$invalid == true)" type="button" ng-click="save()">Save</button>
@@ -189,6 +196,62 @@
 					</div><!-- /row -->
 				</div><!-- END PROFILE -->
 				
+				
+				<div ng-switch-when="pass">
+					<div class="row mt">
+						<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
+							<div class="form-panel">
+								<h4 class="mb"><i class="fa fa-angle-right"></i> Change password </h4>
+								<hr>
+								<form class="form-horizontal style-form" name="myForm">
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label"> Current password </label>
+										<div class="col-sm-10">
+											<input type="password" ng-model="oldPass" name="oldPass" class="form-control" placeholder="Enter your current password" required="required">
+											<div class="has-error" ng-show="myForm.oldPass.$dirty">
+												<span ng-show="myForm.oldPass.$error.required">This is a required field</span>
+												
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label"> New password </label>
+										<div class="col-sm-10">
+											<input type="password" ng-model="newPass" class="form-control" 
+												placeholder="Enter new password" name="newPass"
+												required="required" ng-minlength="6">
+											<div class="has-error" ng-show="myForm.newPass.$dirty">
+												<span ng-show="myForm.newPass.$error.required">This is a required field</span>
+												<span ng-show="myForm.newPass.$error.minlength">Minimum length required is 6</span>
+											</div>
+										</div>
+										<br>
+										<br>
+										<br>
+										<label class="col-sm-2 col-sm-2 control-label"> Repeat password</label>
+										<div class="col-sm-10">
+											<input type="password" ng-model="repeatPass" class="form-control" 
+												placeholder="Repeat new password" name="repeatPass"
+												required="required" compare-to="newPass" ng-minlength="6">
+											<div class="has-error" ng-show="myForm.repeatPass.$dirty">
+												<span ng-show="myForm.repeatPass.$error.required">This is a required field</span>
+												<span ng-show="myForm.repeatPass.$error.minlength">Minimum length required is 6</span>
+												<span ng-show="myForm.repeatPass.$error.compareTo && !myForm.repeatPass.$error.minlength">Passwords don't match</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+										<div class="col-sm-10">
+											<button style="float: right; margin-right: 5%;" class="btn btn-theme" ng-disabled="(myForm.$pristine == true || myForm.$invalid == true)" type="button" ng-click="changePass(newPass, repeatPass, oldPass)">Change</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div><!-- col-lg-12-->      	
+					</div><!-- /row -->
+				</div><!-- CHANGE PASSWORD -->
+				
 				<!-- ADD FRIEND -->
 				<div ng-switch-when="friend">
 				<div class="row mt">
@@ -198,9 +261,9 @@
                   	  <hr>
                       <form class="form-inline"  ng-submit="searchUsers(search)" name="myForm">
                           <div class="form-group">
-                              <input type="text" ng-model="search" name="search"  class="form-control" style="width: 300px;"  placeholder="Enter first or last name" required="required">
+                              <input type="text" ng-model="search" name="search"  class="form-control" 
+                                     style="width: 100%;"  placeholder="Enter first or last name" required="required">
                           </div>
-                          
                           <button type="submit" class="btn btn-theme" ng-disabled="myForm.$invalid" value="Search">Search</button>
                       </form>
           			</div><!-- /form-panel -->
@@ -246,205 +309,435 @@
           	
           	<!-- FRIENDS -->
           	<div ng-switch-when="friends">
-          		<div class="row mt">
-          			<div class="col-md-12" style="width: 80%; margin-left: 5%;">
-          				<div class="content-panel">
-          					<h4><i class="fa fa-angle-right"></i> Friends:</h4>
-          					<hr>
-          					<table class="table table-striped table-advance table-hover" ng-hide="friends.length == 0">	
-          						<thead>
-          							<tr>
-          								<th  ng-click="orderByMe('firstName')" > First Name 
-          									<span ng-show="(myOrder === 'firstName') && (reverse == false)"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></span>
-          									<span ng-show="(myOrder === 'firstName') && (reverse == true)"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></span> 
-          								</th>
-          								<th  ng-click="orderByMe('lastName')" > Last Name
-          									<span ng-show="(myOrder === 'lastName') && (reverse == false)"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></span>
-          									<span ng-show="(myOrder === 'lastName') && (reverse == true)"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></span>  
-          								</th>
-          								<th> Delete friend</th>
-          							</tr>
-          						</thead>
-          						<tbody>
-          							<tr ng-repeat="friend in friends| orderBy:myOrder:reverse">
-          								<td>{{friend.firstName}}</td>	
-          								<td>{{friend.lastName}} </td>
-          								<td>
-          									<a class="btn btn-danger"  ng-click="deleteFriend(friend.id)">
-          									<i class="fa fa-trash-o fa-lg"></i> 
-          									<span> Delete</span>
-          									</a>
-          								</td>
-          							</tr>
-          						</tbody>
-          					</table>
-          				</div><!-- /content-panel -->
-          			</div><!-- /col-md-12 -->
-          		</div><!-- /row -->
+          		<div class="col-lg-12">
+          			<h3><i class="fa fa-angle-right"></i> Friends
+          			
+          			<div class="btn-group" style="float: right; margin-right: 8%;">
+          			
+						  <button style="height: 34px;" type="button" class="btn btn-theme03">Sort</button>
+						  <button style="height: 34px;" type="button" class="btn btn-theme03 dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						    <span class="sr-only">Toggle Dropdown</span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a ng-click="orderByMe('firstName',false)"> <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i> First name  </a></li>
+						    <li ng-click="orderByMe('firstName',true)"><a> <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i> First name   </a></li>
+						    <li class="divider"></li>
+						    <li><a ng-click="orderByMe('lastName',false)"> <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i> Last name  </a></li>
+						     <li><a ng-click="orderByMe('lastName',true)"> <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i> Last name </a></li>
+						  </ul>
+						</div>  
+						
+          			</h3>
+          	    <hr>
+          	    
+          	    <form class="form-horizontal style-form" name="myForm"  ng-submit="searchFriends(search)">
+						<div style="float: right; margin-right: 20%;" class="input-group">
+												<span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+												<input style="width: 30%;" type="search" ng-model="search" 
+												       name="search" class="form-control"  
+													   placeholder="Enter first or last name" >
+											</div>
+											</form>
+											<br>
+											<br>
+											<br>
+          		<div class="col-md-4 mb" ng-repeat="friend in friends| orderBy:myOrder:reverse">
+          		 		
+							<!-- WHITE PANEL - TOP USER -->
+							<div class="white-panel pn">
+								<div class="white-header">
+								<h5><!-- <a style="float: right;" class="btn btn-danger"  ng-click="deleteFriend(friend.id)">
+          								<i class="fa fa-trash-o fa-4x" aria-hidden="true" style="color:white;"></i>
+          							</a>-->
+          							<button style="float: right;" class="btn btn-danger"  data-toggle="modal" data-target="#myModal">
+          								<i class="fa fa-trash-o fa-4x" aria-hidden="true" style="color:white;"></i>
+          							</button>
+          						</h5>
+								<hr>
+								</div>
+								<p><img src="assets/img/friends/fr-02.jpg" class="img-circle" width="80"></p>
+								<p style="font-size: x-large;"><b>{{friend.firstName + " "+friend.lastName  }}</b></p>
+								<div class="row">
+									<div class="col-md-6">
+										<p class="small mt"></p>
+										
+									</div>
+									<div class="col-md-6">
+										<p class="small mt"></p>
+										<p></p>
+									</div>
+								</div>
+							</div>
+							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						        <h4 class="modal-title" id="myModalLabel">Delete friend</h4>
+						      </div>
+						      <div class="modal-body">
+						        Do you want to delete a friend?
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+						        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deleteFriend(friend.id)">Yes</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>  
+						</div><!-- /col-md-4 -->       
+						</div>   	
+							
           	</div><!-- END FRIENDS -->
           	
-          	
+  
           	<!-- RESTAURANTS -->
-          	<div ng-switch-when="restaurants">
-          		<div class="row mt">
-          			<div class="col-md-12" style="width: 80%; margin-left: 5%;">
-          				<div class="content-panel">
-          					<h4><i class="fa fa-angle-right"></i> Restaurants:</h4>
-          					<hr>
-          					<table style="width: 100%" class="table table-striped table-advance table-hover" ng-hide="restaurants.length == 0">
-          						<thead>
-          							<tr>
-          								<th ng-click="orderByMe('name')" > Name
-          									<span ng-show="(myOrder === 'name') && (reverse == false)"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></span>
-          									<span ng-show="(myOrder === 'name') && (reverse == true)"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></span> 
-          								</th>
-          								<th ng-click="orderByMe('species')"> Species
-          									<span ng-show="(myOrder === 'species') && (reverse == false)"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></span>
-          									<span ng-show="(myOrder === 'species') && (reverse == true)"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></span>  
-          								</th>
-          								<th> Reserve </th>
-          							</tr>
-          						</thead>
-          						<tbody>
-          							<tr ng-repeat="restaurant in restaurants| orderBy:myOrder:reverse">
-          								<td>{{restaurant.name}}</td>
-          								<td> {{restaurant.species}}</td>
-          								<td>
-          									<a class="btn btn-default" ng-click="reserve(restaurant)">
-          									<i class="fa fa-plus" aria-hidden="true"></i>
-          									<span> Reserve restaurant </span>
-          									</a>
-          								</td>
-          							</tr>
-          						</tbody>
-          					</table>
-          				</div><!-- /content-panel -->
-          			</div><!-- /col-md-12 -->
-          		</div>
+          	<div ng-switch-when="restaurants" >
+          		<div class="col-lg-12">
+          			<h3><i class="fa fa-angle-right"></i> Restaurants
+          				<div class="btn-group" style="float: right; margin-right: 8%;">
+						  <button style="height: 34px;" type="button" class="btn btn-theme03">Sort</button>
+						  <button style="height: 34px;" type="button" class="btn btn-theme03 dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						    <span class="sr-only">Toggle Dropdown</span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a ng-click="orderByMe('distance',false)"> <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>  Distance  </a></li>
+						    <li class="divider"></li>
+						    <li><a ng-click="orderByMe('name',false)"> <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>  Name  </a></li>
+						    <li ng-click="orderByMe('name',true)"><a> <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>  Name   </a></li>
+						    <li class="divider"></li>
+						    <li><a ng-click="orderByMe('species',false)"> <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>  Species  </a></li>
+						    <li><a ng-click="orderByMe('species',true)"> <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>  Species </a></li>
+						     
+						  </ul>
+						</div>   
+          			</h3>
+          			<hr>
+          			<form class="form-horizontal style-form" name="myForm"  ng-submit="searchRestaurants(search)">
+						<div style="float: right; margin-right: 20%;" class="input-group">
+												<span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+												<input style="width: 30%;" type="search" ng-model="search" 
+												       name="search" class="form-control"  
+													   placeholder="Enter name or species">
+											</div>
+											</form>
+											<br>
+											<br>
+											<br>
+											
+          			<div  class="col-md-4 col-sm-4 mb" ng-repeat="restaurant in restaurants| orderBy:myOrder:reverse" >
+          				<div class="weather pn">
+							<!--  #797979-->
+							<a style="cursor: pointer;"  ng-click="changeToRestaurant(restaurant)">
+								<i style="color: white;" class="fa fa-cutlery fa-4x" aria-hidden="true"></i>
+							</a>
+							<a ng-click="changeToRestaurant(restaurant)">
+								<h2 style="color: #c6cad5;">{{restaurant.name}}</h2>
+							</a>
+							<span class="badge bg-important">{{restaurant.species}}</span>
+							<div class="row">
+								<div class="col-md-6">
+									<p class="small mt" style="color: white;">DISTANCE</p>
+									<p style="color: white;">{{restaurant.distance + "km"}}</p>
+								</div>
+								<div class="col-md-6">
+									
+								</div>
+							</div>
+						</div>
+					</div><!-- /col-md-4-->
+          		</div>      	  	
           	</div><!-- END RESTAURANTS -->
+  
+          	
+          	<!-- RESTAURANT -->
+          	<div ng-switch-when="restaurant">
+          		<div class="row mt">
+          			<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
+						<div class="form-panel">
+							<h4 class="mb"><i class="fa fa-angle-right"></i> Restaurant
+								<a style="float: right;" class="btn btn-warning"  ng-click="reserve(restaurant)">
+          							<span> Reserve</span>
+          						</a> 
+          					</h4>
+							<hr>
+							<form class="form-horizontal style-form" name="myForm" >
+								<div class="form-group">
+									<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
+									<div class="col-lg-10">
+										<p class="form-control-static">{{restaurant.name}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 col-sm-2 control-label">Species</label>
+									<div class="col-lg-10">
+										<p class="form-control-static">{{restaurant.species}} </p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 col-sm-2 control-label">Location</label>
+									<div class="col-lg-10">
+										<p class="form-control-static">{{restaurant.location}} </p>
+									</div>
+								</div>
+								
+							</form>
+							<ng-map center={{string}} zoom="8">
+								<marker position={{string}} title="Hello World!"></marker>
+							</ng-map>
+																	 
+						</div>
+					</div>
+				</div>    	
+          	</div><!-- END RESTAURANT -->
+          	
           	
           	<!-- VISITED RESTAURANTS -->
           	<div ng-switch-when="home">
-          		<div class="row mt">
-          			<div class="col-md-12" style="width: 80%; margin-left: 5%;">
-          				<div class="content-panel">
-          					<h4><i class="fa fa-angle-right"></i> My visits:</h4>
-          					<hr>
-          					<table style="width: 100%" class="table table-striped table-advance table-hover" ng-hide="reservations.length == 0">
-          						<thead>
-          							<tr>
-          								<th ng-click="orderByMe('restaurant.name')"> Restaurant
-          									<span ng-show="(myOrder === 'restaurant.name') && (reverse == false)"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></span>
-          									<span ng-show="(myOrder === 'restaurant.name') && (reverse == true)"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></span>
-          								</th>
-          								<th ng-click="orderByMe('startTime')" > Date
-          									<span ng-show="(myOrder === 'startTime') && (reverse == true)"><i class="fa fa-sort-amount-desc" aria-hidden="true"></i></span>
-          									<span ng-show="(myOrder === 'startTime') && (reverse == false)"><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></span>
-          								</th>
-          								
-          							</tr>
-          						</thead>
-          						<tbody>
-          							<tr ng-click="changeToViewReservation(reservation.id)" ng-repeat="reservation in reservations| orderBy:myOrder:reverse">
-          								<td>{{reservation.restaurant.name}}</td>
-          								<td> {{reservation.startTime.slice(0,10)}}</td>
-          								
-          							</tr>
-          						</tbody>
-          					</table>
-          				</div><!-- /content-panel -->
-          			</div><!-- /col-md-12 -->
-          		</div>
+          		<div class="col-lg-12">
+          			<h3><i class="fa fa-angle-right"></i> My visits
+          				
+          			</h3>
+          	    	<hr>   				
+      				
+      				
+          			<div class="col-md-4 mb" ng-repeat="reservation in reservations| orderBy:myOrder:reverse">
+						<!-- WHITE PANEL - TOP USER -->
+						<div class="white-panel pn">
+							<div class="white-header">
+								<h5></h5>
+							</div>	
+							<p><img src="assets/img/res.png" class="img-circle" width="80"></p>
+							<p style="font-size: x-large;"><b>{{reservation.restaurant.name}}</b></p>
+							<div class="row">
+								<div class="col-md-6">
+									<p class="small mt">DATE</p>
+									<p>{{reservation.startTime.slice(0,10)}}</p>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-success" 
+											ng-click="changeToViewReservation(reservation.id)">Info
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div><!-- /col-md-4 -->       
           	</div><!-- END VISITED RESTAURANTS -->
+          	
           	
           	<!-- VIEW RESERVATION -->
           	<div ng-switch-when="view">
           		<div class="row mt">
-          				<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
-							<div class="form-panel">
-								<h4 class="mb"><i class="fa fa-angle-right"></i> Reservation 
-									<a style="float: right;" class="btn btn-danger"  ng-click="" ng-show="flag">
-          								<i class="fa fa-trash-o fa-lg"></i> 
-          								<span> Delete</span>
-          							</a> 
-          						</h4>
-								<hr>
-								<form class="form-horizontal style-form" name="myForm" ng-submit="reserveNext2()">
-									<div class="form-group">
-										<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
-										<div class="col-lg-10">
-											<p class="form-control-static">{{reservation.restaurant.name}}</p>
-										</div>
+          			<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
+						<div class="form-panel">
+							<h4 class="mb"><i class="fa fa-angle-right"></i> Reservation 
+								<span style="float: right;">
+								<a  class="btn btn-default"  
+									ng-click="rate()" ng-show="flagRate" >
+          							<span> Rate </span>
+          						</a>
+								<a  class="btn btn-default"  
+									ng-click="changeOrder()" ng-show="flag">
+          							<span> Change order</span>
+          						</a> 
+								
+								<a  class="btn btn-danger"  
+									ng-click="deleteReservation()" ng-show="flag">
+          							<span> Cancel reservation</span>
+          						</a> 
+          						</span>
+          					</h4>
+							<hr>
+							<form class="form-horizontal style-form" name="myForm">
+								<div class="form-group">
+									<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
+									<div class="col-lg-10">
+										<p class="form-control-static">{{reservation.restaurant.name}}</p>
 									</div>
-									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label">Start time</label>
-										<div class="col-lg-10">
-											<p class="form-control-static">{{reservation.startTime}} </p>
-										</div>
-										<br>
-										<br>
-										<br>
-										<label class="col-sm-2 col-sm-2 control-label">End time</label>
-										<div class="col-lg-10">
-											<p class="form-control-static">{{reservation.endTime}}</p>
-										</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 col-sm-2 control-label">Start time</label>
+									<div class="col-lg-10">
+										<p class="form-control-static">{{reservation.startTime}} </p>
 									</div>
-									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label"> Tables </label>
-										<div class="col-lg-10">
-											<p class="form-control-static"> <span ng-repeat="table in tables">{{table.number +  "  "}}</span> </p>
-										</div>
+									<br>
+									<br>
+									<br>
+									<label class="col-sm-2 col-sm-2 control-label">End time</label>
+									<div class="col-lg-10">
+										<p class="form-control-static">{{reservation.endTime}}</p>
 									</div>
-									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label"> Friends </label>
-										<div class="col-lg-10">
-											<p class="form-control-static"> <span ng-repeat="x in friends">{{x.firstName +  " " + x.lastName + "     " }}</span> </p>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 col-sm-2 control-label"> Tables </label>
+									<div class="col-lg-10">
+										<p class="form-control-static"> 
+											<span ng-repeat="table in tables">{{table.number +  "  "}}</span> 
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 col-sm-2 control-label"> Friends </label>
+									<div class="col-lg-10">
+										<p class="form-control-static"> 
+											<span ng-repeat="x in friends">{{x.firstName +  " " + x.lastName + "     " }}</span> 
+										</p>		
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 col-sm-2 control-label"> Food </label>
+									<div class="col-lg-10">
+										<table class="table table-striped table-advance table-hover">
+											<tr>
+												<th>Name</th>
+												<th>Price</th>
+												<th>Quantity</th>
+											</tr>
+											<tr ng-repeat="x in menuList">
+												<td>{{ x.menuItem.food.name}}</td>
+												<td>{{x.menuItem.price}}</td>	
+												<td>{{x.quantity}}</td>		
+											</tr>
+										</table>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 col-sm-2 control-label"> Drink </label>
+									<div class="col-lg-10">
+										<table class="table table-striped table-advance table-hover">
+											<tr>
+												<th>Name</th>
+												<th>Price</th>
+												<th>Quantity</th>
+											</tr>
+											<tr ng-repeat="x in drinkList">
+												<td>{{ x.drinkMenuItem.drink.name}}</td>
+												<td>{{x.drinkMenuItem.price}}</td>
+												<td>{{x.quantity}}</td>	
+											</tr>
+										</table>
+									</div>
+								</div>
+								<div class="form-group" ng-hide="rating.rating == 0">
+									<label class="col-sm-2 col-sm-2 control-label"> Rate restaurant </label>
+									<div class="col-lg-10">
+										<p class="form-control-static"> 
+											<span  class="list-unstyled">
+												<ng-rating ng-model="rating.rating"
+														   icon-class="rating.iconClass"
+														   editable="rating.editableRating"
+														   stars-count="rating.starsCount"
+														   based-on="rating.basedOn"
+														   show-grade=false>
+																		
+												</ng-rating>
+											</span>
 											
-										</div>
+										</p>
 									</div>
-									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label"> Food </label>
-										<div class="col-lg-10">
-											<table class="table table-striped table-advance table-hover">
-												<tr>
-													<th>Name</th>
-													<th>Price</th>
-													
-												</tr>
-												<tr ng-repeat="x in menuList">
-													<td>{{ x.food.name}}</td>
-													<td>{{x.price}}</td>
-													
-												</tr>
-											</table>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label"> Drink </label>
-										<div class="col-lg-10">
+								</div>
+								<div class="form-group" ng-hide="rating.rating == 0">
+									<label class="col-sm-2 col-sm-2 control-label"> Rate food </label>
+									<div class="col-lg-10">
+										<p class="form-control-static"> 
+											<span  class="list-unstyled">
+												<ng-rating ng-model="rateFood.rating"
+														   icon-class="rateFood.iconClass"
+														   editable="rateFood.editableRating"
+														   stars-count="rateFood.starsCount"
+														   based-on="rateFood.basedOn"
+														   show-grade=false>
+																		
+												</ng-rating>
+											</span>
 											
-											<table class="table table-striped table-advance table-hover">
-												<tr>
-													<th>Name</th>
-													<th>Price</th>
-													
-												</tr>
-												<tr ng-repeat="x in drinkList">
-													<td>{{ x.drink.name}}</td>
-													<td>{{x.price}}</td>
-													
-												</tr>
-											</table>
-										</div>
+										</p>
 									</div>
-									
-									
-								</form>
-							</div>
+								</div>
+							</form>
 						</div>
-					</div>    	
-          		
+					</div>
+				</div>    	
           	</div><!-- END VIEW RESERVATION -->
+          	
+          	<!-- VIEW RESERVATION -->
+          	<div ng-switch-when="rate">
+          		<div class="row mt">
+          			<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
+						<div class="form-panel">
+							<h4 class="mb"><i class="fa fa-angle-right"></i> Rating 
+								
+          					</h4>
+							<hr>
+							<form class="form-horizontal style-form" name="myForm" ng-submit="rateRestaurant()">
+								<div class="form-group">
+									<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
+									<div class="col-lg-10">
+										<p class="form-control-static">{{reservation.restaurant.name}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 col-sm-2 control-label">Start time</label>
+									<div class="col-lg-10">
+										<p class="form-control-static">{{reservation.startTime}} </p>
+									</div>
+									<br>
+									<br>
+									<br>
+									<label class="col-sm-2 col-sm-2 control-label">End time</label>
+									<div class="col-lg-10">
+										<p class="form-control-static">{{reservation.endTime}}</p>
+									</div>
+								</div>
+							
+								<div class="form-group">
+									<label class="col-lg-2 col-sm-2 control-label">Rate restaurant</label>
+									<div class="col-lg-10">
+										<p class="form-control-static"><span  class="list-unstyled">
+												<ng-rating ng-model="rating.rating"
+														   icon-class="rating.iconClass"
+														   editable="rating.editableRating"
+														   stars-count="rating.starsCount"
+														   based-on="rating.basedOn"
+														   show-grade=false>
+																		
+												</ng-rating>
+											</span></p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 col-sm-2 control-label">Rate food</label>
+									<div class="col-lg-10">
+										<p class="form-control-static"> <span  class="list-unstyled">
+												<ng-rating ng-model="rateFood.rating"
+														   icon-class="rateFood.iconClass"
+														   editable="rateFood.editableRating"
+														   stars-count="rateFood.starsCount"
+														   based-on="rateFood.basedOn"
+														   show-grade=false>
+																		
+												</ng-rating>
+											</span> </p>
+									</div>
+								</div>
+								<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+										<div class="col-sm-10">
+											<span style="float: right; margin-right: 5%;">
+											<input class="btn btn-default" type="submit" value="Rate" >
+											
+											</span>
+										</div>
+									</div>
+								
+							</form>
+						</div>
+					</div>
+				</div>    	
+          	</div><!-- END RATE-->
           	
           	
           	<!-- RESERVATION RESTAURANT HOME -->
@@ -454,7 +747,7 @@
 							<div class="form-panel">
 								<h4 class="mb"><i class="fa fa-angle-right"></i> Restaurant reservations </h4>
 								<hr>
-								<form class="form-horizontal style-form" name="myForm" ng-submit="reserveNext(duration,date)">
+								<form class="form-horizontal style-form" name="myForm" ng-submit="reserveNext(duration,dateTime)">
 									<div class="form-group">
 										<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
 										<div class="col-lg-10">
@@ -462,29 +755,30 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label">Date</label>
+										<label class="col-sm-2 col-sm-2 control-label">Date and time</label>
 										<div class="col-sm-10">
-											<ng-combo-date-picker  ng-model="date" ng-min-date="{{ min.toString() }}" ng-max-date="{{ max.toString() }}"></ng-combo-date-picker>
-										</div>
-										<br>
-										<br>
-										<br>
-										<label class="col-sm-2 col-sm-2 control-label">Time</label>
-										<div class="col-sm-10">
-											<input type="text"  dn-timepicker ng-model="time" max-time='12:00 pm' min-time='9:00 pm' time-format='h:mm a' step='60' required="required" />
+											<input mdc-datetime-picker style="width: 30%;" class="form-control" date="true" time="true" 
+											         type="text" 
+											         id="datetime"
+									                 show-todays-date
+									                 min-date="date"
+									                 max-date="maxDate"
+									                 ng-model="dateTime">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label"> Duration</label>
+										<label class="col-sm-2 col-sm-2 control-label"> Duration (hours)</label>
 										<div class="col-sm-10">
-											<input ng-model="duration" type="number" width="20px" min="1" max="12" required="required">  <span>   hour</span>
+											<input style="width: 15%;" ng-model="duration" type="number" class="form-control" 
+											       width="20px" min="1" max="12" required="required">  
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
 										<div class="col-sm-10">
 											<!--<button style="margin-left: 90%;" class="btn btn-theme" ng-disabled="(myForm.$pristine == true || myForm.$invalid == true)" type="button" ng-click="reserveNext(duration,date)">Next</button>-->
-										<input style="float: right; margin-right: 5%;"  class="btn btn-theme" type="submit" value="Next">
+											<input style="float: right; margin-right: 5%;" ng-disabled="myForm.$invalid"  
+											       class="btn btn-theme" type="submit" value="Next">
 										</div>
 									</div>
 								</form>
@@ -501,55 +795,73 @@
 							<div class="form-panel">
 								<h4 class="mb"><i class="fa fa-angle-right"></i> Restaurant reservations </h4>
 								<hr>
-								<form class="form-horizontal style-form" name="myForm" ng-submit="reserveNext2()">
+									<form class="form-horizontal style-form" name="myForm">
 									<div class="form-group">
 										<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
 										<div class="col-lg-10">
 											<p class="form-control-static">{{restaurant.name}}</p>
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label">Date</label>
+										<label class="col-sm-2 col-sm-2 control-label">Date and time</label>
 										<div class="col-lg-10">
-											<p class="form-control-static">{{dateStr}} </p>
+											<p class="form-control-static">{{dateTimeStr}} </p>
 										</div>
-										<br>
-										<br>
-										<br>
-										<label class="col-sm-2 col-sm-2 control-label">Time</label>
-										<div class="col-lg-10">
-											<p class="form-control-static">{{timeStr}}</p>
-										</div>
-									</div>
-									<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label"> Duration</label>
 										<div class="col-lg-10">
 											<p class="form-control-static">{{reservation.duration}}  &nbsp; hour</p>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 col-sm-2 control-label"> </label>
-										<div class="col-lg-10">
-											<ul>
-		           						<li ng-repeat="x in tables">
-		           						{{'Table number: ' + x.tableOfRestaurant.number + ', chairs: ' + x.tableOfRestaurant.numberOfChairs }} &nbsp;
-		           						<input type="checkbox" ng-click="klik(x.tableOfRestaurant)" ng-hide="x.reserved">
-		           						</li>
-		           					</ul>
-										</div>
-									</div>
-									<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
 										<div class="col-sm-10">
-											<input style="float: right; margin-right: 5%;"  class="btn btn-theme" type="submit" value="Reserve">
+											<span style="float: right; margin-right: 5%;">
+											<input class="btn btn-default" type="button" value="Back" ng-click="reserve(restaurant)">
+											<input class="btn btn-theme" type="button" value="Reserve" ng-click="reserveNext2()">
+											</span>
 										</div>
 									</div>
-									
-								</form>
+									</form>
 							</div>
+							<br>
+							<br><br>
+									
+							<div class="advancedDemo row">
+									<div ng-repeat="containers in model" class="col-md-6">
+											<div class="dropzone box box-yellow">
+													<ul dnd-list="containers"
+										    			dnd-allowed-types="['container']"
+										    			>		
+														<li ng-repeat="container in containers"
+															dnd-type="'container'">
+															<div class="white-panel pn donut-chart">
+															<div class="white-header">
+																<h3>{{container.name}}</h3>
+															</div>
+															<div class="container-element box box-blue" >		
+																<ul dnd-list="container.items"
+										                			class="itemlist">
+										                			<li ng-repeat="item in container.items"
+										                			    class="blaa"
+										                    			dnd-type="'item'"
+										                    			dnd-draggable="getSelectedItemsIncluding(list, item)"
+										                    			dnd-dragend="container.dragging = false"
+										                    			dnd-selected="klik(item)"
+										                    			ng-class="{'selected': item.selected, 'reserved':item.reserved}"
+										                    			>
+										                  				{{item.label}}
+										                    			<p style="font-size:20px;">{{item.numberOfChairs}}</p>
+										               				 </li>
+										            			</ul>
+															</div>
+															</div>
+										        		</li>
+													</ul>
+							        			</div>	  
+												</div>	  
+											</div>
 						</div>
 					</div>    	
 				</div><!-- END RESERVATION RESTAURANT -->
+				
 				
 				<!-- ORDERING FOOD AND DRINKS -->
           		<div ng-switch-when="reserve4">
@@ -572,17 +884,22 @@
 												<tr>
 													<th>Name</th>
 													<th>Price</th>
-													<th>Choose</th>
+													<th>Quantity</th>
+													<th>&nbsp;</th>
 												</tr>
-												<tr ng-repeat="x in restaurant.menu.items">
-													<td>{{ x.food.name}}</td>
-													<td>{{x.price}}</td>
-													<td><input type="checkbox" ng-click="addToMenuList(x)" ></td>
+												<tr ng-repeat="x in menuList">
+													<td>{{ x.item.food.name}}</td>
+													<td>{{ x.price }}</td>
+													<td>{{x.quantity}}</td>
+													<td><a class="btn btn-default" ng-click="addMenu(x.item.id)">
+													<i class="fa fa-plus" aria-hidden="true"></i>
+													</a>
+													&nbsp;
+													<a class="btn btn-default" ng-click="deleteMenu(x.item.id)" ng-hide="x.quantity == 0">
+													<i class="fa fa-minus" aria-hidden="true"></i>
+													</a>
 												</tr>
-											
 											</table>
-											
-											
 										</div>
 									</div>
 									<div class="form-group">
@@ -592,12 +909,21 @@
 												<tr>
 													<th>Name</th>
 													<th>Price</th>
-													<th>Choose</th>
+													<th>Quantity</th>
+													<th>&nbsp;</th>
 												</tr>
-												<tr ng-repeat="x in restaurant.drinkMenu.items">
-													<td>{{ x.drink.name}}</td>
-													<td>{{x.price}}</td>
-													<td><input type="checkbox" ng-click="addToDrinkList(x)" ></td>
+												<tr ng-repeat="x in drinkList">
+													<td>{{ x.item.drink.name}}</td>
+													<td>{{ x.price }}</td>
+													<td>{{x.quantity}}</td>
+													<td><a class="btn btn-default" ng-click="addDrink(x.item.id)">
+													<i class="fa fa-plus" aria-hidden="true"></i>
+													</a>
+													&nbsp;
+													<a class="btn btn-default" ng-click="deleteDrink(x.item.id)" ng-hide="x.quantity == 0">
+													<i class="fa fa-minus" aria-hidden="true"></i>
+													</a>
+													
 												</tr>
 											</table>
 										</div>
@@ -623,6 +949,92 @@
 					</div><!-- /row -->
 				</div><!-- END ORDERING FOOD AND DRINK -->
 				
+				<!-- CHANGE ORDER -->
+          		<div ng-switch-when="changeOrder">
+          			<div class="row mt">
+          				<div style="width: 70%; margin-left: 5%; " class="col-lg-12">
+							<div class="form-panel">
+								<h4 class="mb"><i class="fa fa-angle-right"></i> Change order </h4>
+								<hr>
+								<form class="form-horizontal style-form" name="myForm" ng-submit="changeOrder2()">
+									<div class="form-group">
+										<label class="col-lg-2 col-sm-2 control-label">Restaurant</label>
+										<div class="col-lg-10">
+											<p class="form-control-static">{{restaurant.name}}</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 col-sm-2 control-label">Menu</label>
+										<div class="col-lg-10">
+											<table class="table table-striped table-advance table-hover">
+												<tr>
+													<th>Name</th>
+													<th>Price</th>
+													<th>Quantity</th>
+													<th>&nbsp;</th>
+												</tr>
+												<tr ng-repeat="x in menuList">
+													<td>{{ x.menuItem.food.name}}</td>
+													<td>{{ x.menuItem.price }}</td>
+													<td>{{x.quantity}}</td>
+													<td><a class="btn btn-default" ng-click="changeMenu(x.menuItem.id)">
+													<i class="fa fa-plus" aria-hidden="true"></i>
+													</a>
+													&nbsp;
+													<a class="btn btn-default" ng-click="changeMenud(x.menuItem.id)" ng-hide="x.quantity == 0">
+													<i class="fa fa-minus" aria-hidden="true"></i>
+													</a>
+												</tr>
+											</table>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 col-sm-2 control-label">Drink</label>
+										<div class="col-lg-10">
+											<table class="table table-striped table-advance table-hover">
+												<tr>
+													<th>Name</th>
+													<th>Price</th>
+													<th>Quantity</th>
+													<th>&nbsp;</th>
+												</tr>
+												<tr ng-repeat="x in drinkList">
+													<td>{{ x.drinkMenuItem.drink.name}}</td>
+													<td>{{ x.drinkMenuItem.price }}</td>
+													<td>{{x.quantity}}</td>
+													<td><a class="btn btn-default" ng-click="changeDrink(x.drinkMenuItem.id)">
+													<i class="fa fa-plus" aria-hidden="true"></i>
+													</a>
+													&nbsp;
+													<a class="btn btn-default" ng-click="changeDrinkd(x.drinkMenuItem.id)" ng-hide="x.quantity == 0">
+													<i class="fa fa-minus" aria-hidden="true"></i>
+													</a>
+													
+												</tr>
+											</table>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 col-sm-2 control-label">Prepared</label>
+											<div class="col-sm-6">
+												<div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+												<input type="checkbox" ng-click="choosePrepared()" />
+											</div>
+										</div>
+									</div>
+									
+          							<div class="form-group">
+										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+										<div class="col-sm-10">
+											<input style="float: right; margin-right: 5%;"  class="btn btn-theme" type="submit" value="Save" >
+										</div>
+									</div>
+          						</form>
+							</div>
+						</div><!-- col-lg-12-->      	
+					</div><!-- /row -->
+				</div><!-- END CHANGE ORDER -->
+				
 				
 				<!-- INVITE FRIENDS -->
 				<div ng-switch-when="reserve3">
@@ -642,27 +1054,23 @@
 									<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label"> Table</label>
 										<div class="col-lg-10">
-											<p class="form-control-static"> <span ng-repeat="table in tableNum">{{table.number +  "  "}}</span> </p>
+											<p class="form-control-static"> <span ng-repeat="table in tableNum">{{table.label +  "  "}}</span> </p>
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-lg-10">
-											<table>
-												<tr>
-                          							<td>
-                          								<div class="input-group margin-bottom-sm">
-                          								<span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-
-                          							<input type="text" ng-model="search" name="search"  class="form-control"  placeholder="Enter first or last Name" required="required">
-                          							</div>
-                          							</td>
-                          						
-                          						</tr>
-                          					</table>
+										<label class="col-sm-2 col-sm-2 control-label"> Search friends</label>
+										<div class="col-lg-10">                          							
+											<div class="input-group margin-bottom-sm">
+												<span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+												<input style="width: 60%;" type="text" ng-model="search" 
+												       name="search" class="form-control"  
+													   placeholder="Enter first or last name" required="required">
+											</div>
                           				</div>
 									</div>
 									
-									<table style="width: 50%;" class="table table-striped table-advance table-hover" ng-hide="friends.length == 0">	
+									<table style="width: 50%;" class="table table-striped table-advance table-hover" 
+										   ng-hide="friends.length == 0">	
 										<thead>
 											<tr>
           										<th> Friend Name </th>
@@ -679,17 +1087,16 @@
           							<div class="form-group">
 										<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
 										<div class="col-sm-10">
-											<input style="float: right; margin-right: 5%;"  class="btn btn-theme" type="button" value="Next" ng-click="reserveNext3()">
-										</div>
-										
+											<input style="float: right; margin-right: 5%;"  class="btn btn-theme" 
+											       type="button" value="Next" ng-click="reserveNext3()">
+										</div>									
 									</div>
           						</form>
 							</div>
 						</div>
 					</div>
 					</div>
-					
-				</div><!-- END INVITE FRIENDS -->
+				<!-- END INVITE FRIENDS -->
 				
 				
 				
@@ -743,12 +1150,10 @@
 						</div>
 					</div>    	
 				</div><!-- END INVITE CONFIRM -->
-				
-		           
-					
-			
+			</div>
 			</section>
       </section><!-- /MAIN CONTENT -->
+      
   </section>  
   
   
