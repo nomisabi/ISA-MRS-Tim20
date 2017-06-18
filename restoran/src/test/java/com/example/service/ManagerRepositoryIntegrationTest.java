@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.domain.Manager;
+import com.example.domain.Offer;
 import com.example.domain.Restaurant;
 import com.example.domain.System_manager;
 import com.example.respository.ManagerRepository;
@@ -32,7 +33,7 @@ public class ManagerRepositoryIntegrationTest {
 	RestaurantRepository restRepository;
 
 	Manager m;
-	//Restaurant r;
+	Restaurant r;
 
 	@Before
 	public void setUp() {
@@ -40,11 +41,14 @@ public class ManagerRepositoryIntegrationTest {
 		m = new Manager("a@a.a","pass","a", "a");
 		m.setActive(false);		
 		m = repository.save(m);
-		//r= new Restaurant("name", "lok");
-		//Set<Manager> man =  r.getManager();
-		//man.add(m);
-		//r.setManager(man);
-		//restRepository.save(r);
+		r= new Restaurant();
+		Set<Manager> man= r.getManager();
+		if (man==null)
+			man= new java.util.HashSet<Manager>();
+		man.add(m);
+		r.setManager(man);	
+		r.setName("");
+		r= restRepository.save(r);
 	}
 
 	@Test
@@ -78,10 +82,5 @@ public class ManagerRepositoryIntegrationTest {
 		assertEquals("pass", updateM.getPassword());
 		assertEquals(true, updateM.isActive());
 	}
-	
-	/*@Test
-	public void getRestaurantOfManager() {
-		long rest_id=repository.getRest(m.getId());
-		assertEquals(rest_id, r.getId());
-	}*/
+
 }

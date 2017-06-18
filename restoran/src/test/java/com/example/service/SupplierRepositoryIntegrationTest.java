@@ -29,7 +29,6 @@ public class SupplierRepositoryIntegrationTest {
 	public void setUp() {
 		s = new Supplier("sup2","sup@sup.com", "sup1");
 		s = repository.save(s);
-
 	}
 
 	@Test

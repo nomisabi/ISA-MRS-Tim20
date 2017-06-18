@@ -31,6 +31,10 @@ public class RateWaiter implements Serializable  {
 		this.restaurant = restaurant;
 		this.rate = rate;
 	}
+	
+	public RateWaiter() {
+		super();
+	}
 
 	public Long getId() {
 		return id;

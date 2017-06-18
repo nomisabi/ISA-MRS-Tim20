@@ -56,7 +56,10 @@ public class Bill implements Serializable {
 		this.price = price;
 		this.date = date;
 	}
-	
+	public Bill() {
+		super();
+
+	}
 	
 
 }

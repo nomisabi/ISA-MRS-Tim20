@@ -17,7 +17,7 @@ import com.example.domain.Region;
 import com.example.domain.Supply;
 
 @Repository
-public interface SupplyRepository extends JpaRepository<Supply, Long> {
+public interface SupplyRepository extends CrudRepository<Supply, Long> {
 	
 	@Query(value="SELECT Object(s) FROM Supply s WHERE s.restaurant.id = ?1 AND s.chosed  = false", nativeQuery=false)
 	public Collection<Supply> getSupplyByRest(Long id);

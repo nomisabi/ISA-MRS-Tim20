@@ -64,4 +64,5 @@ public class SystemManagerRepositoryIntegrationTests {
 		assertEquals("lastName", updateSM.getLastName());
 		assertEquals("pass", updateSM.getPassword());
 	}
+
 }

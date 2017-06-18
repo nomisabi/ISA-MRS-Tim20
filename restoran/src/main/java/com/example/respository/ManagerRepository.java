@@ -26,26 +26,4 @@ public interface ManagerRepository extends CrudRepository<Manager, Long>{
     @Query(value="SELECT r.id FROM restaurant r INNER JOIN restaurant_manager rm ON r.id=rm.restaurant_id WHERE rm.manager_id = ?1", nativeQuery=true)
 	Long getRest(Long id);
 
-   // @Query(value="SELECT r.id FROM restaurant r INNER JOIN restaurant_manager rm ON r.id=rm.restaurant_id WHERE rm.manager_id = ?1", nativeQuery=true)
-//	Long getRest(Long id);
-	
-	/*void createManager(Manager m);
-	
-	Employee createEmployee(Employee e);
-	
-	Supplier createSupplier(Supplier s);
-	
-	Collection<Manager> findAll();
-
-	Manager findOne(Long id);
-
-	Manager findByEmail(String email);
-
-	boolean isManagerExist(Manager man);
-	
-	boolean changePassword(String newP, String oldP, Manager m);
-	
-	void setLogedIn(Manager m);
-	
-	Manager getLogedIn();*/
 }
