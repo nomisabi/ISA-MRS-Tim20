@@ -34,6 +34,8 @@ public class EmployeeRepositoryIntegrationTests {
 	@Before
 	public void setUp() {
 		dm= new Employee();
+		dm.setEmail("");
+		dm.setPassword("");
 		dm = repository.save(dm);
 	}
 
@@ -46,6 +48,8 @@ public class EmployeeRepositoryIntegrationTests {
 	@Test
 	public void createEmployee() {
 		Employee s1 = new Employee();
+		s1.setEmail("");
+		s1.setPassword("");
 		Employee savedS = repository.save(s1);
 		assertEquals(s1, savedS);
 	}
@@ -53,6 +57,8 @@ public class EmployeeRepositoryIntegrationTests {
 	@Test
 	public void deleteEmployee() {
 		Employee s2 = new Employee();
+		s2.setEmail("");
+		s2.setPassword("");
 		repository.save(s2);
 		repository.delete(s2.getId());
 		assertNull(repository.findOne(s2.getId()));
