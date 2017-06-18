@@ -84,7 +84,7 @@ public class TableOfRestaurantRepositoryIntegrationTest {
 
 	@Test
 	public void getRequests() {
-		Collection<TableOfRestaurant> sup= repository.getRequests(r.getId());
+		Collection<TableOfRestaurant> sup= repository.getTableOfRestaurant(r.getId());
 		assertEquals(1, sup.size());
 	}
 	
