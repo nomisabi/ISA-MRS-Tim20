@@ -114,7 +114,9 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 			})
 			.error(
 					function(data){
+						 
 						$window.location.href="/#/";
+						popover("Your account is currently inactive. Please, authenticate your registration via the link from the email.");
 					}
 			);
 	}

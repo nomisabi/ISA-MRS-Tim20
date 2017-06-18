@@ -1,7 +1,10 @@
 package com.example.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,10 +27,11 @@ public class TableOfRestaurantRepositoryIntegrationTests {
 	@Autowired
 	RestaurantRepository restaurantRepository;
 	TableOfRestaurant table;
+	Restaurant restaurant;
 
 	@Before
 	public void setUp() {
-		Restaurant restaurant = new Restaurant("name", "location");
+		restaurant = new Restaurant("name", "location");
 		restaurant = restaurantRepository.save(restaurant);
 		table = new TableOfRestaurant(1, 1, restaurant);
 		table = repository.save(table);
@@ -37,6 +41,12 @@ public class TableOfRestaurantRepositoryIntegrationTests {
 	public void getTable() {
 		TableOfRestaurant tableFind = repository.findOne(table.getId());
 		assertNotNull(tableFind);
+	}
+	
+	@Test
+	public void getTableOfRestaurant() {
+		Collection<TableOfRestaurant> tableFind = repository.getTableOfRestaurant(restaurant.getId());
+		assertNotEquals(0, tableFind.size());
 	}
 
 	@Test

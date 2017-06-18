@@ -12,7 +12,7 @@ import com.example.domain.TableOfRestaurant;
 public interface TableOfRestaurantRepository extends JpaRepository<TableOfRestaurant, Long> {
 
 	@Query("SELECT Object(t) FROM TableOfRestaurant t WHERE t.restaurant.id = ?1")
-	public Collection<TableOfRestaurant> getRequests(Long id);
+	public Collection<TableOfRestaurant> getTableOfRestaurant(Long id);
 	
 	@Modifying
 	@Transactional
