@@ -1,6 +1,7 @@
 package com.example.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.example.domain.Drink;
 import com.example.domain.DrinkMenu;
 import com.example.domain.Employee;
+import com.example.domain.EmployeeSchedule;
 import com.example.domain.Offer;
 import com.example.domain.Offer_status;
 import com.example.domain.Region;
@@ -34,68 +36,104 @@ import com.example.respository.RegionRepository;
 import com.example.respository.RestaurantRepository;
 import com.example.respository.SupllierRepository;
 import com.example.respository.SupplyRepository;
+import com.example.respository.TableOfRestaurantRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RegionServiceIntegrationTests {
+	@Autowired
+	RegionService service;
+	
+	@Autowired
+	RegionRepository rep;
+	@Autowired
+	RestaurantRepository rrep;
+	@Autowired
+	TableOfRestaurantRepository trep;
 
-	@Autowired
-	RegionRepository repository;
-	@Autowired
-	RestaurantRepository restrepository;
-	
-	
+
 	Region dm;
-	Restaurant r;
-	
+
 	@Before
 	public void setUp() {
-		r= new Restaurant();
-		r.setName("");
-		r=restrepository.save(r);
 		dm= new Region();
-		dm.setName("");
+		Restaurant r = new Restaurant();
+		r.setName("");
+		r= rrep.save(r);
 		dm.setRestaurant(r);
-		repository.save(dm);
+		dm = service.addRegion(dm);
 	}
+
 
 	@Test
-	public void getRegion() {
-		Region sFind = repository.findOne(dm.getId());
-		assertNotNull(sFind);
-	}
-
+	public void findAllRegion() {
+		assertNotEquals(0, service.getAllRegion().size());
+	}	
 	
 	@Test
 	public void createRegion() {
-		Region s1 = new Region();
-		s1.setName("");
-		s1.setRestaurant(r);
-		Region savedS = repository.save(s1);
-		assertEquals(s1, savedS);
+		Region d1= new Region();
+		Restaurant r = new Restaurant();
+		r.setName("");
+		r= rrep.save(r);
+		d1.setRestaurant(r);
+		Region saved= service.addRegion(d1);
+		assertEquals(d1, saved);
 	}
-
+	
+	
 	@Test
 	public void deleteRegion() {
-		Region s2 = new Region();
-		s2.setName("");
-		s2.setRestaurant(r);
-		repository.save(s2);
-		repository.delete(s2.getId());
-		assertNull(repository.findOne(s2.getId()));
+		Region d1= new Region();
+		Restaurant r = new Restaurant();
+		r.setName("");
+		r= rrep.save(r);
+		d1.setRestaurant(r);
+		Region saved= service.addRegion(d1);
+		service.deleteRegion(saved);
+		assertNull(rep.findOne(saved.getId()));
+	}
+
+	
+	@Test
+	public void updateRegion() {
+		Region d1= new Region();
+		Restaurant r = new Restaurant();
+		r.setName("");
+		r= rrep.save(r);
+		d1.setRestaurant(r);
+		Region saved= service.addRegion(d1);
+		d1.setName("123");
+		service.updateName(d1);
+		Region find= rep.findOne(d1.getId());
+		assertEquals( "123", find.getName());
 	}
 	
 	@Test
-	public void getRequests() {
-		Collection<Region> sup= repository.getRequests(r.getId());
-		assertEquals(1, sup.size());
+	public void getRegion() {
+		Restaurant r = new Restaurant();
+		r.setName("");
+		r= rrep.save(r);
+		Region d1= new Region();
+		d1.setRestaurant(r);
+		Region saved= service.addRegion(d1);
+		assertEquals( r.getId(), saved.getRestaurant().getId());
 	}
 	
 	@Test
-	public void updateName() {
-		repository.updateName(dm.getId(), "new");
-		Region sFind = repository.findOne(dm.getId());
-		assertEquals("new", sFind.getName());
+	public void getTables() {
+		TableOfRestaurant tab = new TableOfRestaurant();
+		tab= trep.save(tab);
+		Region d1= new Region();
+		Restaurant r = new Restaurant();
+		r.setName("");
+		r= rrep.save(r);
+		d1.setRestaurant(r);
+		Set<TableOfRestaurant> t = new HashSet<TableOfRestaurant>();
+		t.add(tab);	
+		d1.setTables(t);
+		Region saved= service.addRegion(d1);
+		assertEquals( 1, saved.getTables().size());
 	}
 
 }

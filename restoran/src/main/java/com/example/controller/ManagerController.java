@@ -60,6 +60,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.hibernate.StaleObjectStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -609,8 +610,8 @@ public class ManagerController {
 			logger.info("< add Supply");
 			return new ResponseEntity<Supply>(supply,HttpStatus.OK);
 		}
-		catch(NoSuchElementException e) {
-		return new ResponseEntity<Supply>(HttpStatus.I_AM_A_TEAPOT);
+		catch(Exception e) {
+			return new ResponseEntity<Supply>(HttpStatus.I_AM_A_TEAPOT);
 		}
 	}
 	
@@ -622,12 +623,17 @@ public class ManagerController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Offer> addOffer(@Valid @RequestBody OfferSupply os) throws Exception {
 		logger.info("> addOffer: ");
-		Offer offer= osService.createOffer(os.getO(), os.getS());
 		
-		if (offer!=null){
-			return new ResponseEntity<Offer>(offer, HttpStatus.OK);
+		try{
+			Offer offer= osService.createOffer(os.getO(), os.getS());
+			if (offer==null)
+				return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
+			logger.info("< add Supply");
+			return new ResponseEntity<Offer>(offer,HttpStatus.OK);
 		}
-		return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
+		catch(Exception e) {
+			return new ResponseEntity<Offer>(HttpStatus.I_AM_A_TEAPOT);
+		}
 	}
 	
 	@RequestMapping(
@@ -637,12 +643,16 @@ public class ManagerController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Offer> chooseOffer(@Valid @RequestBody OfferSupply os) throws Exception {
 		logger.info("> addOffer: ");
-		osService.update(os.getS(), os.getO());
-		
-		if (os.getO()!=null){
-			return new ResponseEntity<Offer>( HttpStatus.OK);
+		try{
+			osService.update(os.getS(), os.getO());
+			if (os.getO()==null)
+				return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
+			logger.info("< add Supply");
+			return new ResponseEntity<Offer>(os.getO(),HttpStatus.OK);
 		}
-		return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
+		catch(Exception e) {
+			return new ResponseEntity<Offer>(HttpStatus.I_AM_A_TEAPOT);
+		}
 	}
 	
 	

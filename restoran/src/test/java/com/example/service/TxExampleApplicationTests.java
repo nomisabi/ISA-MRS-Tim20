@@ -37,29 +37,48 @@ public class TxExampleApplicationTests {
 	}
 
 	@Test(expected = ObjectOptimisticLockingFailureException.class)
-	public void testConcurrencyWriting() {
+	public void update() {
 
 		Supply productForUserOne = osService.findSupply(1L);
-		Offer productForUserTwo = osService.findOffer(1L);
+		Offer offer1 = osService.findOffer(1L);
+		Offer offer2 = osService.findOffer(1L);
 		Supply old = productForUserOne;
-		//modifikovanje istog objekta
-		productForUserOne.setChosed(true);
 
 		//verzija oba objekta je 0
 		assertEquals(0, productForUserOne.getVersion().intValue());
 		assertEquals(0, old.getVersion().intValue());
 
 		//pokusaj cuvanja prvog objekta
-		osService.updateSupp(productForUserOne);
-		//osService.update(productForUserOne, productForUserTwo);
-		Supply productForUserTree = osService.findSupply(1L);
-		assertEquals(1, productForUserTree.getVersion().intValue());
+		osService.update(productForUserOne, offer1);
+		Supply find = osService.findSupply(1L);
+		assertEquals(1, find.getVersion().intValue());
+		osService.update(productForUserOne, offer1);
+	}
+	
+	@Test(expected = ObjectOptimisticLockingFailureException.class)
+	public void createOffer() {
+
+		Supply productForUserOne = osService.findSupply(1L);
+		Offer o1= new Offer(3, 2, Offer_status.WAITING);
+		osService.createOffer(o1, productForUserOne);			
+		osService.createOffer(new Offer(3, 2, Offer_status.WAITING), productForUserOne);
+		assertEquals(false, productForUserOne.isChosed());
+		osService.update(productForUserOne, o1);
+		assertEquals(false, productForUserOne.isChosed());
+		osService.createOffer(new Offer(3, 2, Offer_status.WAITING), productForUserOne);
 		
-		//srep.save(old);
-		osService.updateSupp(old);
-		//assertEquals(1, productForUserOne.getVersion().intValue());
-		//pokusaj cuvanja drugog objekta - Exception!
-		//osService.updateOfferQualityAndPrice(productForUserTwo, old);
+	}
+	
+	@Test(expected = ObjectOptimisticLockingFailureException.class)
+	public void updateOfferQualityAndPrice() {
+
+		Supply productForUserOne = osService.findSupply(1L);
+		Offer o1= new Offer(3, 2, Offer_status.WAITING);
+		osService.updateOfferQualityAndPrice(o1, productForUserOne);			
+		osService.updateOfferQualityAndPrice(new Offer(3, 2, Offer_status.WAITING), productForUserOne);
+		//assertEquals(false, productForUserOne.isChosed());
+		osService.update(productForUserOne, o1);
+		osService.updateOfferQualityAndPrice(new Offer(3, 2, Offer_status.WAITING), productForUserOne);		
 	}
 
 }

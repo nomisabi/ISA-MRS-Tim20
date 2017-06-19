@@ -1,9 +1,11 @@
 package com.example.controller;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
+import org.hibernate.StaleObjectStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,10 +174,16 @@ public class SupplierController {
 	public ResponseEntity<Offer> sendOffer(@Valid @RequestBody  Offer o) {
 		logger.info("> sendOffer");
 
-		osService.updateOffer(o);
-		
-		logger.info("< sendOffer");
-		return new ResponseEntity<Offer>(o,HttpStatus.OK);
+		try{
+			osService.updateOffer(o);
+			if (o==null)
+				return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
+			logger.info("< add Supply");
+			return new ResponseEntity<Offer>(o,HttpStatus.OK);
+		}		
+		catch(Exception e) {
+			return new ResponseEntity<Offer>(HttpStatus.I_AM_A_TEAPOT);
+		}
 	}
 	
 	@RequestMapping(
@@ -186,11 +194,15 @@ public class SupplierController {
 	public ResponseEntity<Offer> updateOffer(@Valid @RequestBody  OfferSupply os) {
 		logger.info("> updateOffer: "+os.getS().toString());
 
-		if (osService.updateOfferQualityAndPrice(os.getO(), os.getS())==null)
-			return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
-		
-		logger.info("< updateOffer");
-		return new ResponseEntity<Offer>(os.getO(),HttpStatus.OK);
+		try{
+			if (osService.updateOfferQualityAndPrice(os.getO(), os.getS())==null)
+				return new ResponseEntity<Offer>(HttpStatus.NOT_FOUND);
+			logger.info("< add Supply");
+			return new ResponseEntity<Offer>(os.getO(),HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<Offer>(HttpStatus.I_AM_A_TEAPOT);
+		}
 	}
 	
 	
