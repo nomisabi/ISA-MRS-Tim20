@@ -47,29 +47,8 @@ public class EmployeeServiceImp implements EmployeeService{
 		logger.info("< findOne id:{}", id);
 		return employee;
 	}
-	
-	@Override
-	public Employee findByEmail(String email){
-		logger.info("> findByEmail email:{}", email);
-		//Employee em = emRepository.findByEmail(email);
-		logger.info("< findByEmail email:{}", email);
-		return null;
-		
-	}
 
-	@Override
-	public boolean isEmployeeExist(Employee em){
-		//return emRepository.isEmployeeExist(em);
-		return true;
-	}
-    
-	@Override
-	public boolean changePassword(String newP, String oldP, Employee em) {
-		logger.info("> changePass ", em);
-		//boolean val = emRepository.changePassword(newP, oldP, em);
-		logger.info("< changePass :{}", em);
-		return true;
-	}
+
 	
 	@Override
 	public Employee getLogedIn() {

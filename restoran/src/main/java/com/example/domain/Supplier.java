@@ -64,7 +64,7 @@ public class Supplier implements Serializable{
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void Supplier(String password) {
 		this.password = password;
 	}
 

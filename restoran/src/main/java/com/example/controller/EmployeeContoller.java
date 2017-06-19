@@ -95,7 +95,7 @@ public class EmployeeContoller {
 	public ResponseEntity<Employee> logIn(@Valid @RequestBody Employee employee) throws Exception {
 		logger.info("> logIn");
 		System.out.println(employee);
-		Employee employees = emService.findByEmail(employee.getEmail());
+		Employee employees = null;
 		if (employees != null){
 			if (employee.getPassword().equals(employees.getPassword())){
 				logger.info("success");
@@ -116,10 +116,10 @@ public class EmployeeContoller {
 		logger.info("> logIn");
 		System.out.println(employee);
 
-			if (emService.changePassword(newP, oldP, employee)){
-				logger.info("success");
-				return new ResponseEntity<Employee>(HttpStatus.OK);
-			}
+			//if (emService.changePassword(newP, oldP, employee)){
+			//	logger.info("success");
+				//return new ResponseEntity<Employee>(HttpStatus.OK);
+			//}
 		return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);	
 	}
 	

@@ -13,12 +13,6 @@ public interface EmployeeService {
 
 	Employee findOne(Long id);
 
-	Employee findByEmail(String email);
-
-	boolean isEmployeeExist(Employee em);
-	
-	boolean changePassword(String newP, String oldP, Employee m);
-
 	Employee getLogedIn();
 	void setLogedIn(Employee em);
 
