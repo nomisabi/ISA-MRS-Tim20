@@ -79,6 +79,12 @@ public class GuestReservationRepositoryIntegrationTests {
 		assertEquals(true, findGuestReservation.isAccepted());
 	}
 	
+	@Test
+	public void setrate() {
+		repository.setRate(guestReservation.getId());
+		GuestReservation find = repository.findOne(guestReservation.getId());
+		assertEquals(true, find.isRate());
+	}
 	
 
 }

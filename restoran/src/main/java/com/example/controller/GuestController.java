@@ -200,10 +200,6 @@ public class GuestController {
 	public ResponseEntity<Collection<Guest>> getRequests(@RequestBody Guest guest) throws Exception {
 		System.out.println(guest);
 		Collection<Guest> guests = guestService.getRequests(guest.getId());
-		for (Guest guest2 : guests) {
-			System.out.println(guest2);
-		}
-
 		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
 	}
 
@@ -212,7 +208,6 @@ public class GuestController {
 	public ResponseEntity<Collection<Guest>> addFriend(@RequestBody FriendRequest friendRequest) throws Exception {
 		System.out.println(friendRequest);
 		guestService.addFriend(friendRequest.getIdGuest(), friendRequest.getIdFriend());
-
 		return new ResponseEntity<Collection<Guest>>(HttpStatus.OK);
 	}
 
@@ -220,12 +215,10 @@ public class GuestController {
 	@RequestMapping(value = "/api/friendship/deleteFriend", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Guest>> deleteFriend(@RequestBody FriendRequest friendRequest) throws Exception {
 		System.out.println(friendRequest);
-		System.out.println("delete");
 		boolean flag = guestService.deleteFriend(friendRequest.getIdGuest(), friendRequest.getIdFriend());
 		if (!flag) {
 			return new ResponseEntity<Collection<Guest>>(HttpStatus.NOT_FOUND);
 		}
-
 		return new ResponseEntity<Collection<Guest>>(HttpStatus.OK);
 	}
 
@@ -238,9 +231,7 @@ public class GuestController {
 		logger.info("> getGuests");
 		System.out.println(guest);
 		Guest cuurrentGuest = (Guest) session.getAttribute("guest");
-		System.out.println(cuurrentGuest);
 		Collection<Guest> guests = guestService.searchGuest(cuurrentGuest.getId(), guest.getFirstName());
-
 		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
 	}
 
@@ -255,10 +246,6 @@ public class GuestController {
 		Guest cuurrentGuest = (Guest) session.getAttribute("guest");
 		System.out.println(cuurrentGuest);
 		Collection<Guest> guests = guestService.searchFriends(cuurrentGuest.getId(), guest.getFirstName());
-		for (Guest guest2 : guests) {
-			System.out.println(guest2);
-		}
-
 		return new ResponseEntity<Collection<Guest>>(guests, HttpStatus.OK);
 	}
 
@@ -293,9 +280,6 @@ public class GuestController {
 		logger.info("> getVisitedRestaurants");
 		System.out.println(guest);
 		Collection<Reservation> restaurants = reservationService.getVisitedRestaurants(guest.getId());
-		for (Reservation restaurant : restaurants) {
-			System.out.println(restaurant);
-		}
 		logger.info("< getVisitedRestaurants");
 		return new ResponseEntity<Collection<Reservation>>(restaurants, HttpStatus.OK);
 	}
@@ -519,6 +503,8 @@ public class GuestController {
 		String endTime = reservation.getEndTime();
 		boolean flag = false;
 		boolean flagRate = false;
+		
+		GuestReservation guestReservation = reservationService.getGuestReservation(reservation.getId(), guest.getId());
 
 		int rateRestaurant = 0;
 		int rateFood = 0;
@@ -527,7 +513,7 @@ public class GuestController {
 		LocalDateTime endTimeD = LocalDateTime.parse(endTime, sdf);
 		System.out.println(startTimeD);
 		if (now.isAfter(endTimeD)) {
-			if (!reservation.isRate()) {
+			if (!guestReservation.isRate()) {
 				flagRate = true;
 			} else {
 				RateRestaurant rateR = reservationService.getrate(reservation.getId(), guest.getId());
@@ -743,8 +729,10 @@ public class GuestController {
 					rate.getReservation(), rate.getRateMenu());
 			reservationService.saveRateMenuItem(rateMenuItem);
 		}
+		
+		GuestReservation g = reservationService.getGuestReservation(rate.getReservation().getId(), rate.getGuest().getId());
 
-		reservationService.setRate(rate.getReservation().getId());
+		reservationService.setRate(g.getId());
 
 		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
 	}

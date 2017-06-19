@@ -40,9 +40,6 @@ public class Reservation implements Serializable {
 	@Column
 	private String endTime;
 
-	@Column
-	private boolean rate;
-
 	public Reservation() {
 	}
 
@@ -51,7 +48,7 @@ public class Reservation implements Serializable {
 		this.restaurant = restaurant;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.rate = false;
+
 	}
 
 	public Long getId() {
@@ -84,14 +81,6 @@ public class Reservation implements Serializable {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
-	}
-
-	public boolean isRate() {
-		return rate;
-	}
-
-	public void setRate(boolean rate) {
-		this.rate = rate;
 	}
 
 	@Override

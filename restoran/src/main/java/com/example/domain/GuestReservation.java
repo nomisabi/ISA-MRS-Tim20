@@ -28,6 +28,8 @@ public class GuestReservation implements Serializable {
 	private Reservation reservation;
 	@Column
 	private boolean accepted;
+	@Column
+	private boolean rate;
 
 	public GuestReservation() {
 
@@ -38,6 +40,7 @@ public class GuestReservation implements Serializable {
 		this.guest = guest;
 		this.reservation = reservation;
 		this.accepted = false;
+		this.rate = false;
 	}
 
 	public GuestReservation(Guest guest, Reservation reservation, boolean accepted) {
@@ -45,6 +48,7 @@ public class GuestReservation implements Serializable {
 		this.guest = guest;
 		this.reservation = reservation;
 		this.accepted = accepted;
+		this.rate = false;
 	}
 
 	public Long getId() {
@@ -77,6 +81,14 @@ public class GuestReservation implements Serializable {
 
 	public void setAccepted(boolean accepted) {
 		this.accepted = accepted;
+	}
+
+	public boolean isRate() {
+		return rate;
+	}
+
+	public void setRate(boolean rate) {
+		this.rate = rate;
 	}
 
 	@Override

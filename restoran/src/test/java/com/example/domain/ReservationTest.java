@@ -48,10 +48,7 @@ public class ReservationTest {
 		assertEquals(endTime, reservation.getEndTime());
 	}
 	
-	@Test
-	public void testIsRate() {
-		assertEquals(false, reservation.isRate());
-	}
+	
 
 	@Test
 	public void testSetRestaurant() {
@@ -76,11 +73,7 @@ public class ReservationTest {
 		assertEquals(endTime, reservation.getEndTime());
 	}
 	
-	@Test
-	public void testSetRate() {
-		reservation.setRate(true);
-		assertEquals(true, reservation.isRate());
-	}
+	
 
 	@Test
 	public void testReservationNotNull() {

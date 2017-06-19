@@ -77,12 +77,7 @@ public class ReservationRepositoryIntegrationTests {
 		assertEquals(restaurant.getName(), findReservation.getName());
 	}
 
-	@Test
-	public void setrate() {
-		repository.setRate(reservation.getId());
-		Reservation findReservation = repository.findOne(reservation.getId());
-		assertEquals(true, findReservation.isRate());
-	}
+	
 
 	@Test
 	public void getVisitedRestaurants() {
