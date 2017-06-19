@@ -252,13 +252,18 @@ public class ReservationServiceImp implements ReservationService {
 	@Override
 	@Transactional(readOnly = false)
 	public void setRate(Long id) {
-		reservationRepository.setRate(id);
+		guestReservationRepository.setRate(id);
 
 	}
 
 	@Override
 	public RateRestaurant getrate(Long idReservation, Long idGuest) {
 		return rateRestaurantRepository.getRate(idReservation, idGuest);
+	}
+	
+	@Override
+	public GuestReservation getGuestReservation(Long idReservation, Long idGuest){
+		return guestReservationRepository.getGuestReservation(idReservation, idGuest);
 	}
 
 }

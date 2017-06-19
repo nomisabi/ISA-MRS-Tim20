@@ -82,5 +82,7 @@ public interface ReservationService {
 	void setRate(Long id);
 	
 	RateRestaurant getrate(Long idReservation, Long idGuest);
+	
+	GuestReservation getGuestReservation(Long idReservation, Long idGuest);
 
 }

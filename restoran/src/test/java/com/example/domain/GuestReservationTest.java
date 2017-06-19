@@ -38,6 +38,11 @@ public class GuestReservationTest {
 	}
 	
 	@Test
+	public void testIsRate() {
+		assertEquals(false, guestReservation.isRate());
+	}
+	
+	@Test
 	public void testSetGuest() {
 		Guest g = new Guest();
 		guestReservation.setGuest(g);
@@ -56,9 +61,17 @@ public class GuestReservationTest {
 		guestReservation.setAccepted(true);
 		assertEquals(true, guestReservation.isAccepted());
 	}
+	
+	@Test
+	public void testSetRate() {
+		guestReservation.setRate(true);
+		assertEquals(true, guestReservation.isRate());
+	}
 	@Test
 	public void testGuestReservationNotNull() {
 		assertNotNull(guestReservation);
 	}
+	
+	
 
 }
