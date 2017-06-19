@@ -127,7 +127,12 @@ public class GuestController {
 		if (guest.getPassword().equals(guest.getPassword2())) {
 			Guest g = new Guest(guest.getEmail(), guest.getPassword(), guest.getFirstName(), guest.getLastName());
 			Guest savedGuest = guestService.addGuest(g);
-			emailService.sendMail(savedGuest);
+			try {
+				emailService.sendMail(savedGuest);
+			} catch (MailException | InterruptedException e) {
+				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+			}
+			
 			logger.info("< createGuest");
 			return new ResponseEntity<Guest>(savedGuest, HttpStatus.CREATED);
 		}
@@ -176,12 +181,7 @@ public class GuestController {
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
 
-		Guest sessionGuest = (Guest) session.getAttribute("guest");
-
-		if (currentGuest.getId() != sessionGuest.getId()) {
-			System.out.println("Guest with id " + friendRequest.getIdGuest() + " not log in");
-			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
-		}
+		
 
 		Guest friendGuest = guestService.getGuest(friendRequest.getIdFriend());
 
