@@ -38,6 +38,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	$scope.drinkReserve = [];
 	$scope.regions = [];
 	$scope.model = [];
+	$scope.numChairs = 0;
+	$scope.enableD = false;
 	
 	$scope.oldPass = '';
 	$scope.newPass = '';
@@ -475,6 +477,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     					 $scope.dateTimeStr = dateTime.toDateString() + " " + dateTime.toTimeString().slice(0,5);
     					 $scope.list = [];
     					 $scope.tableNum = [];
+    					 $scope.numChairs = 0;
+    					 $scope.enableD = false;
     					 $scope.page ="reserve2";
     				 }
     	     ).error(
@@ -594,12 +598,16 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	if (!item.reserved){
     		item.selected = !item.selected;
     		var idx = $scope.tableNum.indexOf(item);
+    		//alert(item.numberOfChairs);
     		if (idx > -1) {
     			$scope.tableNum.splice(idx, 1);
+    			$scope.numChairs = $scope.numChairs - item.numberOfChairs;
     		}
     		else {
     			$scope.tableNum.push(item);
+    			$scope.numChairs = $scope.numChairs + item.numberOfChairs;
     		}
+    		//alert($scope.numChairs);
     	}
 	}
     
@@ -607,10 +615,26 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	var idx = $scope.list.indexOf(item);
         if (idx > -1) {
           $scope.list.splice(idx, 1);
+          $scope.enableD = false;
         }
         else {
-          $scope.list.push(item);
+          if ( $scope.list.length < $scope.numChairs){
+        	  $scope.list.push(item);
+        	  $scope.enableD = false;
+          }else{
+        	  $scope.list.push(item);
+        	  $scope.enableD = true;
+        	  popover("Number of chairs is " + $scope.numChairs +". You can't invite more friend." );  
+          }
         }
+        
+        if ( $scope.list.length <= $scope.numChairs){
+      	  $scope.enableD = false;
+        }else{
+      	  $scope.enableD = true; 
+        }
+        
+        
 	}
     
     $scope.addDrink = function(id) {
