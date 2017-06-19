@@ -387,6 +387,17 @@ public class GuestController {
 		logger.info("> inviteFriends");
 		System.out.println(invite);
 
+		Collection<TableOfRestaurant> t = reservationService.getAllTableOfReservation(invite.getReservation().getId());
+		int chairs = 0;
+		
+		for (TableOfRestaurant tableOfRestaurant : t) {
+			chairs+= tableOfRestaurant.getNumberOfChairs();
+		}
+		
+		if (chairs < invite.getFriends().size()){
+		
+			return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
+		}
 		for (Guest guest : invite.getFriends()) {
 			GuestReservation guestReservation = new GuestReservation(guest, invite.getReservation());
 			guestReservation = reservationService.saveGuestReservation(guestReservation);

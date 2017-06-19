@@ -1,9 +1,12 @@
 package com.example;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -75,6 +78,11 @@ public class RestoranApplicationTests {
 		GuestRegister g = new GuestRegister("nevena5695@email.com", "password1234", "password1234", "name", "name");
 		this.mvc.perform(post("/api/guests").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(g))).andExpect(status().isCreated());
+		
+		Guest savedGuest = guestRepository.findByEmail("nevena5695@email.com");
+		assertNotNull(savedGuest);
+		assertEquals(g.getFirstName(), savedGuest.getFirstName());
+		assertEquals(g.getLastName(), savedGuest.getLastName());
 	}
 
 	@Test
@@ -90,7 +98,10 @@ public class RestoranApplicationTests {
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(fq))).andExpect(status().isOk());
 
 		this.mvc.perform(post("/api/friendship/getRequest").contentType(MediaType.APPLICATION_JSON_VALUE)
-				.content(IntegrationTestUtils.convertObjectToJsonBytes(fq))).andExpect(status().isOk());
+				.content(IntegrationTestUtils.convertObjectToJsonBytes(friend))).andExpect(status().isOk());
+		
+		Collection<Guest> req = guestRepository.getRequests(friend.getId());
+		assertEquals(1, req.size());
 
 	}
 
