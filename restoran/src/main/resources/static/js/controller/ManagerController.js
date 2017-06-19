@@ -896,7 +896,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     					$route.reload();
     			}).error(
     				function(data){
-    					//popover("error");
+    					popover("The offer is changed. Please, refresh the page!");
     			}).then(
     				function(data){
     					$route.reload();

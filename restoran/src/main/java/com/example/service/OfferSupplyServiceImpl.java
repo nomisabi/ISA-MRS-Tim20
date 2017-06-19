@@ -71,15 +71,11 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	
 	/*    EY KELL - PLUSZ LEELLENORIZNI A SUPPLY,AKTIVE-E   */
 	@Override
+	@Lock(LockModeType.OPTIMISTIC)
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public Offer createOffer(Offer offer, Supply sup) {
-		
-		Supply s= supplyRepository.findOne(sup.getId());
-		if (sup.getVersion()!=s.getVersion())
-			return null;
-		
-		if (s.isChosed())
-			return null;
+			sup.setChosed(false);
+			Supply s= supplyRepository.save(sup);
 		Offer o= offerRepository.save(offer);
 		offerRepository.updateName(o.getId(), sup.getId());
 		return o;
@@ -110,8 +106,7 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void deleteOffer(Long id) {
-		offerRepository.delete(id);
-		
+		offerRepository.delete(id);		
 	}
 
 	@Override
@@ -121,14 +116,15 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	}
 
 	
+	@Override
 	@Transactional(readOnly = false, propagation= Propagation.REQUIRES_NEW)
+	@Lock(LockModeType.OPTIMISTIC)
 	public void updateSupp(Supply s) {
-		//Supply sup= supplyRepository.findOne(s.getId());
 		s.setChosed(true);
 		supplyRepository.save(s);	
 	}
 	
-	
+	@Override
 	@Transactional(readOnly = false)
 	public void updateOfferToEnd(Offer o) {
 		Offer of= offerRepository.findOne(o.getId());
@@ -137,9 +133,11 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	}
 	
 	@Override
-	@Transactional(readOnly = false)
+	@Lock(LockModeType.OPTIMISTIC)
+	@Transactional(readOnly = false, propagation= Propagation.REQUIRES_NEW )
 	public void update(Supply s, Offer o) {
-		//Supply sup= supplyRepository.findOne(s.getId());
+		o.setStatus(Offer_status.CHOOSED);
+		offerRepository.save(o);
 		for (Offer offer : s.getOffer()) {
 			if (o.getId()==offer.getId())
 				offerRepository.updateStatus(offer.getId(), 2);
@@ -169,14 +167,8 @@ public class OfferSupplyServiceImpl  implements OfferSupplyService{
 	@Lock(LockModeType.OPTIMISTIC)
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public Offer updateOfferQualityAndPrice(Offer o, Supply sup) {
-		//System.out.println("\n\nold: "+sup.getVersion());
-		Supply s= supplyRepository.findOne(sup.getId());
-		//System.out.println("new: "+s.getVersion());
-		//if (sup.getVersion()!=s.getVersion())
-			//return null;
-			
-		if (s.isChosed())
-			return null;
+			sup.setChosed(false);
+			Supply s= supplyRepository.save(sup);
 		offerRepository.update(o.getId(), o.getQuality(), o.getPrice());
 		return o;
 	}

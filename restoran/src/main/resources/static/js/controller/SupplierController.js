@@ -117,7 +117,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 					$route.reload();
 				}).error(
 						function(data){
-							popover("error");
+							popover("The supply is changed. Please, refresh the page!");
 						}).then(
 								function(data){
 									$route.reload();
@@ -286,7 +286,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 					$route.reload();
 				}).error(
 						function(data){
-							popover("error");
+							popover("The supply is changed. Please, refresh the page!");
 						}).then(
 								function(data){
 									$route.reload();

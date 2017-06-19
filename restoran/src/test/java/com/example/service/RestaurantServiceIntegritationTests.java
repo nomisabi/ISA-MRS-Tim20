@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +23,7 @@ import com.example.domain.Menu;
 import com.example.domain.MenuItem;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
+import com.example.domain.System_manager;
 import com.example.domain.TypeEmployee;
 import com.example.respository.DrinkMenuRepository;
 import com.example.respository.EmployeeRepository;
@@ -37,110 +39,86 @@ import scala.collection.immutable.HashMap;
 public class RestaurantServiceIntegritationTests {
 
 	@Autowired
+	RestaurantService service;
+	
+	@Autowired
+	MenuRepository mrep;
+	@Autowired
+	DrinkMenuRepository dmrep;
+	@Autowired
 	RestaurantRepository repository;
 	@Autowired
-	SupllierRepository srepository;
-	@Autowired
 	EmployeeRepository erepository;
-	@Autowired
-	ManagerRepository mrepository;
-	@Autowired
-	DrinkMenuRepository dmrepository;
-	@Autowired
-	MenuRepository merepository;
-
-	Restaurant restaurant;
+	
+	
+	Restaurant r;
 
 	@Before
 	public void setUp() {
-		restaurant = new Restaurant("restaurant1", "ns");
-		restaurant = repository.save(restaurant);
+		r= new Restaurant();
+		r.setName("");
+		service.createRestaurant(r);
 	}
 
-	@Test
-	public void getRestaurant() {
-		Restaurant restaurantFind = repository.findOne(restaurant.getId());
-		assertNotNull(restaurantFind);
-	}
 
 	@Test
-	public void createRestaurant() {
-		Restaurant restaurant = new Restaurant("proba", "proba");
-		Restaurant savedRestaurant = repository.save(restaurant);
-		assertEquals(restaurant, savedRestaurant);
+	public void findAllSysMan() {
+		assertNotEquals(0, service.getAllRestaurants().size());
 	}
 	
-	@Test
-	public void searchRestaurant() {
-		Collection<Restaurant> restaurants = repository.searchRestaurants(restaurant.getName());
-		assertNotEquals(0, restaurants.size());
-	}
-	
-	@Test
-	public void getRest() {
-		Supplier s= new Supplier();
-		s=srepository.save(s);
-		Set<Supplier> sup = new HashSet<Supplier>();
-		sup.add(s);
-		restaurant.setSuppliers(sup);
-		repository.save(restaurant);
-		Collection<Restaurant> restaurants = repository.getRest(s.getId());
-		assertEquals(1, restaurants.size());
-	}
 
 	@Test
-	public void insertSup() {
-		Supplier s= new Supplier();
-		s=srepository.save(s);
-	    repository.insertSup(restaurant.getId(), s.getId());
-	    Restaurant savedRestaurant = repository.findOne(restaurant.getId());
-	    Collection<Restaurant> restaurants = repository.getRest(s.getId());
-		assertEquals(1, restaurants.size());
+	public void createRest() {
+		Restaurant r1= new Restaurant();
+		r1.setName("");
+		service.createRestaurant(r1);
 	}
 	
-	@Test
-	public void insertMan() {
-		Manager s= new Manager();
-		s.setEmail("");
-		s.setPassword("");
-		s=mrepository.save(s);
-	    repository.insertMan(restaurant.getId(), s.getId());
-	    Long id= mrepository.getRest(s.getId());
-	    Restaurant savedRestaurant = repository.findOne(id);
-	    //Set<Manager> man = savedRestaurant.getManager();
-		assertEquals(savedRestaurant.getId(), restaurant.getId());
-	}
 	
 	@Test
-	public void insertEmpl() {
-		Employee s= new Employee();
-		s.setEmail("");
-		s.setPassword("");
-		s.setType(TypeEmployee.BARTENDER);
-		s=erepository.save(s);
-	    repository.insertEmpl(restaurant.getId(), s.getId());
-	    Restaurant savedRestaurant = repository.findOne(restaurant.getId());
-		//assertEquals(1,  savedRestaurant.getEmployee().size());
+	public void findRest() {
+		assertEquals(r.getId(), service.getRestaurant(r.getId()).getId());
 	}
+	
+
+	@Test
+	public void findAllRating() throws ParseException {		
+		assertEquals(0,0, service.getAvg(r.getId()));
+		assertEquals(0, service.getAvgByFood(r.getId()).size());
+		assertEquals(0, service.getAvgByWaiter(r.getId()).size());
+		assertEquals(0, service.getIncomes(r.getId()).size());
+		assertEquals(0, service.getIncomes("24/05/2010","24/05/2020",r.getId()).size());
+		assertEquals(0, service.getVisits(r.getId()).size());
+	}
+	
 	
 	@Test
 	public void updateMenu() {
-		Menu s= new Menu();
-		s=merepository.save(s);
-		repository.updateMenu(restaurant.getId(),s.getId());
-		Restaurant savedRestaurant = repository.findOne(restaurant.getId());
-	    Menu man = savedRestaurant.getMenu();
-		assertEquals(man.getId(), s.getId());
+		Menu m = new Menu();
+		m=mrep.save(m);
+		r.setMenu(m);
+		service.updateMenu(r);
+		Restaurant find = repository.findOne(r.getId());
+		assertEquals(m.getId(), find.getMenu().getId());
 	}
 	
 	@Test
 	public void updateDrinkMenu() {
-		DrinkMenu s= new DrinkMenu();
-		s=dmrepository.save(s);
-		repository.updateDrinkMenu(restaurant.getId(),s.getId());
-		Restaurant savedRestaurant = repository.findOne(restaurant.getId());
-		DrinkMenu man = savedRestaurant.getDrinkMenu();
-		assertEquals(man.getId(), s.getId());
+		DrinkMenu m = new DrinkMenu();
+		m=dmrep.save(m);
+		r.setDrinkMenu(m);
+		service.updateDrinkMenu(r);
+		Restaurant find = repository.findOne(r.getId());
+		assertEquals(m.getId(), find.getDrinkMenu().getId());
+	}
+	
+	@Test
+	public void insertEmpl() {
+		Employee e = new Employee();
+		e.setEmail("");
+		e.setPassword("");
+		e=erepository.save(e);
+		service.insertEmpl(r.getId(), e.getId());
 	}
 	
 	

@@ -1,6 +1,7 @@
 package com.example.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.Date;
@@ -34,19 +35,19 @@ public class MenuServiceIntegrationtest {
 	
 	@Test
 	public void findAllFood() {
-		assertEquals(12, service.findAllFood().size());
+		assertNotEquals(0, service.findAllFood().size());
 	}
 	
 	@Test
 	public void findAllMenuItem() {
 
-		assertEquals(12, service.findAllMenuItem().size());
+		assertNotEquals(0, service.findAllMenuItem().size());
 	}
 	
 	@Test
 	public void findAllMenu() {
 
-		assertEquals(5, service.findAllMenu().size());
+		assertNotEquals(0, service.findAllMenu().size());
 	}
 	
 	@Test
