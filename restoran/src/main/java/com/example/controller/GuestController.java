@@ -164,7 +164,6 @@ public class GuestController {
 		}
 		Guest updatedGuest = guestService.updateGuest(id, guest);
 
-		// updatedGuest = guestService.getGuest(id);
 		session.setAttribute("guest", updatedGuest);
 		System.out.println("Updating guest" + updatedGuest);
 		return new ResponseEntity<Guest>(updatedGuest, HttpStatus.OK);
@@ -180,9 +179,7 @@ public class GuestController {
 			System.out.println("Guest with id " + friendRequest.getIdGuest() + " not found");
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
-
 		
-
 		Guest friendGuest = guestService.getGuest(friendRequest.getIdFriend());
 
 		if (friendGuest == null) {
@@ -774,7 +771,7 @@ public class GuestController {
 		return new ResponseEntity<Collection<Restaurant>>(restaurants,HttpStatus.OK);
 	}
 	
-	/*** Guest log in****/
+	/*** Registration accept ****/
 	@RequestMapping(value = "/api/guest/accept", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Guest> registrationAccept(@RequestBody GuestRegister guestRegister) {
 		logger.info("> Guest log in");

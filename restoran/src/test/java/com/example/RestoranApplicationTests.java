@@ -1,5 +1,6 @@
 package com.example;
 
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -97,9 +98,9 @@ public class RestoranApplicationTests {
 	public void getRequest() throws Exception {
 
 		Guest friend = new Guest("email@email.com", "password1234", "name", "name");
-		guestRepository.save(friend);
+		friend = guestRepository.save(friend);
 		Friendship fr = new Friendship(guest, friend.getId(), false);
-		friendshipRepository.save(fr);
+		fr = friendshipRepository.save(fr);
 
 		this.mvc.perform(post("/api/friendship/getRequest").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(friend))).andExpect(status().isOk());
@@ -110,9 +111,9 @@ public class RestoranApplicationTests {
 	public void addFriend() throws Exception {
 
 		Guest friend = new Guest("email@email.com", "password1234", "name", "name");
-		guestRepository.save(friend);
+		friend = guestRepository.save(friend);
 		Friendship fr = new Friendship(guest, friend.getId(), false);
-		friendshipRepository.save(fr);
+		fr = friendshipRepository.save(fr);
 
 		FriendRequest fq = new FriendRequest();
 		fq.setIdFriend(guest.getId());
@@ -120,6 +121,25 @@ public class RestoranApplicationTests {
 		this.mvc.perform(post("/api/friendship/addFriend").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(fq))).andExpect(status().isOk());
 
+	}
+	
+	@Test
+	public void deleteFriend() throws Exception {
+
+		Guest friend = new Guest("email@email.com", "password1234", "name", "name");
+		friend = guestRepository.save(friend);
+		Friendship fr = new Friendship(guest, friend.getId(), true);
+		fr = friendshipRepository.save(fr);
+
+		FriendRequest fq = new FriendRequest();
+		fq.setIdFriend(guest.getId());
+		fq.setIdGuest(friend.getId());
+		this.mvc.perform(post("/api/friendship/deleteFriend").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.content(IntegrationTestUtils.convertObjectToJsonBytes(fq))).andExpect(status().isOk());
+		
+		boolean exist = friendshipRepository.exists(fr.getId());
+
+		assertEquals(false, exist);
 	}
 	
 	@Test

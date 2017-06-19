@@ -12,16 +12,40 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService','$
     self.updateUser = updateUser;
     self.logIn = logIn;
 	$ocLazyLoad.load('assets/js/common-scripts.js');
+	
+	function popover(tekst) {
+		var unique_id = $.gritter.add({
+            // (string | mandatory) the heading of the notification
+            title: 'Notification',
+            // (string | mandatory) the text inside the notification
+            text: tekst,
+            // (string | optional) the image to display on the left
+            image: 'assets/img/ui-sam.jpg',
+            // (bool | optional) if you want it to fade out on its own or just sit there
+            sticky: false,
+            // (int | optional) the time you want it to be alive for before fading out
+            time: 5000,
+            // (string | optional) the class name you want to apply to that specific message
+            class_name: 'my-sticky-class'
+        });
+		$("#date-popover").popover({html: true, trigger: "manual"});
+        $("#date-popover").hide();
+        $("#date-popover").click(function (e) {
+            $(this).hide();
+        });
+		
+	}
     
     function createUser(user){
         UserService.createUser(user)
             .then(
             	function() {
-            		alert("Account successfully created.");
             		window.location.href = '#';
+            		popover("Account successfully created. To be able to use your account. Please, authenticate your registration via the link from the email.");
+            		
                 },
             function(errResponse){
-                alert("Error creating account.");
+                popover("User with email "+ user.email + " alredy exist.");
                 console.error('Error while creating User');
             }
         );
