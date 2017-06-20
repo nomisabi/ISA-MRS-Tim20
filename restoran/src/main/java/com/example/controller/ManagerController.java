@@ -52,7 +52,7 @@ import com.example.service.SystemManagerService;
 import com.example.service.TableOfRestaurantService;
 import com.example.service.UserService;
 
-
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
@@ -213,6 +213,7 @@ public class ManagerController {
 		//sr.getS().setRestaurants(rest);
 		Supplier s =mService.createSupplier(sr.getS());
 		Set<Supplier> supp = sr.getR().getSuppliers();
+		if (supp==null) supp = new HashSet<Supplier>();
 		supp.add(s);
 		sr.getR().setSuppliers(supp);
 		userService.addUser(user);
@@ -238,6 +239,7 @@ public class ManagerController {
 		User user = new User(er.getE().getEmail(), er.getE().getPassword(), TypeOfUser.EMPLOYEE);
 		Employee e =mService.createEmployee(er.getE());
 		Set<Employee> empl = er.getR().getEmployee();
+		if (empl==null) empl = new HashSet<Employee>();
 		empl.add(e);
 		er.getR().setEmployee(empl);
 		userService.addUser(user);
@@ -341,10 +343,12 @@ public class ManagerController {
 	public ResponseEntity<Menu> updateMenu(@Valid @RequestBody Menu m) throws Exception {
 		logger.info("> update menu item: "+m.toString());
 		Collection<MenuItem> items= m.getItems();
+		if (items!=null){
 		for (MenuItem mi: items){
 			Food f= mi.getFood();
 			menuService.updateFood(f);
 			menuService.updateMenuItem(mi);	
+		}
 		}
 		menuService.updateMenu(m);
 		//menuService.insertNewItem(m);
@@ -406,10 +410,12 @@ public class ManagerController {
 	public ResponseEntity<DrinkMenu> updateDrinkMenu(@Valid @RequestBody DrinkMenu m) throws Exception {
 		logger.info("> update drink menu item: "+m.toString());
 		Collection<DrinkMenuItem> items= m.getItems();
+		if (items!=null){
 		for (DrinkMenuItem mi: items){
 			Drink d= mi.getDrink();
 			drinkMenuService.updateDrink(d);
 			drinkMenuService.updateDrinkMenuItem(mi);	
+		}
 		}
 		drinkMenuService.updateDrinkMenu(m);
 		//menuService.insertNewItem(m);
@@ -457,6 +463,7 @@ public class ManagerController {
 		logger.info("> addTable: "+tr.getT().toString());
 		
 		Collection<TableOfRestaurant> tables=tr.getR().getTables();
+		if (tables==null ) tables= new HashSet<TableOfRestaurant>();
 		tables.add(tr.getT());
 		tr.getR().setTables((Set<TableOfRestaurant>) tables);
 		TableOfRestaurant table= tableService.addTable(tr.getT(), tr.getR().getId());

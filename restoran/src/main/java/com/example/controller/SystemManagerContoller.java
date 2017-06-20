@@ -51,8 +51,6 @@ public class SystemManagerContoller {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<System_manager>> getSysMan() {
 		logger.info("> getSysMan");
-
-		/**/
 		
 		Collection<System_manager> sm = smService.findAll();
 		if (sm.isEmpty()) {

@@ -50,6 +50,8 @@ public class EmployeeScheduleServiceImpl implements EmployeeScheduleService{
 			e.setDay(es.getDay());
 			e.setEndTime(es.getEndTime());
 			e.setStartTime(es.getStartTime());
+			e.setC1(es.getC1());
+			e.setC2(es.getC2());
 			esRepository.save(e);
 			return e;
 		}

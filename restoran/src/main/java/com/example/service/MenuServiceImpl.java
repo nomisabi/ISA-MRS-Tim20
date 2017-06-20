@@ -40,6 +40,7 @@ public class MenuServiceImpl implements MenuService{
 
 	@Override
 	public void updateMenu(Menu menu) {
+		System.out.println(menu.toString());
 		menuRepository.update(menu.getId(), menu.getDateUpdate());
 	}
 
