@@ -54,7 +54,7 @@ public class ReservationRepositoryIntegrationTests {
 		reservation = repository.save(reservation);
 		guest = new Guest("novi@gmail.com", "123456", "proba", "proba1");
 		guest = guestRepository.save(guest);
-		guestReservation = new GuestReservation(guest, reservation, false);
+		guestReservation = new GuestReservation(guest, reservation, true);
 		guestReservationRepository.save(guestReservation);
 	}
 

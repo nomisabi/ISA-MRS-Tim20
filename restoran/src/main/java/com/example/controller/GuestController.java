@@ -727,6 +727,12 @@ public class GuestController {
 		logger.info("> rateRestaurant");
 		System.out.println(rate);
 
+		GuestReservation g = reservationService.getGuestReservation(rate.getReservation().getId(),
+				rate.getGuest().getId());
+		
+		if (g.isRate()){
+			return new ResponseEntity<Collection<Reservation>>(HttpStatus.NOT_FOUND);
+		}
 		RateRestaurant rateRestaurant = new RateRestaurant(rate.getGuest(), rate.getReservation().getRestaurant(),
 				rate.getReservation(), rate.getRateRestaurant(), rate.getRateMenu());
 		reservationService.saveRateRestaurant(rateRestaurant);
@@ -739,15 +745,12 @@ public class GuestController {
 			reservationService.saveRateMenuItem(rateMenuItem);
 		}
 
-		GuestReservation g = reservationService.getGuestReservation(rate.getReservation().getId(),
-				rate.getGuest().getId());
-
 		reservationService.setRate(g.getId());
 
 		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
 	}
 
-	/*** Guest registration ***/
+	/*** Guest change password ***/
 	@RequestMapping(value = "/api/guest/changePass", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Guest> changePassword(@Valid @RequestBody GuestRegister guest) throws Exception {
 		logger.info("> createGuest");
@@ -771,7 +774,7 @@ public class GuestController {
 	}
 
 	/***
-	 * Return all friends of guest with firstName or lastName that match the
+	 * Return all restaurants with name or spacies that match the
 	 * search criteria
 	 ***/
 	@RequestMapping(value = "/api/restaurant/searchRestaurants", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
