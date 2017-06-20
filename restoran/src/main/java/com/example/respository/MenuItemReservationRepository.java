@@ -16,8 +16,8 @@ public interface MenuItemReservationRepository extends JpaRepository<MenuItemRes
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE MenuItemReservation m SET m.quantity = ?2 WHERE m.id = ?1")
-	int update(Long id, int  quantity);
+	@Query("UPDATE MenuItemReservation m SET m.quantity = ?2, m.prepared = ?3 WHERE m.id = ?1")
+	int update(Long id, int  quantity, boolean prepared);
 	
 	@Query(value="SELECT count(mr) FROM Menu_Item_Reservation mr WHERE "
 			+ " mr.Menu_item_id = ?1 ", nativeQuery=true)

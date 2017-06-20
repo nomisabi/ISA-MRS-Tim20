@@ -93,7 +93,7 @@ public class GuestController {
 
 		Guest guest = guestService.findByEmailAndPass(user.getEmail(), user.getPassword());
 		System.out.println("Guest from base: " + guest);
-		if (!guest.isAccepted()){
+		if (!guest.isAccepted()) {
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
 		session.setAttribute("guest", guest);
@@ -119,11 +119,11 @@ public class GuestController {
 	public ResponseEntity<Guest> createGuest(@Valid @RequestBody GuestRegister guest) throws Exception {
 		logger.info("> createGuest");
 		System.out.println(guest);
-		
-		if (guestService.findByEmail(guest.getEmail()) != null){
+
+		if (guestService.findByEmail(guest.getEmail()) != null) {
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		if (guest.getPassword().equals(guest.getPassword2())) {
 			Guest g = new Guest(guest.getEmail(), guest.getPassword(), guest.getFirstName(), guest.getLastName());
 			Guest savedGuest = guestService.addGuest(g);
@@ -132,7 +132,7 @@ public class GuestController {
 			} catch (MailException | InterruptedException e) {
 				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
 			}
-			
+
 			logger.info("< createGuest");
 			return new ResponseEntity<Guest>(savedGuest, HttpStatus.CREATED);
 		}
@@ -179,7 +179,7 @@ public class GuestController {
 			System.out.println("Guest with id " + friendRequest.getIdGuest() + " not found");
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		Guest friendGuest = guestService.getGuest(friendRequest.getIdFriend());
 
 		if (friendGuest == null) {
@@ -389,13 +389,13 @@ public class GuestController {
 
 		Collection<TableOfRestaurant> t = reservationService.getAllTableOfReservation(invite.getReservation().getId());
 		int chairs = 0;
-		
+
 		for (TableOfRestaurant tableOfRestaurant : t) {
-			chairs+= tableOfRestaurant.getNumberOfChairs();
+			chairs += tableOfRestaurant.getNumberOfChairs();
 		}
-		
-		if (chairs < invite.getFriends().size()){
-		
+
+		if (chairs < invite.getFriends().size()) {
+
 			return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
 		}
 		for (Guest guest : invite.getFriends()) {
@@ -441,7 +441,7 @@ public class GuestController {
 		System.out.println(confirm);
 
 		Long id = reservationService.getGuestReservationId(confirm.getToken());
-		if (id == null){
+		if (id == null) {
 			return new ResponseEntity<ConfirmInvite>(HttpStatus.NOT_FOUND);
 		}
 		confirm.setId(id);
@@ -458,16 +458,13 @@ public class GuestController {
 		userService.login(u);
 		System.out.println(guest);
 		confirm.setGuest(guest);
-		
+
 		Collection<Guest> guests = reservationService.getFriends(reservation.getId(), guest.getId());
-			
+
 		for (Guest guest2 : guests) {
 			System.out.println(guest2);
 		}
 		confirm.setFriends(guests);
-	
-
-		
 
 		return new ResponseEntity<ConfirmInvite>(confirm, HttpStatus.OK);
 	}
@@ -511,7 +508,7 @@ public class GuestController {
 		String endTime = reservation.getEndTime();
 		boolean flag = false;
 		boolean flagRate = false;
-		
+
 		GuestReservation guestReservation = reservationService.getGuestReservation(reservation.getId(), guest.getId());
 
 		int rateRestaurant = 0;
@@ -606,12 +603,14 @@ public class GuestController {
 		System.out.println(guest);
 		Reservation reservation = reservationService.getReservationId(id);
 		System.out.println(reservation.getId());
+		boolean prepared = false;
 		HashMap<Long, MenuItemReservation> menuReservation = new HashMap<Long, MenuItemReservation>();
 
 		Collection<MenuItemReservation> menuItemReservation = reservationService
 				.getAllMenuItemReservation(reservation.getId(), guest.getId());
 		for (MenuItemReservation menuItemReservation2 : menuItemReservation) {
 			System.out.println(menuItemReservation2);
+			prepared = menuItemReservation2.isPrepared();
 			menuReservation.put(menuItemReservation2.getMenuItem().getId(), menuItemReservation2);
 		}
 
@@ -641,6 +640,7 @@ public class GuestController {
 		}
 
 		ReservationDetails details = new ReservationDetails(menuReservation.values(), drinkReservation.values());
+		details.setPrepared(prepared);
 
 		return new ResponseEntity<ReservationDetails>(details, HttpStatus.OK);
 	}
@@ -652,7 +652,8 @@ public class GuestController {
 		System.out.println(itemsReservation);
 		System.out.println(itemsReservation.getGuest());
 		System.out.println(itemsReservation.getReservation());
-		
+		System.out.println(itemsReservation.isPrepared());
+
 		DateTimeFormatter sdf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		LocalDateTime now = LocalDateTime.now();
 		String startTime = itemsReservation.getReservation().getStartTime();
@@ -668,27 +669,27 @@ public class GuestController {
 		if (now.isBefore(startTimeD)) {
 			flag = true;
 			Collection<MenuItemReservation> reservedItems = reservationService.getAllMenuItemReservation(
-				itemsReservation.getReservation().getId(), itemsReservation.getGuest().getId());
+					itemsReservation.getReservation().getId(), itemsReservation.getGuest().getId());
 			HashMap<Long, MenuItemReservation> hashReservedItems = new HashMap<>();
-			
+
 			for (MenuItemReservation menuItemReservation : reservedItems) {
 				hashReservedItems.put(menuItemReservation.getId(), menuItemReservation);
 			}
-			
+
 			Collection<DrinkMenuItemReservation> reservedDrink = reservationService.getAllDrinkMenuItemReservation(
-				itemsReservation.getReservation().getId(), itemsReservation.getGuest().getId());
+					itemsReservation.getReservation().getId(), itemsReservation.getGuest().getId());
 			HashMap<Long, DrinkMenuItemReservation> hashReservedDrink = new HashMap<>();
-			
+
 			for (DrinkMenuItemReservation drinkMenuItemReservation : reservedDrink) {
 				hashReservedDrink.put(drinkMenuItemReservation.getId(), drinkMenuItemReservation);
 			}
-			
+
 			for (MenuItemReservation menuItem : itemsReservation.getMenuItems()) {
 				System.out.println(menuItem);
 				if (menuItem.getId() == null) {
 					reservationService.saveMenuItem(menuItem);
 				} else {
-					reservationService.updateMenuItem(menuItem.getId(), menuItem.getQuantity());
+					reservationService.updateMenuItem(menuItem.getId(), menuItem.getQuantity(), itemsReservation.isPrepared());
 					if (hashReservedItems.containsKey(menuItem.getId())) {
 						hashReservedItems.remove(menuItem.getId());
 					}
@@ -699,7 +700,7 @@ public class GuestController {
 				if (drinkMenuItem.getId() == null) {
 					reservationService.saveDrinkMenuItem(drinkMenuItem);
 				} else {
-					reservationService.updateDrinkItem(drinkMenuItem.getId(), drinkMenuItem.getQuantity());
+					reservationService.updateDrinkItem(drinkMenuItem.getId(), drinkMenuItem.getQuantity(), itemsReservation.isPrepared());
 					if (hashReservedDrink.containsKey(drinkMenuItem.getId())) {
 						hashReservedDrink.remove(drinkMenuItem.getId());
 					}
@@ -709,12 +710,12 @@ public class GuestController {
 				System.out.println(drinkMenuItemReservation);
 				reservationService.deleteDrinkItem(drinkMenuItemReservation.getId());
 			}
-			
+
 			for (MenuItemReservation menuItemReservation : hashReservedItems.values()) {
 				System.out.println(menuItemReservation);
 				reservationService.deleteMenuItem(menuItemReservation.getId());
 			}
-			
+
 			return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Collection<Reservation>>(HttpStatus.NOT_FOUND);
@@ -737,37 +738,38 @@ public class GuestController {
 					rate.getReservation(), rate.getRateMenu());
 			reservationService.saveRateMenuItem(rateMenuItem);
 		}
-		
-		GuestReservation g = reservationService.getGuestReservation(rate.getReservation().getId(), rate.getGuest().getId());
+
+		GuestReservation g = reservationService.getGuestReservation(rate.getReservation().getId(),
+				rate.getGuest().getId());
 
 		reservationService.setRate(g.getId());
 
 		return new ResponseEntity<Collection<Reservation>>(HttpStatus.OK);
 	}
-	
+
 	/*** Guest registration ***/
 	@RequestMapping(value = "/api/guest/changePass", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Guest> changePassword(@Valid @RequestBody GuestRegister guest) throws Exception {
 		logger.info("> createGuest");
 		System.out.println(guest);
 		Guest findGuest = guestService.getGuest(guest.getId());
-		
-		if (!findGuest.getPassword().equals(guest.getOldPassword())){
+
+		if (!findGuest.getPassword().equals(guest.getOldPassword())) {
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
-		
-		if (!guest.getPassword().equals(guest.getPassword2())){
+
+		if (!guest.getPassword().equals(guest.getPassword2())) {
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		guestService.setPassword(guest.getId(), guest.getPassword());
-		
+
 		User u = userService.getLogin();
 		userService.changePassword(u.getId(), guest.getPassword());
-		
+
 		return new ResponseEntity<Guest>(HttpStatus.OK);
 	}
-	
+
 	/***
 	 * Return all friends of guest with firstName or lastName that match the
 	 * search criteria
@@ -776,36 +778,36 @@ public class GuestController {
 	public ResponseEntity<Collection<Restaurant>> searchRestaurants(@RequestBody Restaurant restaurant) {
 		logger.info("> getRestaurants");
 		System.out.println(restaurant);
-		
+
 		Collection<Restaurant> restaurants = restaurantService.searchRestaurants(restaurant.getName());
 
-		return new ResponseEntity<Collection<Restaurant>>(restaurants,HttpStatus.OK);
+		return new ResponseEntity<Collection<Restaurant>>(restaurants, HttpStatus.OK);
 	}
-	
+
 	/*** Registration accept ****/
 	@RequestMapping(value = "/api/guest/accept", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Guest> registrationAccept(@RequestBody GuestRegister guestRegister) {
 		logger.info("> Guest log in");
 		System.out.println(guestRegister);
-		
+
 		Guest guest = guestService.getGuestId(guestRegister.getToken());
 		System.out.println(guest);
-		if (guest == null){
+		if (guest == null) {
 			return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		guestService.setRegistrationAccept(guest.getId());
-		
+
 		User u = userService.findByEmail(guest.getEmail());
-		
+
 		userService.login(u);
-		
+
 		session.setAttribute("guest", guest);
-		
+
 		guestService.deleteToken(guestRegister.getToken());
-		
+
 		return new ResponseEntity<Guest>(guest, HttpStatus.OK);
-		
+
 	}
 
 }

@@ -19,6 +19,7 @@ public class ReservationDetails {
 	private boolean flagRate;
 	private int rateRestaurant;
 	private int rateFood;
+	private boolean prepared;
 
 	public ReservationDetails() {
 
@@ -33,7 +34,8 @@ public class ReservationDetails {
 
 	public ReservationDetails(Reservation reservation, Long guestReservationId, Collection<TableOfRestaurant> tables,
 			Collection<Guest> guests, Collection<MenuItemReservation> menuItems,
-			Collection<DrinkMenuItemReservation> drinkMenuItems, boolean flag, boolean flagRate, int rateRestaurant, int rateFood) {
+			Collection<DrinkMenuItemReservation> drinkMenuItems, boolean flag, boolean flagRate, int rateRestaurant,
+			int rateFood) {
 		super();
 		this.reservation = reservation;
 		this.guestReservationId = guestReservationId;
@@ -125,6 +127,14 @@ public class ReservationDetails {
 
 	public void setRateFood(int rateFood) {
 		this.rateFood = rateFood;
+	}
+
+	public boolean isPrepared() {
+		return prepared;
+	}
+
+	public void setPrepared(boolean prepared) {
+		this.prepared = prepared;
 	}
 
 }

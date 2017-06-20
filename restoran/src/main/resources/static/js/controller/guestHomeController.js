@@ -761,6 +761,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 				 function(data) {
 					$scope.drinkList = data.drinkMenuItems;
 					$scope.menuList = data.menuItems;
+					$scope.prepared = data.prepared;
 					$scope.page = "changeOrder";
 					
 				 }
@@ -794,7 +795,8 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
  			   {"drinkMenuItems":listReserveDrink, 
     			"menuItems": listReserveFood,
     			"guest": $scope.guest,
-    			"reservation": $scope.reservation
+    			"reservation": $scope.reservation,
+    			"prepared": $scope.prepared
     			})
  			   
 		 .success(

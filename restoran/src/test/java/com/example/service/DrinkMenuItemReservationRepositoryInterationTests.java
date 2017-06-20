@@ -72,7 +72,7 @@ public class DrinkMenuItemReservationRepositoryInterationTests {
 	
 	@Test
 	public void update() {
-		menuItemReservationRepository.update(menuItemReservation.getId(), 8);
+		menuItemReservationRepository.update(menuItemReservation.getId(), 8, false);
 		DrinkMenuItemReservation find = menuItemReservationRepository.findOne(menuItemReservation.getId());
 		assertEquals(8, find.getQuantity());
 	}

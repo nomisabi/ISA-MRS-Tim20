@@ -209,14 +209,14 @@ public class ReservationServiceImp implements ReservationService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void updateMenuItem(Long id, int quantity) {
-		menuReservationRepository.update(id, quantity);
+	public void updateMenuItem(Long id, int quantity, boolean prepared) {
+		menuReservationRepository.update(id, quantity, prepared);
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public void updateDrinkItem(Long id, int quantity) {
-		drinkMenuReservationRepository.update(id, quantity);
+	public void updateDrinkItem(Long id, int quantity, boolean prepared) {
+		drinkMenuReservationRepository.update(id, quantity,prepared);
 	}
 
 	@Override

@@ -16,8 +16,8 @@ public interface DrinkMenuItemReservationRepository extends JpaRepository<DrinkM
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE DrinkMenuItemReservation m SET m.quantity = ?2 WHERE m.id = ?1")
-	int update(Long id, int  quantity);
+	@Query("UPDATE DrinkMenuItemReservation m SET m.quantity = ?2, m.prepared = ?3 WHERE m.id = ?1")
+	int update(Long id, int  quantity, boolean prepared);
 	
 	@Query(value="SELECT count(dm.id) FROM Drink_Menu_Item_Reservation AS dm  WHERE dm.drink_Menu_Item_id = ?1 ", nativeQuery=true)
 	public int getMenuItemsByMenuitem(Long idMenuItem);

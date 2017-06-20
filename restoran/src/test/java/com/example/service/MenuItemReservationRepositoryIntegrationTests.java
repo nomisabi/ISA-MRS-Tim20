@@ -71,7 +71,7 @@ public class MenuItemReservationRepositoryIntegrationTests {
 	
 	@Test
 	public void update() {
-		menuItemReservationRepository.update(menuItemReservation.getId(), 7);
+		menuItemReservationRepository.update(menuItemReservation.getId(), 7, true);
 		MenuItemReservation find = menuItemReservationRepository.findOne(menuItemReservation.getId());
 		assertEquals(7, find.getQuantity());
 	}

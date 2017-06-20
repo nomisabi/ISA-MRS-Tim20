@@ -38,11 +38,13 @@ import com.example.domain.MenuItem;
 import com.example.domain.Offer;
 import com.example.domain.Offer_status;
 import com.example.domain.Region;
+import com.example.domain.Reservation;
 import com.example.domain.Restaurant;
 import com.example.domain.Supplier;
 import com.example.domain.Supply;
 import com.example.domain.System_manager;
 import com.example.domain.TableOfRestaurant;
+import com.example.domain.TableReservation;
 import com.example.domain.TypeOfUser;
 import com.example.domain.User;
 import com.example.domain.DTOs.DrinkRestaurant;
@@ -50,9 +52,11 @@ import com.example.domain.DTOs.EmployeeRestaurant;
 import com.example.domain.DTOs.FriendRequest;
 import com.example.domain.DTOs.GuestRegister;
 import com.example.domain.DTOs.InputTime;
+import com.example.domain.DTOs.InviteFriends;
 import com.example.domain.DTOs.ManagerRestaurant;
 import com.example.domain.DTOs.MenuRestaurant;
 import com.example.domain.DTOs.OfferSupply;
+import com.example.domain.DTOs.RestaurantReservation;
 import com.example.domain.DTOs.SupplierRestaurant;
 import com.example.domain.DTOs.TableRegion;
 import com.example.respository.DrinkItemRepository;
@@ -68,13 +72,16 @@ import com.example.respository.MenuItemRepository;
 import com.example.respository.MenuRepository;
 import com.example.respository.OfferRepository;
 import com.example.respository.RegionRepository;
+import com.example.respository.ReservationRepository;
 import com.example.respository.RestaurantRepository;
 import com.example.respository.SupllierRepository;
 import com.example.respository.SupplyRepository;
 import com.example.respository.SystemManagerRepository;
 import com.example.respository.TableOfRestaurantRepository;
+import com.example.respository.TableReservationRepository;
 import com.example.respository.UserRepository;
 import com.example.service.OfferSupplyService;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -90,7 +97,15 @@ public class RestoranApplicationTests {
 	GuestRepository guestRepository;
 	@Autowired
 	FriendshipRepository friendshipRepository;
+	@Autowired
+	RestaurantRepository restaurantRepository;
+	@Autowired
+	ReservationRepository reservationReposotory;
+	@Autowired
+	TableReservationRepository tableReservationRepository;
 	Guest guest;
+	Restaurant restaurant;
+	TableOfRestaurant table;
 
 	@Autowired
 	SystemManagerRepository sysmanRepository;
@@ -134,6 +149,10 @@ public class RestoranApplicationTests {
 		userRepository.save(user);
 		guest = new Guest("noviUser@gmail.com", "noviUser");
 		guest = guestRepository.save(guest);
+		restaurant = new Restaurant("novi", "ns");
+		restaurantRepository.save(restaurant);
+		table = new TableOfRestaurant(1, 4, restaurant);
+		tableRepository.save(table);
 	}
 
 	@Test
@@ -244,6 +263,58 @@ public class RestoranApplicationTests {
 	public void getVisitedRestaurants() throws Exception {
 		this.mvc.perform(post("/api/visitedRestaurants").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(guest))).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void getAvaliableTable() throws Exception {
+		RestaurantReservation r = new RestaurantReservation();
+		r.setGuest(guest);
+		r.setDateAndTime(new Date());
+		r.setDuration(2);
+		r.setRestaurant(restaurant);
+		this.mvc.perform(post("/api/restaurant/tables").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.content(IntegrationTestUtils.convertObjectToJsonBytes(r))).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void makeReservation() throws Exception {
+		RestaurantReservation r = new RestaurantReservation();
+		r.setGuest(guest);
+		r.setDateAndTime(new Date());
+		r.setDuration(2);
+		r.setRestaurant(restaurant);
+		ArrayList<TableOfRestaurant> t = new ArrayList<>();
+		t.add(table);
+		r.setTables(t);
+		this.mvc.perform(post("/api/restaurant/reservation").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.content(IntegrationTestUtils.convertObjectToJsonBytes(r))).andExpect(status().isOk());
+		Collection<Reservation> res = reservationReposotory.getVisitedRestaurant(guest.getId());
+		assertEquals(1, res.size());
+		
+		
+	}
+	
+	@Test
+	public void inviteFriends() throws Exception {
+		Reservation r = new Reservation(restaurant, "20/06/2017 15:00", "20/06/2017 16:00");
+		reservationReposotory.save(r);
+		TableReservation tr = new TableReservation(table, r.getStartTime(), r.getEndTime());
+		tr.setReservation(r);
+		tableReservationRepository.save(tr);
+		Guest friend = new Guest("nevena5695@gmail.com", "password12345", "name5", "name5");
+		guestRepository.save(friend);
+		ArrayList<Guest> friends = new ArrayList<>();
+		friends.add(friend);
+		InviteFriends invite = new InviteFriends(r, friends);
+		invite.setGuest(guest);
+		
+		this.mvc.perform(post("/api/restaurant/friends").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.content(IntegrationTestUtils.convertObjectToJsonBytes(invite))).andExpect(status().isOk());
+		
+		Collection<Reservation> res = reservationReposotory.getVisitedRestaurant(friend.getId());
+		assertEquals(1, res.size());
+		
+		
 	}
 	
 	

@@ -65,9 +65,9 @@ public interface ReservationService {
 	
 	Restaurant getRestaurant(Long reservationId);
 	
-	void updateMenuItem(Long id, int quantity);
+	void updateMenuItem(Long id, int quantity, boolean prepared);
 	
-	void updateDrinkItem(Long id, int quantity);
+	void updateDrinkItem(Long id, int quantity, boolean prepared);
 	
 	void deleteMenuItem(Long id);
 	

@@ -12,6 +12,7 @@ public class ItemsReservation {
 	private Collection<DrinkMenuItemReservation> drinkMenuItems;
 	private Guest guest;
 	private Reservation reservation;
+	private boolean prepared;
 
 	public ItemsReservation() {
 	}
@@ -53,6 +54,14 @@ public class ItemsReservation {
 
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
+	}
+
+	public boolean isPrepared() {
+		return prepared;
+	}
+
+	public void setPrepared(boolean prepared) {
+		this.prepared = prepared;
 	}
 
 	@Override

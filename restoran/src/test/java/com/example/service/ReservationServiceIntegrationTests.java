@@ -125,8 +125,6 @@ public class ReservationServiceIntegrationTests {
 		service.saveRateRestaurant(rateRestaurant);
 		RateRestaurant r = service.getrate(reservation.getId(), guest.getId());
 		
-		
-		
 		assertEquals(rateRestaurant.getRate(), r.getRate());
 		assertEquals(rateRestaurant.getRateFood(), r.getRateFood());
 		
