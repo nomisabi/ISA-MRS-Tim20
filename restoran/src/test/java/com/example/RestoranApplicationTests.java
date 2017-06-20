@@ -477,6 +477,8 @@ public class RestoranApplicationTests {
 	
 	@Test
 	public void createSupplier() throws Exception {
+		Collection<Supplier> e = (Collection<Supplier>) supRepository.findAll();
+		int size= e.size();
 		Restaurant r= restRepository.findOne(2L);
 		r.setManager(null);
 		r.setEmployee(null);
@@ -488,11 +490,15 @@ public class RestoranApplicationTests {
 		SupplierRestaurant sr = new SupplierRestaurant(r, s);
 		this.mvc.perform(post("/api/manager/createSupplier").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(sr))).andExpect(status().isOk());
+		Collection<Supplier> find = (Collection<Supplier>) supRepository.findAll();
+		assertEquals(size+1, find.size());
 		
 	}
 	
 	@Test
 	public void createEmployee() throws Exception {
+		Collection<Employee> e = (Collection<Employee>) emplRepository.findAll();
+		int size= e.size();
 		Restaurant r= restRepository.findOne(2L);
 		r.setManager(null);
 		r.setEmployee(null);
@@ -503,6 +509,8 @@ public class RestoranApplicationTests {
 		EmployeeRestaurant sr = new EmployeeRestaurant(r, s);
 		this.mvc.perform(post("/api/manager/createEmployee").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(sr))).andExpect(status().isOk());
+		Collection<Employee> find = (Collection<Employee>) emplRepository.findAll();
+		assertEquals(size+1, find.size());
 		
 	}
 	
@@ -531,6 +539,8 @@ public class RestoranApplicationTests {
 	
 	@Test
 	public void addMenuItem() throws Exception {
+		Collection<MenuItem> menuitems = (Collection<MenuItem>) menuItemRepository.findAll();
+		int size= menuitems.size();
 		Restaurant r= restRepository.findOne(3L);
 		r.setManager(null);
 		r.setEmployee(null);
@@ -545,6 +555,8 @@ public class RestoranApplicationTests {
 		MenuRestaurant sr = new MenuRestaurant(m, r);
 		this.mvc.perform(post("/api/manager/addMenuItem").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(sr))).andExpect(status().isOk());
+		Collection<MenuItem> find = (Collection<MenuItem>) menuItemRepository.findAll();
+		assertEquals(size+1, find.size());
 		
 	}
 	
@@ -553,9 +565,12 @@ public class RestoranApplicationTests {
 		
 		Menu m= menuRepository.findOne(2L);
 		m.setItems(null);
+		Date old= m.getDateUpdate();
 		m.setDateUpdate(new Date());
 		this.mvc.perform(post("/api/manager/updateMenu").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(m))).andExpect(status().isOk());
+		Menu find= menuRepository.findOne(1L);
+		assertNotEquals(old, find.getDateUpdate());
 	}
 	
 	
@@ -577,6 +592,8 @@ public class RestoranApplicationTests {
 
 	@Test
 	public void addDrinkMenuItem() throws Exception {
+		Collection<DrinkMenuItem> menuitems = (Collection<DrinkMenuItem>) dmenuItemRepository.findAll();
+		int size= menuitems.size();
 		Restaurant r= restRepository.findOne(4L);
 		r.setManager(null);
 		r.setEmployee(null);
@@ -591,6 +608,8 @@ public class RestoranApplicationTests {
 		DrinkRestaurant sr = new DrinkRestaurant(m, r);
 		this.mvc.perform(post("/api/manager/addDrinkMenuItem").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(sr))).andExpect(status().isOk());
+		Collection<DrinkMenuItem> find = (Collection<DrinkMenuItem>) dmenuItemRepository.findAll();
+		assertEquals(size+1, find.size());
 		
 	}
 	
@@ -599,9 +618,13 @@ public class RestoranApplicationTests {
 		
 		DrinkMenu m= dmenuRepository.findOne(1L);
 		m.setItems(null);
+		Date old= m.getDateUpdate();
 		m.setDateUpdate(new Date());
 		this.mvc.perform(post("/api/manager/updateDrinkMenu").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(m))).andExpect(status().isOk());
+		DrinkMenu find= dmenuRepository.findOne(1L);
+		assertNotEquals(old, find.getDateUpdate());
+		
 	}
 	
 	
@@ -636,6 +659,9 @@ public class RestoranApplicationTests {
 	TableOfRestaurant t;
 	@Test
 	public void newTable() throws Exception {
+		Collection<TableOfRestaurant> e = (Collection<TableOfRestaurant>) tableRepository.findAll();
+		int size= e.size();
+		
 		Region r= regionRepository.findOne(1L);
 		r.setTables(null);
 		r.setRestaurant(null);
@@ -644,6 +670,8 @@ public class RestoranApplicationTests {
 		TableRegion tr= new TableRegion(t, r);
 		this.mvc.perform(post("/api/manager/newTable").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(IntegrationTestUtils.convertObjectToJsonBytes(tr))).andExpect(status().isOk());
+		Collection<TableOfRestaurant> find = (Collection<TableOfRestaurant>) tableRepository.findAll();
+		assertEquals(size+1, find.size());
 	}
 	
 
@@ -692,6 +720,9 @@ public class RestoranApplicationTests {
 	
 	@Test
 	public void addSupply() throws Exception {
+		Collection<Supply> e = (Collection<Supply>) supplyRepository.findAll();
+		int size= e.size();
+		
 		Supply s= new Supply();
 		s.setFrom_date("");
 		s.setName("");
@@ -707,11 +738,16 @@ public class RestoranApplicationTests {
 		
 		this.mvc.perform(post("/api/manager/addSupply").contentType(MediaType.APPLICATION_JSON_VALUE).
 				content(IntegrationTestUtils.convertObjectToJsonBytes(s))).andExpect(status().isOk());
+		
+		Collection<Supply> find = (Collection<Supply>) supplyRepository.findAll();
+		assertEquals(size+1, find.size());
 	}
 	
 	
 	@Test
 	public void createOffer() throws Exception {
+		Collection<Offer> e = (Collection<Offer>) offerRepository.findAll();
+		int size= e.size();
 		Offer o= new Offer();
 		o.setStatus(Offer_status.WAITING);
 		Supply s= supplyRepository.findOne(1L);
@@ -719,6 +755,8 @@ public class RestoranApplicationTests {
 		
 		this.mvc.perform(post("/api/manager/createOffer").contentType(MediaType.APPLICATION_JSON_VALUE).
 				content(IntegrationTestUtils.convertObjectToJsonBytes(os))).andExpect(status().isOk());
+		Collection<Offer> find = (Collection<Offer>) offerRepository.findAll();
+		assertEquals(size+1, find.size());
 	}
 	
 	@Test
@@ -736,6 +774,8 @@ public class RestoranApplicationTests {
 		
 		this.mvc.perform(post("/api/manager/chooseOffer").contentType(MediaType.APPLICATION_JSON_VALUE).
 				content(IntegrationTestUtils.convertObjectToJsonBytes(os))).andExpect(status().isOk());
+		Offer find= offerRepository.findOne(o.getId());
+		assertEquals(Offer_status.CHOOSED, find.getStatus());
 	}
 	@Test
 	public void addSuppToRest() throws Exception {
@@ -762,10 +802,14 @@ public class RestoranApplicationTests {
 	}
 	@Test
 	public void addEmployeeSchedule() throws Exception {
+		Collection<EmployeeSchedule> e = (Collection<EmployeeSchedule>) esRepository.findAll();
+		int size= e.size();
 		EmployeeSchedule es = new EmployeeSchedule();
 		
 		this.mvc.perform(post("/api/manager/addEmployeeSchedule").contentType(MediaType.APPLICATION_JSON_VALUE).
 				content(IntegrationTestUtils.convertObjectToJsonBytes(es))).andExpect(status().isOk());
+		Collection<EmployeeSchedule> find = (Collection<EmployeeSchedule>) esRepository.findAll();
+		assertEquals(size+1, find.size());
 	}
 	@Test
 	public void updateEmployeeSchedule() throws Exception {
@@ -786,6 +830,8 @@ public class RestoranApplicationTests {
 		
 		this.mvc.perform(post("/api/manager/deleteEmployeeSchedule").contentType(MediaType.APPLICATION_JSON_VALUE).
 				content(IntegrationTestUtils.convertObjectToJsonBytes(find))).andExpect(status().isOk());
+		
+		assertNull(esRepository.findOne(1L));
 	}
 	
 	@Test
