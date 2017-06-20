@@ -52,6 +52,7 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
 				        	else
 				        		asd+=data[i].schedule.regions[u].name+", ";
 						}
+	
 						
 				       	vm.events.push({
 					            title: data[i].employee.firstName+' '+data[i].employee.lastName+" - "+asd,
@@ -122,8 +123,8 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
 			return;
 		}
     	//alert.show("123",{});
-    	var start_time=date1+" "+date3;
-    	var end_time =date1+" "+date2;
+    	var start_time=date1+" "+date2;
+    	var end_time =date1+" "+date3;
     	//alert.show("3",{});
         var employeeschedule={"employee":event.employee, "c1":event.color.primary,"c2":event.color.secondary,"day":event.day, "endTime":end_time,"startTime":start_time,"schedule":{"regions":vm.selected}}
     	var id=null;
@@ -161,7 +162,7 @@ angular.module('myApp').controller('KitchenSinkCtrl',function(moment, alert, cal
     };
 
     vm.eventClicked = function(event) {
-     // alert.show('Clicked', event);
+      //alert.show('Clicked', event);
     };
 
     vm.eventEdited = function(event) {

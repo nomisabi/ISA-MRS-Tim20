@@ -216,6 +216,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     
     $scope.changeToOffers= function(i){
     	$scope.supply=i;
+    	
     	if ($scope.manager.active)
     		$scope.page="offers";
     	
@@ -227,6 +228,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     }
     	
     $scope.changeToMenu= function(){ 
+    	if ($scope.manager.restaurant==null)
+		{
+		popover("There is no restaurant!");
+		return;
+		}
     	if ($scope.manager.active)
     		$scope.page="menu";   	  
     }
@@ -236,6 +242,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     	}
     }
   	$scope.changeToDrinkMenu= function(){
+  		if ($scope.manager.restaurant==null)
+		{
+		popover("There is no restaurant!");
+		return;
+		}
   		if ($scope.manager.active)
     		$scope.page="drinkmenu";   	
   	}
@@ -255,6 +266,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="history";  
     }
   	$scope.changeToSupplier= function(){
+  		if ($scope.manager.restaurant==null)
+		{
+		popover("There is no restaurant!");
+		return;
+		}
   		$http.post("http://localhost:8080/api/suppliers/getSuppliersRest", $scope.manager.restaurant).success(function(data) {
     		$scope.existing_suppliers=data;
     		//popover(JSON.stringify($scope.existing_suppliers));
@@ -269,6 +285,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="create_supplier"; 
   	}
   	$scope.changeToProcurements= function(){  
+  		if ($scope.manager.restaurant==null)
+		{
+		popover("There is no restaurant!");
+		return;
+		}
   		$http.post("http://localhost:8080/api/manager/supply", $scope.manager.restaurant).success(function(data) {
     		$scope.supplies=data;
     	}).error(function(data) {
@@ -298,6 +319,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		}
   	}
   	$scope.changeToEmployee= function(){
+  		if ($scope.manager.restaurant==null)
+		{
+		popover("There is no restaurant!");
+		return;
+		}
   		if ($scope.manager.active)
     		$scope.page="employee"; 
   	}
@@ -307,10 +333,20 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="create_employee"; 
   	}
   	$scope.changeToSchedule= function(){
+  		if ($scope.manager.restaurant==null)
+		{
+		popover("There is no restaurant!");
+		return;
+		}
   		if ($scope.manager.active)
     		$scope.page="schedule"; 
   	}
   	$scope.changeToRegions= function(){
+  		if ($scope.manager.restaurant==null)
+		{
+		popover("There is no restaurant!");
+		return;
+		}
   		$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
 			$scope.regions=data.data;	
 			$scope.model2=[
@@ -373,6 +409,11 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		$scope.page="regions"; 
   	}
   	$scope.changeToScores= function(){
+  		if ($scope.manager.restaurant==null)
+		{
+		popover("There is no restaurant!");
+		return;
+		}
   		$http.post("http://localhost:8080/api/manager/getAvgRest",$scope.manager.restaurant).success(
 	    		function(data){
 	    			$scope.avg=data;

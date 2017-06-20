@@ -132,44 +132,35 @@
 											<div class="form-group">
 												<label class="col-sm-2 col-sm-2 control-label">Name</label>
 												<div class="col-sm-10">
-													<input type="text" class="form-control" ng-model="manager.restaurant.name" name="name" required>
-														<div class="has-error" ng-show="myForm.name.$dirty">
-				                    									<span ng-show="myForm.name.$error.required">This is a required field.</span>
-                    												</div>
+													<input type="text" class="form-control" ng-model="manager.restaurant.name" name="name" >
+														
 												</div>
 												<br>
 												<br>
 												<br>
 												<label class="col-sm-2 col-sm-2 control-label">Location</label>
 												<div class="col-sm-10">
-													<input type="text" ng-model="manager.restaurant.name" class="form-control" name=“desc” required>
-														<div class="has-error" ng-show="myForm.desc.$dirty">
-				                    									<span ng-show="myForm.desc.$error.required">This is a required field.</span>
-                    												</div>
+													<input type="text" ng-model="manager.restaurant.location" class="form-control" name="loc">
+														
 												</div>
 												<br>
 												<br>
 												<br>
 												<label class="col-sm-2 col-sm-2 control-label">Type</label>						
 												<div class="col-sm-10">
-													<input type="number" min="0" name="price" class="form-control" ng-model="manager.restaurant.species" required>
-														<div class="has-error" ng-show="myForm.price.$dirty">
-				                    									<span ng-show="myForm.price.$error.required">This is a required field.</span>
-				                    									<span ng-show="myForm.price.$invalid">This field has to be a number.</span>
-                    				</div>
+												<input type="text" ng-model="manager.restaurant.species" class="form-control" name="desc" >
+											
 												</div>
 
-												<label class="col-sm-2 col-sm-2 control-label">&nbsp;</label>
+												
 												<br>	<br>	<br>	
-												<div class="col-sm-10">
-													<button class="btn btn-theme" style="float: right; margin-right:5%;" type="button">Save</button>
-				           					
-												</div>
-												<label class="col-sm-2 col-sm-2 ">Manager</label>	
+												
+												<label class="col-sm-2 col-sm-2 control-label ">Manager</label>	
 												<br>
 												<br>						
-												<div>
-													<div ng-repeat="m in manager.restaurant.manager"> {{m.firstName}} {{m.lastName}} <br></div>
+												<div  ng-repeat="m in manager.restaurant.manager"  >
+													<label class="col-sm-2 col-sm-2 control-label "></label>	
+													<div class="col-sm-10"> {{m.firstName}} {{m.lastName}} <br></div>
 													
 												</div>
 											</div>
