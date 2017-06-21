@@ -1,1 +1,1 @@
-web: java -jar target/dependency/jetty-runner.jar --path /cma --port $PORT controller/target/*.war
+web: java $JAVA_OPTS -jar target/dependency/jetty-runner.jar --port $PORT target/*.war
