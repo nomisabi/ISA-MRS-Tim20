@@ -1,0 +1,69 @@
+<div class="generic-container" ng-controller="UserController as ctrl">
+          <div class="panel panel-default">
+              <div class="panel-heading"><span class="lead">Registration Form </span></div>
+              <div class="formcontainer">
+                  <img src="">
+                  <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
+                      <input type="hidden" ng-model="ctrl.user.id" />
+                     
+                      <div class="row"> 
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="file">Email</label>
+                              <div class="col-md-7">
+                                  <input type="email" ng-model="ctrl.user.email" name="email" class="email form-control input-sm" placeholder="Enter your Email" required/>
+                                  <div class="has-error" ng-show="myForm.email.$dirty">
+                                      <span ng-show="myForm.email.$error.required">This is a required field</span>
+                                      <span ng-show="myForm.email.$invalid">This field is invalid </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      
+                      
+                      <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="file">Password</label>
+                              <div class="col-md-7">
+                                  <input type="password" ng-model="ctrl.user.password" name="password" class="pass form-control input-sm" placeholder="Enter your password" required ng-minlength="6"/>
+                                  <div class="has-error" ng-show="myForm.password.$dirty">
+                                      <span ng-show="myForm.password.$error.required">This is a required field</span>
+                                      <span ng-show="myForm.password.$error.minlength">Minimum length required is 6</span>
+                                      <span ng-show="myForm.password.$invalid">This field is invalid </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="file">Repeat password</label>
+                              <div class="col-md-7">
+                                  <input type="password" ng-model="ctrl.user.password2" name="password2" class="pass form-control input-sm" placeholder="Enter your password again" required ng-minlength="6"/>
+                                  <div class="has-error" ng-show="myForm.password2.$dirty">
+                                      <span ng-show="myForm.password2.$error.required">This is a required field</span>
+                                      <span ng-show="myForm.password2.$error.minlength">Minimum length required is 6</span>
+                                      <span ng-show="myForm.password2.$invalid">This field is invalid </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <div class="row">
+                          <div class="form-actions floatRight">
+                              <input type="submit" value="Sign Up"  class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid">
+                              <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm" ng-disabled="myForm.$pristine">Reset</button>
+                          </div>
+                      </div>               
+
+           
+                  </form>
+              </div>
+          </div>
+          
+           <div>
+              <button class="btn btn-primary btn-sm" ng-click="ctrl.log()">Log In</button> 
+              
+         </div>
+         
+      </div>
