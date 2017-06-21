@@ -126,12 +126,13 @@ public class GuestController {
 
 		if (guest.getPassword().equals(guest.getPassword2())) {
 			Guest g = new Guest(guest.getEmail(), guest.getPassword(), guest.getFirstName(), guest.getLastName());
+			g.setAccepted(true);
 			Guest savedGuest = guestService.addGuest(g);
-			try {
-				emailService.sendMail(savedGuest);
-			} catch (MailException | InterruptedException e) {
-				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
-			}
+		//	try {
+			//	emailService.sendMail(savedGuest);
+		//	} catch (MailException | InterruptedException e) {
+		//		logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+		//	}
 
 			logger.info("< createGuest");
 			return new ResponseEntity<Guest>(savedGuest, HttpStatus.CREATED);
