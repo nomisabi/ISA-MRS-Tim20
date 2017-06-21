@@ -1,1 +1,1 @@
-web: sh bin/src/main/resources/static
+web: java $JAVA_OPTS -jar target/dependency/jetty-runner.jar --port $PORT target/*.war
