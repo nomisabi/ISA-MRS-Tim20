@@ -40,7 +40,7 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService','$
         UserService.createUser(user)
             .then(
             	function() {
-            		window.location.href = '#';
+            		$window.location.href = '/#/';
             		popover("Account successfully created. To be able to use your account. Please, authenticate your registration via the link from the email.");
             		
                 },
