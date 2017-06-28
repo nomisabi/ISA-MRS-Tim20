@@ -97,7 +97,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	}
 	
 	$scope.getNotifications = function() {
-		$http.post("http://localhost:8080/api/friendship/getRequest",
+		$http.post("https://rest-cupcake.herokuapp.com/api/friendship/getRequest",
 				    $scope.guest)
 			 .success(
 					 function(data){
@@ -106,7 +106,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	}
 	
 	$scope.getGuestLogIn = function(data) {
-		$http.post("http://localhost:8080/api/guest/login",
+		$http.post("https://rest-cupcake.herokuapp.com/api/guest/login",
 				    data)
 			 .success(
 					 function(data){
@@ -139,7 +139,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		$ocLazyLoad.load('assets/js/common-scripts.js');
 		
 		if ($scope.message === undefined && $scope.reg === undefined){
-			$http.get("http://localhost:8080/api/users/login")
+			$http.get("https://rest-cupcake.herokuapp.com/api/users/login")
 			.success(
 				function(data){
 					$scope.getGuestLogIn(data);
@@ -155,7 +155,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 			//alert($route$routeParams.id);
 			if ( $scope.reg === undefined ){
 				$scope.page = "invite";
-				$http.post("http://localhost:8080/api/reservation",{"token":$scope.message})
+				$http.post("https://rest-cupcake.herokuapp.com/api/reservation",{"token":$scope.message})
 				.success(
 					function(data){
 						$scope.reservation = data.reservation;
@@ -172,7 +172,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 			}else{
 			
 				
-						$http.post("http://localhost:8080/api/guest/accept",
+						$http.post("https://rest-cupcake.herokuapp.com/api/guest/accept",
 								{"token":$scope.reg})
 						 .success(
 								 function(data){
@@ -195,7 +195,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	
 	$scope.changeToFriends= function(){
 		$scope.users = [];
-		$http.post("http://localhost:8080/api/friends",
+		$http.post("https://rest-cupcake.herokuapp.com/api/friends",
 				   $scope.guest)
 			 .success(
 					 function(data){
@@ -220,7 +220,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$scope.reservations = [];
     	// alert($scope.latitude);
  		//alert($scope.longitude);
-    	$http.get("http://localhost:8080/api/restaurants")
+    	$http.get("https://rest-cupcake.herokuapp.com/api/restaurants")
     	     .success(
     	    		 function(data){
     	    			var rest = data;
@@ -278,7 +278,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$scope.users = [];
     	$scope.restaurants = [];
     	$scope.reservations = [];
-    	$http.post("http://localhost:8080/api/visitedRestaurants", 
+    	$http.post("https://rest-cupcake.herokuapp.com/api/visitedRestaurants", 
     			   $scope.guest)
     	     .success(
     	    		 function(data){
@@ -294,7 +294,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	$scope.drinkList = [];
     	$scope.friends = [];
     	
-    	$http.post('http://localhost:8080/api/reservation/' + id,
+    	$http.post('https://rest-cupcake.herokuapp.com/api/reservation/' + id,
     			    $scope.guest)
     		 .success(
     				 function(data) {
@@ -321,7 +321,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.save= function(){
-    	$http.put('http://localhost:8080/api/guests/'+$scope.guest.id,
+    	$http.put('https://rest-cupcake.herokuapp.com/api/guests/'+$scope.guest.id,
     			   $scope.guest)
     		 .success(
     				 function(data) {
@@ -340,7 +340,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.searchUsers= function(search){   	
-    	$http.post('http://localhost:8080/api/friendship/search',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/friendship/search',
     			   {"firstName":search})
     		 .success(
     				 function(data) {
@@ -355,7 +355,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.searchFriends= function(search){   	
     	$scope.friends = [];
-    	$http.post('http://localhost:8080/api/friendship/searchFriends',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/friendship/searchFriends',
     			   {"firstName":search})
     		 .success(
     				 function(data) {
@@ -378,7 +378,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.addRequest= function(id){   	   	
     	$scope.users = [];
-    	$http.post('http://localhost:8080/api/friendship/sendRequest',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/friendship/sendRequest',
     			   {"idGuest":$scope.guest.id,"idFriend":id})
     		.success(
     				function(data) {
@@ -392,7 +392,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.deleteRequest= function(id){    	
-    	$http.post('http://localhost:8080/api/friendship/deleteFriend',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/friendship/deleteFriend',
     			   {"idGuest":$scope.guest.id,"idFriend":id})
     		 .success(
     				 function(data) {
@@ -408,7 +408,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.deleteFriend= function(id){    	
-    	$http.post('http://localhost:8080/api/friendship/deleteFriend',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/friendship/deleteFriend',
     			    {"idGuest":$scope.guest.id,"idFriend":id})
     		 .success(
     				 function(data) {
@@ -424,7 +424,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
   
     $scope.confirmRequest= function(guest){   
-    	$http.post('http://localhost:8080/api/friendship/addFriend',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/friendship/addFriend',
     			    {"idGuest":$scope.guest.id,"idFriend":guest.id})
     	     .success(
     	    		 function(data) {
@@ -452,7 +452,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     	
     	$scope.reservation = {"restaurant":$scope.restaurant, "dateAndTime":dateTime, "duration": duration};
     	
-    	$http.post('http://localhost:8080/api/restaurant/tables',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/restaurant/tables',
     			   $scope.reservation)
     		 .success(
     				 function(data) {
@@ -491,7 +491,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.reserveNext2 = function(){   	   	
     	if ($scope.tableNum.length != 0){
-    		$http.post('http://localhost:8080/api/restaurant/reservation',
+    		$http.post('https://rest-cupcake.herokuapp.com/api/restaurant/reservation',
     				   { "restaurant":$scope.reservation.restaurant, 
     			         "dateAndTime":$scope.reservation.dateAndTime, 
     			         "duration": $scope.reservation.duration, 
@@ -519,7 +519,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.reserveNext3 = function(){   	
     	
-    	$http.post('http://localhost:8080/api/restaurant/friends',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/restaurant/friends',
     			   {"friends":$scope.list,"reservation":$scope.savedReservation, "guest":$scope.guest})
     		 .success(
     				 function(data) {
@@ -575,7 +575,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		}
     	
     	
-    	$http.post('http://localhost:8080/api/restaurant/order',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/restaurant/order',
     			   {"drinkMenuItems":listReserveDrink, "menuItems": listReserveFood})
     	     .success(function(data) {
     	    	 $scope.reservation = data;
@@ -674,7 +674,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 	}
     
     $scope.logout= function(){
-    	$http.get("http://localhost:8080/api/users/logout");
+    	$http.get("https://rest-cupcake.herokuapp.com/api/users/logout");
     }
     
     $scope.exists = function(item) {
@@ -692,7 +692,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     }
     
     $scope.confirmInvite = function() {
-    	$http.post('http://localhost:8080/api/reservation/confirm',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/reservation/confirm',
     			   {"id":$scope.id})
     		 .success(
     				 function(data) {
@@ -710,7 +710,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.deleteInvite = function() {
     	
-    	$http.post('http://localhost:8080/api/reservation/delete',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/reservation/delete',
     			   {"id":$scope.id})
     		 .success(
     				 function(data) {
@@ -756,7 +756,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.changeOrder = function(){   	
     	//alert("change");
-    	$http.post('http://localhost:8080/api/reservation/order/' + $scope.id, $scope.guest)
+    	$http.post('https://rest-cupcake.herokuapp.com/api/reservation/order/' + $scope.id, $scope.guest)
 		 .success(
 				 function(data) {
 					$scope.drinkList = data.drinkMenuItems;
@@ -791,7 +791,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
 		}
     	
     	
-    	$http.post('http://localhost:8080/api/reservation/changeOrder',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/reservation/changeOrder',
  			   {"drinkMenuItems":listReserveDrink, 
     			"menuItems": listReserveFood,
     			"guest": $scope.guest,
@@ -859,7 +859,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     
     $scope.rateRestaurant = function() {    	
     	
-    	$http.post('http://localhost:8080/api/restaurant/rate',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/restaurant/rate',
   			   {"guest" : $scope.guest,
     		    "reservation" : $scope.reservation,
     			"rateMenu": $scope.rateFood.rating,
@@ -886,7 +886,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
   	}
     
     $scope.changePass = function (newPass, repeatPass, oldPass) {
-    	$http.post('http://localhost:8080/api/guest/changePass',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/guest/changePass',
    			   {"id": $scope.guest.id,
      		    "password" : newPass,
      			"password2": repeatPass,
@@ -913,7 +913,7 @@ angular.module('myApp').controller('GuestHomeController',['$scope','$http','$win
     $scope.searchRestaurants = function(search){   	
     	$scope.restaurants = [];
     	//alert(search);
-    	$http.post('http://localhost:8080/api/restaurant/searchRestaurants',
+    	$http.post('https://rest-cupcake.herokuapp.com/api/restaurant/searchRestaurants',
     			   {"name":search})
     		 .success(
     				 function(data) {

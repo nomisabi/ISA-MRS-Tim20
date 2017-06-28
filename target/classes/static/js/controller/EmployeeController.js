@@ -4,7 +4,7 @@ angular.module('myApp').controller('EmployeeController',['$scope','$http','$wind
 
 	function init() {
 		
-		$http.get("http://localhost:8080/api/employees/getlogedin").success(
+		$http.get("https://rest-cupcake.herokuapp.com/api/employees/getlogedin").success(
 				function(data){
 					$scope.employees=data;
 				});
@@ -16,7 +16,7 @@ angular.module('myApp').controller('EmployeeController',['$scope','$http','$wind
     init();
 
     $scope.login= function(){
-    	$http.post("http://localhost:8080/api/employees/login",{"email":$scope.mail,"password":$scope.pass, "firstName":"", "lastName":"" })
+    	$http.post("https://rest-cupcake.herokuapp.com/api/employees/login",{"email":$scope.mail,"password":$scope.pass, "firstName":"", "lastName":"" })
     	.success(function(data) {
     		$scope.sm=JSON.stringify(data);
     		window.location.href = '#/employee/info';

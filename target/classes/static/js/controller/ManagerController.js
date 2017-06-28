@@ -63,12 +63,12 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 
 	function init() {
 		
-		$http.get("http://localhost:8080/api/users/login").success(
+		$http.get("https://rest-cupcake.herokuapp.com/api/users/login").success(
 				function(data){	
-					$http.post("http://localhost:8080/api/manager/login",data).success(
+					$http.post("https://rest-cupcake.herokuapp.com/api/manager/login",data).success(
 							function(data){
 								$scope.manager=data;
-								$http.post("http://localhost:8080/api/manager/getRest",$scope.manager).success(
+								$http.post("https://rest-cupcake.herokuapp.com/api/manager/getRest",$scope.manager).success(
 										function(data){
 											if (data==null)
 												$window.location.href="/";
@@ -102,7 +102,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 
         $mdDialog.show(confirm).then(function(result) {
           $scope.status = 'You decided to name your dog ' + result + '.';
-          $http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
+          $http.post("https://rest-cupcake.herokuapp.com/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
   			for (var i=0; i<$scope.regions.length;i++){
 
 	  			if ($scope.regions[i].name == result){
@@ -113,8 +113,8 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
  
   			$scope.regions=data.data;
   			region={"name":result,"restaurant":$scope.manager.restaurant};
-    		  $http.post("http://localhost:8080/api/manager/newRegion",region).then(function(data){
-    			$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
+    		  $http.post("https://rest-cupcake.herokuapp.com/api/manager/newRegion",region).then(function(data){
+    			$http.post("https://rest-cupcake.herokuapp.com/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
     	  			$scope.regions=data.data;
     			});
     			  var container = {name:result, id:data.data.id, items: [], effectAllowed: 'all', copying:true};
@@ -149,7 +149,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	  				}
   	  			}
         	  container.name=result;
-        	  $http.post("http://localhost:8080/api/manager/updateRegion", container).then(function(data){
+        	  $http.post("https://rest-cupcake.herokuapp.com/api/manager/updateRegion", container).then(function(data){
     	  			//popover("ok");
     			});
             }, function() {
@@ -160,14 +160,14 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
       
     
     $scope.logout=function(){
-    	$http.get("http://localhost:8080/api/users/logout").success(function(data) {
+    	$http.get("https://rest-cupcake.herokuapp.com/api/users/logout").success(function(data) {
     		$window.href.location="/#/";
     	});
     	
     }
     
     $scope.update=function(){
-    	$http.post("http://localhost:8080/api/manager/update", $scope.manager).success(function(data) {
+    	$http.post("https://rest-cupcake.herokuapp.com/api/manager/update", $scope.manager).success(function(data) {
     		$ocLazyLoad.load('assets/js/common-scripts.js')
     		init();
     		//$route.reload();		
@@ -181,7 +181,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     	if ($scope.pw1==$scope.pw2){
     		$scope.login= $scope.manager;
     		$scope.login.password=$scope.pw1;
-    		$http.post("http://localhost:8080/api/manager/changePass",$scope.login).success(
+    		$http.post("https://rest-cupcake.herokuapp.com/api/manager/changePass",$scope.login).success(
 					function(data){
 						//$window.href.location="/#/";
 						//$window.href.location="/#/man/index/";
@@ -193,7 +193,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     }
 
     $scope.addSupToRest=function(user1){
-    	$http.post("http://localhost:8080/api/manager/addSuppToRest",{"r":$scope.manager.restaurant, "s":user1}).success(
+    	$http.post("https://rest-cupcake.herokuapp.com/api/manager/addSuppToRest",{"r":$scope.manager.restaurant, "s":user1}).success(
 	    		function(data){
 	    			$route.reload();
 	    		});
@@ -257,7 +257,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     }
     
     $scope.changeToHistorySupply=function(){
-    	$http.post("http://localhost:8080/api/manager/supply_hist", $scope.manager.restaurant).success(function(data) {
+    	$http.post("https://rest-cupcake.herokuapp.com/api/manager/supply_hist", $scope.manager.restaurant).success(function(data) {
     		$scope.supplies_hist=data;
     	}).error(function(data) {
     		//popover("error");	
@@ -271,7 +271,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		popover("There is no restaurant!");
 		return;
 		}
-  		$http.post("http://localhost:8080/api/suppliers/getSuppliersRest", $scope.manager.restaurant).success(function(data) {
+  		$http.post("https://rest-cupcake.herokuapp.com/api/suppliers/getSuppliersRest", $scope.manager.restaurant).success(function(data) {
     		$scope.existing_suppliers=data;
     		//popover(JSON.stringify($scope.existing_suppliers));
     	}).error(function(data) {
@@ -290,7 +290,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		popover("There is no restaurant!");
 		return;
 		}
-  		$http.post("http://localhost:8080/api/manager/supply", $scope.manager.restaurant).success(function(data) {
+  		$http.post("https://rest-cupcake.herokuapp.com/api/manager/supply", $scope.manager.restaurant).success(function(data) {
     		$scope.supplies=data;
     	}).error(function(data) {
     		//popover("error");	
@@ -347,7 +347,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		popover("There is no restaurant!");
 		return;
 		}
-  		$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
+  		$http.post("https://rest-cupcake.herokuapp.com/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
 			$scope.regions=data.data;	
 			$scope.model2=[
 	                   [{
@@ -414,7 +414,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		popover("There is no restaurant!");
 		return;
 		}
-  		$http.post("http://localhost:8080/api/manager/getAvgRest",$scope.manager.restaurant).success(
+  		$http.post("https://rest-cupcake.herokuapp.com/api/manager/getAvgRest",$scope.manager.restaurant).success(
 	    		function(data){
 	    			$scope.avg=data;
 	    		});
@@ -423,7 +423,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	}
   	
   	$scope.changeToFoodScores= function(){
-  		$http.post("http://localhost:8080/api/manager/getAvgFood",$scope.manager.restaurant).success(
+  		$http.post("https://rest-cupcake.herokuapp.com/api/manager/getAvgFood",$scope.manager.restaurant).success(
 	    		function(data){
 	    			$scope.food_rate=data;
 	    		});
@@ -433,7 +433,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	}
   	
   	$scope.changeToWaiterScores= function(){
-  		$http.post("http://localhost:8080/api/manager/getAvgWaiter",$scope.manager.restaurant).success(
+  		$http.post("https://rest-cupcake.herokuapp.com/api/manager/getAvgWaiter",$scope.manager.restaurant).success(
 	    		function(data){
 	    			$scope.waiter_rate=data;
 	    		});
@@ -442,7 +442,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   	}
   	
   	$scope.changeToVisits=function(){
-  		$http.post("http://localhost:8080/api/manager/getVisits",$scope.manager.restaurant).success(
+  		$http.post("https://rest-cupcake.herokuapp.com/api/manager/getVisits",$scope.manager.restaurant).success(
 	    		function(data){
 	    			$scope.visits=data;
 	    		});
@@ -494,7 +494,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 
 		
 		
-		$http.post("http://localhost:8080/api/manager/getIncomes",seend).success(
+		$http.post("https://rest-cupcake.herokuapp.com/api/manager/getIncomes",seend).success(
 	    		function(data){
 	    			$scope.incomes=data;
 	    			$scope.labels3 = [];
@@ -510,7 +510,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	}
 	
 	$scope.changeToIncomesWaiters=function(){
-		$http.post("http://localhost:8080/api/manager/getIncomesByWaiter",$scope.manager.restaurant).success(
+		$http.post("https://rest-cupcake.herokuapp.com/api/manager/getIncomesByWaiter",$scope.manager.restaurant).success(
 	    		function(data){
 	    			$scope.income_waiter=data;
 	    		});
@@ -549,7 +549,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	  		$scope.employee.numbC= Number($scope.employee.numbC);
 			$scope.employee.numbS= Number($scope.employee.numbS);
 	  		//popover(JSON.stringify($scope.employee));
-	  		$http.post("http://localhost:8080/api/manager/createEmployee",{"e":$scope.employee, "r":$scope.manager.restaurant}).success(
+	  		$http.post("https://rest-cupcake.herokuapp.com/api/manager/createEmployee",{"e":$scope.employee, "r":$scope.manager.restaurant}).success(
 					function(data){
 						$route.reload();
 					}).error(
@@ -563,7 +563,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		$scope.supplier.password="pass";
 		
   		//popover(JSON.stringify($scope.supplier));
-  		$http.post("http://localhost:8080/api/manager/createSupplier",{"s":$scope.supplier, "r":$scope.manager.restaurant}).success(
+  		$http.post("https://rest-cupcake.herokuapp.com/api/manager/createSupplier",{"s":$scope.supplier, "r":$scope.manager.restaurant}).success(
 				function(data){
 					$route.reload();
 				}).error(
@@ -587,7 +587,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		}
 		menu.dateUpdate=new Date();
 		menu.items.push($scope.menuitem);
-		$http.post("http://localhost:8080/api/manager/addMenuItem", {"m":menu, "r":$scope.manager.restaurant}).success(function(data) {
+		$http.post("https://rest-cupcake.herokuapp.com/api/manager/addMenuItem", {"m":menu, "r":$scope.manager.restaurant}).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
 			//popover("error");
@@ -612,7 +612,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		}
 		drinkmenu.dateUpdate=new Date();
 		drinkmenu.items.push($scope.drinkmenuitem);
-		$http.post("http://localhost:8080/api/manager/addDrinkMenuItem", {"d":drinkmenu, "r":$scope.manager.restaurant}).success(function(data) {
+		$http.post("https://rest-cupcake.herokuapp.com/api/manager/addDrinkMenuItem", {"d":drinkmenu, "r":$scope.manager.restaurant}).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
 			//popover("error");
@@ -637,7 +637,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		
 		menu.dateUpdate=new Date();
 		//popover(JSON.stringify(menu));
-		$http.post("http://localhost:8080/api/manager/updateMenu", menu).success(function(data) {
+		$http.post("https://rest-cupcake.herokuapp.com/api/manager/updateMenu", menu).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
 			//popover("error");
@@ -663,7 +663,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		drink_menu.items= [$scope.drinkMenuUpdate];
 		drink_menu.dateUpdate=new Date();
 		//popover(JSON.stringify(drink_menu));
-		$http.post("http://localhost:8080/api/manager/updateDrinkMenu", drink_menu).success(function(data) {
+		$http.post("https://rest-cupcake.herokuapp.com/api/manager/updateDrinkMenu", drink_menu).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
 			//popover("error");
@@ -674,7 +674,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		var result = confirm("Want to delete?");
 		if (result) {
 			//popover(JSON.stringify(i));
-			$http.post("http://localhost:8080/api/manager/deleteMenuItem", i).success(function(data) {
+			$http.post("https://rest-cupcake.herokuapp.com/api/manager/deleteMenuItem", i).success(function(data) {
 				$route.reload();
 			}).error(function(data) {
 				popover("This item is reservated. You can't delete it.");
@@ -687,7 +687,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		var result = confirm("Want to delete?");
 		if (result) {
 			//popover(JSON.stringify(i));
-			$http.post("http://localhost:8080/api/manager/deleteDrinkMenuItem", i).success(function(data) {
+			$http.post("https://rest-cupcake.herokuapp.com/api/manager/deleteDrinkMenuItem", i).success(function(data) {
 				$route.reload();
 			}).error(function(data) {
 				popover("This item is reservated. You can't delete it.");
@@ -708,7 +708,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 	  		}	
 			
 			
-			$http.post("http://localhost:8080/api/manager/deleteRegion", region).error(function(data) {
+			$http.post("https://rest-cupcake.herokuapp.com/api/manager/deleteRegion", region).error(function(data) {
 				popover("Error! In the region, there are tables which are reservated.");
 			}).then(function(data) {
 				
@@ -775,7 +775,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   		}
 		//popover("r2: "+JSON.stringify(region_send));
 		table={"number":label,"numberOfChairs": numb, "restaurant":$scope.manager.restaurant, "region":region_send};
-		$http.post("http://localhost:8080/api/manager/newTable", {"t":table, "r":region_send}).then(function(data){
+		$http.post("https://rest-cupcake.herokuapp.com/api/manager/newTable", {"t":table, "r":region_send}).then(function(data){
 			//popover("atment");											
 		});
 		
@@ -800,10 +800,10 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
 		table={"number":label,"numberOfChairs": numb, "restaurant":$scope.manager.restaurant};
 		new_r={"id":region[0].id,"name":region[0].name, "restaurant":$scope.manager.restaurant};
 		//popover(JSON.stringify(new_r));
-		$http.post("http://localhost:8080/api/manager/updateTable",{"t":table, "r":new_r}).error(function(data){
+		$http.post("https://rest-cupcake.herokuapp.com/api/manager/updateTable",{"t":table, "r":new_r}).error(function(data){
 			//popover("error");
 		});
-		$http.post("http://localhost:8080/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
+		$http.post("https://rest-cupcake.herokuapp.com/api/manager/regions", {"id":$scope.manager.restaurant.id}).then(function(data){
 			$scope.regions=data.data;		
 			//popover("ds");
 		});
@@ -835,7 +835,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
   			}
   		}
 		
-		$http.post("http://localhost:8080/api/manager/deleteTable", {"number":item.label, "numberOfChairs":item.numberOfChairs, "restaurant":$scope.manager.restaurant}).error(function(data){
+		$http.post("https://rest-cupcake.herokuapp.com/api/manager/deleteTable", {"number":item.label, "numberOfChairs":item.numberOfChairs, "restaurant":$scope.manager.restaurant}).error(function(data){
 			region=null;
 			
 			for (var i=0; i<$scope.regions.length;i++){
@@ -908,7 +908,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
     		return;
     	}
     	//popover(JSON.stringify($scope.supply));
-    	$http.post("http://localhost:8080/api/manager/addSupply", $scope.supply).success(function(data) {
+    	$http.post("https://rest-cupcake.herokuapp.com/api/manager/addSupply", $scope.supply).success(function(data) {
 			$route.reload();
 		}).error(function(data) {
 			//popover("error");
@@ -932,7 +932,7 @@ angular.module('myApp').controller('ManagerController',['$scope','$http','$windo
       
       $scope.chooseOffer=function(o){
     	  	//popover(o);
-    	  	$http.post("http://localhost:8080/api/manager/chooseOffer",{"o":o, "s": $scope.supply}).success(
+    	  	$http.post("https://rest-cupcake.herokuapp.com/api/manager/chooseOffer",{"o":o, "s": $scope.supply}).success(
     				function(data){
     					$route.reload();
     			}).error(

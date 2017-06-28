@@ -2,9 +2,9 @@
 angular.module('myApp').controller('AllUserController',['$scope','$http','$window', '$ocLazyLoad',function($scope,$http, $window, $ocLazyLoad) {
 	$ocLazyLoad.load('assets/js/common-scripts.js');
 	function init(){
-		//$http.get("http://localhost:8080/api/users/sysman");
+		//$http.get("https://rest-cupcake.herokuapp.com/api/users/sysman");
 		//$.backstretch("assets/img/login-bg.jpg", {speed: 500});
-		$http.get("http://localhost:8080/api/users/login").then(
+		$http.get("https://rest-cupcake.herokuapp.com/api/users/login").then(
 				function(data){	
 					//alert(data);
 					$scope.type= data.data.type;

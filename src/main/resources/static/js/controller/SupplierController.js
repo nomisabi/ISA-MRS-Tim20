@@ -40,21 +40,21 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
 	
 	function init() {
 		$ocLazyLoad.load('assets/js/common-scripts.js');
-		$http.get("http://localhost:8080/api/users/login").success(
+		$http.get("https://rest-cupcake.herokuapp.com/api/users/login").success(
 				function(data){	
-					$http.post("http://localhost:8080/api/suppliers/login",data).success(
+					$http.post("https://rest-cupcake.herokuapp.com/api/suppliers/login",data).success(
 							function(data){
 								$scope.supplier=data;
 								//popover(JSON.stringify(data));
-								$http.post("http://localhost:8080/api/suppliers/restaurant",data).then(
+								$http.post("https://rest-cupcake.herokuapp.com/api/suppliers/restaurant",data).then(
 										function(data){
 											$scope.restaurants=data.data;
 											$scope.rest=$scope.restaurants;
-											$http.post("http://localhost:8080/api/manager/supply_choosed",$scope.supplier).success(
+											$http.post("https://rest-cupcake.herokuapp.com/api/manager/supply_choosed",$scope.supplier).success(
 													function(data){
 														$scope.rest.wait=data;
 													});
-											$http.post("http://localhost:8080/api/suppliers/supply_not_choosed",$scope.supplier).success(
+											$http.post("https://rest-cupcake.herokuapp.com/api/suppliers/supply_not_choosed",$scope.supplier).success(
 													function(data){
 														$scope.rest.not=data;
 													});
@@ -72,14 +72,14 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     init();
  
     $scope.logout=function(){
-    	$http.get("http://localhost:8080/api/users/logout").success(function(data) {
+    	$http.get("https://rest-cupcake.herokuapp.com/api/users/logout").success(function(data) {
     		//$window.href.location="/#/";
     	});
     	
     }
     
     $scope.update=function(){
-    	$http.post("http://localhost:8080/api/suppliers/update", $scope.supplier).success(function(data) {
+    	$http.post("https://rest-cupcake.herokuapp.com/api/suppliers/update", $scope.supplier).success(function(data) {
     		$route.reload();
     	}).error(function(data) {
     		popover("This email address is in our system");	
@@ -93,7 +93,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     		$scope.login.password=$scope.pw1;
     		//popover("iit vok");
     		//popover(JSON.stringify($scope.login));
-    		$http.post("http://localhost:8080/api/suppliers/changePass",$scope.login).success(
+    		$http.post("https://rest-cupcake.herokuapp.com/api/suppliers/changePass",$scope.login).success(
 					function(data){
 						//popover("success");
 						$route.reload();
@@ -112,7 +112,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     $scope.updateOffer=function(s){
 		offer={"id":$scope.mine.id,"supplier":$scope.supplier, "status":"WAITING" , "price":$scope.updatePrice, "quality": $scope.updateRating.rating};
   		//popover(JSON.stringify(s));
-		$http.post("http://localhost:8080/api/suppliers/updateOffer",{"o":offer,"s":s}).success(
+		$http.post("https://rest-cupcake.herokuapp.com/api/suppliers/updateOffer",{"o":offer,"s":s}).success(
 				function(data){
 					$route.reload();
 				}).error(
@@ -142,7 +142,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     }
     
     $scope.changeToMyOffer= function(){
-    	$http.post("http://localhost:8080/api/suppliers/getSuppliesWitMyOffer",$scope.supplier).success(
+    	$http.post("https://rest-cupcake.herokuapp.com/api/suppliers/getSuppliesWitMyOffer",$scope.supplier).success(
 				function(data){
 					$scope.myoffer=data;
 				});
@@ -222,7 +222,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     $scope.changeToOrders= function(){
     	$scope.supp=[];
     	for (var i=0;i<$scope.rest.length;i++){
-    		$http.post("http://localhost:8080/api/manager/supply",$scope.rest[i]).success(
+    		$http.post("https://rest-cupcake.herokuapp.com/api/manager/supply",$scope.rest[i]).success(
 					function(data){
 						for (var j=0;j<data.length;j++){
 							$scope.supp.push(data[j]);}
@@ -242,7 +242,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     			mine=supply.offer[i];
     		}
     	}
-    	$http.post("http://localhost:8080/api/suppliers/sendOffer",mine).success(
+    	$http.post("https://rest-cupcake.herokuapp.com/api/suppliers/sendOffer",mine).success(
 				function(data){
 					$route.reload();
 				});
@@ -255,7 +255,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     			mine=supply.offer[i];
     		}
     	}
-    	$http.post("http://localhost:8080/api/suppliers/endOffer",mine).success(
+    	$http.post("https://rest-cupcake.herokuapp.com/api/suppliers/endOffer",mine).success(
 				function(data){
 					$route.reload();
 				});
@@ -264,7 +264,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
     $scope.changeToOrdersHistory= function(){
     	$scope.rest=$scope.restaurants;
     	for (var i=0;i<$scope.rest.length;i++){
-    		$http.post("http://localhost:8080/api/manager/supply_hist",$scope.rest[i]).success(
+    		$http.post("https://rest-cupcake.herokuapp.com/api/manager/supply_hist",$scope.rest[i]).success(
     				function(data){
     					$scope.rest[i].supplies_hist=data;
     				});
@@ -281,7 +281,7 @@ angular.module('myApp').controller('SupplierController',['$scope','$http','$wind
   	$scope.createOffer= function(){
   		//popover($scope.price);
   		offer={"supplier":$scope.supplier, "status":"WAITING" , "price":$scope.price, "quality": $scope.rating.rating};
-  		$http.post("http://localhost:8080/api/manager/createOffer",{"o":offer, "s": $scope.supply}).success(
+  		$http.post("https://rest-cupcake.herokuapp.com/api/manager/createOffer",{"o":offer, "s": $scope.supply}).success(
 				function(data){
 					$route.reload();
 				}).error(

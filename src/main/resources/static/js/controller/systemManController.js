@@ -78,10 +78,10 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	
 	function init() {
 		$ocLazyLoad.load('assets/js/common-scripts.js');
-		$http.get("http://localhost:8080/api/users/login").success(
+		$http.get("https://rest-cupcake.herokuapp.com/api/users/login").success(
 
 				function(data){
-					$http.post("http://localhost:8080/api/sysman/login",data).success(
+					$http.post("https://rest-cupcake.herokuapp.com/api/sysman/login",data).success(
 							function(data){
 								$scope.sm=data;
 								if (data==null)
@@ -91,11 +91,11 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 										$window.location.href="/";
 									})
 				});
-	    $http.get("http://localhost:8080/api/manager").then(
+	    $http.get("https://rest-cupcake.herokuapp.com/api/manager").then(
 	    		function(data){
 	    			$scope.managers=data.data;
 	    			//if ($scope.managers.count()!=0){
-	    			$http.post("http://localhost:8080/api/manager/getRestColl",$scope.managers).error(
+	    			$http.post("https://rest-cupcake.herokuapp.com/api/manager/getRestColl",$scope.managers).error(
 								function(data){	
 							}).success(
 								function(data){
@@ -107,11 +107,11 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 							});
 	    				//}
 	    			});
-	    $http.get("http://localhost:8080/api/users").then(
+	    $http.get("https://rest-cupcake.herokuapp.com/api/users").then(
 	    		function(data){
 	    			$scope.users=data.data;
 	    		});
-	    $http.get("http://localhost:8080/api/sysman/restaurants").then(
+	    $http.get("https://rest-cupcake.herokuapp.com/api/sysman/restaurants").then(
 	    		function(data){
 	    			$scope.restaurants=data.data;
 	    		});
@@ -120,7 +120,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
 	}
 	
 	$scope.addManToRest=function(user1, r){
-		$http.post("http://localhost:8080/api/sysman/addManToRest",{"r":r, "m":user1}).success(
+		$http.post("https://rest-cupcake.herokuapp.com/api/sysman/addManToRest",{"r":r, "m":user1}).success(
 	    		function(data){
 	    			$route.reload();
 	    		});
@@ -164,7 +164,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     
     $scope.createManager= function (){   	
     	$scope.manager.restaurant=null;
-    	$http.post("http://localhost:8080/api/sysman/createManager",JSON.stringify($scope.manager))
+    	$http.post("https://rest-cupcake.herokuapp.com/api/sysman/createManager",JSON.stringify($scope.manager))
         .then(function (response) { if (response.data!="") $scope.managers.push(response.data); else popover("this email address in in our system"); });    	
     }
     
@@ -172,7 +172,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     $scope.new_manager= function(){
     	$scope.new_man.password="pass";
     	$scope.new_man.active=false;
-    	$http.post("http://localhost:8080/api/manager/addManager",JSON.stringify($scope.new_man))
+    	$http.post("https://rest-cupcake.herokuapp.com/api/manager/addManager",JSON.stringify($scope.new_man))
     		.error(function(data){
 					popover('This email address is exist.');
 					return;
@@ -184,7 +184,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     
     $scope.new_sysmanager= function(){   
     	//popover(JSON.stringify($scope.new_sysman));
-    	$http.post("http://localhost:8080/api/sysman/createSysman",JSON.stringify($scope.new_sysman))
+    	$http.post("https://rest-cupcake.herokuapp.com/api/sysman/createSysman",JSON.stringify($scope.new_sysman))
     		.error(function(data){
 					popover('This email address is exist.');
 					//$window.location.reload();
@@ -199,7 +199,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     	$scope.new_rest.lat=$scope.lat;
     	
     	//popover(JSON.stringify($scope.new_rest));
-    	$http.post("http://localhost:8080/api/sysman/addRest",{"r":$scope.new_rest, "m":$scope.new_rest_manager})
+    	$http.post("https://rest-cupcake.herokuapp.com/api/sysman/addRest",{"r":$scope.new_rest, "m":$scope.new_rest_manager})
     		.error(function(data){
 					popover('This restaurant name is exist.');
 					return;
@@ -213,13 +213,13 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     
     
     $scope.logout= function(){
-    	$http.get("http://localhost:8080/api/users/logout");
+    	$http.get("https://rest-cupcake.herokuapp.com/api/users/logout");
     }
    
     
     
     $scope.update=function(){
-    	$http.post("http://localhost:8080/api/sysman/update", $scope.sm).success(function(data) {
+    	$http.post("https://rest-cupcake.herokuapp.com/api/sysman/update", $scope.sm).success(function(data) {
     		$window.location.reload();
     	}).error(function(data) {
     		popover("This email address is in our system");	
@@ -233,7 +233,7 @@ angular.module('myApp').controller('SystemManagerController',['$scope','$http','
     		$scope.login.password=$scope.pw1;
     		//popover("iit vok");
     		//popover(JSON.stringify($scope.login));
-    		$http.post("http://localhost:8080/api/sysman/updatePass",$scope.login).success(
+    		$http.post("https://rest-cupcake.herokuapp.com/api/sysman/updatePass",$scope.login).success(
 					function(data){
 						//popover("mar megint szorakozik");
 						$window.location.reload();
