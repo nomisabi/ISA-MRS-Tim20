@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/restoran-0.0.1-SNAPSHOT.jar --server.port=$PORT $JAR_OPTS
+web: $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar
