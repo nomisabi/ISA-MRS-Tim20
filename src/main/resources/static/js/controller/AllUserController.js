@@ -49,7 +49,7 @@ angular.module('myApp').controller('AllUserController',['$scope','$http','$windo
 	}
 	
 	$scope.login= function(){		
-		$http.post("http://localhost:8080/api/users/login", {"email":$scope.mail,"password":$scope.pass }).error(
+		$http.post("https://rest-cupcake.herokuapp.com/api/users/login", {"email":$scope.mail,"password":$scope.pass }).error(
 				function(data){
 					popover("Email address and password doesn't match! Please, try again!");
 			}).then(
